@@ -3,6 +3,7 @@ package entity;
 import lombok.Data;
 
 @Data
+
 public class ScoreTableDetail {
     private Subject subject;
     private float score;
