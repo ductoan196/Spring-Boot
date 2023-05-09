@@ -59,3 +59,27 @@ body{
     font-weight: 500;
 }
 
+/* Form  */
+
+.form-group label {
+    font-weight: bold;
+  }
+  
+  .form-group input,
+  .form-group textarea {
+    border-radius: 0;
+    border: none;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .form-group input:focus,
+  .form-group textarea:focus {
+    box-shadow: none;
+    border-color: #b7b7b7;
+  }
+  
+  .btn {
+    margin-top: 10px;
+  }
+  
+
