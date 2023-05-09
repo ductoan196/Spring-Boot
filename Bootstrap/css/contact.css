@@ -61,25 +61,22 @@ body{
 
 /* Form  */
 
-.form-group label {
-    font-weight: bold;
-  }
-  
-  .form-group input,
-  .form-group textarea {
-    border-radius: 0;
-    border: none;
-    border-bottom: 1px solid #ccc;
-  }
-  
-  .form-group input:focus,
-  .form-group textarea:focus {
-    box-shadow: none;
-    border-color: #b7b7b7;
-  }
-  
-  .btn {
-    margin-top: 10px;
-  }
+form .form-control{
+    padding: 22px 22px;
+    line-height: 1.2;
+    font-size: 14px;
+}
+form button{
+    font-size: 14px;
+    padding: 15px 22px;
+    color: #fff;
+    background-color: #10c9c3;
+    cursor: pointer;
+    border: 0px;
+}
+
+form button:hover{
+    background-color: #000;
+}
   
 
