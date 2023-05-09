@@ -1,0 +1,81 @@
+@font-face {
+    font-family: Montserrat;
+    src: url(/Montserrat/Montserrat-VariableFont_wght.ttf);
+}
+body{
+    font-family: Montserrat;
+}
+
+.logo-img{
+    width: 30px;
+}
+.nav-link:hover{
+    color: #000;;
+}
+
+/* Body  */
+.info-text-big{
+    font-size: 30px;
+    font-weight: 500;
+}
+
+body .img-header{
+    position: relative;
+    height: 400px;
+}
+
+.img-header img{
+    position: absolute;
+    object-fit: cover;
+}
+.img-header .img-overlay{
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    background-color: #090909;
+    opacity: 0.4;
+}
+.banner-box{
+    position: relative;
+}
+.banner-content{
+    color: #fff;
+    position: absolute;
+    text-align: center;
+    
+}
+
+/* Footer  */
+
+.footer-main{
+    background-color: #000;
+}
+.font-small-bold{
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.nav-item.active .nav-link{
+    color: #10c9c3 !important;
+}
+
+.footer .company-name{
+    font-weight: 500;
+    font-size: 18px;
+    color: white;
+}
+.footer{
+    padding-top: 100px;
+    padding-bottom: 100px;
+}
+.footer .footer-detail{
+    font-size: 14px;
+    color: #c3c3c3;
+    font-weight: 500;
+}
+
+
+  
+
