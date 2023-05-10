@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http:/www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản lý giáo viên</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <h2>Danh sách giáo viên</h2>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>Day of birth</th>
+            <th>Specialization</th>
+        </tr>
+        </thead>
+
+        <tr th:each="sv:${teacherList}">
+            <td th:text="${sv.id}"></td>
+            <td th:text="${sv.name}"></td>
+            <td th:text="${sv.phone}"></td>
+            <td th:text="${sv.dob}"></td>
+            <td th:text="${sv.specialization}"></td>
+        </tr>
+
+    </table>
+</div>
+</body>
+</html>

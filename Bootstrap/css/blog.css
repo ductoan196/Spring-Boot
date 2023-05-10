@@ -44,7 +44,9 @@ body .img-header{
     color: #fff;
     position: absolute;
     text-align: center;
-    
+    display: flex;
+    justify-content: center;
+    top: 50%;
 }
 
 /* Footer  */

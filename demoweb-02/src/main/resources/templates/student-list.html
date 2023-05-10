@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Danh sách sinh viên</title>
+</head>
+<body>
+<div th:each="sv:${danhSachSinhVien}">
+    <span th:text="${sv.name}"></span>
+
+</div>
+
+</body>
+</html>
