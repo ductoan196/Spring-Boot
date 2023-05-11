@@ -38,16 +38,16 @@ public class TeacherController {
         return "redirect:/teachers";
     }
 
-    @GetMapping("/teachers/{id}/edit")
-    public String modifyTeacherForm(@PathVariable int id, Model model){
-        Teacher teacher = teacherService.findById(id);
-        model.addAttribute(teacher);
-        return "modify-teacher";
-    }
-
-    @PostMapping
-    public String modifyTeacher(@PathVariable int id, @ModelAttribute("teacher") Teacher teacher){
-        teacherService.updateTeacher(teacher);
-        return "redirect:/teachers";
-    }
+//    @GetMapping("/teachers/{id}/edit")
+//    public String modifyTeacherForm(@PathVariable int id, Model model){
+//        Teacher teacher = teacherService.findById(id);
+//        model.addAttribute(teacher);
+//        return "modify-teacher";
+//    }
+//
+//    @PostMapping
+//    public String modifyTeacher(@PathVariable int id, @ModelAttribute("teacher") Teacher teacher){
+//        teacherService.updateTeacher(teacher);
+//        return "redirect:/teachers";
+//    }
 }
