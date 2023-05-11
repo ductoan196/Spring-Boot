@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 @Getter
 
 public enum Major {
-    NATURAL_SCIENCES("Natural Sciences"),
-    SOCIAL_SCIENCES("Social Sciences");
+    NATURAL_SCIENCE("Natural Sciences"),
+    SOCIAL_SCIENCE("Social Sciences");
 
     private String major;
 }

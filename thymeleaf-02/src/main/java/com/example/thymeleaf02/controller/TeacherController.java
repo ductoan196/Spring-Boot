@@ -38,16 +38,29 @@ public class TeacherController {
         return "redirect:/teachers";
     }
 
-//    @GetMapping("/teachers/{id}/edit")
-//    public String modifyTeacherForm(@PathVariable int id, Model model){
-//        Teacher teacher = teacherService.findById(id);
-//        model.addAttribute(teacher);
-//        return "modify-teacher";
-//    }
+//    @GetMapping("fill-id")
 //
-//    @PostMapping
-//    public String modifyTeacher(@PathVariable int id, @ModelAttribute("teacher") Teacher teacher){
-//        teacherService.updateTeacher(teacher);
-//        return "redirect:/teachers";
-//    }
+//
+    @GetMapping("/edit-form")
+    public String creatTeacherForm(Model model, Teacher teacher){
+       model.addAttribute("editedTeacher", teacher);
+       return "edit-teacher";
+    }
+
+    @PostMapping("/update")
+    public String updateTeacher(@ModelAttribute("teacher") Teacher teacher){
+        teacherService.editTeacherInfo(teacher);
+        return "redirect:/teachers";
+    }
+
+    @GetMapping("/delete-form")
+    public String deleteTeacherForm(Model model, Teacher teacher){
+        model.addAttribute("deletedTeacher", teacher);
+        return "delete-teacher";
+    }
+    @PostMapping("/delete")
+    public String deleteTeacher(@ModelAttribute("teacher") Teacher teacher){
+        teacherService.deleteTeacherInfo(teacher);
+        return "redirect:/teachers";
+    }
 }

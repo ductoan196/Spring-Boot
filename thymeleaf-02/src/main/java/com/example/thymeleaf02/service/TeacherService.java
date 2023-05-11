@@ -29,18 +29,42 @@ public class TeacherService {
                     .phone("Number" + i)
                     .dob(LocalDate.now())
                     .gender(Gender.MALE)
-                    .major(Major.NATURAL_SCIENCES)
+                    .major(Major.NATURAL_SCIENCE)
                     .level(Level.DOCTOR)
                     .build();
             teachers.add(teacher);
         }
     }
     public List<Teacher> getAllTeacher() {
-        creatTeacherList();
+//        creatTeacherList();
         return teachers;
     }
 
     public void saveTeacher(Teacher teacher) {
+        teacher.setId(teachers.size()+1);
         teachers.add(teacher);
+    }
+
+    public Teacher findById(int id) {
+        for(Teacher teacher: teachers){
+            if (teacher.getId()==id){
+                return teacher;
+            }
+        }
+        return null;
+    }
+
+    public void editTeacherInfo(Teacher teacher) {
+        for (int i = 0; i < teachers.size(); i++) {
+            Teacher t = teachers.get(i);
+            if (t.getId() == teacher.getId()) {
+                teachers.set(i, teacher);
+                return;
+            }
+        }
+    }
+
+    public void deleteTeacherInfo(Teacher teacher) {
+        teachers.removeIf(t -> t.getId() == teacher.getId());
     }
 }
