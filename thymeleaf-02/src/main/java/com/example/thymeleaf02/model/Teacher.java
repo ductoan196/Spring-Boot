@@ -1,5 +1,8 @@
 package com.example.thymeleaf02.model;
 
+import com.example.thymeleaf02.Enum.Gender;
+import com.example.thymeleaf02.Enum.Level;
+import com.example.thymeleaf02.Enum.Major;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -15,8 +18,10 @@ public class Teacher {
     int id;
     String name;
     String phone;
-    String subject;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     LocalDate dob;
+    Gender gender;
+    Major major;
+    Level level;
 }

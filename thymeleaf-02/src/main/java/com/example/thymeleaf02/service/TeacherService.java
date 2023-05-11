@@ -1,5 +1,8 @@
 package com.example.thymeleaf02.service;
 
+import com.example.thymeleaf02.Enum.Gender;
+import com.example.thymeleaf02.Enum.Level;
+import com.example.thymeleaf02.Enum.Major;
 import com.example.thymeleaf02.model.Student;
 import com.example.thymeleaf02.model.Teacher;
 import lombok.AllArgsConstructor;
@@ -24,8 +27,10 @@ public class TeacherService {
                     .id(i)
                     .name("Trần Thị " + i)
                     .phone("Number" + i)
-                    .subject("Môn " + i)
                     .dob(LocalDate.now())
+                    .gender(Gender.MALE)
+                    .major(Major.NATURAL_SCIENCES)
+                    .level(Level.DOCTOR)
                     .build();
             teachers.add(teacher);
         }

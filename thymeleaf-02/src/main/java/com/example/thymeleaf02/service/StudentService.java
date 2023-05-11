@@ -32,4 +32,7 @@ public class StudentService {
     public void saveStudent(Student student) {
         students.add(student);
     }
+
+    public void modifyInfo(Student student) {
+    }
 }
