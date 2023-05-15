@@ -36,7 +36,7 @@ public class TeacherService {
         }
     }
     public List<Teacher> getAllTeacher() {
-//        creatTeacherList();
+        creatTeacherList();
         return teachers;
     }
 
@@ -67,4 +67,10 @@ public class TeacherService {
     public void deleteTeacherInfo(Teacher teacher) {
         teachers.removeIf(t -> t.getId() == teacher.getId());
     }
+
+//    public void deleteTeacher(String id) {
+//        teachers
+//                .stream()
+//                .filter()
+//    }
 }

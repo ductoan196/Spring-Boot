@@ -1,0 +1,107 @@
+@font-face {
+    font-family: Poppins;
+    src: url('/fonts/Poppins/Poppins-Medium.ttf')
+  }
+
+  body{
+    font-family: Poppins;
+  }
+  .nav-item.active{
+    color:#ec595a!important;
+  }
+  
+  .login .sign-up button{
+    background-color: #ec595a;
+    color: white;
+    font-weight: 500;
+    font-size: 16px;
+  }
+
+  .question-text{
+    margin-top: 150px;
+  }
+  .search-bar button{
+    background-color: #ec595a;
+  }
+  .search-bar input{
+    border: 2px solid black;
+  }
+
+  .recommend-text a{
+    text-decoration: underline;
+  }
+  .quick-list{
+    margin-top: 150px;
+    margin-bottom: 150px;
+  }
+
+  .blog-link-detail, .client-say, .feature-article{
+    background-color: #f9f9f9;
+  }
+  .feature-article .card-top{
+    padding-bottom: 70px;
+    border-bottom: 2px solid rgb(172, 172, 172);
+  }
+
+  .feature-article .card-des{
+    line-height: 27px;
+  }
+  .feature-article{
+    padding-top: 100px;
+     padding-bottom: 100px;
+  }
+
+  .community{
+    background-color: #FFEEDD;
+  }
+
+  .support-ticket{
+    position: relative;
+    padding: 80px;
+    background-color: #fce7e9;
+    z-index: 1;
+  }
+  .support-ticket button{
+    margin-top: 50px;
+    background-color: #ec595a;
+    padding: 15px 25px;
+    border-radius: 0.5;
+    color: white;
+  }
+  .support-ticket .decor-element{
+    position: absolute;
+  }
+  .support-ticket .shape10{
+    top: 30%;
+    right: 20%;
+  }
+  .support-ticket .shape11{
+    bottom: 30%;
+    left: 15%;
+  }
+  .support-ticket .shape12{
+    width: 72px;
+    height: 72px;
+    transform: rotate(45deg);
+    border: 2px solid black;
+    bottom: -36px;
+  }
+  .support-ticket .shape13{
+    width: 72px;
+    height: 72px;
+    transform: rotate(45deg);
+    border: 2px solid black;
+    right: 20%;
+    top: -15%;
+    z-index: 2;
+  }
+
+  /* Footer */
+  .footer{
+    background-color: #171717;
+    padding-top: 60px;
+  }
+
+  .footer-bottom{
+    border-top: 1px solid grey;
+  }
