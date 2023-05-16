@@ -20,62 +20,65 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <link rel="stylesheet" href="/css/header-footer.css">
+    <link rel="stylesheet" href="/css/home.css">
 
 </head>
 
 <body>
-    <div class="container-fluid header px-5 fixed-top">
-        <nav class="navbar navbar-expand-md bg-white navbar-white py-4">
-            <a class="navbar-brand" href="#">
-                <img src="/images/logo.svg" class="logo-img">
-            </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse d-flex justify-content-end" id="collapsibleNavbar">
-                <ul class="navbar-nav px-5">
-                    <li class="nav-item text-danger active d-flex align-items-center px-4">
-                        <a class="nav-link text-danger font-small-bold" href="#">Home</a>
-                        <i class="fa-solid fa-caret-down"></i>
-                    </li>
-                    <li class="nav-item d-flex align-items-center px-4">
-                        <a class="nav-link text-body font-small-bold" href="#">Pages</a>
-                        <i class="fa-solid fa-caret-down"></i>
-                    </li>
-                    <li class="nav-item d-flex align-items-center px-4">
-                        <a class="nav-link text-body font-small-bold" href="#">Elements</a>
-                        <i class="fa-solid fa-caret-down"></i>
-                    </li>
-                    <li class="nav-item d-flex align-items-center px-4">
-                        <a class="nav-link text-body font-small-bold" href="#">Jobs</a>
-                        <i class="fa-solid fa-caret-down"></i>
-                    </li>
-                    <li class="nav-item d-flex align-items-center px-4">
-                        <a class="nav-link text-body font-small-bold" href="#">Blogs</a>
-                        <i class="fa-solid fa-caret-down"></i>
-                    </li>
-                </ul>
-            </div>
-            <div class="nav-language ">
-                <ul class="nav nav-tabs">
-                    <li class="nav-item">
-                        <a class="nav-link px-0 text-body" href="#">En.</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link disabled px-0" href="#">Ru</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="login d-flex align-items-center ml-5">
-                <div class="sign-in mr-4 ">
-                    <a class="text-body" href="">Sign In</a>
+
+    <div class="container-fluid header fixed-top bg-white">
+        <div class=" px-5">
+            <nav class="navbar navbar-expand-md navbar-white py-4">
+                <a class="navbar-brand" href="#">
+                    <img src="/images/logo.svg" class="logo-img">
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse d-flex justify-content-end" id="collapsibleNavbar">
+                    <ul class="navbar-nav px-5">
+                        <li class="nav-item text-danger active d-flex align-items-center px-4">
+                            <a class="nav-link text-danger font-small-bold" href="#">Home</a>
+                            <i class="fa-solid fa-caret-down"></i>
+                        </li>
+                        <li class="nav-item d-flex align-items-center px-4">
+                            <a class="nav-link text-body font-small-bold" href="#">Pages</a>
+                            <i class="fa-solid fa-caret-down"></i>
+                        </li>
+                        <li class="nav-item d-flex align-items-center px-4">
+                            <a class="nav-link text-body font-small-bold" href="#">Elements</a>
+                            <i class="fa-solid fa-caret-down"></i>
+                        </li>
+                        <li class="nav-item d-flex align-items-center px-4">
+                            <a class="nav-link text-body font-small-bold" href="#">Jobs</a>
+                            <i class="fa-solid fa-caret-down"></i>
+                        </li>
+                        <li class="nav-item d-flex align-items-center px-4">
+                            <a class="nav-link text-body font-small-bold" href="#">Blogs</a>
+                            <i class="fa-solid fa-caret-down"></i>
+                        </li>
+                    </ul>
                 </div>
-                <div class="sign-up">
-                    <button type="button" class="btn p-2 px-4">Sign up</button>
+                <div class="nav-language ">
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item">
+                            <a class="nav-link px-0 text-body" href="#">En.</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link disabled px-0" href="#">Ru</a>
+                        </li>
+                    </ul>
                 </div>
-            </div>
-        </nav>
+                <div class="login d-flex align-items-center ml-5">
+                    <div class="sign-in mr-4 ">
+                        <a class="text-body" href="">Sign In</a>
+                    </div>
+                    <div class="sign-up">
+                        <button type="button" class="btn p-2 px-4">Sign up</button>
+                    </div>
+                </div>
+            </nav>
+        </div>
     </div>
     <div class="container body">
         <div class="row text-center question-text ">
@@ -193,7 +196,7 @@
         <div class="container d-flex">
             <div class="row">
                 <div class="col-4 ">
-                    <div class="p-5 bg-white rounded">
+                    <div class="p-5 bg-white rounded h-100">
                         <div class="card-top">
                             <img src="/images/shape18.svg" alt="">
                             <h5 class="pt-3">Update Landpagy newses to the latest release
@@ -208,7 +211,7 @@
                     </div>
                 </div>
                 <div class="col-4 ">
-                    <div class="p-5 bg-white rounded">
+                    <div class="p-5 bg-white rounded h-100">
                         <div class="card-top">
                             <img src="/images/shape18.svg" alt="">
                             <h5 class="pt-3">Secure connection failed & Landpagy did not connect
@@ -222,7 +225,7 @@
                     </div>
                 </div>
                 <div class="col-4 ">
-                    <div class="p-5 bg-white rounded">
+                    <div class="p-5 bg-white rounded h-100">
                         <div class="card-top">
                             <img src="/images/shape18.svg" alt="">
                             <h5 class="pt-3">Insecure password warning in Landpagy
@@ -239,23 +242,40 @@
 
         </div>
 
-
     </div>
-    <div class="container community">
-        <div class="row">
-            <div class="col-6 p-5">
+    <div class="container community rounded-20px">
+        <div class="row community-block">
+            <div class="col-6">
                 <h1 class="font-weight-bold pb-4">Get help from Landpagy Community</h1>
                 <p class="text-secondary ">Connect with Landpagy users of all levels to learn, support & inspire one
                     another</p>
             </div>
-            <div class="col-6">
+            <div class="col-6 pl-5">
                 <div class="container community-static">
-                    <a class="bg-white p-3" href="">Join 50k+ Landpagy Users on Facebook</a>
+                    <a class="bg-white p-3 d-flex align-items-center" href="">
+                        <i class="fa-brands fa-facebook-f text-center text-important mr-3"></i>
+                        <p class="align-items-center text-body m-0">Join 50k+ Landpagy Users on Facebook</p>
+                    </a>
                 </div>
-                <div class="container community-static">
-                    <a href="">Meet & Collaborate With Local Landpagy Usersk</a>
+                <div class="container community-static  mt-5">
+                    <a class="bg-white p-3 d-flex justify-content-center" href="">
+                        <i class="fab fa-meetup text-center mr-3 text-danger border-danger"></i>
+                        <p class="align-items-center text-body m-0">Meet & Collaborate With Local Landpagy Usersk</p>
+                    </a>
                 </div>
+
             </div>
+        </div>
+    </div>
+    <div class="container text-center pb-5">
+        <div>
+            <h1 class="font-weight-bolder">Frequently asked questions</h1>
+            <p class="text-secondary w-50 text-center ml-auto mr-auto">Aenean amet netus aliquam elit eu, sagittis id
+                natoque
+                id. Purus
+                augue
+                fermentum
+                dui aliquam dui vel.</p>
         </div>
     </div>
     <div class="container-fluid support-ticket">

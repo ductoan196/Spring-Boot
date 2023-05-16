@@ -13,5 +13,6 @@ import lombok.experimental.FieldDefaults;
 public class BorrowSheet {
     int id;
     Reader reader;
+    BorrowSheetDetail borrowSheetDetail;
     
 }

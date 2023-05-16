@@ -53,6 +53,22 @@
 
   .community{
     background-color: #FFEEDD;
+    border-radius: 1.5625rem;
+    margin-top: 120px;
+    margin-bottom: 120px;
+
+  }
+.community-block{
+  padding: 100px 40px;
+}
+  .community-static i{
+    width: 2.8125rem;
+    line-height: 2.8125rem;
+    height: 2.8125rem;
+    font-size: 1.5rem;
+    
+    border: 1px solid #1877F2;
+    border-radius: 50%;
   }
 
   .support-ticket{
@@ -95,6 +111,8 @@
     top: -15%;
     z-index: 2;
   }
+
+
 
   /* Footer */
   .footer{
