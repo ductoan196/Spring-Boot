@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 
@@ -34,6 +35,7 @@ public class AssignmentService {
                     .tenLaiXe(assignment.getDriver().getName())
                     .idLaiXe(assignment.getDriver().getId())
                     .soLuotChay(assignment.getSoLuotChay())
+                    .khoangCachTuyen(assignment.getRoute().getDistance())
                     .idTuyen(assignment.getRoute().getId())
                     .build();
 
@@ -56,6 +58,48 @@ public class AssignmentService {
         assignments.add(assignment);
         assignment.setId(AUTO_ID);
         AUTO_ID++;
+    }
+
+    public AssignmentModel findById(int id) {
+        Optional<Assignment> assignmentOptional = assignments
+                .stream()
+                .filter(s-> s.getId() == id)
+                .findFirst();
+        if (assignmentOptional.isEmpty()) {
+            return null;
+        }
+        Assignment assignment = assignmentOptional.get();
+
+        AssignmentModel assignmentModel = AssignmentModel
+                .builder()
+                .id(assignment.getId())
+                .tenLaiXe(assignment.getDriver().getName())
+                .idLaiXe(assignment.getDriver().getId())
+                .soLuotChay(assignment.getSoLuotChay())
+                .khoangCachTuyen(assignment.getRoute().getDistance())
+                .idTuyen(assignment.getRoute().getId())
+                .build();
+
+        return assignmentModel;
+    }
+
+    public void updateAssignment(AssignmentModel assignmentModel) {
+        Driver driver = driverService.findDriverEntityByID(assignmentModel.getIdLaiXe());
+        Route route = routeService.findRouteEntityByID(assignmentModel.getIdTuyen());
+
+        assignments.forEach(assignment->{
+            if (assignment.getId() != assignmentModel.getId()) {
+                return;
+            }
+            assignment.setDriver(driver);
+            assignment.setRoute(route);
+            assignment.setSoLuotChay(assignmentModel.getSoLuotChay());
+
+        });
+    }
+
+    public void deleteAssignment(int id) {
+        assignments.removeIf(s -> s.getId() == id);
     }
 }
 

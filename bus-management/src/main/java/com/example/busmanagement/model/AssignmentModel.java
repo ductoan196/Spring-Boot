@@ -4,6 +4,9 @@ import com.example.busmanagement.statics.Level;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -12,9 +15,12 @@ import lombok.experimental.FieldDefaults;
 public class AssignmentModel {
     int id;
     int idLaiXe;
+
     String tenLaiXe;
     int idTuyen;
-
     float khoangCachTuyen;
+
+    @NotBlank(message = "Book author cannot be blank")
+    @Size(max = 100, message = "Book author cannot be over 100 characters")
     String soLuotChay;
 }

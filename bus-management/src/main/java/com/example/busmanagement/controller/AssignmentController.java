@@ -64,28 +64,28 @@ public class AssignmentController {
         }
     }
 
-//    @GetMapping("/{id}/edit")
-//    public String forwardToEditForm(@PathVariable int id, Model model) {
-//        addOptionListsToModel(model);
-//        AssignmentModel assignmentModel = assignmentService.find(id);
-//        model.addAttribute("editDriver", driverModel);
-//        return "edit-driver";
-//    }
-//
-//    @PostMapping("/update")
-//    public String updateDriver(@ModelAttribute("updateDriver") @Valid DriverModel driverModel, Errors errors, Model model) {
-//        if (null != errors && errors.getErrorCount() > 0) {
-//            addOptionListToModel(model);
-//            return "edit-driver";
-//        } else {
-//            driverService.updateDriver(driverModel);
-//            return "redirect:/drivers";
-//        }
-//    }
-//
-//    @GetMapping("/{id}/delete")
-//    public String delete(@PathVariable int id) {
-//        driverService.deleteDriver(id);
-//        return "redirect:/drivers";
-//    }
+    @GetMapping("/{id}/edit")
+    public String forwardToEditForm(@PathVariable int id, Model model) {
+        addOptionListsToModel(model);
+        AssignmentModel assignmentModel = assignmentService.findById(id);
+        model.addAttribute("editAssignment", assignmentModel);
+        return "edit-assignment";
+    }
+
+    @PostMapping("/update")
+    public String updateAssignment(@ModelAttribute("updateAssignment") @Valid AssignmentModel assignmentModel, Errors errors, Model model) {
+        if (null != errors && errors.getErrorCount() > 0) {
+            addOptionListsToModel(model);
+            return "edit-assignment";
+        } else {
+            assignmentService.updateAssignment(assignmentModel);
+            return "redirect:/assignments";
+        }
+    }
+
+    @GetMapping("/{id}/delete")
+    public String delete(@PathVariable int id) {
+        assignmentService.deleteAssignment(id);
+        return "redirect:/assignments";
+    }
 }

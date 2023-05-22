@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Assignment</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <!-- jQuery library -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
+    <!-- Popper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row px-5">
+        <div class="col">
+            <div class="row justify-content-center">
+                <h1>Edit Driver</h1>
+            </div>
+            <div class="row justify-content-center mb-4">
+                <div class="col">
+                    <form action="#" th:action="@{/assignments/update}" th:object="${editAssignment}" method="post">
+                        <input type="hidden" th:field="*{id}" />
+                        <div class="form-group mt-2">
+                            <label for="idLaiXe">Tên lái xe </label>
+                            <select th:field="*{idLaiXe}" class="form-control" id="idLaiXe">
+                                <option th:each="taiXe:${dsTaiXe}" th:value="${taiXe.id}" th:text="${taiXe.getName()}">
+                                </option>
+                            </select>
+                        </div>
+                        <div class="form-group mt-2">
+                            <label for="idTuyen">Khoảng cách tuyến</label>
+                            <select th:field="*{idTuyen}" class="form-control" id="idTuyen">
+                                <option th:each="tuyen:${dsTuyenDuong}" th:value="${tuyen.id}" th:text="${tuyen.getDistance()}">
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="soLuotChay">Số lượt chạy</label>
+                            <input type="text" th:field="*{soLuotChay}" class="form-control" id="soLuotChay"/>
+                            <div class="alert alert-warning" th:if="${#fields.hasErrors('soLuotChay')}" th:errors="*{soLuotChay}"></div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Save</button>
+                        <a role="button" class="btn btn-secondary" th:href="@{/assignments}">Back</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
