@@ -22,19 +22,25 @@
       </div>
       <div class="row justify-content-center mb-4">
         <div class="col">
-          <form action="#" th:action="@{/readers/update}" th:object="${reader}" method="post">
+          <form action="#" th:action="@{/readers/update}" th:object="${nguoiDocCanEdit}" method="post">
             <input type="hidden" th:field="*{id}" />
             <div class="form-group">
               <label for="name">Name</label>
               <input type="text" th:field="*{name}" class="form-control" id="name"/>
+              <div class="alert alert-warning" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+
             </div>
             <div class="form-group">
               <label for="address">Address</label>
               <input type="text" th:field="*{address}" class="form-control" id="address"/>
+              <div class="alert alert-warning" th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></div>
+
             </div>
             <div class="form-group">
               <label for="phone">Phone</label>
               <input type="text" th:field="*{phone}" class="form-control" id="phone"/>
+              <div class="alert alert-warning" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></div>
+
             </div>
             <div class="form-group mt-2">
               <label for="readerType">Reader Type </label>

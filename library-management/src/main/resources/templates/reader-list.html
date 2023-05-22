@@ -3,7 +3,7 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Danh sách reader</title>
+  <title>Danh sách readerModel</title>
   <!-- Latest compiled and minified CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
 
@@ -28,7 +28,7 @@
   </div>
 
 
-  <h2>Danh sách book</h2>
+  <h2>Danh sách bookModel</h2>
   <table class="table table-bordered">
     <thead>
     <tr>
@@ -40,24 +40,29 @@
       <th class="text-center">Actions</th>
     </tr>
     </thead>
-    <tr th:each="reader : ${readerList}">
-      <td th:text="${reader.id}"></td>
-      <td th:text="${reader.name}"></td>
-      <td th:text="${reader.address}"></td>
-      <td th:text="${reader.phone}"></td>
-      <td th:text="${reader.readerType}"></td>
+    <tr th:each="readerModel : ${readerList}">
+      <td th:text="${readerModel.id}"></td>
+      <td th:text="${readerModel.name}"></td>
+      <td th:text="${readerModel.address}"></td>
+      <td th:text="${readerModel.phone}"></td>
+      <td th:text="${readerModel.readerType}"></td>
 
       <td class="d-flex justify-content-center" >
-        <a role="button" class="mr-3" th:href="'readers/'+ ${reader.id} + '/edit' ">
+        <a role="button" class="mr-3" th:href="'readers/'+ ${readerModel.id} + '/edit' ">
           <i class="fas fa-pencil-alt"></i>
         </a>
-        <a role="button" class="text-danger" th:href="'readers/'+ ${reader.id} + '/delete' ">
+        <a role="button" class="text-danger" th:href="'readers/'+ ${readerModel.id} + '/delete' ">
           <i class="fas fa-trash"></i>
         </a>
       </td>
     </tr>
-
   </table>
+  <a href="books">
+    Quản lý Book
+  </a>
+  <a href="borrows">
+    Quản lý Borrow
+  </a>
 </div>
 </body>
 </html>

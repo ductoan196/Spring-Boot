@@ -1,6 +1,6 @@
-package com.example.librarymanagement.model;
+package com.example.busmanagement.model;
 
-import com.example.librarymanagement.statics.ReaderType;
+import com.example.busmanagement.statics.Level;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,10 +11,10 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Reader {
+public class DriverModel {
     int id;
     String name;
     String address;
     String phone;
-    ReaderType readerType;
+    Level level;
 }

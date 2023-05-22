@@ -1,6 +1,6 @@
-package com.example.librarymanagement.model;
+package com.example.librarymanagement.entity;
 
-import com.example.librarymanagement.statics.Category;
+import com.example.librarymanagement.statics.ReaderType;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,11 +11,12 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Book {
+public class Reader {
     int id;
-    String title;
-    String author;
-    Category category;
-    int yearOfPublish;
 
+
+    String name;
+    String address;
+    String phone;
+    ReaderType readerType;
 }

@@ -1,5 +1,6 @@
-package com.example.librarymanagement.model;
+package com.example.librarymanagement.entity;
 
+import com.example.librarymanagement.statics.Category;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,9 +11,10 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class BorrowSheet {
+public class Book {
     int id;
-    Reader reader;
-    BorrowSheetDetail borrowSheetDetail;
-    
+    String title;
+    String author;
+    Category category;
+    int yearOfPublish;
 }

@@ -1,0 +1,38 @@
+@font-face {
+    font-family: Poppins;
+    src: url('/fonts/Poppins/Poppins-Medium.ttf')
+  }
+
+  body{
+    font-family: Poppins;
+  }
+  .nav-item.active{
+    color:#ec595a!important;
+  }
+  
+  .login .sign-up button{
+    background-color: #ec595a;
+    color: white;
+    font-weight: 500;
+    font-size: 16px;
+  }
+
+  /* Body  */
+  .signin-block{
+    margin-top: 200px;
+  }
+
+  .signin-block ul{
+    list-style: none;
+  }
+
+
+    /* Footer */
+    .footer{
+        background-color: #171717;
+        padding-top: 60px;
+      }
+    
+      .footer-bottom{
+        border-top: 1px solid grey;
+      }
