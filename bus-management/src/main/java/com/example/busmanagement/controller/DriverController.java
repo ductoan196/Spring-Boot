@@ -48,7 +48,7 @@ public class DriverController {
 
         if (null != errors && errors.getErrorCount() > 0) {
             addOptionListToModel(model);
-            return "edit-driver";
+            return "creat-driver";
         } else {
             driverService.creatDriver(driverModel);
             return "redirect:/drivers";
