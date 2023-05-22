@@ -2,6 +2,22 @@ body{
     font-family: Montserrat, sans-serif;
 }
 
-.navbar-nav .nav-item a{
-    font-weight: 100;
+.header .nav-link{
+    font-size: 0.85rem;
+}
+
+.main-bg-1{
+    background-color: #1abc9c;
+}
+
+.img-circle{
+    border-radius: 50%;
+}
+
+.main-bg-2{
+    background-color: #474e5d;
+}
+
+body p{
+    line-height: 2rem;
 }
