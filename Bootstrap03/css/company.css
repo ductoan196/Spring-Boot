@@ -1,0 +1,60 @@
+body{
+    font-family: Montserrat, sans-serif;
+}
+
+.font-lato{
+    font-family: 'Inter', sans-serif;
+}
+.header, .main-bg-1 {
+    background-color: #f4511e;
+}
+.header .nav-link{
+    font-size: 0.8rem;
+    letter-spacing: 3px;
+}
+
+.section-1 h1{
+    font-weight: 300;
+}
+
+.section-1 .input-group{
+    max-width: 35%;
+}
+
+.section-1 .btn-danger{
+    background-color: #d9534f;
+    border-color: #d43f3a;
+}
+
+.main-section h5{
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: rgb(48, 48, 48);
+    line-height: 26.125px;
+}
+
+.main-section p{
+    font-size: 0.9rem;
+    line-height: 21.6px;
+}
+
+.main-section .btn{
+    border-color: #ccc;
+}
+
+.main-section .icon-big{
+    font-size: 150px;
+    color: #f4511e;
+}
+
+.main-section .icon-small{
+    font-size: 50px;
+    color: #f4511e;
+}
+
+.main-bg-3{
+    background-color: #f6f6f6;
+}
+.main-bg-5{
+    background-color: #f6f6f6;
+}

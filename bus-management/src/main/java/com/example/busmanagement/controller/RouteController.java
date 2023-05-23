@@ -38,10 +38,10 @@ public class RouteController {
     }
 
     @PostMapping
-    public String creatRoute(@ModelAttribute("newRoute") @Valid RouteModel routeModel, Errors errors, Model model) {
+    public String creatRoute(@ModelAttribute("newRoute") @Valid RouteModel routeModel, Errors errors) {
 
         if (null != errors && errors.getErrorCount() > 0) {
-            return "edit-route";
+            return "creat-route";
         } else {
             routeService.creatRoute(routeModel);
             return "redirect:/routes";
@@ -56,7 +56,7 @@ public class RouteController {
     }
 
     @PostMapping("/update")
-    public String updateRoute(@ModelAttribute("updateRoute") @Valid RouteModel routeModel, Errors errors, Model model) {
+    public String updateRoute(@ModelAttribute("updateRoute") @Valid RouteModel routeModel, Errors errors) {
         if (null != errors && errors.getErrorCount() > 0) {
             return "edit-route";
         } else {

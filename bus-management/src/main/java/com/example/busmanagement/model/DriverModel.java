@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
@@ -17,15 +18,15 @@ import javax.validation.constraints.Size;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class DriverModel {
     int id;
-    @NotBlank(message = "Book author cannot be blank")
-    @Size(max = 100, message = "Book author cannot be over 100 characters")
+    @NotBlank(message = "Driver name cannot be blank")
+    @Size(max = 100, message = "Driver name cannot be over 100 characters")
     String name;
 
-    @NotBlank(message = "Book author cannot be blank")
-    @Size(max = 100, message = "Book author cannot be over 100 characters")
+    @NotBlank(message = "Driver author cannot be blank")
+    @Size(max = 100, message = "Driver address cannot be over 100 characters")
     String address;
 
-    @NotBlank(message = "User phone cannot be blank")
+    @NotEmpty(message = "Driver phone cannot be blank")
     @Pattern(regexp = "\\d{10}", message = "Phone must be 10 number characters")
     String phone;
 

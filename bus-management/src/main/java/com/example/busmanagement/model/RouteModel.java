@@ -7,9 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 
 @Data
 @NoArgsConstructor
@@ -18,11 +16,11 @@ import javax.validation.constraints.Size;
 public class RouteModel {
     int id;
 
-    @NotBlank(message = "Route distance cannot be blank")
-    @Size(max = 100, message = "Book author cannot be over 100 characters")
-    float distance;
+    @NotNull(message = "Route distance cannot be blank")
+    @Min(value = 100, message = "Route distance cannot be lower than 10")
+    Float distance;
 
-    @NotBlank(message = "Book author cannot be blank")
-    @Size(max = 100, message = "Book author cannot be over 100 characters")
-    int stopNumber;
+    @NotNull(message = "Stop number cannot be blank")
+    Integer stopNumber;
+
 }

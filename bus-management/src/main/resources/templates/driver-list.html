@@ -47,14 +47,62 @@
             <td th:text="${driver.phone}"></td>
             <td th:text="${driver.level}"></td>
 
-            <td class="d-flex justify-content-center" >
-                <a role="button" class="mr-3" th:href="'drivers/'+ ${driver.id} + '/edit' ">
+<!--            <td class="d-flex justify-content-center" >-->
+<!--                <a role="button" class="mr-3" th:href="'drivers/'+ ${driver.id} + '/edit' ">-->
+<!--                    <i class="fas fa-pencil-alt"></i>-->
+<!--                </a>-->
+<!--                <a role="button" class="text-danger" th:href="'drivers/'+ ${driver.id} + '/delete' ">-->
+<!--                    <i class="fas fa-trash"></i>-->
+<!--                </a>-->
+<!--            </td>-->
+
+            <td class="d-flex justify-content-center">
+                <a role="button" class="mr-3" th:href="'drivers/' + ${driver.id} + '/edit'">
                     <i class="fas fa-pencil-alt"></i>
                 </a>
-                <a role="button" class="text-danger" th:href="'drivers/'+ ${driver.id} + '/delete' ">
+                <a role="button" class="text-danger" th:href="'drivers/' + ${driver.id} + '/delete'" onclick="return confirmDelete();">
                     <i class="fas fa-trash"></i>
                 </a>
             </td>
+
+            <script>
+                function confirmDelete() {
+                    var result = confirm("Bạn có chắc chắn xóa?");
+                    return result;
+                }
+            </script>
+
+
+            <!--            <td class="d-flex justify-content-center">-->
+<!--                <a role="button" class="mr-3" th:href="'drivers/' + ${driver.id} + '/edit'">-->
+<!--                    <i class="fas fa-pencil-alt"></i>-->
+<!--                </a>-->
+<!--                <a role="button" class="text-danger" data-toggle="modal" data-target="#deleteModal">-->
+<!--                    <i class="fas fa-trash"></i>-->
+<!--                </a>-->
+<!--            </td>-->
+
+<!--            &lt;!&ndash; Modal &ndash;&gt;-->
+<!--            <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">-->
+<!--                <div class="modal-dialog" role="document">-->
+<!--                    <div class="modal-content">-->
+<!--                        <div class="modal-header">-->
+<!--                            <h5 class="modal-title" id="deleteModalLabel">Xóa</h5>-->
+<!--                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+<!--                                <span aria-hidden="true">&times;</span>-->
+<!--                            </button>-->
+<!--                        </div>-->
+<!--                        <div class="modal-body">-->
+<!--                            <p>Bạn có chắc chắn muốn xóa?</p>-->
+<!--                        </div>-->
+<!--                        <div class="modal-footer">-->
+<!--                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>-->
+<!--                            <a role="button" class="btn btn-danger" th:href="'drivers/' + ${driver.id} + '/delete'">Xóa</a>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+
         </tr>
 
     </table>
