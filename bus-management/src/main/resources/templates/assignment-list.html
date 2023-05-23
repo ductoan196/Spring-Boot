@@ -24,7 +24,13 @@
         <div class="col pr-2">
             <a class="btn btn-primary" href="/assignments/creat-form">Tạo mới</a>
         </div>
+        <div class="col-4 pr-2">
+            <a class="btn btn-primary" href="drivers">Quản lý tài xế</a>
+        </div>
 
+        <div class="col-4 pr-2">
+            <a class="btn btn-primary" href="routes">Quản lý tuyến</a>
+        </div>
     </div>
 
 
@@ -37,7 +43,6 @@
             <th class="text-center">Khoảng cách tuyến</th>
             <th class="text-center">Số lượt chạy tuyến</th>
             <th class="text-center">Action</th>
-
         </tr>
         </thead>
         <tr th:each="assignment : ${assigmentList}">

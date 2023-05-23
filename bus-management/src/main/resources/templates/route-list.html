@@ -21,10 +21,16 @@
 <body>
 <div class="container">
     <div class="row py-5">
-        <div class="col pr-2">
+        <div class="col-4 pr-2">
             <a class="btn btn-primary" href="/routes/creat-form">Tạo mới</a>
         </div>
+        <div class="col-4 pr-2">
+            <a class="btn btn-primary" href="drivers">Quản lý tài xế</a>
+        </div>
 
+        <div class="col-4 pr-2">
+            <a class="btn btn-primary" href="assignments">Quản lý lịch trình</a>
+        </div>
     </div>
 
 
@@ -43,24 +49,48 @@
             <td th:text="${route.stopNumber}"></td>
 
 
-            <td class="d-flex justify-content-center" >
-                <a role="button" class="mr-3" th:href="'routes/'+ ${route.id} + '/edit' ">
+<!--            <td class="d-flex justify-content-center" >-->
+<!--                <a role="button" class="mr-3" th:href="'routes/'+ ${route.id} + '/edit' ">-->
+<!--                    <i class="fas fa-pencil-alt"></i>-->
+<!--                </a>-->
+<!--                <a role="button" class="text-danger" th:href="'routes/'+ ${route.id} + '/delete' ">-->
+<!--                    <i class="fas fa-trash"></i>-->
+<!--                </a>-->
+<!--            </td>-->
+
+            <td class="d-flex justify-content-center">
+                <a role="button" class="mr-3" th:href="'routes/' + ${route.id} + '/edit'">
                     <i class="fas fa-pencil-alt"></i>
                 </a>
-                <a role="button" class="text-danger" th:href="'routes/'+ ${route.id} + '/delete' ">
+                <a role="button" class="text-danger" data-toggle="modal" data-target="#deleteModal">
                     <i class="fas fa-trash"></i>
                 </a>
             </td>
+
+            <!-- Modal -->
+            <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="deleteModalLabel">Xóa</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Bạn có chắc chắn muốn xóa?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                            <a role="button" class="btn btn-danger" th:href="'routes/' + ${route.id} + '/delete'">Xóa</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </tr>
 
     </table>
 
-    <a href="drivers">
-        Quản lý Driver
-    </a>
-    <a href="assignments">
-        Quản lý Sắp xếp tuyến
-    </a>
 </div>
 </body>
 </html>

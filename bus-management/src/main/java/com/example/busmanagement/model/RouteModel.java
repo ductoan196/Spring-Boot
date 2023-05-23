@@ -21,6 +21,7 @@ public class RouteModel {
     Float distance;
 
     @NotNull(message = "Stop number cannot be blank")
+    @Digits(integer = Integer.MAX_VALUE, fraction = 0, message = "Stop number must be a valid integer")
     Integer stopNumber;
 
 }
