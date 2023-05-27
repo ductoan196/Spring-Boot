@@ -33,11 +33,15 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
     //4.Tìm kiếm tất cả các employee trong tên có chứa 1 keyword được chỉ định (không phân biệt hoa thường)
     List<Employee> findByNameContainingIgnoreCase(String keyword);
 
-    @Query(nativeQuery = true, value = "select * from employee u where u.name =?1")
+    @Query(nativeQuery = true, value = "select * from employee u where LOWER(u.name) like %?1%")
     List<Employee> findByNameContainingIgnoreCaseUsingNativeQuery(String keyword);
+
 
     //5. Tìm kiếm tất cả các employee có tên được bắt đầu với 1 chuỗi (prefix) được chỉ định
     List<Employee> findByNameStartingWith(String prefix);
+
+    @Query(nativeQuery = true, value = "select * from employee u where u.name like ?1%")
+    List<Employee> findByNameStartingWithUsingNativeQuery(String prefix);
 
     //6.Tìm kiếm tất cả các employee có salary nằm trong khoảng chỉ định
     List<Employee> findBySalaryBetween(long salary1, long salary2);

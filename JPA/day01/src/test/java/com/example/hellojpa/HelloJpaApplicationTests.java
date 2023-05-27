@@ -25,8 +25,8 @@ class HelloJpaApplicationTests {
 
     @Test
     void find_by_department() {
-        List<Employee> employees = employeeRepository.findByName("Đức Toàn");
-        List<Employee> employees1 = employeeRepository.findByNameUsingNativeQuery("Đức Toàn");
+        List<Employee> employees = employeeRepository.findByNameContainingIgnoreCase("Bi");
+        List<Employee> employees1 = employeeRepository.findByNameContainingIgnoreCaseUsingNativeQuery("Bi");
         employees.forEach(System.out::println);
         employees1.forEach(System.out::println);
     }
