@@ -5,58 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1e50d14f-971a-4d60-8fcc-d3aa918571a6" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../../book_management2/src/main/java/com/example/book_management2/configuration/BeanConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../book_management2/src/main/java/com/example/book_management2/configuration/WebConfiguration.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../book_management2/src/main/java/com/example/book_management2/controller/BookController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../book_management2/src/main/java/com/example/book_management2/controller/BorrowBookController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../book_management2/src/main/java/com/example/book_management2/controller/ReaderController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../book_management2/src/main/java/com/example/book_management2/entity/BookEntity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../book_management2/src/main/java/com/example/book_management2/entity/BorrowBookEntity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../book_management2/src/main/java/com/example/book_management2/entity/PersonEntity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../book_management2/src/main/java/com/example/book_management2/entity/ReaderEntity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../book_management2/src/main/java/com/example/book_management2/model/Book.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../book_management2/src/main/java/com/example/book_management2/model/BorrowBook.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../book_management2/src/main/java/com/example/book_management2/model/Person.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../book_management2/src/main/java/com/example/book_management2/model/Reader.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../book_management2/src/main/java/com/example/book_management2/service/BookService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../book_management2/src/main/java/com/example/book_management2/service/BorrowBookService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../book_management2/src/main/java/com/example/book_management2/service/ReaderService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../book_management2/src/main/java/com/example/book_management2/statics/ReaderType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../book_management2/src/main/java/com/example/book_management2/statics/Specialized.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../book_management2/src/main/java/com/example/book_management2/statics/Status.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../homework_book_managerment/homework_book_managerment/src/main/resources/templates/nav.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../spring-tutorial-practice-master/spring-tutorial-practice-master/bus_management_ajax/src/main/java/com/example/bus_management_ajax/config/BeanConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../spring-tutorial-practice-master/spring-tutorial-practice-master/bus_management_ajax/src/main/java/com/example/bus_management_ajax/config/WebConfiguration.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../spring-tutorial-practice-master/spring-tutorial-practice-master/bus_management_ajax/src/main/java/com/example/bus_management_ajax/controller/AssignmentController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../spring-tutorial-practice-master/spring-tutorial-practice-master/bus_management_ajax/src/main/java/com/example/bus_management_ajax/controller/DriverController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../spring-tutorial-practice-master/spring-tutorial-practice-master/bus_management_ajax/src/main/java/com/example/bus_management_ajax/controller/RouteController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../spring-tutorial-practice-master/spring-tutorial-practice-master/bus_management_ajax/src/main/java/com/example/bus_management_ajax/entity/Assignment.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../spring-tutorial-practice-master/spring-tutorial-practice-master/bus_management_ajax/src/main/java/com/example/bus_management_ajax/entity/Driver.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../spring-tutorial-practice-master/spring-tutorial-practice-master/bus_management_ajax/src/main/java/com/example/bus_management_ajax/entity/Route.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../spring-tutorial-practice-master/spring-tutorial-practice-master/bus_management_ajax/src/main/java/com/example/bus_management_ajax/model/AssignmentModel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../spring-tutorial-practice-master/spring-tutorial-practice-master/bus_management_ajax/src/main/java/com/example/bus_management_ajax/model/RouteModel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../spring-tutorial-practice-master/spring-tutorial-practice-master/bus_management_ajax/src/main/java/com/example/bus_management_ajax/model/request/DriverCreatRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../spring-tutorial-practice-master/spring-tutorial-practice-master/bus_management_ajax/src/main/java/com/example/bus_management_ajax/model/request/DriverUpdateRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../spring-tutorial-practice-master/spring-tutorial-practice-master/bus_management_ajax/src/main/java/com/example/bus_management_ajax/model/response/DriverResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../spring-tutorial-practice-master/spring-tutorial-practice-master/bus_management_ajax/src/main/java/com/example/bus_management_ajax/model/response/LevelResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../spring-tutorial-practice-master/spring-tutorial-practice-master/bus_management_ajax/src/main/java/com/example/bus_management_ajax/service/AssignmentService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../spring-tutorial-practice-master/spring-tutorial-practice-master/bus_management_ajax/src/main/java/com/example/bus_management_ajax/service/DriverService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../spring-tutorial-practice-master/spring-tutorial-practice-master/bus_management_ajax/src/main/java/com/example/bus_management_ajax/service/LevelService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../spring-tutorial-practice-master/spring-tutorial-practice-master/bus_management_ajax/src/main/java/com/example/bus_management_ajax/service/RouteService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../spring-tutorial-practice-master/spring-tutorial-practice-master/bus_management_ajax/src/main/java/com/example/bus_management_ajax/statics/Level.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../spring-tutorial-practice-master/spring-tutorial-practice-master/bus_management_ajax/src/main/resources/static/driver-list.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../spring-tutorial-practice-master/spring-tutorial-practice-master/bus_management_ajax/src/main/resources/templates/creat/creat-assignment.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../spring-tutorial-practice-master/spring-tutorial-practice-master/bus_management_ajax/src/main/resources/templates/creat/creat-driver.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../spring-tutorial-practice-master/spring-tutorial-practice-master/bus_management_ajax/src/main/resources/templates/creat/creat-route.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../spring-tutorial-practice-master/spring-tutorial-practice-master/bus_management_ajax/src/main/resources/templates/edit/edit-assignment.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../spring-tutorial-practice-master/spring-tutorial-practice-master/bus_management_ajax/src/main/resources/templates/edit/edit-driver.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../spring-tutorial-practice-master/spring-tutorial-practice-master/bus_management_ajax/src/main/resources/templates/edit/edit-route.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../spring-tutorial-practice-master/spring-tutorial-practice-master/bus_management_ajax/src/main/resources/templates/fragment/driver-create-modal.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../spring-tutorial-practice-master/spring-tutorial-practice-master/bus_management_ajax/src/main/resources/templates/fragment/footer.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../spring-tutorial-practice-master/spring-tutorial-practice-master/bus_management_ajax/src/main/resources/templates/fragment/nav-driver.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../spring-tutorial-practice-master/spring-tutorial-practice-master/bus_management_ajax/src/main/resources/templates/list/assignment-list.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../spring-tutorial-practice-master/spring-tutorial-practice-master/bus_management_ajax/src/main/resources/templates/list/driver-list.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../spring-tutorial-practice-master/spring-tutorial-practice-master/bus_management_ajax/src/main/resources/templates/list/route-list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../db_example/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../db_example/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../spring-tutorial-practice-master/spring-tutorial-practice-master/bus_management_ajax/src/main/resources/templates/list/driver-list.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../spring-tutorial-practice-master/spring-tutorial-practice-master/bus_management_ajax/src/main/resources/templates/list/driver-list.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,17 +34,6 @@
     <property name="aspect.path.notification.shown" value="true" />
   </component>
   <component name="RunManager">
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="HelloJpaApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <module name="hello-jpa" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.hellojpa.HelloJpaApplication" />
@@ -111,6 +51,8 @@
       <option name="presentableId" value="Default" />
       <updated>1685077958008</updated>
       <workItem from="1685077960014" duration="177000" />
+      <workItem from="1685169992931" duration="28000" />
+      <workItem from="1685170046207" duration="20000" />
     </task>
     <servers />
   </component>
