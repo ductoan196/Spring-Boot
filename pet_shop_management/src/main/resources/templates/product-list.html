@@ -3,7 +3,7 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Student management</title>
+    <title>Product management</title>
 
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
@@ -122,53 +122,49 @@
             const productId = $(event.currentTarget).attr("product-id");
             console.log(productId);
 
-            await $.ajax({
-                url: '/api/regions/',
-                type: 'GET',
-                contentType: "application/json; charset=utf-8",
-                success: function (data) {
-                    console.log(data);
-                    if (!data || data.length === 0) {
-                        return;
-                    }
-                    let regionOptions = "";
-                    for (let i = 0; i < data.length; i++) {
-                        regionOptions += "<option value='" + data[i].code + "'>" + data[i].name + "</option>";
-                    }
-                    $('#product-update-modal #region').append($(regionOptions));
-                    // localStorage.setItem("regions", data)
-                },
-                error: function (data) {
-                    console.log(data);
-                    toastr.warning(data.responseJSON.message);
-                }
-            });
+            // await $.ajax({
+            //     url: '/api/regions/',
+            //     type: 'GET',
+            //     contentType: "application/json; charset=utf-8",
+            //     success: function (data) {
+            //         console.log(data);
+            //         if (!data || data.length === 0) {
+            //             return;
+            //         }
+            //         let regionOptions = "";
+            //         for (let i = 0; i < data.length; i++) {
+            //             regionOptions += "<option value='" + data[i].code + "'>" + data[i].name + "</option>";
+            //         }
+            //         $('#product-update-modal #region').append($(regionOptions));
+            //         // localStorage.setItem("regions", data)
+            //     },
+            //     error: function (data) {
+            //         console.log(data);
+            //         toastr.warning(data.responseJSON.message);
+            //     }
+            // });
 
-            let currentStudent = null;
+            let currentProduct = null;
             await $.ajax({
                 url: '/api/products/' + productId,
                 type: 'GET',
                 contentType: "application/json; charset=utf-8",
                 success: function (data) {
                     console.log(data);
-                    currentStudent = data;
+                    currentProduct = data;
                 },
                 error: function (data) {
                     console.log(data);
                     toastr.warning(data.responseJSON.message);
                 }
             });
-            if (!currentStudent) {
+            if (!currentProduct) {
                 return;
             }
 
-            $('#product-update-modal #name').val(currentStudent.name);
-            $('#product-update-modal #address').val(currentStudent.address);
-            $('#product-update-modal #phone').val(currentStudent.phone);
-            $('#product-update-modal #email').val(currentStudent.email);
-            $('#product-update-modal #gpa').val(currentStudent.gpa);
-            $('#product-update-modal #dob').val(currentStudent.dob);
-            $('#product-update-modal #region').val(currentStudent.region);
+            $('#product-update-modal #name').val(currentProduct.name);
+            $('#product-update-modal #price').val(currentProduct.price);
+            $('#product-update-modal #description').val(currentProduct.description);
 
             $('#product-update-modal #submit-update-product').attr("product-id", productId);
 
