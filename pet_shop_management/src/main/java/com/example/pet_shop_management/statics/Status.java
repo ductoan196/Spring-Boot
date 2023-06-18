@@ -9,10 +9,11 @@ import java.time.LocalDateTime;
 @Getter
 @AllArgsConstructor
 public enum Status {
-    PENDING("Pending"),
-    ACCEPTED("Accepted"),
-    REJECTED("Rejected");
+    PENDING("PENDING","Pending"),
+    ACCEPTED("ACCEPTED","Accepted"),
+    REJECTED("REJECTED","Rejected");
 
+    public String code;
     public String name;
 
 }

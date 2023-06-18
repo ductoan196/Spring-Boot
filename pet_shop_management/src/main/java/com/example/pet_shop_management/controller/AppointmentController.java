@@ -1,11 +1,11 @@
 package com.example.pet_shop_management.controller;
 
+import com.example.pet_shop_management.entity.Appointment;
+import com.example.pet_shop_management.entity.Product;
 import com.example.pet_shop_management.model.request.AppointmentRequest;
 import com.example.pet_shop_management.model.request.ProductRequest;
 import com.example.pet_shop_management.model.response.AppointmentResponse;
-import com.example.pet_shop_management.model.response.ProductResponse;
 import com.example.pet_shop_management.serivce.AppointmentService;
-import com.example.pet_shop_management.serivce.ProductService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -22,16 +22,20 @@ public class AppointmentController {
 
     AppointmentService appointmentService;
 
-    @GetMapping("api/v1/appointments")
-    public List<AppointmentResponse> getAllProduct(Model model) {
-        return appointmentService.getAllAppointments();
+    @GetMapping("/appointments")
+    public String getAppointments(Model model) {
+        List<Appointment> appointmentList = appointmentService.getAllAppointments();
+        model.addAttribute("danhSachLichKham", appointmentList);
+
+        model.addAttribute("lichKhamMuonTaoMoi", new AppointmentRequest());
+
+        return "appointment-list";
     }
 
-
-    @PostMapping("/api/v1/appointments")
-    public ResponseEntity<?> creatAppointment(@RequestBody @Valid AppointmentRequest appointmentRequest) {
-        appointmentService.saveAppointment(appointmentRequest);
-        return ResponseEntity.ok(null);
+    @PostMapping("/appointments")
+    public String creatAppointment(@ModelAttribute("lichKhamMuonTaoMoi") @Valid AppointmentRequest lichKhamMuonTaoMoi) {
+        appointmentService.saveAppointment(lichKhamMuonTaoMoi);
+        return "redirect:/appointments";
     }
 
     @GetMapping("/api/v1/appointments/{id}")

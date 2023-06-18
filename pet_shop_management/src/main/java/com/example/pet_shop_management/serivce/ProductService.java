@@ -20,11 +20,9 @@ public class ProductService {
 
     ObjectMapper objectMapper;
 
-    public List<ProductResponse> getAllProduct() {
+    public List<Product> getAllProduct() {
         List<Product> productList = productRepository.findAll();
-        return productList.stream().map(product ->
-                objectMapper.convertValue(product, ProductResponse.class))
-                .collect(Collectors.toList());
+        return productList;
     }
 
     public void saveProduct(ProductRequest request) {

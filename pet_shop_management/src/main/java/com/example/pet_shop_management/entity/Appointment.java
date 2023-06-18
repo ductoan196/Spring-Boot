@@ -33,7 +33,7 @@ public class Appointment {
     LocalDateTime updatedAt;
 
 
-    @Column(name = "column")
+    @Column(name = "status")
     Status status;
 
     public Appointment() {
