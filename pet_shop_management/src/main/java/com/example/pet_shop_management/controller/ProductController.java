@@ -14,12 +14,12 @@ import javax.validation.Valid;
 import java.util.List;
 
 @Controller
-@RequestMapping("/admin")
+@RequestMapping
 @AllArgsConstructor
 public class ProductController {
     ProductService productService;
 
-    @GetMapping("/products")
+    @GetMapping("/admin")
     public String getStudents(Model model) {
         List<Product> productList = productService.getAllProduct();
         model.addAttribute("danhSachSanPham", productList);
@@ -29,10 +29,10 @@ public class ProductController {
         return "product-list";
     }
 
-    @PostMapping("/products")
+    @PostMapping("/admin/products")
     public String creatProduct(@ModelAttribute("sanPhamMuonTaoMoi") @Valid ProductRequest sanPhamMuonTaoMoi) {
         productService.saveProduct(sanPhamMuonTaoMoi);
-        return "redirect:/products";
+        return "redirect:/admin";
     }
     
 //    @PostMapping("/api/v1/products")

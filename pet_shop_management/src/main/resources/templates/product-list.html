@@ -19,7 +19,7 @@
 
     <div class="row mt-3 ml-3">
         <div class="col">
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#product-modal">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#product-create-modal">
                 Create
             </button>
         </div>
@@ -42,7 +42,7 @@
                     <td th:text="${sanPham.id}"/>
                     <td th:text="${sanPham.name}"/>
                     <td th:text="${sanPham.price}"/>
-                    <td th:text="${sanPham.descrption}"/>
+                    <td th:text="${sanPham.description}"/>
                     <td>
                         <a role="button" class="mr-3 text-primary update-product" th:attr="product-id=${sanPham.id}">
                             <i class="fas fa-pencil-alt"></i>
@@ -55,7 +55,7 @@
 
     <div th:insert="fragments/product-update-modal :: product-update-modal"></div>
 
-    <div th:insert="fragments/footer :: footer"></div>
+<!--    <div th:insert="fragments/footer :: footer"></div>-->
 </div>
 
 </body>
