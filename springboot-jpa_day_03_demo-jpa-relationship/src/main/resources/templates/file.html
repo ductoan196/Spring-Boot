@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Document</title>
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+            crossorigin="anonymous"
+    />
+</head>
+<body>
+<div class="container">
+    <h2 class="mt-5 mb-3">Danh sách file</h2>
+
+    <input type="file" id="input-file" hidden="hidden">
+    <label for="input-file" class="btn btn-warning mb-3">Upload file</label>
+
+    <div class="row">
+        <div class="col-6">
+            <table class="table table-hover table-bordered">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Type</th>
+                    <th>CreateAt</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th>1</th>
+                    <td>image/png</td>
+                    <td>01/02/2023</td>
+                    <td><a href="#" target="_blank">Xem chi tiết</a></td>
+                    <td>
+                        <button class="btn btn-danger">
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"
+        integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+<script th:inline="javascript">
+    let imageList = [[${imageList}]];
+    let userId = [[${userId}]];
+    console.log(imageList);
+
+    // Render danh sách image
+    const renderImageList = (imageList) => {
+        $("tbody").html("");
+
+        let html = "";
+        for (let i = 0; i < imageList.length; i++) {
+            const img = imageList[i];
+            html += `
+                <tr>
+                    <th>${img.id}</th>
+                    <td>${img.type}</td>
+                    <td>${formatDate(img.createdAt)}</td>
+                    <td><a href="/api/v1/files/${img.id}" target="_blank">Xem chi tiết</a></td>
+                    <td>
+                        <button class="btn btn-danger" onclick="deleteImage(${img.id})">
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+            `;
+        };
+        $("tbody").html(html);
+    }
+
+    const formatDate = dateString => {
+        const date = new Date(dateString);
+        const year = date.getFullYear();
+        const month = `0${date.getMonth() + 1}`.slice(-2); // 02 -> 02, 010 -> 10
+        const day = `0${date.getDate() + 1}`.slice(-2);
+
+        return `${day}/${month}/${year}`;
+    }
+
+    // Xóa image
+    const deleteImage = id => {
+        const isConfirm = window.confirm("Bạn có muốn xóa không");
+        if(!isConfirm) {
+            return;
+        }
+        $.ajax({
+            url: "/api/v1/files/" + id,
+            type: 'DELETE',
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                imageList = imageList.filter(img => img.id !== id);
+                renderImageList(imageList);
+                alert("Xóa thành công!")
+            },
+            error: function (data) {
+                console.log(data)
+            }
+        });
+    }
+
+    // Upload image
+    $("#input-file").change((e) => {
+        const file = e.target.files[0];
+        console.log(file);
+
+        const formData = new FormData();
+        formData.append("file", file);
+
+        $.ajax({
+            url: "/api/v1/users/" + userId + "/files",
+            type: 'POST',
+            contentType: false,
+            processData: false,
+            data : formData,
+            success: function (data) {
+                imageList.push(data);
+                renderImageList(imageList);
+                alert("Upload thành công!")
+            },
+            error: function (data) {
+                console.log(data)
+            }
+        });
+    })
+
+    renderImageList(imageList);
+
+</script>
+</body>
+</html>

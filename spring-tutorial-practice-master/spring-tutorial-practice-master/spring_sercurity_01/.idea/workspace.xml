@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="26b079e6-1bd7-4b12-9035-83ae9a49688a" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../../../JPA/day01/src/main/java/com/example/hellojpa/controller/TodoController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../JPA/day01/src/main/java/com/example/hellojpa/entity/Student.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../JPA/day01/src/main/java/com/example/hellojpa/entity/Todo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../JPA/day01/src/main/java/com/example/hellojpa/repository/StudentRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../JPA/day01/src/main/java/com/example/hellojpa/repository/TodoRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../JPA/day01/src/main/resources/templates/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../JPA/day01/src/test/java/com/example/hellojpa/StudentTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../JPA/day01/src/test/java/com/example/hellojpa/TodoTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Task-management1/src/main/java/com/example/taskmanagement1/config/BeanConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Task-management1/src/main/java/com/example/taskmanagement1/config/WebConfiguration.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Task-management1/src/main/java/com/example/taskmanagement1/controller/TaskController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Task-management1/src/main/java/com/example/taskmanagement1/entity/Task.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Task-management1/src/main/java/com/example/taskmanagement1/model/request/TaskRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Task-management1/src/main/java/com/example/taskmanagement1/model/response/TaskResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Task-management1/src/main/java/com/example/taskmanagement1/repository/TaskRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Task-management1/src/main/java/com/example/taskmanagement1/service/TaskService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Task-management1/src/main/java/com/example/taskmanagement1/statics/Status.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../bus-management-ajax/src/main/java/com/example/busmanagementajax/config/BeanConfiguration.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../bus-management-ajax/src/main/java/com/example/busmanagementajax/config/WebConfiguration.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../bus-management-ajax/src/main/java/com/example/busmanagementajax/controller/DriverController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../bus-management-ajax/src/main/java/com/example/busmanagementajax/controller/LevelController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../bus-management-ajax/src/main/java/com/example/busmanagementajax/controller/RouteController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../bus-management-ajax/src/main/java/com/example/busmanagementajax/entity/Driver.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../bus-management-ajax/src/main/java/com/example/busmanagementajax/entity/Route.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../bus-management-ajax/src/main/java/com/example/busmanagementajax/model/request/DriverCreatRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../bus-management-ajax/src/main/java/com/example/busmanagementajax/model/request/DriverUpdateRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../bus-management-ajax/src/main/java/com/example/busmanagementajax/model/request/RouteCreateRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../bus-management-ajax/src/main/java/com/example/busmanagementajax/model/request/RouteUpdateRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../bus-management-ajax/src/main/java/com/example/busmanagementajax/model/response/DriverResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../bus-management-ajax/src/main/java/com/example/busmanagementajax/model/response/LevelResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../bus-management-ajax/src/main/java/com/example/busmanagementajax/model/response/RouteResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../bus-management-ajax/src/main/java/com/example/busmanagementajax/service/DriverService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../bus-management-ajax/src/main/java/com/example/busmanagementajax/service/LevelService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../bus-management-ajax/src/main/java/com/example/busmanagementajax/service/RouteService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../bus-management-ajax/src/main/java/com/example/busmanagementajax/statics/Level.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../bus-management-ajax/src/main/java/com/example/busmanagementajax/validation/ObjectNotFoundException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../bus-management-ajax/src/main/resources/static/driver-list.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../bus-management-ajax/src/main/resources/templates/driver-list.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../bus-management-ajax/src/main/resources/templates/fragments/driver-create-modal.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../bus-management-ajax/src/main/resources/templates/fragments/driver-update-modal.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../bus-management-ajax/src/main/resources/templates/fragments/footer.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../bus-management-ajax/src/main/resources/templates/fragments/nav.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../bus-management-ajax/src/main/resources/templates/fragments/route-create-modal.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../bus-management-ajax/src/main/resources/templates/fragments/route-update-modal.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../bus-management-ajax/src/main/resources/templates/route-list.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../demo-jpa/src/main/java/com/example/demojpa/dto/EmployeeDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../demo-jpa/src/main/java/com/example/demojpa/entity/Employee.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../demo-jpa/src/main/java/com/example/demojpa/mapper/EmployeeMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../demo-jpa/src/main/java/com/example/demojpa/repository/EmployeeRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../demo-jpa/src/test/java/com/example/demojpa/EmployeeTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../task_management_practice/src/main/java/com/example/task_management_practice/config/BeanConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../task_management_practice/src/main/java/com/example/task_management_practice/controller/TaskController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../task_management_practice/src/main/java/com/example/task_management_practice/entity/Task.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../task_management_practice/src/main/java/com/example/task_management_practice/model/request/TaskRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../task_management_practice/src/main/java/com/example/task_management_practice/model/response/StatusResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../task_management_practice/src/main/java/com/example/task_management_practice/model/response/TaskDetailResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../task_management_practice/src/main/java/com/example/task_management_practice/model/response/TaskResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../task_management_practice/src/main/java/com/example/task_management_practice/repository/TaskRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../task_management_practice/src/main/java/com/example/task_management_practice/service/TaskService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../task_management_practice/src/main/java/com/example/task_management_practice/statics/Status.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../task_management_practice/src/main/resources/static/css/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../task_management_practice/src/main/resources/static/js/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../task_management_practice/src/main/resources/templates/fragments/embedded-js.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../task_management_practice/src/main/resources/templates/fragments/head.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../task_management_practice/src/main/resources/templates/fragments/header.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../task_management_practice/src/main/resources/templates/fragments/task-modal.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../task_management_practice/src/main/resources/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Học JPA/db_example/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Học JPA/db_example/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Học JPA/hello-jpa/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Học JPA/hello-jpa/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../JPA/day01/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../JPA/day01/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../JPA/day01/src/main/java/com/example/hellojpa/HelloJpaApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../JPA/day01/src/main/java/com/example/hellojpa/HelloJpaApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../JPA/day01/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../../../JPA/day01/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../JPA/day01/src/test/java/com/example/hellojpa/HelloJpaApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../JPA/day01/src/test/java/com/example/hellojpa/HelloJpaApplicationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../05-tiny-student-management-05/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../05-tiny-student-management-05/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../05-tiny-student-management-05/src/main/java/com/github/truongbb/tinystudentmanagement05/controller/StudentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../05-tiny-student-management-05/src/main/java/com/github/truongbb/tinystudentmanagement05/controller/StudentController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bus_management_ajax/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bus_management_ajax/.mvn/wrapper/maven-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bus_management_ajax/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bus_management_ajax/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bus_management_ajax/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bus_management_ajax/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bus_management_ajax/src/main/java/com/example/bus_management_ajax/BusManagementAjaxApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bus_management_ajax/src/main/java/com/example/bus_management_ajax/config/BeanConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bus_management_ajax/src/main/java/com/example/bus_management_ajax/config/WebConfiguration.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bus_management_ajax/src/main/java/com/example/bus_management_ajax/controller/AssignmentController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bus_management_ajax/src/main/java/com/example/bus_management_ajax/controller/DriverController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bus_management_ajax/src/main/java/com/example/bus_management_ajax/controller/LevelController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bus_management_ajax/src/main/java/com/example/bus_management_ajax/controller/RouteController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bus_management_ajax/src/main/java/com/example/bus_management_ajax/entity/Assignment.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bus_management_ajax/src/main/java/com/example/bus_management_ajax/entity/Driver.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bus_management_ajax/src/main/java/com/example/bus_management_ajax/entity/Route.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bus_management_ajax/src/main/java/com/example/bus_management_ajax/model/AssignmentModel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bus_management_ajax/src/main/java/com/example/bus_management_ajax/model/RouteModel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bus_management_ajax/src/main/java/com/example/bus_management_ajax/model/request/DriverCreatRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bus_management_ajax/src/main/java/com/example/bus_management_ajax/model/request/DriverUpdateRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bus_management_ajax/src/main/java/com/example/bus_management_ajax/model/response/DriverResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bus_management_ajax/src/main/java/com/example/bus_management_ajax/model/response/LevelResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bus_management_ajax/src/main/java/com/example/bus_management_ajax/service/AssignmentService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bus_management_ajax/src/main/java/com/example/bus_management_ajax/service/DriverService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bus_management_ajax/src/main/java/com/example/bus_management_ajax/service/LevelService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bus_management_ajax/src/main/java/com/example/bus_management_ajax/service/RouteService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bus_management_ajax/src/main/java/com/example/bus_management_ajax/statics/Level.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bus_management_ajax/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bus_management_ajax/src/main/resources/static/driver-list.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bus_management_ajax/src/main/resources/templates/creat/creat-assignment.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bus_management_ajax/src/main/resources/templates/creat/creat-driver.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bus_management_ajax/src/main/resources/templates/creat/creat-route.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bus_management_ajax/src/main/resources/templates/edit/edit-assignment.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bus_management_ajax/src/main/resources/templates/edit/edit-driver.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bus_management_ajax/src/main/resources/templates/edit/edit-route.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bus_management_ajax/src/main/resources/templates/fragment/driver-create-modal.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bus_management_ajax/src/main/resources/templates/fragment/driver-delete-model.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bus_management_ajax/src/main/resources/templates/fragment/driver-update-modal.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bus_management_ajax/src/main/resources/templates/fragment/footer.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bus_management_ajax/src/main/resources/templates/fragment/nav-driver.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bus_management_ajax/src/main/resources/templates/list/assignment-list.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bus_management_ajax/src/main/resources/templates/list/driver-list.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bus_management_ajax/src/main/resources/templates/list/route-list.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bus_management_ajax/src/test/java/com/example/bus_management_ajax/BusManagementAjaxApplicationTests.java" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../.." />
+  </component>
+  <component name="ProjectId" id="2R9PTWVoSSYKqrofW9hOZh7CNQb" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
+    <property name="RequestMappingsPanelOrder0" value="0" />
+    <property name="RequestMappingsPanelOrder1" value="1" />
+    <property name="RequestMappingsPanelWidth0" value="75" />
+    <property name="RequestMappingsPanelWidth1" value="75" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../09-basic-authentication" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
+  </component>
+  <component name="RunManager">
+    <configuration name="SpringSercurity01Application" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="spring_sercurity_01" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.spring_sercurity_01.SpringSercurity01Application" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="26b079e6-1bd7-4b12-9035-83ae9a49688a" name="Default Changelist" comment="" />
+      <created>1686659336514</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1686659336514</updated>
+      <workItem from="1686659338334" duration="7062000" />
+      <workItem from="1686700786369" duration="2056000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
