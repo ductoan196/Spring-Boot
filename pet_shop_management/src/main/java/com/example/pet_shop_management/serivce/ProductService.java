@@ -5,7 +5,9 @@ import com.example.pet_shop_management.model.request.ProductRequest;
 import com.example.pet_shop_management.model.response.ProductResponse;
 import com.example.pet_shop_management.repository.ProductRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,14 +16,16 @@ import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class ProductService {
-    @Autowired
+
     ProductRepository productRepository;
 
     ObjectMapper objectMapper;
+    List<Product> productList;
 
     public List<Product> getAllProduct() {
-        List<Product> productList = productRepository.findAll();
+        productList = productRepository.findAll();
         return productList;
     }
 
@@ -39,8 +43,14 @@ public class ProductService {
     }
 
     public void update(ProductRequest productRequest) {
-        Product product = objectMapper.convertValue(productRequest, Product.class);
-
-        productRepository.save(product);
+        productList.forEach(s -> {
+            if (s.getId() != productRequest.getId()) {
+                return;
+            }
+            s.setName(productRequest.getName());
+            s.setPrice(productRequest.getPrice());
+            s.setDescription(productRequest.getDescription());
+        });
+        productRepository.saveAll(productList);
     }
 }

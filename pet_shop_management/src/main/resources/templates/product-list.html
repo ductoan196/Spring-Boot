@@ -84,7 +84,7 @@
         // }, 3000);
 
 
-        $("#product-modal-form").validate({
+        $("#product-update-modal-form").validate({
             onfocusout: false,
             onkeyup: false,
             onclick: false,
@@ -122,31 +122,9 @@
             const productId = $(event.currentTarget).attr("product-id");
             console.log(productId);
 
-            // await $.ajax({
-            //     url: '/api/regions/',
-            //     type: 'GET',
-            //     contentType: "application/json; charset=utf-8",
-            //     success: function (data) {
-            //         console.log(data);
-            //         if (!data || data.length === 0) {
-            //             return;
-            //         }
-            //         let regionOptions = "";
-            //         for (let i = 0; i < data.length; i++) {
-            //             regionOptions += "<option value='" + data[i].code + "'>" + data[i].name + "</option>";
-            //         }
-            //         $('#product-update-modal #region').append($(regionOptions));
-            //         // localStorage.setItem("regions", data)
-            //     },
-            //     error: function (data) {
-            //         console.log(data);
-            //         toastr.warning(data.responseJSON.message);
-            //     }
-            // });
-
             let currentProduct = null;
             await $.ajax({
-                url: '/api/products/' + productId,
+                url: '/api/v1/products/' + productId,
                 type: 'GET',
                 contentType: "application/json; charset=utf-8",
                 success: function (data) {
@@ -190,7 +168,7 @@
             }
 
             $.ajax({
-                url: '/api/products/' + productId,
+                url: '/api/v1/products/' + productId,
                 type: 'PUT',
                 data: JSON.stringify(requestData),
                 contentType: "application/json; charset=utf-8",
@@ -209,6 +187,3 @@
 
     });
 </script>
-
-
-    <!--https://viblo.asia/p/tim-hieu-ve-jquery-validation-phan-1-E375zEqRlGW-->

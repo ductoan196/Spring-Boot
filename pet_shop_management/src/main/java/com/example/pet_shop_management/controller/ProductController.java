@@ -49,8 +49,10 @@ public class ProductController {
         return ResponseEntity.ok(productService.getById(id));
     }
 
-    @PutMapping("/api/v1/products")
-    public ResponseEntity<?> update(@RequestBody ProductRequest productRequest) {
+    @PutMapping("/api/v1/products/{id}")
+    public ResponseEntity<?> update(@RequestBody @Valid ProductRequest productRequest, @PathVariable Integer id) {
+
+        productRequest.setId(id);
         productService.update(productRequest);
         return ResponseEntity.ok(null);
     }
