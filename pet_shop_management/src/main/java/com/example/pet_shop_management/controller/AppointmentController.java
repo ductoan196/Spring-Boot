@@ -16,13 +16,13 @@ import javax.validation.Valid;
 import java.util.List;
 
 @Controller
-@RequestMapping("/admin")
+@RequestMapping
 @AllArgsConstructor
 public class AppointmentController {
 
     AppointmentService appointmentService;
 
-    @GetMapping("/appointments")
+    @GetMapping("/admin/appointments")
     public String getAppointments(Model model) {
         List<Appointment> appointmentList = appointmentService.getAllAppointments();
         model.addAttribute("danhSachLichKham", appointmentList);
@@ -32,10 +32,10 @@ public class AppointmentController {
         return "appointment-list";
     }
 
-    @PostMapping("/appointments")
+    @PostMapping("/admin/appointments")
     public String creatAppointment(@ModelAttribute("lichKhamMuonTaoMoi") @Valid AppointmentRequest lichKhamMuonTaoMoi) {
         appointmentService.saveAppointment(lichKhamMuonTaoMoi);
-        return "redirect:/appointments";
+        return "redirect:/admin/appointments";
     }
 
     @GetMapping("/api/v1/appointments/{id}")
