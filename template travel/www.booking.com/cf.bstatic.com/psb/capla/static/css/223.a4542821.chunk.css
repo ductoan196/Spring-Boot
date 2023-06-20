@@ -1,0 +1,170 @@
+.a083ca5cd9 {
+    margin-bottom: var(--bui_spacing_2x);
+    margin-top: var(--bui_spacing_1x)
+}
+
+.a809325913 {
+    margin-bottom: var(--bui_spacing_4x)
+}
+
+.c348e80373 {
+    margin-bottom: var(--bui_spacing_3x)
+}
+
+.f41ff74f75 {
+    margin-bottom: var(--bui_spacing_2x)
+}
+
+.b878730b30 {
+    align-items: stretch;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    text-decoration: none;
+    width: 100%
+}
+
+.b878730b30:link {
+    color: var(--bui_color_foreground_alt);
+    font-weight: 500
+}
+
+.bc5368ea83 {
+    border-radius: var(--bui_border_radius_200)
+}
+
+.ff12947055 {
+    margin-bottom: 0 !important;
+    margin-top: var(--bui_spacing_2x)
+}
+
+.ff12947055 div {
+    margin-bottom: var(--bui_spacing_half)
+}
+
+.bb1bc55383 {
+    position: absolute;
+    right: var(--bui_spacing_3x);
+    top: var(--bui_spacing_3x)
+}
+
+.b1fca606b5 {
+    color: var(--bui_color_black)
+}
+
+.d408b14665 {
+    height: 100%;
+    width: 100%
+}
+
+.ec8410d621 {
+    border: 1px solid var(--bui_color_action_foreground);
+    color: var(--bui_color_action_foreground);
+    text-align: center
+}
+
+.dbff21611b {
+    width: -moz-min-content;
+    width: min-content
+}
+
+.ce44fa1d71 button {
+    display: none
+}
+
+.f04ecdd15d {
+    padding-left: 0;
+    width: -moz-fit-content;
+    width: fit-content
+}
+
+.cbe6ba4fde a {
+    text-decoration: none
+}
+
+.c9f1d14f1d {
+    display: flex;
+    margin: var(--bui_spacing_4x) 0;
+    padding-bottom: var(--bui_spacing_2x)
+}
+
+@media (max-width:575px) {
+    .c9f1d14f1d {
+        overflow-x: auto
+    }
+}
+
+.b07549870d {
+    font-family: var(--DO_NOT_USE_bui_large_font_body_2_font-family);
+    font-size: var(--DO_NOT_USE_bui_large_font_body_2_font-size);
+    font-weight: var(--DO_NOT_USE_bui_large_font_body_2_font-weight);
+    line-height: var(--DO_NOT_USE_bui_large_font_body_2_line-height);
+    margin-right: var(--bui_spacing_4x);
+    padding: var(--bui_spacing_3x) var(--bui_spacing_4x);
+    white-space: nowrap
+}
+
+.b07549870d,
+.b07549870d:before {
+    border-radius: 100px
+}
+
+.df90dfa55a {
+    margin-bottom: var(--bui_spacing_8x);
+    padding: 0 calc(var(--bui_spacing_1x) + 1px)
+}
+
+.df90dfa55a ul {
+    padding: var(--bui_spacing_2x);
+    scroll-padding: var(--bui_spacing_2x)
+}
+
+.ba32321762 {
+    background-color: var(--bui_color_white);
+    margin-bottom: var(--bui_spacing_4x);
+    padding: var(--bui_spacing_4x)
+}
+
+.ba32321762 ul {
+    -moz-column-gap: var(--bui_spacing_3x);
+    column-gap: var(--bui_spacing_3x);
+    display: grid;
+    grid-auto-columns: 300px;
+    grid-auto-flow: column dense;
+    grid-template-rows: auto auto;
+    margin-top: calc(var(--bui_spacing_2x)*-1);
+    padding-bottom: var(--bui_spacing_2x);
+    padding-top: var(--bui_spacing_2x);
+    row-gap: var(--bui_spacing_4x)
+}
+
+.ba32321762 li {
+    margin: 0;
+    padding-right: var(--bui_spacing_4x);
+    width: 100% !important
+}
+
+.ba32321762 li a {
+    display: block;
+    text-decoration: none
+}
+
+.dd083de67d {
+    border: none;
+    border-radius: var(--bui_spacing_2x);
+    box-shadow: var(--bui_shadow_100);
+    color: var(--bui_color_foreground);
+    max-height: 100px;
+    text-decoration: none
+}
+
+.ad1bd01691 {
+    display: block;
+    text-decoration: none
+}
+
+.ca9f992c79 {
+    border-radius: var(--bui_spacing_1x)
+}
+
+/*# sourceMappingURL=https://s3-main-01.booking.com/internal-static/capla/static/css/223.a4542821.chunk.css.map*/

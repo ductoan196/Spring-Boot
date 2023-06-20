@@ -1,0 +1,673 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Tour Template</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="author" content="" />
+
+    <meta property="og:title" content="" />
+    <meta property="og:image" content="" />
+    <meta property="og:url" content="" />
+    <meta property="og:site_name" content="" />
+    <meta property="og:description" content="" />
+    <meta name="twitter:title" content="" />
+    <meta name="twitter:image" content="" />
+    <meta name="twitter:url" content="" />
+    <meta name="twitter:card" content="" />
+    <link href="https://fonts.googleapis.com/css?family=Quicksand:300,400,500,700" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/animate.css">
+
+    <link rel="stylesheet" href="css/icomoon.css">
+
+    <link rel="stylesheet" href="css/bootstrap.css">
+
+    <link rel="stylesheet" href="css/magnific-popup.css">
+
+    <link rel="stylesheet" href="css/flexslider.css">
+
+    <link rel="stylesheet" href="css/owl.carousel.min.css">
+    <link rel="stylesheet" href="css/owl.theme.default.min.css">
+
+    <link rel="stylesheet" href="css/bootstrap-datepicker.css">
+
+    <link rel="stylesheet" href="fonts/flaticon/font/flaticon.css">
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <script src="js/modernizr-2.6.2.min.js"></script>
+
+    <!--[if lt IE 9]>
+	<script src="js/respond.min.js"></script>
+	<![endif]-->
+    <script nonce="d54bdb4a-4ff0-4d83-ad33-acd665a29ec6">
+        (function(w, d) {
+            ! function(dK, dL, dM, dN) {
+                dK[dM] = dK[dM] || {};
+                dK[dM].executed = [];
+                dK.zaraz = {
+                    deferred: [],
+                    listeners: []
+                };
+                dK.zaraz.q = [];
+                dK.zaraz._f = function(dO) {
+                    return function() {
+                        var dP = Array.prototype.slice.call(arguments);
+                        dK.zaraz.q.push({
+                            m: dO,
+                            a: dP
+                        })
+                    }
+                };
+                for (const dQ of ["track", "set", "debug"]) dK.zaraz[dQ] = dK.zaraz._f(dQ);
+                dK.zaraz.init = () => {
+                    var dR = dL.getElementsByTagName(dN)[0],
+                        dS = dL.createElement(dN),
+                        dT = dL.getElementsByTagName("title")[0];
+                    dT && (dK[dM].t = dL.getElementsByTagName("title")[0].text);
+                    dK[dM].x = Math.random();
+                    dK[dM].w = dK.screen.width;
+                    dK[dM].h = dK.screen.height;
+                    dK[dM].j = dK.innerHeight;
+                    dK[dM].e = dK.innerWidth;
+                    dK[dM].l = dK.location.href;
+                    dK[dM].r = dL.referrer;
+                    dK[dM].k = dK.screen.colorDepth;
+                    dK[dM].n = dL.characterSet;
+                    dK[dM].o = (new Date).getTimezoneOffset();
+                    if (dK.dataLayer)
+                        for (const dX of Object.entries(Object.entries(dataLayer).reduce(((dY, dZ) => ({ ...dY[1],
+                                ...dZ[1]
+                            })), {}))) zaraz.set(dX[0], dX[1], {
+                            scope: "page"
+                        });
+                    dK[dM].q = [];
+                    for (; dK.zaraz.q.length;) {
+                        const d_ = dK.zaraz.q.shift();
+                        dK[dM].q.push(d_)
+                    }
+                    dS.defer = !0;
+                    for (const ea of [localStorage, sessionStorage]) Object.keys(ea || {}).filter((ec => ec.startsWith("_zaraz_"))).forEach((eb => {
+                        try {
+                            dK[dM]["z_" + eb.slice(7)] = JSON.parse(ea.getItem(eb))
+                        } catch {
+                            dK[dM]["z_" + eb.slice(7)] = ea.getItem(eb)
+                        }
+                    }));
+                    dS.referrerPolicy = "origin";
+                    dS.src = "/cdn-cgi/zaraz/s.js?z=" + btoa(encodeURIComponent(JSON.stringify(dK[dM])));
+                    dR.parentNode.insertBefore(dS, dR)
+                };
+                ["complete", "interactive"].includes(dL.readyState) ? zaraz.init() : dK.addEventListener("DOMContentLoaded", zaraz.init)
+            }(w, d, "zarazData", "script");
+        })(window, document);
+    </script>
+</head>
+
+<body>
+    <div class="colorlib-loader"></div>
+    <div id="page">
+        <nav class="colorlib-nav" role="navigation">
+            <div class="top-menu">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-xs-2">
+                            <div id="colorlib-logo"><a href="index.html">Tour</a></div>
+                        </div>
+                        <div class="col-xs-10 text-right menu-1">
+                            <ul>
+                                <li><a href="index.html">Home</a></li>
+                                <li class="has-dropdown">
+                                    <a href="tours.html">Tours</a>
+                                    <ul class="dropdown">
+                                        <li><a href="#">Destination</a></li>
+                                        <li><a href="#">Cruises</a></li>
+                                        <li><a href="#">Hotels</a></li>
+                                        <li><a href="#">Booking</a></li>
+                                    </ul>
+                                </li>
+                                <li class="active"><a href="hotels.html">Hotels</a></li>
+                                <li><a href="services.html">Services</a></li>
+                                <li><a href="blog.html">Blog</a></li>
+                                <li><a href="about.html">About</a></li>
+                                <li><a href="contact.html">Contact</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <aside id="colorlib-hero">
+            <div class="flexslider">
+                <ul class="slides">
+                    <li style="background-image: url(images/cover-img-4.jpg);">
+                        <div class="overlay"></div>
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-md-6 col-md-offset-3 col-sm-12 col-xs-12 slider-text">
+                                    <div class="slider-text-inner text-center">
+                                        <h2>by colorlib.com</h2>
+                                        <h1>Find Hotel</h1>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </aside>
+        <div class="colorlib-wrap">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-9">
+                        <div class="row">
+                            <div class="wrap-division">
+                                <div class="col-md-6 col-sm-6 animate-box">
+                                    <div class="hotel-entry">
+                                        <a href="hotel-room.html" class="hotel-img" style="background-image: url(images/hotel-1.jpg);">
+                                            <p class="price"><span>$120</span><small> /night</small></p>
+                                        </a>
+                                        <div class="desc">
+                                            <p class="star"><span><i class="icon-star-full"></i><i class="icon-star-full"></i><i class="icon-star-full"></i><i class="icon-star-full"></i><i class="icon-star-full"></i></span> 545 Reviews</p>
+                                            <h3><a href="hotel-room.html">Hotel Edison</a></h3>
+                                            <span class="place">New York, USA</span>
+                                            <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-6 animate-box">
+                                    <div class="hotel-entry">
+                                        <a href="hotel-room.html" class="hotel-img" style="background-image: url(images/hotel-2.jpg);">
+                                            <p class="price"><span>$120</span><small> /night</small></p>
+                                        </a>
+                                        <div class="desc">
+                                            <p class="star"><span><i class="icon-star-full"></i><i class="icon-star-full"></i><i class="icon-star-full"></i><i class="icon-star-full"></i><i class="icon-star-full"></i></span> 545 Reviews</p>
+                                            <h3><a href="hotel-room.html">Hotel Edison</a></h3>
+                                            <span class="place">New York, USA</span>
+                                            <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-6 animate-box">
+                                    <div class="hotel-entry">
+                                        <a href="hotel-room.html" class="hotel-img" style="background-image: url(images/hotel-3.jpg);">
+                                            <p class="price"><span>$120</span><small> /night</small></p>
+                                        </a>
+                                        <div class="desc">
+                                            <p class="star"><span><i class="icon-star-full"></i><i class="icon-star-full"></i><i class="icon-star-full"></i><i class="icon-star-full"></i><i class="icon-star-full"></i></span> 545 Reviews</p>
+                                            <h3><a href="hotel-room.html">Hotel Edison</a></h3>
+                                            <span class="place">New York, USA</span>
+                                            <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-6 animate-box">
+                                    <div class="hotel-entry">
+                                        <a href="hotel-room.html" class="hotel-img" style="background-image: url(images/hotel-4.jpg);">
+                                            <p class="price"><span>$120</span><small> /night</small></p>
+                                        </a>
+                                        <div class="desc">
+                                            <p class="star"><span><i class="icon-star-full"></i><i class="icon-star-full"></i><i class="icon-star-full"></i><i class="icon-star-full"></i><i class="icon-star-full"></i></span> 545 Reviews</p>
+                                            <h3><a href="hotel-room.html">Hotel Edison</a></h3>
+                                            <span class="place">New York, USA</span>
+                                            <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-6 animate-box">
+                                    <div class="hotel-entry">
+                                        <a href="hotel-room.html" class="hotel-img" style="background-image: url(images/hotel-5.jpg);">
+                                            <p class="price"><span>$120</span><small> /night</small></p>
+                                        </a>
+                                        <div class="desc">
+                                            <p class="star"><span><i class="icon-star-full"></i><i class="icon-star-full"></i><i class="icon-star-full"></i><i class="icon-star-full"></i><i class="icon-star-full"></i></span> 545 Reviews</p>
+                                            <h3><a href="hotel-room.html">Hotel Edison</a></h3>
+                                            <span class="place">New York, USA</span>
+                                            <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-6 animate-box">
+                                    <div class="hotel-entry">
+                                        <a href="hotel-room.html" class="hotel-img" style="background-image: url(images/hotel-6.jpg);">
+                                            <p class="price"><span>$120</span><small> /night</small></p>
+                                        </a>
+                                        <div class="desc">
+                                            <p class="star"><span><i class="icon-star-full"></i><i class="icon-star-full"></i><i class="icon-star-full"></i><i class="icon-star-full"></i><i class="icon-star-full"></i></span> 545 Reviews</p>
+                                            <h3><a href="hotel-room.html">Hotel Edison</a></h3>
+                                            <span class="place">New York, USA</span>
+                                            <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-6 animate-box">
+                                    <div class="hotel-entry">
+                                        <a href="hotel-room.html" class="hotel-img" style="background-image: url(images/hotel-7.jpg);">
+                                            <p class="price"><span>$120</span><small> /night</small></p>
+                                        </a>
+                                        <div class="desc">
+                                            <p class="star"><span><i class="icon-star-full"></i><i class="icon-star-full"></i><i class="icon-star-full"></i><i class="icon-star-full"></i><i class="icon-star-full"></i></span> 545 Reviews</p>
+                                            <h3><a href="hotel-room.html">Hotel Edison</a></h3>
+                                            <span class="place">New York, USA</span>
+                                            <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-6 animate-box">
+                                    <div class="hotel-entry">
+                                        <a href="hotel-room.html" class="hotel-img" style="background-image: url(images/hotel-8.jpg);">
+                                            <p class="price"><span>$120</span><small> /night</small></p>
+                                        </a>
+                                        <div class="desc">
+                                            <p class="star"><span><i class="icon-star-full"></i><i class="icon-star-full"></i><i class="icon-star-full"></i><i class="icon-star-full"></i><i class="icon-star-full"></i></span> 545 Reviews</p>
+                                            <h3><a href="hotel-room.html">Hotel Edison</a></h3>
+                                            <span class="place">New York, USA</span>
+                                            <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <ul class="pagination">
+                                    <li class="disabled"><a href="#">&laquo;</a></li>
+                                    <li class="active"><a href="#">1</a></li>
+                                    <li><a href="#">2</a></li>
+                                    <li><a href="#">3</a></li>
+                                    <li><a href="#">4</a></li>
+                                    <li><a href="#">&raquo;</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="sidebar-wrap">
+                            <div class="side search-wrap animate-box">
+                                <h3 class="sidebar-heading">Find your hotel</h3>
+                                <form method="post" class="colorlib-form">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="date">Check-in:</label>
+                                                <div class="form-field">
+                                                    <i class="icon icon-calendar2"></i>
+                                                    <input type="text" id="date" class="form-control date" placeholder="Check-in date">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="date">Check-out:</label>
+                                                <div class="form-field">
+                                                    <i class="icon icon-calendar2"></i>
+                                                    <input type="text" id="date" class="form-control date" placeholder="Check-out date">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="guests">Guest</label>
+                                                <div class="form-field">
+                                                    <i class="icon icon-arrow-down3"></i>
+                                                    <select name="people" id="people" class="form-control">
+<option value="#">1</option>
+<option value="#">2</option>
+<option value="#">3</option>
+<option value="#">4</option>
+<option value="#">5+</option>
+</select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <input type="submit" name="submit" id="submit" value="Find Hotel" class="btn btn-primary btn-block">
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="side animate-box">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h3 class="sidebar-heading">Price Range</h3>
+                                        <form method="post" class="colorlib-form-2">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="guests">Price from:</label>
+                                                        <div class="form-field">
+                                                            <i class="icon icon-arrow-down3"></i>
+                                                            <select name="people" id="people" class="form-control">
+<option value="#">1</option>
+<option value="#">200</option>
+<option value="#">300</option>
+<option value="#">400</option>
+<option value="#">1000</option>
+</select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="guests">Price to:</label>
+                                                        <div class="form-field">
+                                                            <i class="icon icon-arrow-down3"></i>
+                                                            <select name="people" id="people" class="form-control">
+<option value="#">2000</option>
+<option value="#">4000</option>
+<option value="#">6000</option>
+<option value="#">8000</option>
+<option value="#">10000</option>
+</select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="side animate-box">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h3 class="sidebar-heading">Review Rating</h3>
+                                        <form method="post" class="colorlib-form-2">
+                                            <div class="form-check">
+                                                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                                <label class="form-check-label" for="exampleCheck1">
+<p class="rate"><span><i class="icon-star-full"></i><i class="icon-star-full"></i><i class="icon-star-full"></i><i class="icon-star-full"></i><i class="icon-star-full"></i></span></p>
+</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                                <label class="form-check-label" for="exampleCheck1">
+<p class="rate"><span><i class="icon-star-full"></i><i class="icon-star-full"></i><i class="icon-star-full"></i><i class="icon-star-full"></i></span></p>
+</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                                <label class="form-check-label" for="exampleCheck1">
+<p class="rate"><span><i class="icon-star-full"></i><i class="icon-star-full"></i><i class="icon-star-full"></i></span></p>
+</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                                <label class="form-check-label" for="exampleCheck1">
+<p class="rate"><span><i class="icon-star-full"></i><i class="icon-star-full"></i></span></p>
+</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                                <label class="form-check-label" for="exampleCheck1">
+<p class="rate"><span><i class="icon-star-full"></i></span></p>
+</label>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="side animate-box">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h3 class="sidebar-heading">Categories</h3>
+                                        <form method="post" class="colorlib-form-2">
+                                            <div class="form-check">
+                                                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                                <label class="form-check-label" for="exampleCheck1">
+<h4 class="place">Apartment</h4>
+</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                                <label class="form-check-label" for="exampleCheck1">
+<h4 class="place">Hotel</h4>
+</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                                <label class="form-check-label" for="exampleCheck1">
+<h4 class="place">Hostel</h4>
+</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                                <label class="form-check-label" for="exampleCheck1">
+<h4 class="place">Inn</h4>
+</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                                <label class="form-check-label" for="exampleCheck1">
+<h4 class="place">Villa</h4>
+</label>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="side animate-box">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h3 class="sidebar-heading">Location</h3>
+                                        <form method="post" class="colorlib-form-2">
+                                            <div class="form-check">
+                                                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                                <label class="form-check-label" for="exampleCheck1">
+<h4 class="place">Greece</h4>
+</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                                <label class="form-check-label" for="exampleCheck1">
+<h4 class="place">Italy</h4>
+</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                                <label class="form-check-label" for="exampleCheck1">
+<h4 class="place">Spain</h4>
+</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                                <label class="form-check-label" for="exampleCheck1">
+<h4 class="place">Germany</h4>
+</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                                <label class="form-check-label" for="exampleCheck1">
+<h4 class="place">Japan</h4>
+</label>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="side animate-box">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h3 class="sidebar-heading">Facilities</h3>
+                                        <form method="post" class="colorlib-form-2">
+                                            <div class="form-check">
+                                                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                                <label class="form-check-label" for="exampleCheck1">
+<h4 class="place">Airport Transfer</h4>
+</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                                <label class="form-check-label" for="exampleCheck1">
+<h4 class="place">Resto Bar</h4>
+</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                                <label class="form-check-label" for="exampleCheck1">
+<h4 class="place">Restaurant</h4>
+</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                                <label class="form-check-label" for="exampleCheck1">
+<h4 class="place">Swimming Pool</h4>
+</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                                <label class="form-check-label" for="exampleCheck1">
+<h4 class="place">Japan</h4>
+</label>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="colorlib-subscribe" style="background-image: url(images/img_bg_2.jpg);" data-stellar-background-ratio="0.5">
+            <div class="overlay"></div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 col-md-offset-3 text-center colorlib-heading animate-box">
+                        <h2>Sign Up for a Newsletter</h2>
+                        <p>Sign up for our mailing list to get latest updates and offers.</p>
+                        <form class="form-inline qbstp-header-subscribe">
+                            <div class="row">
+                                <div class="col-md-12 col-md-offset-0">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="email" placeholder="Enter your email">
+                                        <button type="submit" class="btn btn-primary">Subscribe</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer id="colorlib-footer" role="contentinfo">
+            <div class="container">
+                <div class="row row-pb-md">
+                    <div class="col-md-3 colorlib-widget">
+                        <h4>Tour Agency</h4>
+                        <p>Facilis ipsum reprehenderit nemo molestias. Aut cum mollitia reprehenderit. Eos cumque dicta adipisci architecto culpa amet.</p>
+                        <p>
+                            <ul class="colorlib-social-icons">
+                                <li><a href="#"><i class="icon-twitter"></i></a></li>
+                                <li><a href="#"><i class="icon-facebook"></i></a></li>
+                                <li><a href="#"><i class="icon-linkedin"></i></a></li>
+                                <li><a href="#"><i class="icon-dribbble"></i></a></li>
+                            </ul>
+                        </p>
+                    </div>
+                    <div class="col-md-2 colorlib-widget">
+                        <h4>Book Now</h4>
+                        <p>
+                            <ul class="colorlib-footer-links">
+                                <li><a href="#">Flight</a></li>
+                                <li><a href="#">Hotels</a></li>
+                                <li><a href="#">Tour</a></li>
+                                <li><a href="#">Car Rent</a></li>
+                                <li><a href="#">Beach &amp; Resorts</a></li>
+                                <li><a href="#">Cruises</a></li>
+                            </ul>
+                        </p>
+                    </div>
+                    <div class="col-md-2 colorlib-widget">
+                        <h4>Top Deals</h4>
+                        <p>
+                            <ul class="colorlib-footer-links">
+                                <li><a href="#">Edina Hotel</a></li>
+                                <li><a href="#">Quality Suites</a></li>
+                                <li><a href="#">The Hotel Zephyr</a></li>
+                                <li><a href="#">Da Vinci Villa</a></li>
+                                <li><a href="#">Hotel Epikk</a></li>
+                            </ul>
+                        </p>
+                    </div>
+                    <div class="col-md-2">
+                        <h4>Blog Post</h4>
+                        <ul class="colorlib-footer-links">
+                            <li><a href="#">The Ultimate Packing List For Female Travelers</a></li>
+                            <li><a href="#">How These 5 People Found The Path to Their Dream Trip</a></li>
+                            <li><a href="#">A Definitive Guide to the Best Dining and Drinking Venues in the City</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3 col-md-push-1">
+                        <h4>Contact Information</h4>
+                        <ul class="colorlib-footer-links">
+                            <li>291 South 21th Street, <br> Suite 721 New York NY 10016</li>
+                            <li><a href="tel://1234567920">+ 1235 2355 98</a></li>
+                            <li><a href="/cdn-cgi/l/email-protection#3a53545c557a43554f4849534e5f14595557"><span class="__cf_email__" data-cfemail="2940474f466950465c5b5a405d4c074a4644">[email&#160;protected]</span></a></li>
+                            <li><a href="#">yoursite.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <p>
+
+                            Copyright &copy;
+                            <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+                            <script>
+                                document.write(new Date().getFullYear());
+                            </script> All rights reserved | This template is made with <i class="icon-heart2" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                            </span>
+                            <span class="block">Demo Images: <a href="http://unsplash.co/" target="_blank">Unsplash</a> , <a href="http://pexels.com/" target="_blank">Pexels.com</a></span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+    <div class="gototop js-top">
+        <a href="#" class="js-gotop"><i class="icon-arrow-up2"></i></a>
+    </div>
+
+    <script src="js/jquery.min.js"></script>
+
+    <script src="js/jquery.easing.1.3.js"></script>
+
+    <script src="js/bootstrap.min.js"></script>
+
+    <script src="js/jquery.waypoints.min.js"></script>
+
+    <script src="js/jquery.flexslider-min.js"></script>
+
+    <script src="js/owl.carousel.min.js"></script>
+
+    <script src="js/jquery.magnific-popup.min.js"></script>
+    <script src="js/magnific-popup-options.js"></script>
+
+    <script src="js/bootstrap-datepicker.js"></script>
+
+    <script src="js/jquery.stellar.min.js"></script>
+
+    <script src="js/main.js"></script>
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-23581568-13');
+    </script>
+    <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v52afc6f149f6479b8c77fa569edb01181681764108816" integrity="sha512-jGCTpDpBAYDGNYR5ztKt4BQPGef1P0giN6ZGVUi835kFF88FOmmn8jBQWNgrNd8g/Yu421NdgWhwQoaOPFflDw==" data-cf-beacon='{"rayId":"7d99f29bb89b1079","token":"cd0b4b3a733644fc843ef0b185f98241","version":"2023.4.0","si":100}'
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

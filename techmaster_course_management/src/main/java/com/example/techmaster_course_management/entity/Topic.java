@@ -4,6 +4,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Builder
@@ -18,6 +19,7 @@ public class Topic {
     @Column(name = "id", nullable = false)
     int id;
 
-    @Column(name = "topic")
-    String topic;
+    @Column(name = "name")
+    String name;
+
 }

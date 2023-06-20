@@ -3,8 +3,6 @@ package com.example.pet_shop_management.model.response;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import javax.persistence.*;
-
 @Data
 @Builder
 @NoArgsConstructor

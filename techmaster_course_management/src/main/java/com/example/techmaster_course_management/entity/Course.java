@@ -29,12 +29,18 @@ public class Course {
     @Enumerated(EnumType.ORDINAL)
     Type type;
 
+    @Column(name = "thubnail")
+    String thumbnail;
+
     @ManyToOne
     @JoinColumn(name = "supporter_id")
     private Suppoter suppoter;
 
     @ManyToMany
-    @MapsId("topicId")
-    @JoinColumn(name = "topic_id")
-    Set<Topic> topics;
+    @JoinTable(
+            name = "course_topic",          // Tên bảng liên kết giữa Course và Topic
+            joinColumns = @JoinColumn(name = "course_id"),   // Khóa ngoại từ bảng course
+            inverseJoinColumns = @JoinColumn(name = "topic_id")  // Khóa ngoại từ bảng topic
+    )
+    Set<Topic> info;
 }
