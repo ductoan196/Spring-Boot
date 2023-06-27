@@ -101,13 +101,13 @@
                     </form>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                        <button type="button" class="btn btn-primary" id="topic-edit-submit">Xác nhận</button>
+                        <button type="button" class="btn btn-primary btn-update-topic">Xác nhận</button>
                     </div>
                 </div>
             </div>
         </div>
 
-
+<!--Table topic-->
         <div class="course-list-inner p-2 col-6">
             <table class="table course-table">
                 <thead>
@@ -136,6 +136,7 @@
                 </tbody>
             </table>
 
+<!--            Pagination-->
             <nav aria-label="Page navigation" class="d-flex justify-content-center mt-4">
                 <ul class="pagination">
                     <li class="page-item" th:classappend="${currentPage == 1 ? 'disabled' : ''}">
@@ -172,10 +173,9 @@
     $(".btn-refresh").click(function() {
         location.reload();
     });
-    // let topicPage=[[${topicPage}]]
 
     $(document).ready(function() {
-
+        let topicId;
         $('#topic-create-form').validate({
             onfocusout: false,
             onkeyup: false,
@@ -193,7 +193,6 @@
             if (!isValidForm) {
                 return;
             }
-            let topicName = $('#topic-name').val()
 
             let formData = {
                 name: topicName
@@ -230,7 +229,7 @@
 
         $('.update-topic').click(async event => {
             console.log(event)
-            const topicId = $(event.currentTarget).attr("topic-id");
+            topicId = $(event.currentTarget).attr("topic-id");
             console.log(topicId);
 
             // const courseName = document.getElementById("topic-name-edit");
@@ -242,6 +241,35 @@
                 success: function (response) {
                     console.log(response.name);
                     $('#topic-name-edit').val(response.name);
+                }
+            })
+        });
+
+        $('.btn-update-topic').click(function () {
+            const isValidForm = $('#topic-edit-form').valid();
+            if (!isValidForm) {
+                return
+            }
+            let topicName = $('#topic-name-edit').val();
+            let formData = {
+                name: topicName
+            }
+            console.log(formData)
+
+            $.ajax({
+                url: 'http://localhost:8080/api/v1/admin/topics/' + topicId,
+                type: 'PUT',
+                data: JSON.stringify(formData),
+                contentType: 'application/json',
+                success: function (response) {
+                    alert("Cập nhật topic thành công")
+                    // Thay đổi giá trị trên giao diện người dùng
+                    $('#topic-name-edit').val(response.name);
+                    topicId = response.id;
+                },
+                error: function (xhr, status, error) {
+                    // Xử lý lỗi
+                    console.error('Lỗi khi gửi form:', error);
                 }
             })
         });

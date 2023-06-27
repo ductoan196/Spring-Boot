@@ -44,12 +44,13 @@ public class TopicController {
     }
 
     @GetMapping("/api/v1/admin/topic/{id}")
-    public ResponseEntity<?> getTopic(@PathVariable Integer id) {
+    public ResponseEntity<?> getTopic(@PathVariable Integer id, Model model) {
         Topic topic = topicService.findById(id);
+        model.addAttribute("topicId", id);
         return ResponseEntity.ok(topic);
     }
 
-    @PutMapping("/api/admin/topics/{id}")
+    @PutMapping("/api/v1/admin/topics/{id}")
     public ResponseEntity<?> updateTopic(@PathVariable Integer id, @Valid @RequestBody UpsertTopicRequest topicRequest) {
         Topic topic = topicService.updateTopic(id, topicRequest);
         return ResponseEntity.ok(topic);
