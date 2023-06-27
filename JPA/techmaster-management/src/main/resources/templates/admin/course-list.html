@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      th:replace="layout/admin_layout :: main-fragment(~{:: title}, ~{}, ~{:: .course-list}, ~{})">
+
+<head>
+
+    <title>Danh sách khóa học</title>
+
+</head>
+
+<body>
+
+    <!-- BODY -->
+    <div class="course-list mt-4 mb-4">
+        <div class="container">
+            <div class="mb-4">
+                <a th:href="@{/admin/courses/create}" class="btn-custom btn-create-course">
+                    <span><i class="fa-solid fa-plus"></i></span>
+                    Tạo khóa học
+                </a>
+                <a th:href="@{/admin/courses}" class="btn-custom btn-refresh">
+                    <span><i class="fa-solid fa-arrow-rotate-right"></i></span>
+                    Refresh
+                </a>
+            </div>
+
+            <div class="course-list-inner p-2">
+                <table class="table course-table">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Tên khóa học</th>
+                            <th>Hình thức</th>
+                            <th>Chủ đề</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="course, iS: ${pageInfo.getContent()}">
+                            <td th:text="${iS.index + 1}">1</td>
+                            <td>
+                                <a th:href="@{/admin/courses/{id} (id = ${course.id})}" th:text="${course.name}">
+                                    SpringBoot - Web Back End
+                                </a>
+                            </td>
+                            <td>
+                                <span class="badge bg-success" th:text="${course.type}"></span>
+                            </td>
+                            <td >
+                                <span th:each="topic: ${course.getTopics()}" th:text="${topic.name}"
+                                      class="badge bg-secondary me-1"></span>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+
+                <nav aria-label="Page navigation" class="d-flex justify-content-center mt-4">
+                    <ul class="pagination">
+                        <li class="page-item" th:classappend="${currentPage == 1 ? 'disabled' : ''}">
+                            <a class="page-link" th:href="@{/admin/courses?page={page} (page=${currentPage - 1})}">Previous</a>
+                        </li>
+                        <li class="page-item" th:each="page : ${#numbers.sequence(1, pageInfo.getTotalPages())}" th:classappend="${currentPage == page ? 'active' : ''}">
+                            <a class="page-link" th:href="@{/admin/courses/(page=${page})}"><span th:text="${page}"></span></a>
+                        </li>
+                        <li class="page-item" th:classappend="${currentPage == pageInfo.getTotalPages() ? 'disabled' : ''}">
+                            <a class="page-link" th:href="@{/admin/courses/(page=${currentPage + 1})}">Next</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+        integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <!-- axios -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</body>
+
+</html>
