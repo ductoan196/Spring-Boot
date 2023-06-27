@@ -72,7 +72,7 @@
                     <form action="#" id="topic-create-form">
                         <div class="modal-body">
                             <div class="form-group">
-                                <input type="text" class="form-control" id="topic-name" name="name" placeholder="Enter name">
+                                <input type="text" class="form-control" id="topic-name-create" name="name" placeholder="Enter name">
                             </div>
                         </div>
                     </form>
@@ -123,11 +123,12 @@
                     <td th:text="${topic.name}">1</td>
                     <td>
                         <a role="button" class="update-topic badge bg-warning text-body px-3 py-2"
-                           style="font-size: 1rem; font-weight: normal;" data-bs-toggle="modal" data-bs-target="#topic-edit">
+                           style="font-size: 1rem; font-weight: normal" data-bs-toggle="modal" data-bs-target="#topic-edit"
+                           th:attr="topic-id=${topic.id}">
                             Edit
                         </a>
-                        <a role="button" class="delete-topic badge bg-danger px-3 py-2"
-                           style="font-size: 1rem; font-weight: normal;">
+                        <a role="button" class="btn-delete-topic badge bg-danger px-3 py-2"
+                           style="font-size: 1rem; font-weight: normal;" th:attr="topic-id=${topic.id}">
                             Delete
                         </a>
                     </td>
@@ -167,7 +168,7 @@
 <!-- axios -->
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
-<script>
+<script th:inline="javascript">
     $(".btn-refresh").click(function() {
         location.reload();
     });
@@ -226,7 +227,45 @@
             }
         });
 
-        $('.update-topic').click()
+
+        $('.update-topic').click(async event => {
+            console.log(event)
+            const topicId = $(event.currentTarget).attr("topic-id");
+            console.log(topicId);
+
+            // const courseName = document.getElementById("topic-name-edit");
+            // courseName.value
+            // console.log(courseName)
+            $.ajax({
+                url: '/api/v1/admin/topic/' + topicId,
+                type: 'GET',
+                success: function (response) {
+                    console.log(response.name);
+                    $('#topic-name-edit').val(response.name);
+                }
+            })
+        });
+
+        $('.btn-delete-topic').click(function () {
+            if (!confirm("Bạn có chắc chắn xóa không")) {
+                return;
+            }
+            const topicId = $(event.currentTarget).attr("topic-id");
+            console.log(topicId);
+            $.ajax({
+                url: 'http://localhost:8080/api/admin/topics/' + topicId,
+                type: 'DELETE',
+                success: function (response) {
+                    alert("Xóa chủ đề thành công");
+                    window.location.href = 'http://localhost:8080/admin/topics';
+                },
+                error: function (xhr, status, error) {
+                    console.log(error);
+                    alert("Đã xảy ra lỗi khi xóa chủ đề");
+                }
+            })
+
+        });
     });
 </script>
 </body>

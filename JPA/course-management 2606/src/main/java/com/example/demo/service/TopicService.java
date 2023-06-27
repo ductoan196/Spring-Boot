@@ -47,4 +47,17 @@ public class TopicService {
         topicRepository.save(topic);
         return topic;
     }
+
+    public Topic findById(Integer id) {
+        Topic topic= topicRepository.findById(id)
+                .orElseThrow(() -> {
+            throw new NotFoundException("Not found topic with id = " + id);
+        });
+
+        return topic;
+    }
+
+    public void deleteById(Integer id) {
+        topicRepository.deleteById(id);
+    }
 }
