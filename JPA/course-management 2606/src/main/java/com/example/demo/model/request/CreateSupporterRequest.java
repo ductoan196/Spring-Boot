@@ -16,8 +16,8 @@ public class CreateSupporterRequest {
     private String name;
 
     @NotBlank(message = "SĐT không được để trống")
-    private String phone;
+    private String email;
 
     @NotBlank(message = "Avatar không được để trống")
-    private String avatar;
+    private String phone;
 }

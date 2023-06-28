@@ -52,7 +52,7 @@ public class EmailService {
         mimeMessageHelper.setSubject("[DEMO MAIL] Gửi mail kèm file");
 
         // Adding the attachment
-        FileSystemResource file = new FileSystemResource(new File("/Users/buibatruong/Desktop/1506ccd7-58d2-410d-b284-39c86a1dc2a4.png"));
+        FileSystemResource file = new FileSystemResource(new File("C:/Users/admin/Pictures/310411920_820765762479082_1662419534054506511_n.jpg"));
         mimeMessageHelper.addAttachment(file.getFilename(), file);
 
         // Sending the mail

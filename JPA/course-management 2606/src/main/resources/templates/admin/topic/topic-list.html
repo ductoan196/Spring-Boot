@@ -194,6 +194,7 @@
                 return;
             }
 
+            let topicName = $('#topic-name-create').val();
             let formData = {
                 name: topicName
             }
@@ -232,9 +233,6 @@
             topicId = $(event.currentTarget).attr("topic-id");
             console.log(topicId);
 
-            // const courseName = document.getElementById("topic-name-edit");
-            // courseName.value
-            // console.log(courseName)
             $.ajax({
                 url: '/api/v1/admin/topic/' + topicId,
                 type: 'GET',
