@@ -31,7 +31,14 @@ public class SupporterController {
         model.addAttribute("supporterPage", supporterPage);
         return "admin/supporter/supporter-list";
     }
-    
+
+    @GetMapping("admin/supporters/{id}")
+    public String getSupporterDetail(@PathVariable Integer id, Model model) {
+        Supporter supporter = supporterService.getSupporterById(id);
+        model.addAttribute("supporter", supporter);
+
+        return "admin/supporter/supporter-edit";
+    }
     
     //Danh sách API
 

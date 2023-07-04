@@ -63,4 +63,11 @@ public class SupporterService {
     public void deleteById(Integer id) {
         supporterRepository.deleteById(id);
     }
+
+    public Supporter getSupporterById(Integer id) {
+        return supporterRepository.findById(id)
+                .orElseThrow(() -> {
+                    throw new NotFoundException("Not found supporter with id = " + id);
+                });
+    }
 }

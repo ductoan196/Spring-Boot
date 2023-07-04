@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      th:replace="layout/layout :: main-fragment(~{:: title}, ~{}, ~{:: .course-container}, ~{})">
+
+<head>
+    <title>Chi tiết supporter</title>
+</head>
+
+<body>
+<div class="course-container mt-5">
+    <div class="container">
+        <div class="row justify-content-center">
+<!--            <div class="col-md-10">-->
+<!--                <div class="mb-4">-->
+<!--                    <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">-->
+<!--                        <ol class="breadcrumb">-->
+<!--                            <li class="breadcrumb-item"><a th:href="@{/static}">Name</a></li>-->
+<!--                            <li class="breadcrumb-item active" aria-current="page" th:text="${supporter.name}">Lập trình di động IOS Swift online</li>-->
+<!--                        </ol>-->
+<!--                    </nav>-->
+<!--                </div>-->
+
+<!--                <div class="main p-4 shadow-sm">-->
+<!--                    <h2 class="course-title fs-5" th:text="${supporter.name}">Lập trình di động IOS Swift online</h2>-->
+
+<!--                    <hr>-->
+
+<!--                    <div class="supporter d-flex align-items-center">-->
+<!--                        <div class="supporter-image me-4">-->
+<!--                            <img th:src="${supporter.avatar}" alt="tư vấn viên" class="rounded-circle">-->
+<!--                        </div>-->
+<!--                        <div class="supporter-info">-->
+<!--                            <p>-->
+<!--                                <b>Tư vấn viên :</b>-->
+<!--                                <th:block th:text="${supporter.name}"></th:block>-->
+<!--                            </p>-->
+<!--                            <p>-->
+<!--                                <b>Email :</b>-->
+<!--                                <th:block th:text="${supporter.email}"></th:block>-->
+<!--                            </p>-->
+<!--                            <p>-->
+<!--                                <b>Số điện thoại :</b>-->
+<!--                                <th:block th:text="${supporter.phone}"></th:block>-->
+<!--                            </p>-->
+<!--                        </div>-->
+<!--                    </div>-->
+
+<!--                    <hr>-->
+
+<!--                </div>-->
+<!--            </div>-->
+
+            <!-- Modal body -->
+            <form action="#" method="post" id="supporter-create-form">
+                <div class="modal-body">
+                    <div class="row d-flex justify-content-center">
+                        <div class="form-group col-sm-6">
+                            <label for="name" class="mb-2 fw-bold">Tên</label>
+                            <input type="text" class="form-control" id="name" th:value="${supporter.name}">
+                        </div>
+
+                        <div class="form-group col-sm-6">
+                            <label for="phone" class="mb-2 fw-bold">Số điện thoại</label>
+                            <input type="text" class="form-control" id="phone" th:value="${supporter.phone}">
+                        </div>
+                    </div>
+
+                    <div class="row d-flex mt-5">
+                        <div class="form-group col-6">
+                            <label for="email" class="mb-2 fw-bold">Email</label>
+                            <input type="text" class="form-control pr-5" id="email" th:value="${supporter.email}" readonly>
+                        </div>
+
+                        <div class="form-group col-6">
+                            <label for="email" class="mb-2 fw-bold">Avatar</label>
+                            <img th:src="${supporter.avatar != null ? supporter.avatar : '/image/thumbnail.png'}"
+                                 style="width: 200px" alt="avatar" class="m-0">
+                            <a role="button" class="update-supporter badge bg-warning text-body px-3 py-2 fw-bold mt-3"
+                               style="font-size: 1rem; font-weight: normal" th:attr="supporter-id=${supporter.id}">
+                                Đổi ảnh
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

@@ -1,30 +1,37 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+
+      th:replace="~{layout/layout-admin :: main-fragment(
+                                                      ~{:: title},
+                                                      ~{},
+                                                      ~{:: .supporter-list},
+                                                      ~{:: #supporter-js}
+                                                      )}">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!--    <meta charset="UTF-8">-->
+<!--    <meta http-equiv="X-UA-Compatible" content="IE=edge">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
 
     <title>Danh sách supporter</title>
 
-    <!-- Link google font -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;500;700;900&amp;display=swap"
-          rel="stylesheet">
+<!--    &lt;!&ndash; Link google font &ndash;&gt;-->
+<!--    <link rel="preconnect" href="https://fonts.googleapis.com">-->
+<!--    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">-->
+<!--    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;500;700;900&amp;display=swap"-->
+<!--          rel="stylesheet">-->
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<!--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"-->
+<!--          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">-->
 
 
-    <!-- Link icon -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
-          integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
-          crossorigin="anonymous" referrerpolicy="no-referrer">
+<!--    &lt;!&ndash; Link icon &ndash;&gt;-->
+<!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"-->
+<!--          integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="-->
+<!--          crossorigin="anonymous" referrerpolicy="no-referrer">-->
 
-    <!-- Link tự viết -->
-    <link rel="stylesheet" href="/css/style-admin.css">
+<!--    &lt;!&ndash; Link tự viết &ndash;&gt;-->
+<!--    <link rel="stylesheet" href="/css/style-admin.css">-->
 </head>
 
 <body>
@@ -83,7 +90,7 @@
                     
                     <td>
                         <a role="button" class="update-supporter badge bg-warning text-body px-3 py-2"
-                           style="font-size: 1rem; font-weight: normal" data-bs-toggle="modal" data-bs-target="#supporter-edit"
+                           style="font-size: 1rem; font-weight: normal" th:href="@{'http://localhost:8080/admin/supporters/' + ${supporter.id}}"
                            th:attr="supporter-id=${supporter.id}">
                             Edit
                         </a>
@@ -116,156 +123,159 @@
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<th:block id="supporter-js">
 
-<!-- jQuery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
-        integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+    <!--&lt;!&ndash; jQuery &ndash;&gt;-->
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"-->
+    <!--        integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="-->
+    <!--        crossorigin="anonymous" referrerpolicy="no-referrer"></script>-->
 
-<!-- axios -->
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
 
-<script th:inline="javascript">
-    $(".btn-refresh").click(function() {
-        location.reload();
-    });
+    <!--&lt;!&ndash; axios &ndash;&gt;-->
+    <!--<script src="https://unpkg.com/axios/dist/axios.min.js"></script>-->
 
-    $(document).ready(function() {
-        let supporterId;
-        $('#supporter-create-form').validate({
-            onfocusout: false,
-            onkeyup: false,
-            onclick: false,
-            rules: {
-                name: 'required',
-                email: 'required',
-                phone: 'required'
-            },
-            messages: {
-                name: 'Vui lòng nhập tên supporter',
-                email: 'Vui lòng nhập email supporter',
-                phone: 'Vui lòng nhập sdt supporter'
-            }
+    <script th:inline="javascript">
+        $(".btn-refresh").click(function() {
+            location.reload();
         });
 
-        $('#supporter-create-submit').click(function () {
-            const isValidForm = $('#supporter-create-form').valid();
-            if (!isValidForm) {
-                return;
-            }
-
-            let supporterName = $('#supporter-create-form #name').val();
-            let supporterEmail = $('#supporter-create-form #email').val();
-            let supporterPhone = $('#supporter-create-form #phone').val();
-
-            let formData = {
-                name: supporterName,
-                email: supporterEmail,
-                phone: supporterPhone
-            }
-            console.log(formData)
-
-            $.ajax({
-                url: '/api/v1/admin/supporters',
-                type: 'POST',
-                data: JSON.stringify(formData),
-                contentType: 'application/json',
-                success: function(response) {
-                    alert("Thêm mới supporter thành công");
-                    setTimeout(() => {
-                        location.reload();
-                    }, 1000);
+        $(document).ready(function() {
+            let supporterId;
+            $('#supporter-create-form').validate({
+                onfocusout: false,
+                onkeyup: false,
+                onclick: false,
+                rules: {
+                    name: 'required',
+                    email: 'required',
+                    phone: 'required'
                 },
-                error: function(xhr, status, error) {
-                    // Xử lý lỗi
-                    console.error('Lỗi khi gửi form:', error);
+                messages: {
+                    name: 'Vui lòng nhập tên supporter',
+                    email: 'Vui lòng nhập email supporter',
+                    phone: 'Vui lòng nhập sdt supporter'
                 }
-            })
-        });
+            });
 
-        $('#supporter-edit-form').validate({
-            onfocusout: false,
-            onkeyup: false,
-            onclick: false,
-            rules: {
-                name: 'required'
-            },
-            messages: {
-                name: 'Vui lòng nhập supporter'
-            }
-        });
-
-
-        $('.update-supporter').click(async event => {
-            console.log(event)
-            supporterId = $(event.currentTarget).attr("supporter-id");
-            console.log(supporterId);
-
-            $.ajax({
-                url: '/api/v1/admin/supporter/' + supporterId,
-                type: 'GET',
-                success: function (response) {
-                    console.log(response.name);
-                    $('#supporter-name-edit').val(response.name);
+            $('#supporter-create-submit').click(function () {
+                const isValidForm = $('#supporter-create-form').valid();
+                if (!isValidForm) {
+                    return;
                 }
-            })
-        });
 
-        $('.btn-update-supporter').click(function () {
-            const isValidForm = $('#supporter-edit-form').valid();
-            if (!isValidForm) {
-                return
-            }
-            let supporterName = $('#supporter-name-edit').val();
-            let formData = {
-                name: supporterName
-            }
-            console.log(formData)
+                let supporterName = $('#supporter-create-form #name').val();
+                let supporterEmail = $('#supporter-create-form #email').val();
+                let supporterPhone = $('#supporter-create-form #phone').val();
 
-            $.ajax({
-                url: 'http://localhost:8080/api/v1/admin/supporters/' + supporterId,
-                type: 'PUT',
-                data: JSON.stringify(formData),
-                contentType: 'application/json',
-                success: function (response) {
-                    alert("Cập nhật supporter thành công")
-                    // Thay đổi giá trị trên giao diện người dùng
-                    $('#supporter-name-edit').val(response.name);
-                    supporterId = response.id;
+                let formData = {
+                    name: supporterName,
+                    email: supporterEmail,
+                    phone: supporterPhone
+                }
+                console.log(formData)
+
+                $.ajax({
+                    url: '/api/v1/admin/supporters',
+                    type: 'POST',
+                    data: JSON.stringify(formData),
+                    contentType: 'application/json',
+                    success: function(response) {
+                        alert("Thêm mới supporter thành công");
+                        setTimeout(() => {
+                            location.reload();
+                        }, 1000);
+                    },
+                    error: function(xhr, status, error) {
+                        // Xử lý lỗi
+                        console.error('Lỗi khi gửi form:', error);
+                    }
+                })
+            });
+
+            $('#supporter-edit-form').validate({
+                onfocusout: false,
+                onkeyup: false,
+                onclick: false,
+                rules: {
+                    name: 'required'
                 },
-                error: function (xhr, status, error) {
-                    // Xử lý lỗi
-                    console.error('Lỗi khi gửi form:', error);
+                messages: {
+                    name: 'Vui lòng nhập supporter'
                 }
-            })
-        });
+            });
 
-        $('.btn-delete-supporter').click(function () {
-            if (!confirm("Bạn có chắc chắn xóa không")) {
-                return;
-            }
-            const supporterId = $(event.currentTarget).attr("supporter-id");
-            console.log(supporterId);
-            $.ajax({
-                url: 'http://localhost:8080/api/admin/supporters/' + supporterId,
-                type: 'DELETE',
-                success: function (response) {
-                    alert("Xóa chủ đề thành công");
-                    window.location.href = 'http://localhost:8080/admin/supporters';
-                },
-                error: function (xhr, status, error) {
-                    console.log(error);
-                    alert("Đã xảy ra lỗi khi xóa chủ đề");
+
+            $('.update-supporter').click(async event => {
+                console.log(event)
+                supporterId = $(event.currentTarget).attr("supporter-id");
+                console.log(supporterId);
+
+                $.ajax({
+                    url: '/api/v1/admin/supporter/' + supporterId,
+                    type: 'GET',
+                    success: function (response) {
+                        console.log(response.name);
+                        $('#supporter-name-edit').val(response.name);
+                    }
+                })
+            });
+
+            $('.btn-update-supporter').click(function () {
+                const isValidForm = $('#supporter-edit-form').valid();
+                if (!isValidForm) {
+                    return
                 }
-            })
+                let supporterName = $('#supporter-name-edit').val();
+                let formData = {
+                    name: supporterName
+                }
+                console.log(formData)
 
+                $.ajax({
+                    url: 'http://localhost:8080/api/v1/admin/supporters/' + supporterId,
+                    type: 'PUT',
+                    data: JSON.stringify(formData),
+                    contentType: 'application/json',
+                    success: function (response) {
+                        alert("Cập nhật supporter thành công")
+                        // Thay đổi giá trị trên giao diện người dùng
+                        $('#supporter-name-edit').val(response.name);
+                        supporterId = response.id;
+                    },
+                    error: function (xhr, status, error) {
+                        // Xử lý lỗi
+                        console.error('Lỗi khi gửi form:', error);
+                    }
+                })
+            });
+
+            $('.btn-delete-supporter').click(function () {
+                if (!confirm("Bạn có chắc chắn xóa không")) {
+                    return;
+                }
+                const supporterId = $(event.currentTarget).attr("supporter-id");
+                console.log(supporterId);
+                $.ajax({
+                    url: 'http://localhost:8080/api/admin/supporters/' + supporterId,
+                    type: 'DELETE',
+                    success: function (response) {
+                        alert("Xóa chủ đề thành công");
+                        window.location.href = 'http://localhost:8080/admin/supporters';
+                    },
+                    error: function (xhr, status, error) {
+                        console.log(error);
+                        alert("Đã xảy ra lỗi khi xóa chủ đề");
+                    }
+                })
+
+            });
         });
-    });
-</script>
+    </script>
+</th:block>
 </body>
 
 </html>
