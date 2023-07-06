@@ -13,6 +13,6 @@ public class CreateUserRequest {
 
     @NotBlank
     @Length(max = 50, message = "username không được vượt quá 50 ký tự")
-    String username;
+    String email;
 
 }

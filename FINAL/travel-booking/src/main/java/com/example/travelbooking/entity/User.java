@@ -1,5 +1,7 @@
 package com.example.travelbooking.entity;
 
+import com.example.travelbooking.statics.Gender;
+import com.example.travelbooking.statics.UserStatus;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -17,11 +19,30 @@ import java.util.Set;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class User extends BaseEntity {
 
-    String username;
+    @Column(name = "full_name")
+     String fullName;
 
-    String password;
+    @Column(name = "email", nullable = false, unique = true, length = 200)
+     String email;
 
-    boolean activated;
+    @Column(name = "password", nullable = false)
+     String password;
+
+    @Column(name = "address")
+     String address;
+
+    @Column(name = "phone")
+    String phone;
+
+    @Enumerated(EnumType.STRING)
+    Gender gender;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "avatar_id")
+    private Image avatar;
+
+    @Enumerated(EnumType.STRING)
+    UserStatus userStatus;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",
@@ -29,10 +50,6 @@ public class User extends BaseEntity {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
-    String avatar;
-
     LocalDateTime deletedDateTime;
-
-//    String refreshToken;
 
 }
