@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/layout_admin :: main-fragment(
+                                                ~{:: title},
+                                                ~{:: #css-resources},
+                                                ~{:: #js-resources},
+                                                ~{:: #main-content}
+                                               )}">
+
+<head>
+
+    <title>Profile</title>
+
+    <th:block id="css-resources">
+
+    </th:block>
+</head>
+
+<body>
+<main id="main-content">
+    <div class="page-content">
+        <nav class="page-breadcrumb d-flex align-items-center justify-content-between">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a href="dashboard.html">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="dashboard.html">Setting</a></li>
+                <li class="breadcrumb-item active" aria-current="page">configuration</li>
+            </ol>
+        </nav>
+        <div class="row">
+            <div class="col-md-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="mb-4">Configuration</h4>
+                        <form class="forms-sample">
+                            <div class="row">
+                                <div class="col-lg-4 mb-3">
+                                    <label for="comapanyname" class="form-label"> Select Country</label>
+                                    <select class="form-select">
+                                        <option value="TX">Albania</option>
+                                        <option value="WY">Belgium</option>
+                                        <option value="NY">Canada</option>
+                                        <option value="FL">Denmark</option>
+                                        <option value="FL">England</option>
+                                    </select>
+                                </div>
+                                <div class="col-lg-4 mb-3">
+                                    <label for="contact" class="form-label"> Currency Code</label>
+                                    <input type="text" class="form-control" id="contact" autocomplete="off" placeholder="DLR" disabled>
+                                </div>
+                                <div class="col-lg-4 mb-3">
+                                    <label for="contact" class="form-label"> Currency Symbol</label>
+                                    <input type="text" class="form-control" id="contact" autocomplete="off" placeholder="$" disabled>
+                                </div>
+                                <div class="col-lg-4 mb-3">
+                                    <label for="code" class="form-label"> Item Code Prefix</label>
+                                    <input type="text" class="form-control" id="code" autocomplete="off" placeholder="Item_">
+                                </div>
+                                <div class="col-lg-4 mb-3">
+                                    <label for="bcode" class="form-label"> Bill Code Prefix</label>
+                                    <input type="text" class="form-control" id="bcode" autocomplete="off" placeholder="Bill_">
+                                </div>
+                                <div class="col-lg-4 mb-3">
+                                    <label for="ccode" class="form-label"> Customer Code Prefix</label>
+                                    <input type="text" class="form-control" id="ccode" autocomplete="off" placeholder="customer_">
+                                </div>
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-primary"><i class="link-icon" data-feather="plus"></i> Save</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<th:block id="js-resources">
+
+</th:block>
+
+
+</body>
+
+</html>

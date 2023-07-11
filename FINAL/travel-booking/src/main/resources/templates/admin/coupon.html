@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/layout_admin :: main-fragment(
+                                                ~{:: title},
+                                                ~{:: #css-resources},
+                                                ~{:: #js-resources},
+                                                ~{:: #main-content}
+                                               )}">
+
+<head>
+
+    <title>Coupon</title>
+
+    <th:block id="css-resources">
+
+    </th:block>
+</head>
+
+<body>
+    <main id="main-content">
+        <div class="page-content">
+            <nav class="page-breadcrumb d-flex align-items-center justify-content-between">
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item"><a href="dashboard.html">Dashboard</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Coupon List</li>
+                </ol>
+                <a href="addcoupon.html" class="btn btn-primary"><i class="link-icon" data-feather="plus"></i> Add Coupon</a>
+            </nav>
+            <div class="search-box p-4 bg-white rounded mb-3 box-shadow">
+                <form class="forms-sample">
+                    <div class="row align-items-center">
+                        <div class="col-lg-3">
+                            <h5>All Coupon Lists</h5>
+                        </div>
+                        <div class="col-lg-7 col-md-4">
+                            <input type="text" placeholder="Search by order title" class="form-control">
+                        </div>
+                        <div class="col-lg-2 col-md-4">
+                            <select class="form-select form-select-lg">
+                                <option selected>Sorting</option>
+                                <option value="1">10</option>
+                                <option value="2">20</option>
+                                <option value="3">30</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="row">
+                <div class="col-md-12 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table id="dataTableExample" class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Start date</th>
+                                        <th>End Date</th>
+                                        <th>Campaigns Name</th>
+                                        <th>Code</th>
+                                        <th class="text-center">Percentage</th>
+                                        <th>Product Type</th>
+                                        <th class="text-center">Status</th>
+                                        <th class="text-center">Action</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>fone12</td>
+                                        <td>2011/04/25</td>
+                                        <td>2011/04/25</td>
+                                        <td>August Gift Voucher</td>
+                                        <td>AUGUST21</td>
+                                        <td class="text-center">20%</td>
+                                        <td>Grocery</td>
+                                        <td class="text-center"><span class="cancel">Expired</span></td>
+                                        <td>
+                                            <ul class="d-flex list-unstyled mb-0 justify-content-center">
+                                                <li class="me-2"><a href="addcoupon.html"><i class="link-icon" data-feather="edit"></i></a></li>
+                                                <li><a href="#"><i class="link-icon" data-feather="delete"></i></a></li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>fone12</td>
+                                        <td>2011/04/25</td>
+                                        <td>2011/04/25</td>
+                                        <td>August Gift Voucher</td>
+                                        <td>AUGUST21</td>
+                                        <td class="text-center">20%</td>
+                                        <td>Grocery</td>
+                                        <td class="text-center"><span class="cancel">Expired</span></td>
+                                        <td>
+                                            <ul class="d-flex list-unstyled mb-0 justify-content-center">
+                                                <li class="me-2"><a href="addcoupon.html"><i class="link-icon" data-feather="edit"></i></a></li>
+                                                <li><a href="#"><i class="link-icon" data-feather="delete"></i></a></li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>fone12</td>
+                                        <td>2011/04/25</td>
+                                        <td>2011/04/25</td>
+                                        <td>August Gift Voucher</td>
+                                        <td>AUGUST21</td>
+                                        <td class="text-center">20%</td>
+                                        <td>Grocery</td>
+                                        <td class="text-center"><span class="cancel">Expired</span></td>
+                                        <td>
+                                            <ul class="d-flex list-unstyled mb-0 justify-content-center">
+                                                <li class="me-2"><a href="addcoupon.html"><i class="link-icon" data-feather="edit"></i></a></li>
+                                                <li><a href="#"><i class="link-icon" data-feather="delete"></i></a></li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>fone12</td>
+                                        <td>2011/04/25</td>
+                                        <td>2011/04/25</td>
+                                        <td>August Gift Voucher</td>
+                                        <td>AUGUST21</td>
+                                        <td class="text-center">20%</td>
+                                        <td>Grocery</td>
+                                        <td class="text-center"><span class="cancel">Expired</span></td>
+                                        <td>
+                                            <ul class="d-flex list-unstyled mb-0 justify-content-center">
+                                                <li class="me-2"><a href="addcoupon.html"><i class="link-icon" data-feather="edit"></i></a></li>
+                                                <li><a href="#"><i class="link-icon" data-feather="delete"></i></a></li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>fone12</td>
+                                        <td>2011/04/25</td>
+                                        <td>2011/04/25</td>
+                                        <td>August Gift Voucher</td>
+                                        <td>AUGUST21</td>
+                                        <td class="text-center">20%</td>
+                                        <td>Grocery</td>
+                                        <td class="text-center"><span class="cancel">Expired</span></td>
+                                        <td>
+                                            <ul class="d-flex list-unstyled mb-0 justify-content-center">
+                                                <li class="me-2"><a href="addcoupon.html"><i class="link-icon" data-feather="edit"></i></a></li>
+                                                <li><a href="#"><i class="link-icon" data-feather="delete"></i></a></li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>fone12</td>
+                                        <td>2011/04/25</td>
+                                        <td>2011/04/25</td>
+                                        <td>August Gift Voucher</td>
+                                        <td>AUGUST21</td>
+                                        <td class="text-center">20%</td>
+                                        <td>Grocery</td>
+                                        <td class="text-center"><span class="cancel">Expired</span></td>
+                                        <td>
+                                            <ul class="d-flex list-unstyled mb-0 justify-content-center">
+                                                <li class="me-2"><a href="addcoupon.html"><i class="link-icon" data-feather="edit"></i></a></li>
+                                                <li><a href="#"><i class="link-icon" data-feather="delete"></i></a></li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>fone12</td>
+                                        <td>2011/04/25</td>
+                                        <td>2011/04/25</td>
+                                        <td>August Gift Voucher</td>
+                                        <td>AUGUST21</td>
+                                        <td class="text-center">20%</td>
+                                        <td>Grocery</td>
+                                        <td class="text-center"><span class="cancel">Expired</span></td>
+                                        <td>
+                                            <ul class="d-flex list-unstyled mb-0 justify-content-center">
+                                                <li class="me-2"><a href="addcoupon.html"><i class="link-icon" data-feather="edit"></i></a></li>
+                                                <li><a href="#"><i class="link-icon" data-feather="delete"></i></a></li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="dataTables_paginate">
+                    <ul class="pagination">
+                        <li class="paginate_button page-item">
+                            <a href="#" class="page-link">Previous</a>
+                        </li>
+                        <li class="paginate_button page-item active"><a href="#" class="page-link">1</a></li>
+                        <li class="paginate_button page-item"><a href="#" class="page-link">2</a></li>
+                        <li class="paginate_button page-item"><a href="#" class="page-link">3</a></li>
+                        <li class="paginate_button page-item"><a href="#" class="page-link">Next</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <th:block id="js-resources">
+
+    </th:block>
+
+</body>
+
+</html>

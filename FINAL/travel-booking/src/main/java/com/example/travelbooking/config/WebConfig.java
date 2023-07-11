@@ -42,25 +42,25 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/images/**").addResourceLocations("classpath:/static/images/")
-                .setCacheControl(CacheControl.maxAge(2, TimeUnit.HOURS).cachePublic());
-//        registry.addResourceHandler("/vendor/**").addResourceLocations("classpath:/static/vendor/")
+//        registry.addResourceHandler("/images/**").addResourceLocations("classpath:/static/images/")
 //                .setCacheControl(CacheControl.maxAge(2, TimeUnit.HOURS).cachePublic());
-        registry.addResourceHandler("/js/**").addResourceLocations("classpath:/static/js/")
-                .setCacheControl(CacheControl.maxAge(2, TimeUnit.HOURS).cachePublic());
-        registry.addResourceHandler("/css/**").addResourceLocations("classpath:/static/css/")
-                .setCacheControl(CacheControl.maxAge(2, TimeUnit.HOURS).cachePublic());
-//        registry.addResourceHandler("/adminlte/**").addResourceLocations("classpath:/static/adminlte/")
+////        registry.addResourceHandler("/vendor/**").addResourceLocations("classpath:/static/vendor/")
+////                .setCacheControl(CacheControl.maxAge(2, TimeUnit.HOURS).cachePublic());
+//        registry.addResourceHandler("/js/**").addResourceLocations("classpath:/static/js/")
 //                .setCacheControl(CacheControl.maxAge(2, TimeUnit.HOURS).cachePublic());
+//        registry.addResourceHandler("/css/**").addResourceLocations("classpath:/static/css/")
+//                .setCacheControl(CacheControl.maxAge(2, TimeUnit.HOURS).cachePublic());
+////        registry.addResourceHandler("/adminlte/**").addResourceLocations("classpath:/static/adminlte/")
+////                .setCacheControl(CacheControl.maxAge(2, TimeUnit.HOURS).cachePublic());
 
 
-        registry.addResourceHandler("/assets/vendors/**").addResourceLocations("classpath:/static/assets/vendors/")
+        registry.addResourceHandler("/assets/**").addResourceLocations("classpath:/static/assets/")
                 .setCacheControl(CacheControl.maxAge(2, TimeUnit.HOURS).cachePublic());
         registry.addResourceHandler("/assets/fonts/**").addResourceLocations("classpath:/static/assets/fonts/")
                 .setCacheControl(CacheControl.maxAge(2, TimeUnit.HOURS).cachePublic());
-        registry.addResourceHandler("/assets/js/**").addResourceLocations("classpath:/static/assets/js/")
-                .setCacheControl(CacheControl.maxAge(2, TimeUnit.HOURS).cachePublic());
-        registry.addResourceHandler("/assets/css/**").addResourceLocations("classpath:/static/assets/css/")
-                .setCacheControl(CacheControl.maxAge(2, TimeUnit.HOURS).cachePublic());
+//        registry.addResourceHandler("/assets/js/**").addResourceLocations("classpath:/static/assets/js/")
+//                .setCacheControl(CacheControl.maxAge(2, TimeUnit.HOURS).cachePublic());
+//        registry.addResourceHandler("/assets/css/**").addResourceLocations("classpath:/static/assets/css/")
+//                .setCacheControl(CacheControl.maxAge(2, TimeUnit.HOURS).cachePublic());
     }
 }
