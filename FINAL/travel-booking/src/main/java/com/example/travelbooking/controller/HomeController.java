@@ -30,6 +30,21 @@ public class HomeController {
         return "user/hotel_list";
     }
 
+    @GetMapping("/hotel-detail")
+    public String hotel_detail() {
+        return "user/hotel_detail";
+    }
+
+    @GetMapping("/blog")
+    public String blog() {
+        return "user/blog_list";
+    }
+
+    @GetMapping("/blog-detail")
+    public String blog_detail() {
+        return "user/blog_detail";
+    }
+
     @GetMapping("/search_hotel")
     public String search() {
         return "user/search_hotel_list";

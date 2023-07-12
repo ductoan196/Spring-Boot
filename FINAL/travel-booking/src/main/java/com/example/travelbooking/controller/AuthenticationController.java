@@ -77,7 +77,7 @@ public class AuthenticationController {
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody RegistrationRequest request) {
         return userRepository.findByEmail(request.getEmail())
-                .map(user -> new ResponseEntity<>("Username is existed", HttpStatus.BAD_REQUEST))
+                .map(user -> new ResponseEntity<>("Email is existed", HttpStatus.BAD_REQUEST))
                 .orElseGet(() -> {
                     userService.registerUser(request);
                     return new ResponseEntity<>(null, HttpStatus.CREATED);

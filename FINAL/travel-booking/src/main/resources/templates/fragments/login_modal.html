@@ -41,19 +41,26 @@
                     </button>
                   </div>
                   <hr class="log-reg-hr position-relative my-4 overflow-visible">
-                  <form method="post" action="#" name="contactform" id="contactform">
-                    <div class="form-group mb-2">
-                      <input type="text" name="user_name" class="form-control login-email" id="login-email"
-                             placeholder="Email Address">
+                  <form method="post" action="#" name="contactform" id="contactform" >
+
+                    <div class="form-group mb-4 input-row">
+                      <input type="text" class="form-control login-email" id="login-email" placeholder="Email Address" autocomplete="off">
+                      <small style="color: #e74c3c">Error</small>
                     </div>
-                    <div class="form-group mb-2">
-                      <input type="password" name="password_name" class="form-control login-password"
-                             id="login-password" placeholder="Password">
+
+                    <div class="form-group mb-2 input-row">
+                      <input type="password" class="form-control login-password"
+                             id="login-password" placeholder="Password" autocomplete="off">
+                      <small style="color: #e74c3c">Error</small>
                     </div>
+
                     <div class="form-group mb-2">
                       <a class="float-end" href="#">Lost your password?</a>
                     </div>
-                    <button class="btn nir-btn w-100 login-btn">Login</button>
+
+                    <div class="input-row">
+                      <button class="btn nir-btn w-100 login-btn mb-2" id="login-btn">Login</button>
+                    </div>
 
                     <p class="text-center">Don't have an account? <a href="#"
                                                                      class="theme">Register</a></p>
@@ -82,27 +89,30 @@
                   </div>
                   <hr class="log-reg-hr position-relative my-4 overflow-visible">
                   <form method="post" action="#" name="contactform1" id="contactform1">
-                    <div class="form-group mb-2">
-                      <input type="text" name="user_name" class="form-control sign-up-email" id="sign-up-email"
-                             placeholder="Email Address">
+                    <div class="form-group mb-4 input-row">
+                      <input type="text" name="user_name" class="form-control signup-email" id="signup-email"
+                             placeholder="Email Address" autocomplete="off">
+                      <small style="color: #e74c3c">Error</small>
                     </div>
-                    <div class="form-group mb-2">
-                      <input type="password" name="password_name" class="form-control sign-up-password"
-                             id="sign-up-password" placeholder="Password">
+                    <div class="form-group mb-4 input-row">
+                      <input type="password" name="password_name" class="form-control signup-password"
+                             id="signup-password" placeholder="Password" autocomplete="off">
+                      <small style="color: #e74c3c">Error</small>
                     </div>
-                    <div class="form-group mb-2">
-                      <input type="password" name="password_name" class="form-control sign-up-confirm-password"
-                             id="sign-up-confirm-password" placeholder="Re-enter Password">
+                    <div class="form-group mb-4 input-row">
+                      <input type="password" name="password_name" class="form-control signup-confirm-password"
+                             id="signup-confirm-password" placeholder="Re-enter Password" autocomplete="off">
+                      <small style="color: #e74c3c">Error</small>
                     </div>
                     <div class="form-group mb-2 d-flex privacy-confirm">
                       <input type="checkbox" class="custom-control-input" id="exampleCheck1">
                       <label class="custom-control-label mb-0 ms-1 lh-1" for="exampleCheck1">I
                         have read and accept the <a href="/term_policy" style="color: #029e9d">Terms and Privacy</a> Policy?</label>
                     </div>
-                    <div class="comment-btn mb-2 pb-2 text-center border-b">
-                      <input type="submit" class="nir-btn w-100 sign-up-btn" id="submit1"
-                             value="Register">
+                    <div class="input-row">
+                      <button class="btn nir-btn w-100 login-btn mb-2" id="signup-btn">Register</button>
                     </div>
+
                     <p class="text-center">Already have an account? <a href="#"
                                                                        class="theme">Login</a></p>
                   </form>
