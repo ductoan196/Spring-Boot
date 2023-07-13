@@ -8,6 +8,7 @@ const reSignupPasswordEle = document.getElementById('signup-confirm-password');
 
 const btnLogin = document.getElementById('login-btn');
 const btnSignup = document.getElementById('signup-btn');
+const btnSignout = document.getElementById('signout-btn');
 const inputEles = document.querySelectorAll('.input-row');
 
 btnLogin.addEventListener('click', function () {
@@ -29,21 +30,23 @@ btnLogin.addEventListener('click', function () {
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(formdata),
-            success: function(response) {
+            success: function (response) {
                 console.log('ok');
                 console.log(response);
                 toastr.success('Đăng Nhập Thành Công!');
                 localStorage.setItem("jwt", response.jwt);
                 localStorage.setItem("refreshToken", response.refreshToken);
+
                 let userInfor = {
                     id: response.id,
                     username: response.username,
                     roles: response.roles
                 };
                 localStorage.setItem("userInfo", JSON.stringify(userInfor));
+                showAvatar();
                 $('#signInSignUp').modal('hide');
             },
-            error: function(xhr, status, error) {
+            error: function (xhr, status, error) {
                 console.error(error);
                 toastr.error('Thông Tin Tài Khoản Hoặc Mật Khẩu Không Chính Xác!');
             }
@@ -128,7 +131,6 @@ function checkSignUpValidate() {
     let isCheck = true;
 
 
-
     if (signupEmailValue == '') {
         setError(signupEmailEle, 'Email không được để trống');
         isCheck = false;
@@ -181,3 +183,90 @@ function isEmail(email) {
 function isPassword(password) {
     return /^(?=.*[a-zA-Z])(?=.*\d).{6,15}$/.test(password);
 }
+
+
+// Khởi tạo Axios instance
+const axiosInstance = axios.create();
+
+// Tạo một biến để lưu interceptor
+let axiosInterceptor;
+
+// Hàm để thêm JWT vào header của request
+function addJwtToHeader(config) {
+    const jwt = localStorage.getItem('jwt');
+    if (jwt) {
+        config.headers.Authorization = `Bearer ${jwt}`;
+    }
+    return config;
+}
+
+// Thêm interceptor vào axiosInstance
+axiosInterceptor = axiosInstance.interceptors.request.use(addJwtToHeader);
+
+// Hàm để xóa JWT khỏi header của request
+function removeJwtFromHeader() {
+    axiosInstance.interceptors.request.eject(axiosInterceptor);
+}
+
+// Xử lý sự kiện click nút đăng xuất
+$("#signout-btn").click(function () {
+    $.ajax({
+        url: '/api/v1/authentication/logout',
+        type: 'POST',
+        success: function (response) {
+            // Xóa JWT khỏi header bằng cách hủy Interceptor
+            removeJwtFromHeader();
+
+            // Ẩn avatar
+            hideAvatar();
+
+            // Xóa dữ liệu trong Local Storage
+            localStorage.removeItem('jwt');
+            localStorage.removeItem('userInfo');
+            localStorage.removeItem('refreshToken');
+        },
+        error: function (error) {
+            console.log('Đăng xuất thất bại', error);
+        }
+    });
+});
+
+// Hàm để kiểm tra xem người dùng đã đăng nhập hay chưa
+function isAuthenticated() {
+    const jwt = localStorage.getItem('jwt');
+    return !!jwt;
+}
+
+// Hàm để hiển thị avatar
+function showAvatar() {
+    const avatarElement = document.querySelector('.avatar');
+    avatarElement.style.display = 'block';
+
+    const loginRegisterElement = document.querySelectorAll('.user-partner');
+    loginRegisterElement.forEach(element => {
+        element.style.display = 'none';
+    })
+    }
+
+
+// Hàm để ẩn avatar
+function hideAvatar() {
+    const avatarElement = document.querySelector('.avatar');
+    avatarElement.style.display = 'none';
+
+    const loginRegisterElement = document.querySelectorAll('.user-partner');
+    loginRegisterElement.forEach(element => {
+        element.style.display = 'block';
+    })
+}
+
+// Hàm để thực hiện xác thực người dùng khi tải trang
+function authenticateUserOnLoad() {
+    if (isAuthenticated()) {
+        console.log("Thay đổi avatar");
+        showAvatar();
+    }
+}
+
+// Xác thực người dùng khi tải trang
+authenticateUserOnLoad();

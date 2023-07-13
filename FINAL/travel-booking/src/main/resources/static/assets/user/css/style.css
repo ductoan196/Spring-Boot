@@ -8273,5 +8273,13 @@ ul.sidebar-tags li a:hover {
 .input-row.error small {
     visibility: visible;
 }
+.avatar .dropdown-menu{
+    position: absolute;
+    right: -20px;
+    left: auto;
+    top: 100%;
+    margin-top: 0.125rem;
+    font-size: 12px;
+}
 
 

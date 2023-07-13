@@ -91,6 +91,11 @@
             <artifactId>jackson-datatype-jsr310</artifactId>
             <version>2.14.2</version>
         </dependency>
+        <dependency>
+            <groupId>org.webjars.npm</groupId>
+            <artifactId>axios</artifactId>
+            <version>0.21.4</version>
+        </dependency>
     </dependencies>
 
     <build>
