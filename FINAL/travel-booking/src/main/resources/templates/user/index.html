@@ -406,24 +406,7 @@
 </main>
 
 <th:block id="js-resources">
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            var searchTabs = new bootstrap.Tab(document.getElementById("searchTabs"));
-            searchTabs.show();
-
-            document.getElementById("searchTabs").addEventListener("shown.bs.tab", function (event) {
-                var tabContentId = event.target.getAttribute("href");
-                var tabContent = document.querySelector(tabContentId);
-                tabContent.classList.add("show", "active");
-            });
-
-            document.getElementById("searchTabs").addEventListener("hidden.bs.tab", function (event) {
-                var tabContentId = event.target.getAttribute("href");
-                var tabContent = document.querySelector(tabContentId);
-                tabContent.classList.remove("show", "active");
-            });
-        });
-    </script>
+    <script src="assets/user/js/verify-registration.js"></script>
 </th:block>
 
 </body>

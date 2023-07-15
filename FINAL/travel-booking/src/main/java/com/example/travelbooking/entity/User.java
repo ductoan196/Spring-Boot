@@ -44,6 +44,9 @@ public class User extends BaseEntity {
     @Enumerated(EnumType.STRING)
     UserStatus userStatus;
 
+    @Column(name = "is_verified", nullable = false)
+    private boolean isVerified;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",
             joinColumns = @JoinColumn(name = "user_id"),

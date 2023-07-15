@@ -1,6 +1,7 @@
 package com.example.travelbooking.controller;
 
 import com.example.travelbooking.entity.RefreshToken;
+import com.example.travelbooking.exception.OTPNotFoundException;
 import com.example.travelbooking.exception.RefreshTokenNotFoundException;
 import com.example.travelbooking.model.request.LoginRequest;
 import com.example.travelbooking.model.request.RefreshTokenRequest;
@@ -14,6 +15,7 @@ import com.example.travelbooking.service.UserService;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,6 +26,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import javax.validation.Valid;
 import java.util.Set;
 import java.util.UUID;
@@ -84,6 +87,20 @@ public class AuthenticationController {
                 });
     }
 
+    @GetMapping("/verify")
+    public ResponseEntity<?> verifyUser(@RequestParam("email") String email, @RequestParam("code") String code) {
+        boolean isVerified = userService.verifyUser(email, code);
+        if (isVerified) {
+            return ResponseEntity.status(HttpStatus.FOUND)
+                    .header(HttpHeaders.LOCATION, "/success_page")
+                    .build();
+        } else {
+            throw new OTPNotFoundException("Invalid OTP");
+        }
+    }
+
+
+
     @PostMapping("/refresh-token")
     public ResponseEntity<?> refreshToken(@RequestBody @Valid RefreshTokenRequest request) {
         try {
@@ -93,10 +110,20 @@ public class AuthenticationController {
         }
     }
 
+
     @PostMapping("/logout")
     public ResponseEntity<?> logout() {
         userService.logout();
         return ResponseEntity.ok(null);
     }
 
+    @PostMapping("/{email}/otp-sending")
+    public void sendOtp(@PathVariable String email) {
+        userService.sendOtp(email);
+    }
+
+    @PostMapping("/{email}/attach-file")
+    public void sendAttachedFileMail(@PathVariable String email) throws MessagingException {
+        userService.sendAttachedMail(email);
+    }
 }

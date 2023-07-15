@@ -26,6 +26,18 @@ spring:
     multipart:
       max-file-size: 100MB
       max-request-size: 100MB
+
+  mail:
+    host: smtp.gmail.com
+    username: vdt.ktqs
+    password: wimzlvksbfgrmtgl
+    port: 587
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 application:
   security:
     jwt:
@@ -35,4 +47,7 @@ application:
     refreshToken:
       tokenValidityMilliseconds: 259200000
 
-
+  firebase:
+    bucket-name: file-uploading-b5640.appspot.com
+    download-url: https://firebasestorage.googleapis.com/v0/b/hotel-management-5d3b4.appspot.com/o/%s?alt=media
+    config-json: /Users/admin/Desktop/hotel-management-5d3b4-firebase-adminsdk-540e1-06e46dace5.json

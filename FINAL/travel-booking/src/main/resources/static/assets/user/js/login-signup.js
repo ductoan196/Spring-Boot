@@ -33,7 +33,7 @@ btnLogin.addEventListener('click', function () {
             success: function (response) {
                 console.log('ok');
                 console.log(response);
-                toastr.success('Đăng Nhập Thành Công!');
+
                 localStorage.setItem("jwt", response.jwt);
                 localStorage.setItem("refreshToken", response.refreshToken);
 
@@ -43,6 +43,8 @@ btnLogin.addEventListener('click', function () {
                     roles: response.roles
                 };
                 localStorage.setItem("userInfo", JSON.stringify(userInfor));
+                window.location.href = "http://localhost:8080/home";
+                toastr.success('Đăng Nhập Thành Công!');
                 showAvatar();
                 $('#signInSignUp').modal('hide');
             },
@@ -184,42 +186,20 @@ function isPassword(password) {
     return /^(?=.*[a-zA-Z])(?=.*\d).{6,15}$/.test(password);
 }
 
-
-// Khởi tạo Axios instance
-const axiosInstance = axios.create();
-
-// Tạo một biến để lưu interceptor
-let axiosInterceptor;
-
-// Hàm để thêm JWT vào header của request
-function addJwtToHeader(config) {
+btnSignout.addEventListener('click', function () {
     const jwt = localStorage.getItem('jwt');
-    if (jwt) {
-        config.headers.Authorization = `Bearer ${jwt}`;
-    }
-    return config;
-}
-
-// Thêm interceptor vào axiosInstance
-axiosInterceptor = axiosInstance.interceptors.request.use(addJwtToHeader);
-
-// Hàm để xóa JWT khỏi header của request
-function removeJwtFromHeader() {
-    axiosInstance.interceptors.request.eject(axiosInterceptor);
-}
-
-// Xử lý sự kiện click nút đăng xuất
-$("#signout-btn").click(function () {
+    // console.log("Đang đăng xuất")
     $.ajax({
         url: '/api/v1/authentication/logout',
         type: 'POST',
+        headers: {
+            Authorization: `Bearer ${jwt}`
+        },
         success: function (response) {
-            // Xóa JWT khỏi header bằng cách hủy Interceptor
-            removeJwtFromHeader();
-
+            console.log('ok')
+            toastr.success('Đăng Kí Thành Công!');
             // Ẩn avatar
             hideAvatar();
-
             // Xóa dữ liệu trong Local Storage
             localStorage.removeItem('jwt');
             localStorage.removeItem('userInfo');
@@ -229,7 +209,8 @@ $("#signout-btn").click(function () {
             console.log('Đăng xuất thất bại', error);
         }
     });
-});
+})
+
 
 // Hàm để kiểm tra xem người dùng đã đăng nhập hay chưa
 function isAuthenticated() {
@@ -265,6 +246,13 @@ function authenticateUserOnLoad() {
     if (isAuthenticated()) {
         console.log("Thay đổi avatar");
         showAvatar();
+
+        const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+        $(".email-info").empty();
+        const userHtmlContent = "<span>" + userInfo.username + "</span>";
+        $(".email-info").append(userHtmlContent);
+
+
     }
 }
 

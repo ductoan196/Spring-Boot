@@ -1,5 +1,9 @@
 package com.example.travelbooking.service;
 
+import com.example.travelbooking.entity.OTP;
+import com.example.travelbooking.exception.OTPNotFoundException;
+import com.example.travelbooking.exception.UserNotFoundException;
+import com.example.travelbooking.repository.OTPRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.example.travelbooking.entity.Role;
 import com.example.travelbooking.entity.User;
@@ -19,6 +23,7 @@ import com.example.travelbooking.security.SecurityUtils;
 import com.example.travelbooking.statics.Roles;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,6 +33,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import javax.mail.MessagingException;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -42,9 +48,14 @@ public class UserService {
 
     final RoleRepository roleRepository;
 
+    @Autowired
+    final OTPRepository otpRepository;
+
     final ObjectMapper objectMapper;
 
     final RefreshTokenRepository refreshTokenRepository;
+
+
 
     @Value("${application.security.refreshToken.tokenValidityMilliseconds}")
     long refreshTokenValidityMilliseconds;
@@ -52,16 +63,19 @@ public class UserService {
     final JwtUtils jwtUtils;
 
     public UserService(PasswordEncoder passwordEncoder, UserRepository userRepository,
-                       RoleRepository roleRepository, ObjectMapper objectMapper,
-                       RefreshTokenRepository refreshTokenRepository, JwtUtils jwtUtils) {
+                       RoleRepository roleRepository, OTPRepository otpRepository, ObjectMapper objectMapper,
+                       RefreshTokenRepository refreshTokenRepository, JwtUtils jwtUtils, EmailService emailService) {
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
+        this.otpRepository = otpRepository;
         this.objectMapper = objectMapper;
         this.refreshTokenRepository = refreshTokenRepository;
         this.jwtUtils = jwtUtils;
+        this.emailService = emailService;
     }
 
+    @Transactional
     public void registerUser(RegistrationRequest registrationRequest) {
         Optional<Role> optionalRole = roleRepository.findByName(Roles.USER);
         Set<Role> roles = new HashSet<>();
@@ -70,8 +84,20 @@ public class UserService {
                 .email(registrationRequest.getEmail())
                 .password(passwordEncoder.encode(registrationRequest.getPassword()))
                 .roles(roles)
+                .isVerified(false)
                 .build();
         userRepository.save(user);
+
+        // Gửi OTP đến email của người dùng
+        String otpCode = generateOtpCode();
+
+        // Lưu OTP vào cơ sở dữ liệu
+        OTP otp = new OTP();
+        otp.setConfirmationCode(otpCode);
+        otp.setUser(user);
+        otpRepository.save(otp);
+
+        emailService.sendVerificationEmail(registrationRequest.getEmail(), otpCode);
     }
 
 
@@ -123,6 +149,7 @@ public class UserService {
         SecurityContextHolder.clearContext();
     }
 
+    @Transactional
     public void createUser(CreateUserRequest request) throws ExistedUserException {
         Optional<User> userOptional = userRepository.findByEmail(request.getEmail());
         if (!userOptional.isEmpty()) {
@@ -135,7 +162,58 @@ public class UserService {
                 .email(request.getEmail())
                 .password(passwordEncoder.encode("123"))
                 .roles(roles)
+                .isVerified(false)
                 .build();
         userRepository.save(user);
+
+        // Gửi OTP đến email của người dùng
+        String otpCode = generateOtpCode();
+        // Lưu OTP vào cơ sở dữ liệu
+        OTP otp = new OTP();
+        otp.setConfirmationCode(otpCode);
+        otp.setUser(user);
+        System.out.println(otp);
+        
+        otpRepository.save(otp);
+        emailService.sendVerificationEmail(request.getEmail(), otpCode);
     }
+
+
+
+    private String generateOtpCode() {
+        UUID uuid = UUID.randomUUID();
+        String code = uuid.toString().substring(0, 6).toUpperCase();
+        return code;
+    }
+
+    public boolean verifyUser(String email, String code) {
+        Optional<OTP> otpOptional = otpRepository.findByUser_EmailAndConfirmationCode(email, code);
+        if (otpOptional.isPresent()) {
+            OTP otp = otpOptional.get();
+            User user = otp.getUser();
+
+            // Xác thực thành công, cập nhật trạng thái của người dùng
+            user.setVerified(true);
+            userRepository.save(user);
+
+            // Xóa mã OTP đã sử dụng
+            otpRepository.delete(otp);
+
+            return true; // Xác nhận thành công
+        } else {
+            return false; // Xác nhận không chính xác
+        }
+    }
+
+
+    EmailService emailService;
+
+    public void sendOtp(String email) {
+        emailService.sendSimpleMail(email);
+    }
+
+    public void sendAttachedMail(String email) throws MessagingException {
+        emailService.sendMailWithAttachment(email);
+    }
+
 }

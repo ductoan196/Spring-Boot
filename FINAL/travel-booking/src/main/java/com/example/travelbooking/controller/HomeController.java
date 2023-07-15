@@ -50,18 +50,39 @@ public class HomeController {
         return "user/search_hotel_list";
     }
 
+    @GetMapping("/recover_pass")
+    public String recoverPass() {
+        return "user/recover_password";
+    }
+
     @GetMapping("/term_policy")
     public String term() {
         return "user/term_policy";
     }
 
-    //Admin
+    @GetMapping("/success_page")
+    public String successPage() {
+        return "user/success-page";
+    }
+
+    //Management-partner
     @GetMapping("/dashboard")
     public String dashboard() {
-        return "admin/dashboard";
+        return "management/partner/dashboard";
     }
     @GetMapping("/coupon")
     public String coupon() {
-        return "admin/coupon";
+        return "management/partner/coupon";
+    }
+
+    //Management-user
+    @GetMapping("/dashboard-user")
+    public String dashboardUser() {
+        return "management/user/dashboard-user";
+    }
+
+    @GetMapping("/booking-user-managent")
+    public String bookingUser() {
+        return "management/user/booking-user";
     }
 }
