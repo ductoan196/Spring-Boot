@@ -9,6 +9,7 @@ const reSignupPasswordEle = document.getElementById('signup-confirm-password');
 const btnLogin = document.getElementById('login-btn');
 const btnSignup = document.getElementById('signup-btn');
 const btnSignout = document.getElementById('signout-btn');
+const btnResetPass = document.getElementById('reset-password-btn');
 const inputEles = document.querySelectorAll('.input-row');
 
 btnLogin.addEventListener('click', function () {
@@ -43,10 +44,18 @@ btnLogin.addEventListener('click', function () {
                     roles: response.roles
                 };
                 localStorage.setItem("userInfo", JSON.stringify(userInfor));
-                window.location.href = "http://localhost:8080/home";
                 toastr.success('Đăng Nhập Thành Công!');
-                showAvatar();
+                //
+                // window.location.href = "http://localhost:8080/home";
+                // showAvatar();
+
+                setTimeout(function() {
+                    showAvatar();
+                    window.location.href = "http://localhost:8080/home";
+                }, 2000);
+
                 $('#signInSignUp').modal('hide');
+                cleanInput()
             },
             error: function (xhr, status, error) {
                 console.error(error);
@@ -75,8 +84,46 @@ btnSignup.addEventListener('click', function () {
             data: JSON.stringify(formdata),
             success: function (response) {
                 console.log('ok')
-                toastr.success('Đăng Kí Thành Công!');
+                toastr.success('Đăng Kí Thành Công! Vui lòng truy cập email của bạn và xác thực tài khoản');
                 console.log(response)
+                cleanInput()
+                $('#signInSignUp').modal('hide');
+            },
+            error: function (xhr, status, error) {
+                if (xhr.status === 400 && xhr.responseText === 'Email is existed') {
+                    // toastr.error('Email đã tồn tại');
+                    setError(signupEmailEle, 'Email đã tồn tại, vui lòng sử dụng email khác');
+                } else {
+                    toastr.error('Đăng Kí Thất Bại');
+                    console.error(error);
+                }
+            }
+        })
+    }
+
+});
+
+btnResetPass.addEventListener('click', function () {
+    Array.from(inputEles).map((ele) =>
+        ele.classList.remove('success', 'error')
+    );
+    let isValid = checkValidate();
+    if (isValid) {
+        let email = $('#signup-email').val()
+        let password = $('#signup-password').val()
+        let formdata = {
+            email: email,
+        }
+        $.ajax({
+            url: '/api/v1/authentication/signup',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(formdata),
+            success: function (response) {
+                console.log('ok')
+                toastr.success('Đăng Kí Thành Công! Vui lòng truy cập email của bạn và xác thực tài khoản');
+                console.log(response)
+                cleanInput()
                 $('#signInSignUp').modal('hide');
             },
             error: function (xhr, status, error) {
@@ -124,7 +171,6 @@ function checkValidate() {
     return isCheck;
 }
 
-
 function checkSignUpValidate() {
 
     let signupEmailValue = signupEmailEle.value;
@@ -166,6 +212,13 @@ function checkSignUpValidate() {
     return isCheck;
 }
 
+function cleanInput() {
+    $('#signup-email').val('');
+    $('#signup-password').val('');
+    $('#signup-confirm-password').val('')
+    $('#login-email').val('')
+    $('#login-password').val('')
+}
 function setSuccess(ele) {
     ele.parentNode.classList.add('success');
 }
@@ -197,7 +250,7 @@ btnSignout.addEventListener('click', function () {
         },
         success: function (response) {
             console.log('ok')
-            toastr.success('Đăng Kí Thành Công!');
+            toastr.success('Đã đăng xuất');
             // Ẩn avatar
             hideAvatar();
             // Xóa dữ liệu trong Local Storage

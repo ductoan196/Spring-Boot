@@ -71,4 +71,18 @@ public class EmailService {
 
         javaMailSender.send(mailMessage);
     }
+
+    public void sendResetEmail(String email, String otpCode) {
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+
+        // Tạo đường dẫn xác nhận
+        String resetPassLink = "http://localhost:8080/api/v1/authentication/reset-password?email=" + email + "&code=" + otpCode;
+
+        mailMessage.setFrom(sender);
+        mailMessage.setTo(email);
+        mailMessage.setSubject("Xác nhận đăng ký");
+        mailMessage.setText("Vui lòng ấn vào liên kết sau để reset password:" + resetPassLink);
+
+        javaMailSender.send(mailMessage);
+    }
 }

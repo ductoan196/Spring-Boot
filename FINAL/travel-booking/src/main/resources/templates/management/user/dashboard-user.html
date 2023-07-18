@@ -26,7 +26,23 @@
                     <div class="card">
                         <div class="card-body">
                             <h4 class="mb-4">Your Information</h4>
-                            <form class="forms-sample">
+                            <div class="container">
+                                <div class="row my-t bs">
+                                    <div class="col d-flex justify-content-center">
+                                        <img id="avatar-test" class="rounded-circle" style="width: 150px; height: 150px" alt="Avatar"
+                                             src="assets/user/images/default-avatar.png"/>
+                                </div>
+                                <div class="row mt-2 mx-0">
+                                    <div class="col d-flex justify-content-center">
+                                        <input type="file" hidden="hidden" id="avatar-input-test111"/>
+                                        <button class="btn btn-sm change-avatar111" style="border: 0.5px solid grey">
+                                            <i class="link-icon p-1" data-feather="upload"></i> Upload avatar</button>
+                                        <button class="btn btn-sm btn-success submit-avatar-btn ml-1" hidden="hidden">Save</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <form class="forms-sample mt-5">
                                 <div class="row">
 
                                     <div class="col-lg-6 mb-3">
@@ -64,26 +80,10 @@
                                         <input type="date" class="form-control" id="website" autocomplete="off"
                                                placeholder>
                                     </div>
-                                    <div class="col-lg-6 mb-3">
-                                        <label for="avatar-input" class="form-label">Avatar</label>
-                                        <div class="row mt-2">
-                                            <div class="col d-flex ">
-                                                <img id="avatar" class="rounded-circle" style="width: 100px;" alt="Avatar"
-                                                     src="assets/user/images/default-avatar.png"/>
-                                            </div>
-                                        </div>
-                                        <div class="row mt-2">
-                                            <div class="col d-flex ">
-                                                <input type="file" hidden="hidden" id="avatar-input"/>
-                                                <button class="btn btn-sm btn-primary change-avatar-btn">Change avatar</button>
-                                                <button class="btn btn-sm btn-success submit-avatar-btn ml-2">Save</button>
-                                            </div>
-                                        </div>
-                                    </div>
 
-                                    <div class="text-center">
+                                    <div class="text-right pt-4">
                                         <button type="submit" class="btn btn-primary"><i class="link-icon"
-                                                                                         data-feather="plus"></i> Save Profile</button>
+                                                                                         data-feather="save"></i> Save Profile</button>
                                     </div>
                                 </div>
                             </form>
@@ -91,6 +91,8 @@
                     </div>
                 </div>
             </div>
+
+
         </div>
     </main>
 

@@ -41,7 +41,9 @@ public class JwtUtils {
     }
 
     public String getUserNameFromJwtToken(String token) {
-        return Jwts.parserBuilder().setSigningKey(key()).build()
+        return Jwts.parserBuilder()
+                .setSigningKey(key())
+                .build()
                 .parseClaimsJws(token).getBody().getSubject();
     }
 
@@ -60,5 +62,14 @@ public class JwtUtils {
         }
 
         return false;
+    }
+
+    public Date getExpirationFromJwtToken(String token) {
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(key())
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+        return claims.getExpiration();
     }
 }

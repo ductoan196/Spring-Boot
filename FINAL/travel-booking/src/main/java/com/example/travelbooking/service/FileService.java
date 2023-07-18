@@ -1,6 +1,9 @@
 package com.example.travelbooking.service;
 
 import com.example.travelbooking.model.response.UploadFileResponse;
+import com.google.auth.Credentials;
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.cloud.storage.*;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

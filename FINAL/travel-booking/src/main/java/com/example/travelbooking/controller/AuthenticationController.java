@@ -99,8 +99,6 @@ public class AuthenticationController {
         }
     }
 
-
-
     @PostMapping("/refresh-token")
     public ResponseEntity<?> refreshToken(@RequestBody @Valid RefreshTokenRequest request) {
         try {
@@ -110,6 +108,17 @@ public class AuthenticationController {
         }
     }
 
+    @GetMapping("/reset-pass")
+    public ResponseEntity<?> resetPass(@RequestParam("email") String email, @RequestParam("code") String code) {
+        boolean isVerified = userService.verifyUser(email, code);
+        if (isVerified) {
+            return ResponseEntity.status(HttpStatus.FOUND)
+                    .header(HttpHeaders.LOCATION, "/success_page")
+                    .build();
+        } else {
+            throw new OTPNotFoundException("Invalid OTP");
+        }
+    }
 
     @PostMapping("/logout")
     public ResponseEntity<?> logout() {

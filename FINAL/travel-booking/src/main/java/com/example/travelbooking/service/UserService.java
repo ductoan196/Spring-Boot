@@ -172,8 +172,7 @@ public class UserService {
         OTP otp = new OTP();
         otp.setConfirmationCode(otpCode);
         otp.setUser(user);
-        System.out.println(otp);
-        
+
         otpRepository.save(otp);
         emailService.sendVerificationEmail(request.getEmail(), otpCode);
     }
@@ -203,6 +202,21 @@ public class UserService {
         } else {
             return false; // Xác nhận không chính xác
         }
+    }
+
+    public void resetPassword(String email) {
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException("Không tìm thấy email trong hệ thống"));
+
+        // Gửi OTP đến email của người dùng
+        String otpCode = generateOtpCode();
+
+        // Lưu OTP vào cơ sở dữ liệu
+        OTP otp = new OTP();
+        otp.setConfirmationCode(otpCode);
+        otp.setUser(user);
+        otpRepository.save(otp);
+
+        emailService.sendResetEmail(email, otpCode);
     }
 
 

@@ -27,6 +27,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     @Autowired
     CustomUserDetailsService userDetailsService;
 
+
     static final Logger logger = LoggerFactory.getLogger(AuthTokenFilter.class);
 
     @Override
@@ -36,6 +37,23 @@ public class AuthTokenFilter extends OncePerRequestFilter {
             String jwt = parseJwt(request);
             if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
                 String username = jwtUtils.getUserNameFromJwtToken(jwt);
+
+//                // Kiểm tra xem jwtToken có cần được làm mới không
+//                if (jwtUtils.isTokenExpired(jwt)) {
+//                    // Lấy refreshToken từ request
+//                    String refreshToken = getRefreshTokenFromRequest(request);
+//
+//                    // Kiểm tra tính hợp lệ của refreshToken
+//                    if (jwtUtils.validateRefreshToken(refreshToken)) {
+//                        // Làm mới jwtToken từ refreshToken
+//                        String newToken = jwtUtils.refreshJwtToken(jwt, refreshToken);
+//
+//                        if (newToken != null) {
+//                            // Đặt jwtToken mới vào header Authorization để gửi lại cho client
+//                            response.setHeader("Authorization", "Bearer " + newToken);
+//                        }
+//                    }
+//                }
 
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
                 UsernamePasswordAuthenticationToken authentication =
