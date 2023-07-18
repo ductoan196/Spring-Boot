@@ -140,105 +140,6 @@ btnResetPass.addEventListener('click', function () {
 
 });
 
-
-function checkValidate() {
-
-    let emailValue = emailEle.value;
-    let passwordValue = passwordEle.value;
-
-    let isCheck = true;
-
-    if (emailValue == '') {
-        setError(emailEle, 'Email không được để trống');
-        isCheck = false;
-    } else if (!isEmail(emailValue)) {
-        setError(emailEle, 'Email không đúng định dạng');
-        isCheck = false;
-    } else {
-        setSuccess(emailEle);
-    }
-
-    if (passwordValue == '') {
-        setError(passwordEle, 'Password không được để trống');
-        isCheck = false;
-    } else if (!isPassword(passwordValue)) {
-        setError(passwordEle, 'Vui lòng nhập password từ 6 đến 15 ký tự, bao gồm cả chữ và số');
-        isCheck = false;
-    } else {
-        setSuccess(passwordEle);
-    }
-
-    return isCheck;
-}
-
-function checkSignUpValidate() {
-
-    let signupEmailValue = signupEmailEle.value;
-    let signupPasswordValue = signupPasswordEle.value;
-    let reSignupPasswordValue = reSignupPasswordEle.value;
-    let isCheck = true;
-
-
-    if (signupEmailValue == '') {
-        setError(signupEmailEle, 'Email không được để trống');
-        isCheck = false;
-    } else if (!isEmail(signupEmailValue)) {
-        setError(signupEmailEle, 'Email không đúng định dạng');
-        isCheck = false;
-    } else {
-        setSuccess(signupEmailEle);
-    }
-
-    if (signupPasswordValue == '') {
-        setError(signupPasswordEle, 'Password không được để trống');
-        isCheck = false;
-    } else if (!isPassword(signupPasswordValue)) {
-        setError(signupPasswordEle, 'Vui lòng nhập password từ 6 đến 15 ký tự, bao gồm cả chữ và số');
-        isCheck = false;
-    } else {
-        setSuccess(signupPasswordEle);
-    }
-
-    if (reSignupPasswordValue == '') {
-        setError(reSignupPasswordEle, 'Re-enter Password không được để trống');
-        isCheck = false;
-    } else if (reSignupPasswordValue !== signupPasswordValue) {
-        setError(reSignupPasswordEle, 'Password và Re-enter password không giống nhau');
-        isCheck = false;
-    } else {
-        setSuccess(reSignupPasswordEle);
-    }
-
-    return isCheck;
-}
-
-function cleanInput() {
-    $('#signup-email').val('');
-    $('#signup-password').val('');
-    $('#signup-confirm-password').val('')
-    $('#login-email').val('')
-    $('#login-password').val('')
-}
-function setSuccess(ele) {
-    ele.parentNode.classList.add('success');
-}
-
-function setError(ele, message) {
-    let parentEle = ele.parentNode;
-    parentEle.classList.add('error');
-    parentEle.querySelector('small').innerText = message;
-}
-
-function isEmail(email) {
-    return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
-        email
-    );
-}
-
-function isPassword(password) {
-    return /^(?=.*[a-zA-Z])(?=.*\d).{6,15}$/.test(password);
-}
-
 btnSignout.addEventListener('click', function () {
     const jwt = localStorage.getItem('jwt');
     // console.log("Đang đăng xuất")
@@ -265,6 +166,126 @@ btnSignout.addEventListener('click', function () {
 })
 
 
+function cleanInput() {
+    $('#signup-email').val('');
+    $('#signup-password').val('');
+    $('#signup-confirm-password').val('')
+    $('#login-email').val('')
+    $('#login-password').val('')
+}
+
+function setSuccess(ele) {
+    ele.parentNode.classList.add('success');
+}
+
+function setError(ele, message) {
+    let parentEle = ele.parentNode;
+    parentEle.classList.add('error');
+    parentEle.querySelector('small').innerText = message;
+}
+
+function checkValidate() {
+    let isCheck = validateForm(emailEle, passwordEle);
+    return isCheck;
+}
+
+function checkSignUpValidate() {
+    let isCheck = validateForm(signupEmailEle, signupPasswordEle) &&
+        signupPasswordEle.value === reSignupPasswordEle.value;
+    if (!isCheck) {
+        setError(reSignupPasswordEle, 'Password và Re-enter password không giống nhau');
+    } else {
+        setSuccess(reSignupPasswordEle);
+    }
+    return isCheck;
+}
+
+function validateResetEmail(emailElement) {
+    const email = emailElement.value;
+
+    if (email === '') {
+        setError(emailElement, 'Email không được để trống');
+        return false;
+    } else if (!validateEmail(email)) {
+        setError(emailElement, 'Email không đúng định dạng');
+        return false;
+    } else {
+        setSuccess(emailElement);
+        return true;
+    }
+}
+
+function validateNewPassword(passwordElement, confirmPasswordElement) {
+    const password = passwordElement.value;
+    const confirmPassword = confirmPasswordElement.value;
+
+    let isValid = true;
+
+    if (password === '') {
+        setError(passwordElement, 'Password không được để trống');
+        isValid = false;
+    } else if (!validatePassword(password)) {
+        setError(passwordElement, 'Vui lòng nhập password từ 6 đến 15 ký tự, bao gồm cả chữ và số');
+        isValid = false;
+    } else {
+        setSuccess(passwordElement);
+    }
+
+    if (confirmPassword === '') {
+        setError(confirmPasswordElement, 'Re-enter Password không được để trống');
+        isValid = false;
+    } else if (confirmPassword !== password) {
+        setError(confirmPasswordElement, 'Password và Re-enter password không giống nhau');
+        isValid = false;
+    } else {
+        setSuccess(confirmPasswordElement);
+    }
+
+    return isValid;
+}
+
+
+//NEW VALIDATE
+function validateEmail(email) {
+    const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return emailRegex.test(email);
+}
+
+function validatePassword(password) {
+    const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{6,15}$/;
+    return passwordRegex.test(password);
+}
+
+function validateForm(emailElement, passwordElement) {
+    const email = emailElement.value;
+    const password = passwordElement.value;
+
+    let isValid = true;
+
+    if (email === '') {
+        setError(emailElement, 'Email không được để trống');
+        isValid = false;
+    } else if (!validateEmail(email)) {
+        setError(emailElement, 'Email không đúng định dạng');
+        isValid = false;
+    } else {
+        setSuccess(emailElement);
+    }
+
+    if (password === '') {
+        setError(passwordElement, 'Password không được để trống');
+        isValid = false;
+    } else if (!validatePassword(password)) {
+        setError(passwordElement, 'Vui lòng nhập password từ 6 đến 15 ký tự, bao gồm cả chữ và số');
+        isValid = false;
+    } else {
+        setSuccess(passwordElement);
+    }
+
+    return isValid;
+}
+
+//PHẦN AUTHENTICATION
 // Hàm để kiểm tra xem người dùng đã đăng nhập hay chưa
 function isAuthenticated() {
     const jwt = localStorage.getItem('jwt');
@@ -281,7 +302,6 @@ function showAvatar() {
         element.style.display = 'none';
     })
     }
-
 
 // Hàm để ẩn avatar
 function hideAvatar() {

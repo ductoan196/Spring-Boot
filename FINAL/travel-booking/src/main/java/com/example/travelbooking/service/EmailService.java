@@ -80,7 +80,7 @@ public class EmailService {
 
         mailMessage.setFrom(sender);
         mailMessage.setTo(email);
-        mailMessage.setSubject("Xác nhận đăng ký");
+        mailMessage.setSubject("Xác nhận lấy lại mật khẩu");
         mailMessage.setText("Vui lòng ấn vào liên kết sau để reset password:" + resetPassLink);
 
         javaMailSender.send(mailMessage);

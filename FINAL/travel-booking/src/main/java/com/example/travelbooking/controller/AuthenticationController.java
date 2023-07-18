@@ -108,16 +108,29 @@ public class AuthenticationController {
         }
     }
 
-    @GetMapping("/reset-pass")
-    public ResponseEntity<?> resetPass(@RequestParam("email") String email, @RequestParam("code") String code) {
-        boolean isVerified = userService.verifyUser(email, code);
-        if (isVerified) {
-            return ResponseEntity.status(HttpStatus.FOUND)
-                    .header(HttpHeaders.LOCATION, "/success_page")
-                    .build();
-        } else {
-            throw new OTPNotFoundException("Invalid OTP");
+    @PostMapping("/reset-password/request")
+    public ResponseEntity<?> sendPasswordResetCode(@RequestParam("email") String email) {
+        userService.sendResetPasswordCode(email);
+
+        return ResponseEntity.ok("Mã xác nhận đã được gửi đến email");
+    }
+
+    @GetMapping("/reset-password/verify")
+    public ResponseEntity<?> verifyResetCode(@RequestParam("email") String email, @RequestParam("resetCode") String resetCode) {
+        boolean isVerified = userService.verifyUser(email, resetCode);
+        if (!isVerified) {
+            throw new OTPNotFoundException("Mã xác nhận không hợp lệ");
         }
+
+        return ResponseEntity.ok("Xác nhận mã OTP thành công");
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<String> resetPassword(@RequestParam("email") String email, @RequestParam("newPassword") String newPassword) {
+
+        userService.resetPassword(email, newPassword);
+
+        return ResponseEntity.ok("Đặt lại mật khẩu thành công");
     }
 
     @PostMapping("/logout")

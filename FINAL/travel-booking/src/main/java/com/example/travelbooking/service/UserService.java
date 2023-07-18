@@ -55,7 +55,7 @@ public class UserService {
 
     final RefreshTokenRepository refreshTokenRepository;
 
-
+    EmailService emailService;
 
     @Value("${application.security.refreshToken.tokenValidityMilliseconds}")
     long refreshTokenValidityMilliseconds;
@@ -204,7 +204,7 @@ public class UserService {
         }
     }
 
-    public void resetPassword(String email) {
+    public void sendResetPasswordCode(String email) {
         User user = userRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException("Không tìm thấy email trong hệ thống"));
 
         // Gửi OTP đến email của người dùng
@@ -220,7 +220,13 @@ public class UserService {
     }
 
 
-    EmailService emailService;
+
+    public void resetPassword(String email, String newPassword) {
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException("Không tìm thấy email trong hệ thống"));
+
+        user.setPassword(newPassword);
+        userRepository.save(user);
+    }
 
     public void sendOtp(String email) {
         emailService.sendSimpleMail(email);
@@ -229,5 +235,4 @@ public class UserService {
     public void sendAttachedMail(String email) throws MessagingException {
         emailService.sendMailWithAttachment(email);
     }
-
 }
