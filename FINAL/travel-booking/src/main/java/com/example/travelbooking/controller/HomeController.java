@@ -66,11 +66,11 @@ public class HomeController {
     }
 
     //Management-partner
-    @GetMapping("/dashboard")
+    @GetMapping("partner/dashboard")
     public String dashboard() {
         return "management/partner/dashboard";
     }
-    @GetMapping("/coupon")
+    @GetMapping("partner/coupon")
     public String coupon() {
         return "management/partner/coupon";
     }

@@ -25,6 +25,7 @@ import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -100,6 +101,29 @@ public class UserService {
         emailService.sendVerificationEmail(registrationRequest.getEmail(), otpCode);
     }
 
+    public void registerPartner(RegistrationRequest registrationRequest) {
+        Optional<Role> optionalRole = roleRepository.findByName(Roles.PARTNER);
+        Set<Role> roles = new HashSet<>();
+        roles.add(optionalRole.get());
+        User user = User.builder()
+                .email(registrationRequest.getEmail())
+                .password(passwordEncoder.encode(registrationRequest.getPassword()))
+                .roles(roles)
+                .isVerified(false)
+                .build();
+        userRepository.save(user);
+
+        // Gửi OTP đến email của người dùng
+        String otpCode = generateOtpCode();
+
+        // Lưu OTP vào cơ sở dữ liệu
+        OTP otp = new OTP();
+        otp.setConfirmationCode(otpCode);
+        otp.setUser(user);
+        otpRepository.save(otp);
+
+        emailService.sendVerificationEmail(registrationRequest.getEmail(), otpCode);
+    }
 
     public List<UserResponse> getAll() {
         List<User> users = userRepository.findAll();
@@ -204,6 +228,7 @@ public class UserService {
         }
     }
 
+    @Async
     public void sendResetPasswordCode(String email) {
         User user = userRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException("Không tìm thấy email trong hệ thống"));
 
@@ -235,4 +260,6 @@ public class UserService {
     public void sendAttachedMail(String email) throws MessagingException {
         emailService.sendMailWithAttachment(email);
     }
+
+
 }

@@ -51,7 +51,8 @@ public class AuthenticationController {
 
     @PostMapping("/login")
     public JwtResponse authenticateUser(@Valid @RequestBody LoginRequest request) {
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
+        Authentication authentication = authenticationManager
+                .authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtUtils.generateJwtToken(authentication);
@@ -83,6 +84,15 @@ public class AuthenticationController {
                 .map(user -> new ResponseEntity<>("Email is existed", HttpStatus.BAD_REQUEST))
                 .orElseGet(() -> {
                     userService.registerUser(request);
+                    return new ResponseEntity<>(null, HttpStatus.CREATED);
+                });
+    }
+    @PostMapping("/signup-partner")
+    public ResponseEntity<?> registerPartner(@Valid @RequestBody RegistrationRequest request) {
+        return userRepository.findByEmail(request.getEmail())
+                .map(user -> new ResponseEntity<>("Email is existed", HttpStatus.BAD_REQUEST))
+                .orElseGet(() -> {
+                    userService.registerPartner(request);
                     return new ResponseEntity<>(null, HttpStatus.CREATED);
                 });
     }

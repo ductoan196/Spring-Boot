@@ -12,6 +12,16 @@ const btnSignout = document.getElementById('signout-btn');
 const btnResetPass = document.getElementById('reset-password-btn');
 const inputEles = document.querySelectorAll('.input-row');
 
+$(document).ready(function () {
+    const userInformationStr = localStorage.getItem("userInfo");
+    if (userInformationStr) {
+        const userInformation = JSON.parse(userInformationStr);
+        if (userInformation.username) {
+            showAvatar()
+        }
+    }
+});
+
 btnLogin.addEventListener('click', function () {
     Array.from(inputEles).map((ele) =>
         ele.classList.remove('success', 'error')
@@ -34,7 +44,7 @@ btnLogin.addEventListener('click', function () {
             success: function (response) {
                 console.log('ok');
                 console.log(response);
-
+                localStorage.clear();
                 localStorage.setItem("jwt", response.jwt);
                 localStorage.setItem("refreshToken", response.refreshToken);
 
@@ -45,12 +55,8 @@ btnLogin.addEventListener('click', function () {
                 };
                 localStorage.setItem("userInfo", JSON.stringify(userInfor));
                 toastr.success('Đăng Nhập Thành Công!');
-                //
-                // window.location.href = "http://localhost:8080/home";
-                // showAvatar();
 
                 setTimeout(function() {
-                    showAvatar();
                     window.location.href = "http://localhost:8080/home";
                 }, 2000);
 
@@ -103,42 +109,43 @@ btnSignup.addEventListener('click', function () {
 
 });
 
-btnResetPass.addEventListener('click', function () {
-    Array.from(inputEles).map((ele) =>
-        ele.classList.remove('success', 'error')
-    );
-    let isValid = checkValidate();
-    if (isValid) {
-        let email = $('#signup-email').val()
-        let password = $('#signup-password').val()
-        let formdata = {
-            email: email,
-        }
-        $.ajax({
-            url: '/api/v1/authentication/signup',
-            type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify(formdata),
-            success: function (response) {
-                console.log('ok')
-                toastr.success('Đăng Kí Thành Công! Vui lòng truy cập email của bạn và xác thực tài khoản');
-                console.log(response)
-                cleanInput()
-                $('#signInSignUp').modal('hide');
-            },
-            error: function (xhr, status, error) {
-                if (xhr.status === 400 && xhr.responseText === 'Email is existed') {
-                    // toastr.error('Email đã tồn tại');
-                    setError(signupEmailEle, 'Email đã tồn tại, vui lòng sử dụng email khác');
-                } else {
-                    toastr.error('Đăng Kí Thất Bại');
-                    console.error(error);
-                }
-            }
-        })
-    }
-
-});
+//
+// btnResetPass.addEventListener('click', function () {
+//     Array.from(inputEles).map((ele) =>
+//         ele.classList.remove('success', 'error')
+//     );
+//     let isValid = checkValidate();
+//     if (isValid) {
+//         let email = $('#signup-email').val()
+//         let password = $('#signup-password').val()
+//         let formdata = {
+//             email: email,
+//         }
+//         $.ajax({
+//             url: '/api/v1/authentication/signup',
+//             type: 'POST',
+//             contentType: 'application/json',
+//             data: JSON.stringify(formdata),
+//             success: function (response) {
+//                 console.log('ok')
+//                 toastr.success('Đăng Kí Thành Công! Vui lòng truy cập email của bạn và xác thực tài khoản');
+//                 console.log(response)
+//                 cleanInput()
+//                 $('#signInSignUp').modal('hide');
+//             },
+//             error: function (xhr, status, error) {
+//                 if (xhr.status === 400 && xhr.responseText === 'Email is existed') {
+//                     // toastr.error('Email đã tồn tại');
+//                     setError(signupEmailEle, 'Email đã tồn tại, vui lòng sử dụng email khác');
+//                 } else {
+//                     toastr.error('Đăng Kí Thất Bại');
+//                     console.error(error);
+//                 }
+//             }
+//         })
+//     }
+//
+// });
 
 btnSignout.addEventListener('click', function () {
     const jwt = localStorage.getItem('jwt');
@@ -165,6 +172,32 @@ btnSignout.addEventListener('click', function () {
     });
 })
 
+function refreshToken() {
+    const jwt = localStorage.getItem('jwt');
+    let formData ={
+        refreshToken: localStorage.getItem('refreshToken')
+    }
+    if (jwt) {
+        $.ajax({
+            url: '/api/v1/authentication/refresh-token',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(formData),
+            headers: {
+                'Authorization': 'Bearer' + " " + jwt
+            },
+            success: function (response) {
+                localStorage.setItem("jwt", response.jwt)
+            },
+            error: function (xhr, status, error) {
+                console.error(error);
+            }
+        })
+    }
+}
+
+//Set 60s thif refresh token lai mot lan
+setInterval(refreshToken, 60*1000)
 
 function cleanInput() {
     $('#signup-email').val('');
@@ -314,20 +347,20 @@ function hideAvatar() {
     })
 }
 
-// Hàm để thực hiện xác thực người dùng khi tải trang
-function authenticateUserOnLoad() {
-    if (isAuthenticated()) {
-        console.log("Thay đổi avatar");
-        showAvatar();
-
-        const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-        $(".email-info").empty();
-        const userHtmlContent = "<span>" + userInfo.username + "</span>";
-        $(".email-info").append(userHtmlContent);
-
-
-    }
-}
-
-// Xác thực người dùng khi tải trang
-authenticateUserOnLoad();
+// // Hàm để thực hiện xác thực người dùng khi tải trang
+// function authenticateUserOnLoad() {
+//     if (isAuthenticated()) {
+//         console.log("Thay đổi avatar");
+//         showAvatar();
+//
+//         const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+//         $(".email-info").empty();
+//         const userHtmlContent = "<span>" + userInfo.username + "</span>";
+//         $(".email-info").append(userHtmlContent);
+//
+//
+//     }
+// }
+//
+// // Xác thực người dùng khi tải trang
+// authenticateUserOnLoad();
