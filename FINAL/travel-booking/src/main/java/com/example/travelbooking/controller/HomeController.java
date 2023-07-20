@@ -1,17 +1,27 @@
 package com.example.travelbooking.controller;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping()
+@AllArgsConstructor
+@RequestMapping
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class HomeController {
 
     // User
     @GetMapping("/home")
     public String home() {
+        return "user/index";
+    }
+
+    @GetMapping("/home/v1")
+    public String home1() {
         return "user/index";
     }
 
@@ -23,6 +33,11 @@ public class HomeController {
     @GetMapping("/tour")
     public String tour() {
         return "user/tour_list";
+    }
+
+    @GetMapping("/tour-single")
+    public String tourSingle() {
+        return "user/tour-single1";
     }
 
     @GetMapping("/hotel")
@@ -66,11 +81,22 @@ public class HomeController {
     }
 
     //Management-partner
-    @GetMapping("partner/dashboard")
+    @GetMapping("/partner/dashboard-partner")
     public String dashboard() {
-        return "management/partner/dashboard";
+        return "management/partner/dashboard-partner";
     }
-    @GetMapping("partner/coupon")
+
+    @GetMapping("/partner/room-management")
+    public String roomList() {
+        return "management/partner/room-management";
+    }
+
+    @GetMapping("/partner/add-room")
+    public String addRoom() {
+        return "management/partner/add-room";
+    }
+
+    @GetMapping("/partner/coupon")
     public String coupon() {
         return "management/partner/coupon";
     }

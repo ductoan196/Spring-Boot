@@ -4,7 +4,13 @@ window.onload = function() {
 
     // Kiểm tra nếu chưa đăng nhập
     if (!jwtToken || !userInfo) {
-        window.location.href = "http://localhost:8080/login";
+        const pathName = window.location.pathname;
+        const isLoginRequiredPage = pathName.startsWith('/admin/') || pathName.startsWith('/partner/');
+
+        if (isLoginRequiredPage) {
+            toastr.success('Vui lòng đăng nhập tài khoản');
+            window.location.href = "http://localhost:8080/home";
+        }
     } else {
         // Đã đăng nhập, kiểm tra quyền truy cập
         const userInfor = JSON.parse(userInfo);
@@ -25,3 +31,4 @@ window.onload = function() {
         }
     }
 };
+

@@ -14,13 +14,12 @@ import javax.persistence.Table;
 @Table(name = "locations")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Location extends BaseEntity {
-    Double latitude;
-
-    Double longitude;
+//    Double latitude;
+//
+//    Double longitude;
 
     String city;
 
     String country;
 
-    String description;
 }

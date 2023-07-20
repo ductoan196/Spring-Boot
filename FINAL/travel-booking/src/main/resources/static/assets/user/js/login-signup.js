@@ -109,43 +109,43 @@ btnSignup.addEventListener('click', function () {
 
 });
 
-//
-// btnResetPass.addEventListener('click', function () {
-//     Array.from(inputEles).map((ele) =>
-//         ele.classList.remove('success', 'error')
-//     );
-//     let isValid = checkValidate();
-//     if (isValid) {
-//         let email = $('#signup-email').val()
-//         let password = $('#signup-password').val()
-//         let formdata = {
-//             email: email,
-//         }
-//         $.ajax({
-//             url: '/api/v1/authentication/signup',
-//             type: 'POST',
-//             contentType: 'application/json',
-//             data: JSON.stringify(formdata),
-//             success: function (response) {
-//                 console.log('ok')
-//                 toastr.success('Đăng Kí Thành Công! Vui lòng truy cập email của bạn và xác thực tài khoản');
-//                 console.log(response)
-//                 cleanInput()
-//                 $('#signInSignUp').modal('hide');
-//             },
-//             error: function (xhr, status, error) {
-//                 if (xhr.status === 400 && xhr.responseText === 'Email is existed') {
-//                     // toastr.error('Email đã tồn tại');
-//                     setError(signupEmailEle, 'Email đã tồn tại, vui lòng sử dụng email khác');
-//                 } else {
-//                     toastr.error('Đăng Kí Thất Bại');
-//                     console.error(error);
-//                 }
-//             }
-//         })
-//     }
-//
-// });
+
+btnResetPass.addEventListener('click', function () {
+    Array.from(inputEles).map((ele) =>
+        ele.classList.remove('success', 'error')
+    );
+    let isValid = checkValidate();
+    if (isValid) {
+        let email = $('#signup-email').val()
+        let password = $('#signup-password').val()
+        let formdata = {
+            email: email,
+        }
+        $.ajax({
+            url: '/api/v1/authentication/signup',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(formdata),
+            success: function (response) {
+                console.log('ok')
+                toastr.success('Đăng Kí Thành Công! Vui lòng truy cập email của bạn và xác thực tài khoản');
+                console.log(response)
+                cleanInput()
+                $('#signInSignUp').modal('hide');
+            },
+            error: function (xhr, status, error) {
+                if (xhr.status === 400 && xhr.responseText === 'Email is existed') {
+                    // toastr.error('Email đã tồn tại');
+                    setError(signupEmailEle, 'Email đã tồn tại, vui lòng sử dụng email khác');
+                } else {
+                    toastr.error('Đăng Kí Thất Bại');
+                    console.error(error);
+                }
+            }
+        })
+    }
+
+});
 
 btnSignout.addEventListener('click', function () {
     const jwt = localStorage.getItem('jwt');
