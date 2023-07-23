@@ -31,8 +31,6 @@ public class CreateRoomRequest {
 
     List<Image> images;
 
-    List<Bed> bedList;
-
     RoomStatus roomStatus;
 
     List<Facility> facilities;

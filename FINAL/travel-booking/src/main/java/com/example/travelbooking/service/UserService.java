@@ -1,22 +1,15 @@
 package com.example.travelbooking.service;
 
+import com.example.travelbooking.entity.Hotel;
 import com.example.travelbooking.entity.OTP;
-import com.example.travelbooking.exception.OTPNotFoundException;
-import com.example.travelbooking.exception.UserNotFoundException;
-import com.example.travelbooking.repository.OTPRepository;
+import com.example.travelbooking.exception.*;
+import com.example.travelbooking.model.request.*;
+import com.example.travelbooking.repository.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.example.travelbooking.entity.Role;
 import com.example.travelbooking.entity.User;
-import com.example.travelbooking.exception.ExistedUserException;
-import com.example.travelbooking.exception.RefreshTokenNotFoundException;
-import com.example.travelbooking.model.request.CreateUserRequest;
-import com.example.travelbooking.model.request.RefreshTokenRequest;
-import com.example.travelbooking.model.request.RegistrationRequest;
 import com.example.travelbooking.model.response.JwtResponse;
 import com.example.travelbooking.model.response.UserResponse;
-import com.example.travelbooking.repository.RefreshTokenRepository;
-import com.example.travelbooking.repository.RoleRepository;
-import com.example.travelbooking.repository.UserRepository;
 import com.example.travelbooking.security.CustomUserDetails;
 import com.example.travelbooking.security.JwtUtils;
 import com.example.travelbooking.security.SecurityUtils;
@@ -25,7 +18,6 @@ import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -49,6 +41,8 @@ public class UserService {
 
     final RoleRepository roleRepository;
 
+    final HotelRepository hotelRepository;
+
     @Autowired
     final OTPRepository otpRepository;
 
@@ -64,11 +58,12 @@ public class UserService {
     final JwtUtils jwtUtils;
 
     public UserService(PasswordEncoder passwordEncoder, UserRepository userRepository,
-                       RoleRepository roleRepository, OTPRepository otpRepository, ObjectMapper objectMapper,
+                       RoleRepository roleRepository, HotelRepository hotelRepository, OTPRepository otpRepository, ObjectMapper objectMapper,
                        RefreshTokenRepository refreshTokenRepository, JwtUtils jwtUtils, EmailService emailService) {
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
+        this.hotelRepository = hotelRepository;
         this.otpRepository = otpRepository;
         this.objectMapper = objectMapper;
         this.refreshTokenRepository = refreshTokenRepository;
@@ -98,10 +93,10 @@ public class UserService {
         otp.setUser(user);
         otpRepository.save(otp);
 
-        emailService.sendVerificationEmail(registrationRequest.getEmail(), otpCode);
+        emailService.sendVerificationEmail(user, otpCode);
     }
 
-    public void registerPartner(RegistrationRequest registrationRequest) {
+    public void registerPartner(RegistrationPartnerRequest registrationRequest) {
         Optional<Role> optionalRole = roleRepository.findByName(Roles.PARTNER);
         Set<Role> roles = new HashSet<>();
         roles.add(optionalRole.get());
@@ -113,6 +108,11 @@ public class UserService {
                 .build();
         userRepository.save(user);
 
+        Hotel hotel = Hotel.builder()
+                .name(registrationRequest.getHotelName())
+                .email(registrationRequest.getEmail())
+                .build();
+        hotelRepository.save(hotel);
         // Gửi OTP đến email của người dùng
         String otpCode = generateOtpCode();
 
@@ -122,7 +122,7 @@ public class UserService {
         otp.setUser(user);
         otpRepository.save(otp);
 
-        emailService.sendVerificationEmail(registrationRequest.getEmail(), otpCode);
+        emailService.sendVerificationEmail(user, otpCode);
     }
 
     public List<UserResponse> getAll() {
@@ -198,7 +198,7 @@ public class UserService {
         otp.setUser(user);
 
         otpRepository.save(otp);
-        emailService.sendVerificationEmail(request.getEmail(), otpCode);
+        emailService.sendVerificationEmail(user, otpCode);
     }
 
 
@@ -209,8 +209,8 @@ public class UserService {
         return code;
     }
 
-    public boolean verifyUser(String email, String code) {
-        Optional<OTP> otpOptional = otpRepository.findByUser_EmailAndConfirmationCode(email, code);
+    public boolean verifyUser(Long id, String code) {
+        Optional<OTP> otpOptional = otpRepository.findByUser_IdAndConfirmationCode(id, code);
         if (otpOptional.isPresent()) {
             OTP otp = otpOptional.get();
             User user = otp.getUser();
@@ -228,9 +228,9 @@ public class UserService {
         }
     }
 
-    @Async
-    public void sendResetPasswordCode(String email) {
-        User user = userRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException("Không tìm thấy email trong hệ thống"));
+    public void sendResetPasswordCode(EmailForgotPassRequest request) {
+        User user = userRepository.findByEmail(request.getEmail()).
+                orElseThrow(() -> new UserNotFoundException("Không tìm thấy email trong hệ thống"));
 
         // Gửi OTP đến email của người dùng
         String otpCode = generateOtpCode();
@@ -241,15 +241,16 @@ public class UserService {
         otp.setUser(user);
         otpRepository.save(otp);
 
-        emailService.sendResetEmail(email, otpCode);
+        emailService.sendResetEmail(user, otpCode);
     }
 
 
 
-    public void resetPassword(String email, String newPassword) {
-        User user = userRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException("Không tìm thấy email trong hệ thống"));
+    public void resetPassword(Long userId, String newPassword) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("Không tìm thấy email trong hệ thống"));
 
-        user.setPassword(newPassword);
+        user.setPassword(passwordEncoder.encode(newPassword));
         userRepository.save(user);
     }
 
@@ -260,6 +261,5 @@ public class UserService {
     public void sendAttachedMail(String email) throws MessagingException {
         emailService.sendMailWithAttachment(email);
     }
-
 
 }

@@ -65,6 +65,7 @@ application:
       tokenValidityMilliseconds: 259200000
 
   firebase:
-    bucket-name: file-uploading-b5640.appspot.com
-    download-url: https://firebasestorage.googleapis.com/v0/b/hotel-management-5d3b4.appspot.com/o/%s?alt=media
-    config-json: /Users/admin/Desktop/hotel-management-5d3b4-firebase-adminsdk-540e1-06e46dace5.json
+    bucket-name: upload-photo1-5de50.appspot.com
+    download-url: https://firebasestorage.googleapis.com/v0/b/upload-photo1-5de50.appspot.com/o/%s?alt=media
+    config-json: F:/DEV/JAVA/Spring/FINAL/travel-booking/src/main/resources/static/assets/admin/firebase/upload-photo1-5de50-firebase-adminsdk-v30gs-12a1905888.json
+

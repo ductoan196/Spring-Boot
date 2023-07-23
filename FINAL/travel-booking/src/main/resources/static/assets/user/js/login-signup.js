@@ -5,11 +5,23 @@ const signupEmailEle = document.getElementById('signup-email');
 const signupPasswordEle = document.getElementById('signup-password');
 const reSignupPasswordEle = document.getElementById('signup-confirm-password');
 
+const signupPartnerNameEle = document.getElementById('signup-partner-name');
+const signupPartnerEmailEle = document.getElementById('signup-partner-email');
+const signupPartnerPasswordEle = document.getElementById('signup-partner-password');
+const signupPartnerRePasswordEle = document.getElementById('signup-partner-confirm-password');
+
+
+// const resetEmailEle = document.getElementById('reset-email');
+// const newPasswordEle = document.getElementById('new-password');
+// const confirmNewPasswordEle = document.getElementById('confirm-new-password');
+
 
 const btnLogin = document.getElementById('login-btn');
 const btnSignup = document.getElementById('signup-btn');
+const btnPartnerSignup = document.getElementById('signup-partner-btn');
 const btnSignout = document.getElementById('signout-btn');
-const btnResetPass = document.getElementById('reset-password-btn');
+// const btnResetPass = document.getElementById('reset-password-btn');
+// const btnResetNewPass = document.getElementById('set-new-password-btn');
 const inputEles = document.querySelectorAll('.input-row');
 
 $(document).ready(function () {
@@ -109,20 +121,22 @@ btnSignup.addEventListener('click', function () {
 
 });
 
-
-btnResetPass.addEventListener('click', function () {
+btnPartnerSignup.addEventListener('click', function () {
     Array.from(inputEles).map((ele) =>
         ele.classList.remove('success', 'error')
     );
-    let isValid = checkValidate();
+    let isValid = checkPartnerSignUpValidate();
     if (isValid) {
-        let email = $('#signup-email').val()
-        let password = $('#signup-password').val()
+        let email = $('#signup-partner-email').val()
+        let password = $('#signup-partner-password').val()
+        let hotelName = $('#signup-partner-name').val()
         let formdata = {
             email: email,
+            password: password,
+            hotelName: hotelName
         }
         $.ajax({
-            url: '/api/v1/authentication/signup',
+            url: '/api/v1/authentication/signup-partner',
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(formdata),
@@ -171,6 +185,71 @@ btnSignout.addEventListener('click', function () {
         }
     });
 })
+
+// btnResetPass.addEventListener('click', function () {
+//     Array.from(inputEles).map((ele) =>
+//         ele.classList.remove('success', 'error')
+//     );
+//     let isValid = validateResetEmail();
+//     if (isValid) {
+//         let email = $('#reset-email').val()
+//         let formdata = {
+//             email: email
+//         }
+//         $.ajax({
+//             url: '/api/v1/authentication/reset-password/request',
+//             type: 'POST',
+//             contentType: 'application/json',
+//             data: JSON.stringify(formdata),
+//             success: function (id) {
+//                 console.log('ok')
+//                 toastr.success('Vui lòng truy cập email của bạn và xác thực');
+//                 console.log(id)
+//                 cleanInput()
+//
+//             },
+//             error: function (xhr, status, error) {
+//                 setError(resetEmailEle, 'Email chưa đăng ký, vui lòng kiểm tra lại email')
+//                     // toastr.error('Email chưa đăng ký, vui lòng kiểm tra lại email');
+//                     console.error(error);
+//                 }
+//         })
+//     }
+//
+// });
+//
+// btnResetNewPass.addEventListener('click', function () {
+//     Array.from(inputEles).map((ele) =>
+//         ele.classList.remove('success', 'error')
+//     );
+//     let isValid = validateNewPassword();
+//     if (isValid) {
+//         let newPassword = $('#new-password').val()
+//         let formdata = {
+//             newPassword: newPassword
+//         }
+//         $.ajax({
+//             url: '/api/v1/authentication/reset-password',
+//             type: 'POST',
+//             contentType: 'application/json',
+//             data: JSON.stringify(formdata),
+//             success: function (response) {
+//                 console.log('ok')
+//                 toastr.success('Đã đổi mật khẩu thành công, vui lòng đăng nhập lại');
+//                 console.log(response)
+//                 cleanInput()
+//             },
+//             error: function (xhr, status, error) {
+//                 // setError(resetEmailEle, 'Email chưa đăng ký, vui lòng kiểm tra lại email')
+//                 // toastr.error('Email chưa đăng ký, vui lòng kiểm tra lại email');
+//                 console.error(error);
+//             }
+//         })
+//     }
+//
+// });
+
+
 
 function refreshToken() {
     const jwt = localStorage.getItem('jwt');
@@ -233,49 +312,63 @@ function checkSignUpValidate() {
     return isCheck;
 }
 
-function validateResetEmail(emailElement) {
-    const email = emailElement.value;
-
-    if (email === '') {
-        setError(emailElement, 'Email không được để trống');
-        return false;
-    } else if (!validateEmail(email)) {
-        setError(emailElement, 'Email không đúng định dạng');
-        return false;
-    } else {
-        setSuccess(emailElement);
-        return true;
+function checkPartnerSignUpValidate() {
+    let isCheck = validateForm(signupPartnerEmailEle, signupPartnerPasswordEle) &&
+        signupPartnerPasswordEle.value === signupPartnerRePasswordEle.value;
+    if (signupPartnerNameEle.value === '') {
+        setError(signupPartnerNameEle, 'Name không được để trống');
     }
+    if (!isCheck) {
+        setError(signupPartnerRePasswordEle, 'Password và Re-enter password không giống nhau');
+    } else {
+        setSuccess(signupPartnerRePasswordEle);
+    }
+    return isCheck;
 }
 
-function validateNewPassword(passwordElement, confirmPasswordElement) {
-    const password = passwordElement.value;
-    const confirmPassword = confirmPasswordElement.value;
-
-    let isValid = true;
-
-    if (password === '') {
-        setError(passwordElement, 'Password không được để trống');
-        isValid = false;
-    } else if (!validatePassword(password)) {
-        setError(passwordElement, 'Vui lòng nhập password từ 6 đến 15 ký tự, bao gồm cả chữ và số');
-        isValid = false;
-    } else {
-        setSuccess(passwordElement);
-    }
-
-    if (confirmPassword === '') {
-        setError(confirmPasswordElement, 'Re-enter Password không được để trống');
-        isValid = false;
-    } else if (confirmPassword !== password) {
-        setError(confirmPasswordElement, 'Password và Re-enter password không giống nhau');
-        isValid = false;
-    } else {
-        setSuccess(confirmPasswordElement);
-    }
-
-    return isValid;
-}
+// function validateResetEmail() {
+//     const email = resetEmailEle.value;
+//
+//     if (email === '') {
+//         setError(resetEmailEle, 'Email không được để trống');
+//         return false;
+//     } else if (!validateEmail(email)) {
+//         setError(resetEmailEle, 'Email không đúng định dạng');
+//         return false;
+//     } else {
+//         setSuccess(resetEmailEle);
+//         return true;
+//     }
+// }
+//
+// function validateNewPassword() {
+//     const password = newPasswordEle.value;
+//     const confirmPassword = confirmNewPasswordEle.value;
+//
+//     let isValid = true;
+//
+//     if (password === '') {
+//         setError(newPasswordEle, 'Password không được để trống');
+//         isValid = false;
+//     } else if (!validatePassword(password)) {
+//         setError(newPasswordEle, 'Vui lòng nhập password từ 6 đến 15 ký tự, bao gồm cả chữ và số');
+//         isValid = false;
+//     } else {
+//         setSuccess(newPasswordEle);
+//     }
+//
+//     if (confirmPassword === '') {
+//         setError(confirmNewPasswordEle, 'Re-enter Password không được để trống');
+//         isValid = false;
+//     } else if (confirmNewPasswordEle !== password) {
+//         setError(confirmPasswordElement, 'Password và Re-enter password không giống nhau');
+//         isValid = false;
+//     } else {
+//         setSuccess(confirmNewPasswordEle);
+//     }
+//
+//     return isValid;
+// }
 
 
 //NEW VALIDATE

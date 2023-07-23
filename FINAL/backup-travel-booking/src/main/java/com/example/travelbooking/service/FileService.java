@@ -27,6 +27,7 @@ import java.util.stream.Collectors;
 @Log4j2
 @Service
 public class FileService {
+
     @Value("${application.firebase.bucket-name}")
     private String bucketName;
 
@@ -88,7 +89,7 @@ public class FileService {
 
     public String download(String fileName) throws IOException {
         String destFileName = UUID.randomUUID().toString().concat(this.getExtension(fileName));     // to set random strinh for destination file name
-        String destFilePath = "/Users/admin/Desktop/" + destFileName;                                    // to set destination file path
+        String destFilePath = "/Users/buibatruong/Desktop/" + destFileName;                                    // to set destination file path
 
         ////////////////////////////////   Download  ////////////////////////////////////////////////////////////////////////
         Credentials credentials = GoogleCredentials.fromStream(new FileInputStream(configJson));
@@ -97,4 +98,5 @@ public class FileService {
         blob.downloadTo(Paths.get(destFilePath));
         return destFilePath;
     }
+
 }

@@ -17,6 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class FileController {
+
     @Autowired
     FileService fileService;
 
@@ -34,4 +35,5 @@ public class FileController {
     public String download(@PathVariable String fileName) throws IOException {
         return fileService.download(fileName);
     }
+
 }

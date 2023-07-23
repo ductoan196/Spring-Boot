@@ -3,9 +3,7 @@ package com.example.travelbooking.controller;
 import com.example.travelbooking.entity.RefreshToken;
 import com.example.travelbooking.exception.OTPNotFoundException;
 import com.example.travelbooking.exception.RefreshTokenNotFoundException;
-import com.example.travelbooking.model.request.LoginRequest;
-import com.example.travelbooking.model.request.RefreshTokenRequest;
-import com.example.travelbooking.model.request.RegistrationRequest;
+import com.example.travelbooking.model.request.*;
 import com.example.travelbooking.model.response.JwtResponse;
 import com.example.travelbooking.repository.RefreshTokenRepository;
 import com.example.travelbooking.repository.UserRepository;
@@ -25,6 +23,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.mail.MessagingException;
 import javax.validation.Valid;
@@ -88,7 +87,7 @@ public class AuthenticationController {
                 });
     }
     @PostMapping("/signup-partner")
-    public ResponseEntity<?> registerPartner(@Valid @RequestBody RegistrationRequest request) {
+    public ResponseEntity<?> registerPartner(@Valid @RequestBody RegistrationPartnerRequest request) {
         return userRepository.findByEmail(request.getEmail())
                 .map(user -> new ResponseEntity<>("Email is existed", HttpStatus.BAD_REQUEST))
                 .orElseGet(() -> {
@@ -98,8 +97,8 @@ public class AuthenticationController {
     }
 
     @GetMapping("/verify")
-    public ResponseEntity<?> verifyUser(@RequestParam("email") String email, @RequestParam("code") String code) {
-        boolean isVerified = userService.verifyUser(email, code);
+    public ResponseEntity<?> verifyUser(@RequestParam("id") Long id, @RequestParam("code") String code) {
+        boolean isVerified = userService.verifyUser(id, code);
         if (isVerified) {
             return ResponseEntity.status(HttpStatus.FOUND)
                     .header(HttpHeaders.LOCATION, "/success_page")
@@ -119,28 +118,32 @@ public class AuthenticationController {
     }
 
     @PostMapping("/reset-password/request")
-    public ResponseEntity<?> sendPasswordResetCode(@RequestParam("email") String email) {
-        userService.sendResetPasswordCode(email);
+    public ResponseEntity<?> sendPasswordResetCode(@RequestBody @Valid EmailForgotPassRequest request) {
+        userService.sendResetPasswordCode(request);
 
         return ResponseEntity.ok("Mã xác nhận đã được gửi đến email");
     }
 
     @GetMapping("/reset-password/verify")
-    public ResponseEntity<?> verifyResetCode(@RequestParam("email") String email, @RequestParam("resetCode") String resetCode) {
-        boolean isVerified = userService.verifyUser(email, resetCode);
-        if (!isVerified) {
-            throw new OTPNotFoundException("Mã xác nhận không hợp lệ");
+    public ModelAndView verifyResetPass(@RequestParam("id") Long id, @RequestParam("code") String code) {
+        try {
+            userService.verifyUser(id, code);
+            ModelAndView modelAndView = new ModelAndView("/user/reset_new_password.html");
+            modelAndView.addObject("userId", id);
+            return modelAndView;
+        }
+        catch (OTPNotFoundException e){
+            return new ModelAndView("/home");
         }
 
-        return ResponseEntity.ok("Xác nhận mã OTP thành công");
     }
 
     @PostMapping("/reset-password")
-    public ResponseEntity<String> resetPassword(@RequestParam("email") String email, @RequestParam("newPassword") String newPassword) {
+    public ModelAndView resetPassword(@Valid @RequestParam Long userId, @RequestParam String newPassword) {
 
-        userService.resetPassword(email, newPassword);
+        userService.resetPassword(userId, newPassword);
 
-        return ResponseEntity.ok("Đặt lại mật khẩu thành công");
+        return new  ModelAndView("/user/success-page.html");
     }
 
     @PostMapping("/logout")

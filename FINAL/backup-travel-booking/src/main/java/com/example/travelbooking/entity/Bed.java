@@ -1,5 +1,6 @@
 package com.example.travelbooking.entity;
 
+import com.example.travelbooking.statics.BedType;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -16,8 +17,6 @@ public class Bed extends BaseEntity{
 
     String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "bed_type_id")
     BedType bedType;
 
     int bed_nums;

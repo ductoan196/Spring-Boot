@@ -17,7 +17,11 @@ public class Hotel extends BaseEntity{
     @Column(name = "name", nullable = false, length = 200)
     String name;
 
-    @OneToOne(cascade = CascadeType.MERGE)
+    String email;
+
+    String phone;
+
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "location_id")
     Location location;
 }

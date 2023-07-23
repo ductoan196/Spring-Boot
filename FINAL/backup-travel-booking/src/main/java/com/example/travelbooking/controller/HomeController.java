@@ -96,11 +96,15 @@ public class HomeController {
         return "management/partner/dashboard-partner";
     }
 
-    @GetMapping("/partner/room-management")
+    @GetMapping("/partner/room-list")
     public String roomList() {
-        return "management/partner/room-management";
+        return "management/partner/room-list";
     }
 
+    @GetMapping("/partner/add-room")
+    public String addRoom() {
+        return "management/partner/add-room";
+    }
 //    @GetMapping("/partner/add-room")
 //    public String addRoom() {
 //        return "management/partner/add-room";
