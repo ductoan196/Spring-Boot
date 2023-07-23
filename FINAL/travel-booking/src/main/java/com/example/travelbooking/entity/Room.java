@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -30,18 +31,15 @@ public class Room extends BaseEntity{
     @JoinColumn(name = "hotel_id")
     Hotel hotel;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "room_id")
-     List<Image> images;
-
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "room_bed",
-            joinColumns = @JoinColumn(name = "room_id"),
-            inverseJoinColumns = @JoinColumn(name = "bed_id"))
-    List<Bed> bedList;
+//    @OneToMany(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "room_id")
+//     List<Image> images;
 
     @Enumerated(EnumType.STRING)
     RoomStatus roomStatus;
+
+    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Amenity> amenities = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(

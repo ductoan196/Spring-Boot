@@ -1,14 +1,9 @@
 package com.example.travelbooking.model.request.partner;
 
-import com.example.travelbooking.entity.Bed;
-import com.example.travelbooking.entity.Facility;
-import com.example.travelbooking.entity.Hotel;
-import com.example.travelbooking.entity.Image;
 import com.example.travelbooking.statics.RoomStatus;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import javax.persistence.*;
 import java.util.List;
 
 @Data
@@ -27,13 +22,13 @@ public class UpdateRoomRequest {
 
     int room_nums;
 
-    Hotel hotel;
+    Long hotelId;
 
-    List<Image> images;
+    List<Integer> imageIds;
 
-    List<Bed> bedList;
+    List<Integer> bedIds;
 
     RoomStatus roomStatus;
 
-    List<Facility> facilities;
+    List<Integer> facilityIds;
 }

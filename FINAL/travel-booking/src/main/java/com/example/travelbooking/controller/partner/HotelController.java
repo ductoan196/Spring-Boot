@@ -1,10 +1,14 @@
 package com.example.travelbooking.controller.partner;
 
+import com.example.travelbooking.entity.Facility;
 import com.example.travelbooking.entity.Hotel;
 import com.example.travelbooking.model.request.partner.CreateRoomRequest;
 import com.example.travelbooking.model.request.partner.UpdateRoomRequest;
 import com.example.travelbooking.model.response.partner.RoomResponse;
+import com.example.travelbooking.service.partner.AmenityService;
+import com.example.travelbooking.service.partner.FacilityService;
 import com.example.travelbooking.service.partner.HotelService;
+import com.example.travelbooking.statics.BedType;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -14,7 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -25,21 +29,8 @@ import java.util.List;
 public class HotelController {
 
     HotelService hotelService;
-
-    // Lấy thông tin chi tiết khách sạn
-    @GetMapping
-    public ResponseEntity<?> getHotel() {
-        try {
-            Hotel hotel = hotelService.getHotelForPartner();
-            if (hotel != null) {
-                return ResponseEntity.ok(hotel);
-            } else {
-                return ResponseEntity.notFound().build();
-            }
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to fetch hotel details");
-        }
-    }
+    FacilityService facilityService;
+    AmenityService amenityService;
 
     // Cập nhật thông tin khách sạn
     @PutMapping
@@ -58,35 +49,26 @@ public class HotelController {
 
     // Lấy danh sách phòng khách sạn
     @GetMapping("/rooms")
-    public ResponseEntity<?> getRooms(Model model) {
-        try {
+    public String getRooms(Model model) {
             List<RoomResponse> rooms = hotelService.getRoomList();
-            model.addAttribute(rooms);
-            return ResponseEntity.ok(rooms);
-
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error");
-        }
+            model.addAttribute("rooms", rooms);
+            return "management/partner/room-list";
     }
 
-    // Lấy thông tin chi tiết về một phòng
-    @GetMapping("/rooms/{roomId}")
-    public ResponseEntity<?> getRoom(@PathVariable Long roomId, Model model) {
-        try {
-            RoomResponse room = hotelService.getRoomDetail(roomId);
-            if (room != null) {
-                model.addAttribute(room);
-                return ResponseEntity.ok(room);
-            } else {
-                return ResponseEntity.notFound().build();
-            }
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to fetch room details");
-        }
+    //Chuyển đến trang tạo phòng
+    @GetMapping("/rooms/create-room")
+    public String createNewRoomForm(Model model) {
+        List<BedType> bedTypes = Arrays.asList(BedType.values());
+        List<Facility> facilities = facilityService.getAllFacility();
+
+        model.addAttribute("bedTypes", bedTypes);
+        model.addAttribute("facilities", facilities);
+        model.addAttribute("createRoomRequest", new CreateRoomRequest());
+        return "management/partner/add-room";
     }
 
     // Tạo mới phòng khách sạn
-    @PostMapping
+    @PostMapping("/rooms")
     public ResponseEntity<?> createRoom(@RequestBody CreateRoomRequest createRoomRequest) {
 
         hotelService.createRoom(createRoomRequest);
@@ -94,29 +76,32 @@ public class HotelController {
 
     }
 
-    // Cập nhật thông tin phòng khách sạn
-    @PutMapping("/{roomId}")
-    public ResponseEntity<?> updateRoom(@PathVariable Long roomId, @RequestBody UpdateRoomRequest updateRoomRequest) {
+    // Chuyển đến trang sửa phòng
+    @GetMapping("/edit-room/{roomId}")
+    public String editRoomForm(@PathVariable Long roomId, Model model) {
+        RoomResponse room = hotelService.getRoomDetail(roomId);
+        List<BedType> bedTypes = Arrays.asList(BedType.values());
+        List<Facility> facilities = facilityService.getAllFacility();
 
-        hotelService.updateRoom(roomId, updateRoomRequest);
-        return ResponseEntity.ok("Update succesfull");
-
+        model.addAttribute("room", room);
+        model.addAttribute("bedTypes", bedTypes);
+        model.addAttribute("facilities", facilities);
+        model.addAttribute("editRoomRequest", new UpdateRoomRequest());
+        return "management/partner/edit-room";
     }
 
-//    // Xóa phòng khách sạn
-//    @DeleteMapping("/rooms/{roomId}")
-//    public ResponseEntity<?> deleteRoom(@PathVariable String roomId) {
-//        hotelService.deleteRoom(roomId);
-//        return ResponseEntity.ok("Deleted");
-//    }
-//
-//    // Tìm kiếm phòng khách sạn dựa trên các tiêu chí
-//    @GetMapping("/search")
-//    public ResponseEntity<List<RoomResponse>> searchRooms(@RequestParam("city") String city,
-//                                                          @RequestParam("startDate") LocalDate startDate,
-//                                                          @RequestParam("endDate") LocalDate endDate,
-//                                                          @RequestParam("guestCount") int guestCount) {
-//        List<RoomResponse> rooms = hotelService.searchRooms(city, startDate, endDate, guestCount);
-//        return ResponseEntity.ok(rooms);
-//    }
+    // Sửa thông tin phòng
+    @PutMapping("/{roomId}")
+    public ResponseEntity<?> editRoom(@PathVariable Long roomId, @ModelAttribute UpdateRoomRequest updateRoomRequest) {
+        hotelService.updateRoom(roomId, updateRoomRequest);
+        return new ResponseEntity<>(null, HttpStatus.OK);
+    }
+
+    // Xóa phòng
+    @DeleteMapping("/{roomId}")
+    public ResponseEntity<?> deleteRoom(@PathVariable Long roomId) {
+        hotelService.deleteRoom(roomId);
+        return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+    }
+
 }

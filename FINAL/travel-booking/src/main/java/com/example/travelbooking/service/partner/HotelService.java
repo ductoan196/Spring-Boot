@@ -3,11 +3,10 @@ package com.example.travelbooking.service.partner;
 import com.example.travelbooking.entity.Hotel;
 import com.example.travelbooking.entity.Room;
 import com.example.travelbooking.exception.NotFoundException;
-import com.example.travelbooking.exception.UserNotFoundException;
 import com.example.travelbooking.model.request.partner.CreateRoomRequest;
 import com.example.travelbooking.model.request.partner.UpdateRoomRequest;
 import com.example.travelbooking.model.response.partner.RoomResponse;
-import com.example.travelbooking.repository.RoomRepository;
+import com.example.travelbooking.repository.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,6 +19,10 @@ import java.util.stream.Collectors;
 public class HotelService {
 
     RoomRepository roomRepository;
+    HotelRepository hotelRepository;
+    ImageRepository imageRepository;
+    AmenityRepository amenityRepository;
+    FacilityRepository facilityRepository;
     ObjectMapper objectMapper;
 
     public Hotel getHotelForPartner() {
@@ -43,8 +46,20 @@ public class HotelService {
         return objectMapper.convertValue(room, RoomResponse.class);
     }
 
-    public void createRoom(CreateRoomRequest createRoomRequest) {
-        Room room = objectMapper.convertValue(createRoomRequest, Room.class);
+    public void createRoom(CreateRoomRequest request) {
+
+        Room room = Room.builder()
+                .name(request.getName())
+                .description(request.getDescription())
+                .price(request.getPrice())
+                .capacity(request.getCapacity())
+                .room_nums(request.getRoom_nums())
+                .hotel(hotelRepository.findById(request.getHotelId()).orElse(null))
+//                .images(imageRepository.findAllById(request.getImageIds()))
+                .amenities(request.getAmenities())
+                .roomStatus(request.getRoomStatus())
+                .facilities(facilityRepository.findAllById(request.getFacilityIds()))
+                .build();
         roomRepository.save(room);
     }
 
@@ -53,6 +68,11 @@ public class HotelService {
         Room room = roomRepository.findById(roomId)
                 .orElseThrow(() -> new NotFoundException("Không tìm thấy room trong danh sách"));
 
+
+    }
+
+    public void deleteRoom(Long roomId) {
+        roomRepository.deleteById(roomId);
 
     }
 }
