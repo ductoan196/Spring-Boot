@@ -69,7 +69,13 @@ btnLogin.addEventListener('click', function () {
                 toastr.success('Đăng Nhập Thành Công!');
 
                 setTimeout(function() {
-                    window.location.href = "http://localhost:8080/home";
+                    if (response.roles.includes("USER")) {
+                        window.location.href = `http://localhost:8080/home`;
+                    } else if (response.roles.includes("PARTNER")) {
+                        window.location.href = `http://localhost:8080/partner/dashboard-partner`;
+                    } else if (response.roles.includes("ADMIN")) {
+                        window.location.href = `http://localhost:8080/admin/dashboard-admin`;
+                    }
                 }, 2000);
 
                 $('#signInSignUp').modal('hide');
@@ -145,7 +151,7 @@ btnPartnerSignup.addEventListener('click', function () {
                 toastr.success('Đăng Kí Thành Công! Vui lòng truy cập email của bạn và xác thực tài khoản');
                 console.log(response)
                 cleanInput()
-                $('#signInSignUp').modal('hide');
+                $('#signUpPartner').modal('hide');
             },
             error: function (xhr, status, error) {
                 if (xhr.status === 400 && xhr.responseText === 'Email is existed') {

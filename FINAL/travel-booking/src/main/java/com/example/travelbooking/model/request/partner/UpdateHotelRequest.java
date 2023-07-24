@@ -1,20 +1,16 @@
-package com.example.travelbooking.entity;
+package com.example.travelbooking.model.request.partner;
 
+import com.example.travelbooking.entity.Location;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import javax.persistence.*;
-
 @Data
-@Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "hotels")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Hotel extends BaseEntity{
+public class UpdateHotelRequest {
 
-    @Column(name = "name", nullable = false, length = 200)
     String name;
 
     String email;

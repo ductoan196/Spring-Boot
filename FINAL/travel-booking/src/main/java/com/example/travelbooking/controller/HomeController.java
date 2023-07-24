@@ -1,12 +1,21 @@
 package com.example.travelbooking.controller;
 
+import com.example.travelbooking.exception.UserNotFoundException;
+import com.example.travelbooking.security.SecurityUtils;
+import com.example.travelbooking.service.UserService;
+import com.example.travelbooking.service.partner.HotelService;
+import com.example.travelbooking.statics.Gender;
+import io.grpc.internal.ServiceConfigUtil;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.Optional;
 
 @Controller
 @AllArgsConstructor
@@ -14,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class HomeController {
 
+    UserService userService;
     // User
     @GetMapping("/home")
     public String home() {
@@ -90,9 +100,14 @@ public class HomeController {
         return "user/success-reset-password";
     }
 
+
+
+
     //Management-partner
-    @GetMapping("/partner/dashboard-partner")
-    public String dashboard() {
+
+    //Management admin
+    @GetMapping("partner/dashboard-partner")
+    public String dashboadPartner() {
         return "management/partner/dashboard-partner";
     }
 
@@ -111,6 +126,9 @@ public class HomeController {
         return "management/partner/coupon";
     }
 
+
+
+
     //Management-user
     @GetMapping("/dashboard-user")
     public String dashboardUser() {
@@ -120,5 +138,12 @@ public class HomeController {
     @GetMapping("/booking-user-managent")
     public String bookingUser() {
         return "management/user/booking-user";
+    }
+
+
+    //Management admin
+    @GetMapping("admin/dashboard-admin")
+    public String dashboadAdmin() {
+        return "management/admin/dashboard-admin";
     }
 }

@@ -52,6 +52,18 @@ public final class SecurityUtils {
         });
     }
 
+    public static Optional<String> getCurrentUserEmail() {
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        return Optional.ofNullable(securityContext.getAuthentication())
+                .map(authentication -> {
+                    if (authentication.getPrincipal() instanceof CustomUserDetails) {
+                        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+                        return userDetails.getUsername(); // Trả về email của người dùng từ UserDetails
+                    }
+                    return null;
+                });
+    }
+
     /**
      * Get the JWT of the current user.
      *

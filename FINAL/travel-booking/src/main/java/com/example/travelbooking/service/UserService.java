@@ -262,4 +262,12 @@ public class UserService {
         emailService.sendMailWithAttachment(email);
     }
 
+    @Transactional
+    public void getId() {
+        Optional<Long> userIdOptional = SecurityUtils.getCurrentUserLoginId();
+        if (userIdOptional.isEmpty()) {
+            throw new UsernameNotFoundException("Tài khoản không tồn tại");
+        }
+        System.out.println(userIdOptional.get());
+    }
 }

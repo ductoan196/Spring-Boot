@@ -46,8 +46,8 @@
                                 <div class="row">
                                     <input type="file" hidden="hidden" id="avatar-input-hotel"/>
                                     <div class="col-lg-6 mb-3">
-                                        <label for="name" class="form-label"> Full Name</label>
-                                        <input type="text" class="form-control" id="name" autocomplete="off"
+                                        <label for="fullname" class="form-label"> Full Name</label>
+                                        <input type="text" class="form-control" id="fullname" autocomplete="off"
                                                placeholder>
                                     </div>
                                     <div class="col-lg-6 mb-3">
@@ -68,12 +68,12 @@
                                     </div>
 
 
-<!--                                    <div class="col-lg-6 mb-3">-->
-<!--                                        <label for="gender" class="form-label">Gender</label>-->
-<!--                                        <select class="form-select" id="gender" name="gender">-->
-<!--                                            <option th:each="gender : ${genders}" th:value="${gender}" th:text="${gender.name}"></option>-->
-<!--                                        </select>-->
-<!--                                    </div>-->
+                                    <div class="col-lg-6 mb-3">
+                                        <label for="gender" class="form-label">Gender</label>
+                                        <select class="form-select" id="gender" name="gender">
+                                            <option th:each="gender : ${genders}" th:value="${gender}" th:text="${gender.name}"></option>
+                                        </select>
+                                    </div>
 
 
                                     <div class="text-right pt-4">
@@ -98,21 +98,16 @@
         $(document).ready(function () {
             let userInfo = JSON.parse(localStorage.getItem("userInfo"))
             let emailInput = document.getElementById('email');
-            let nameInput = document.getElementById('name');
-            let phoneInput = document.getElementById('phone');
-            let addressInput = document.getElementById('address');
-
             emailInput.value = userInfo.username;
             emailInput.readOnly= true;
 
-            getHotelByEmail();
 
-            function getHotelByEmail() {
+            function getHotelByEmail(email) {
                 const jwt = localStorage.getItem('jwt');
                 let emailHotel = userInfo.username
                 if (jwt) {
                     $.ajax({
-                        url: `/api/v1/partner/hotel?email=${encodeURIComponent(emailHotel)}`,
+                        url: '/api/v1/partner/hotel/' + emailHotel,
                         type: 'GET',
                         headers: {
                             'Authorization': 'Bearer ' + jwt
@@ -121,10 +116,9 @@
                             // Xử lý dữ liệu khách sạn nhận được từ response
                             console.log(response);
                             // Hiển thị thông tin khách sạn trong giao diện
-                            nameInput.value = response.name;
-                            phoneInput.value = response.phone;
-                            addressInput.value = response.address;
-
+                            $('#hotelName').text(response.name);
+                            $('#hotelAddress').text(response.address);
+                            // Các thông tin khác của khách sạn
                         },
                         error: function (xhr, status, error) {
                             console.error(error);

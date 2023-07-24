@@ -10,6 +10,7 @@ import com.example.travelbooking.repository.UserRepository;
 import com.example.travelbooking.security.CustomUserDetails;
 import com.example.travelbooking.security.JwtUtils;
 import com.example.travelbooking.service.UserService;
+import com.example.travelbooking.statics.Gender;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -22,6 +23,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 

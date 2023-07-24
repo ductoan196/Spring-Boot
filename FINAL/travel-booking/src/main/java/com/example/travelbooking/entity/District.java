@@ -10,18 +10,23 @@ import javax.persistence.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "hotels")
+@Table(name = "districts")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Hotel extends BaseEntity{
+public class District {
+    @Id
+    String code;
 
-    @Column(name = "name", nullable = false, length = 200)
     String name;
 
-    String email;
+    String nameEn;
 
-    String phone;
+    String fullName;
 
-    String imageUrl;
+    String fullNameEn;
 
-    String address;
+    String codeName;
+
+    @ManyToOne
+    @JoinColumn(name = "province_code")
+    Province province;
 }
