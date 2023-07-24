@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
@@ -46,11 +47,29 @@ public class HotelController {
     }
 
 
+//    // Cập nhật thông tin khách sạn
+//    @PutMapping("/hotel")
+//    public ResponseEntity<?> updateHotel(@Valid @RequestBody UpdateHotelRequest updateHotelRequest) {
+//        try {
+//            Hotel updatedHotel = hotelService.updateHotel(updateHotelRequest);
+//            if (updatedHotel != null) {
+//                return ResponseEntity.ok(updatedHotel);
+//            } else {
+//                return ResponseEntity.notFound().build();
+//            }
+//        } catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to update hotel");
+//        }
+//    }
     // Cập nhật thông tin khách sạn
-    @PutMapping
-    public ResponseEntity<?> updateHotel(@Valid @RequestBody UpdateHotelRequest updateHotelRequest) {
+    @PutMapping("/hotel")
+    public ResponseEntity<?> updateHotel(@RequestParam("file") MultipartFile file,
+                                         @RequestParam("name") String name,
+                                         @RequestParam("phone") String phone,
+                                         @RequestParam("email") String email,
+                                         @RequestParam("address") String address) {
         try {
-            Hotel updatedHotel = hotelService.updateHotel(updateHotelRequest);
+            Hotel updatedHotel = hotelService.updateHotelwithAvatar(file, name, phone, address, email);
             if (updatedHotel != null) {
                 return ResponseEntity.ok(updatedHotel);
             } else {

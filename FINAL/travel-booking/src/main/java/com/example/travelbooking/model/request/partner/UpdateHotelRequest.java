@@ -17,7 +17,7 @@ public class UpdateHotelRequest {
 
     String phone;
 
-    String imageUrl;
+    String avatar;
 
     String address;
 }

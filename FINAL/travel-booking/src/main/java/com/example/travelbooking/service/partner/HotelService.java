@@ -11,6 +11,7 @@ import com.example.travelbooking.model.response.partner.RoomResponse;
 import com.example.travelbooking.repository.HotelRepository;
 import com.example.travelbooking.repository.RoomRepository;
 import com.example.travelbooking.security.SecurityUtils;
+import com.example.travelbooking.service.FileService;
 import com.example.travelbooking.service.UserService;
 import com.example.travelbooking.statics.Gender;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -35,6 +37,7 @@ public class HotelService {
     ObjectMapper objectMapper;
 
     UserService userService;
+    FileService fileService;
 
 
     public List<RoomResponse> getRoomList() {
@@ -49,7 +52,7 @@ public class HotelService {
         Hotel hotel = hotelRepository.findByEmail(updateHotelRequest.getEmail())
                 .orElseThrow(() -> new NotFoundException("Không tìm thấy hotel trong danh sách"));
         hotel.setName(updateHotelRequest.getName());
-        hotel.setImageUrl(updateHotelRequest.getImageUrl());
+        hotel.setImageUrl(updateHotelRequest.getAvatar());
         hotel.setPhone(updateHotelRequest.getPhone());
         hotel.setAddress(updateHotelRequest.getAddress());
 
@@ -59,5 +62,21 @@ public class HotelService {
     public Hotel getHotelByEmail(String email) {
         return hotelRepository.findByEmail(email)
                 .orElseThrow(() -> new NotFoundException("Không tìm thấy hotel trong danh sách"));
+    }
+
+    public Hotel updateHotelwithAvatar(MultipartFile file, String name, String phone, String address, String email) {
+
+        Hotel hotel = hotelRepository.findByEmail(email)
+                .orElseThrow(() -> new NotFoundException("Không tìm thấy hotel trong danh sách"));
+
+        if (file != null && !file.isEmpty()) {
+            String imgUrl = fileService.upload(file);
+            hotel.setImageUrl(imgUrl);
+        }
+        hotel.setName(name);
+        hotel.setPhone(phone);
+        hotel.setAddress(address);
+
+        return hotelRepository.save(hotel);
     }
 }
