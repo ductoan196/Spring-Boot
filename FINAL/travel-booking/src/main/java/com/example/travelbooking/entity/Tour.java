@@ -12,7 +12,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "rooms")
+@Table(name = "tours")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Tour extends BaseEntity{
     String name;

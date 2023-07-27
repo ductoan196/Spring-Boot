@@ -57,12 +57,12 @@ public class FileService {
         return fileName.substring(fileName.lastIndexOf("."));
     }
 
-    public UploadFileResponse upload(List<MultipartFile> multipartFile) {
+    public List<String> upload(List<MultipartFile> multipartFile) {
         if (CollectionUtils.isEmpty(multipartFile)) {
             return null;
         }
         List<String> fileUrls = multipartFile.stream().map(this::upload).collect(Collectors.toList());
-        return UploadFileResponse.builder().fileUrls(fileUrls).build();
+        return fileUrls;
     }
 
     public String upload(MultipartFile multipartFile) {

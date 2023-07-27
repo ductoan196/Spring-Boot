@@ -1,4 +1,4 @@
-package com.example.travelbooking.model.request;
+package com.example.travelbooking.model.request.registration;
 
 import lombok.AccessLevel;
 import lombok.Data;

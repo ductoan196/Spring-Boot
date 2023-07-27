@@ -26,7 +26,7 @@ public class FileController {
     }
 
     @PostMapping("/multiple")
-    public UploadFileResponse uploadMultiple(@RequestParam("files") List<MultipartFile> multipartFile) {
+    public List<String> uploadMultiple(@RequestParam("files") List<MultipartFile> multipartFile) {
         return fileService.upload(multipartFile);
     }
 

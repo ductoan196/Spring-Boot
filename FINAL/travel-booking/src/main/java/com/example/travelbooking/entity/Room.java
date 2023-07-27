@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -30,15 +31,8 @@ public class Room extends BaseEntity{
     @JoinColumn(name = "hotel_id")
     Hotel hotel;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "room_id")
-     List<Image> images;
-
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "room_bed",
-            joinColumns = @JoinColumn(name = "room_id"),
-            inverseJoinColumns = @JoinColumn(name = "bed_id"))
-    List<Bed> bedList;
+    @ElementCollection
+    List<String> imageUrls = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     RoomStatus roomStatus;
@@ -50,4 +44,5 @@ public class Room extends BaseEntity{
             inverseJoinColumns = @JoinColumn(name = "facility_id")
     )
     List<Facility> facilities;
+
 }

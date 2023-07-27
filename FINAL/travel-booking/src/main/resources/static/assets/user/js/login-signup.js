@@ -192,69 +192,6 @@ btnSignout.addEventListener('click', function () {
     });
 })
 
-// btnResetPass.addEventListener('click', function () {
-//     Array.from(inputEles).map((ele) =>
-//         ele.classList.remove('success', 'error')
-//     );
-//     let isValid = validateResetEmail();
-//     if (isValid) {
-//         let email = $('#reset-email').val()
-//         let formdata = {
-//             email: email
-//         }
-//         $.ajax({
-//             url: '/api/v1/authentication/reset-password/request',
-//             type: 'POST',
-//             contentType: 'application/json',
-//             data: JSON.stringify(formdata),
-//             success: function (id) {
-//                 console.log('ok')
-//                 toastr.success('Vui lòng truy cập email của bạn và xác thực');
-//                 console.log(id)
-//                 cleanInput()
-//
-//             },
-//             error: function (xhr, status, error) {
-//                 setError(resetEmailEle, 'Email chưa đăng ký, vui lòng kiểm tra lại email')
-//                     // toastr.error('Email chưa đăng ký, vui lòng kiểm tra lại email');
-//                     console.error(error);
-//                 }
-//         })
-//     }
-//
-// });
-//
-// btnResetNewPass.addEventListener('click', function () {
-//     Array.from(inputEles).map((ele) =>
-//         ele.classList.remove('success', 'error')
-//     );
-//     let isValid = validateNewPassword();
-//     if (isValid) {
-//         let newPassword = $('#new-password').val()
-//         let formdata = {
-//             newPassword: newPassword
-//         }
-//         $.ajax({
-//             url: '/api/v1/authentication/reset-password',
-//             type: 'POST',
-//             contentType: 'application/json',
-//             data: JSON.stringify(formdata),
-//             success: function (response) {
-//                 console.log('ok')
-//                 toastr.success('Đã đổi mật khẩu thành công, vui lòng đăng nhập lại');
-//                 console.log(response)
-//                 cleanInput()
-//             },
-//             error: function (xhr, status, error) {
-//                 // setError(resetEmailEle, 'Email chưa đăng ký, vui lòng kiểm tra lại email')
-//                 // toastr.error('Email chưa đăng ký, vui lòng kiểm tra lại email');
-//                 console.error(error);
-//             }
-//         })
-//     }
-//
-// });
-
 
 
 function refreshToken() {

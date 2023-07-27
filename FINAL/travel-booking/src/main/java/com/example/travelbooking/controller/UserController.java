@@ -1,7 +1,7 @@
 package com.example.travelbooking.controller;
 
 import com.example.travelbooking.exception.ExistedUserException;
-import com.example.travelbooking.model.request.CreateUserRequest;
+import com.example.travelbooking.model.request.registration.CreateUserRequest;
 import com.example.travelbooking.model.response.UserResponse;
 import com.example.travelbooking.service.UserService;
 import lombok.AccessLevel;
@@ -9,10 +9,8 @@ import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
-import javax.mail.MessagingException;
 import javax.validation.Valid;
 import java.util.List;
 

@@ -44,7 +44,12 @@ btnResetNewPass.addEventListener('click', function () {
     let isValid = validateNewPassword();
     if (isValid) {
         let newPassword = $('#new-password').val()
+
+        // const userId = document.getElementById('userId').value;
+        // console.log('User ID:', userId);
+
         let formdata = {
+            // userId: userId,
             newPassword: newPassword
         }
         $.ajax({

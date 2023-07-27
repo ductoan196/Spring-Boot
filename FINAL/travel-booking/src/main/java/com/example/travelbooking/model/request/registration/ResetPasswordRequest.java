@@ -1,4 +1,4 @@
-package com.example.travelbooking.model.request;
+package com.example.travelbooking.model.request.registration;
 
 import lombok.AccessLevel;
 import lombok.Data;
@@ -10,9 +10,9 @@ import javax.validation.constraints.Size;
 
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class EmailForgotPassRequest {
+public class ResetPasswordRequest {
+     Long userId;
+
     @NotBlank
-    @Size(max = 50)
-    @Email(message = "Email không hợp lệ")
-    String email;
+    String newPassword;
 }

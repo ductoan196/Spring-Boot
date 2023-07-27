@@ -24837,3 +24837,9 @@ div.tox .tox-dialog__body {
     color: #fff;
     transition: all ease 0.3s;
 }
+
+.custom-error-message {
+    color: red;
+    font-size: 12px;
+    /* Các thuộc tính CSS khác tùy chỉnh hiển thị */
+}

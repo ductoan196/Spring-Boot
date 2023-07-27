@@ -3,6 +3,7 @@ package com.example.travelbooking.model.request.partner;
 import com.example.travelbooking.entity.Location;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
 @Builder
@@ -17,7 +18,7 @@ public class UpdateHotelRequest {
 
     String phone;
 
-    String avatar;
+    MultipartFile avatar;
 
     String address;
 }

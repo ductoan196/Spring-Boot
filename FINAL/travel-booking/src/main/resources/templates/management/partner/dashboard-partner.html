@@ -50,25 +50,25 @@
                                 <div class="row">
                                     <input type="file" hidden="hidden" id="avatar-input-hotel"/>
                                     <div class="col-lg-6 mb-3">
-                                        <label for="name" class="form-label"> Full Name</label>
+                                        <label for="name" class="form-label"> Full Name *</label>
                                         <input type="text" class="form-control" id="name" autocomplete="off"
-                                               placeholder>
+                                               placeholder name="name">
                                     </div>
                                     <div class="col-lg-6 mb-3">
-                                        <label for="email" class="form-label">Email Address</label>
+                                        <label for="email" class="form-label">Email Address *</label>
                                         <input type="email" class="form-control" id="email" autocomplete="off"
-                                               placeholder>
+                                               placeholder name="email">
                                     </div>
                                     <div class="col-lg-6 mb-3">
-                                        <label for="phone" class="form-label">Phone No.</label>
+                                        <label for="phone" class="form-label">Phone No. *</label>
                                         <input type="number" class="form-control" id="phone" autocomplete="off"
-                                               placeholder>
+                                               placeholder name="phone">
                                     </div>
 
                                     <div class="col-lg-6 mb-3">
-                                        <label for="address" class="form-label"> Address</label>
+                                        <label for="address" class="form-label"> Address *</label>
                                         <input type="text" class="form-control" id="address" autocomplete="off"
-                                               placeholder>
+                                               placeholder name="address">
                                     </div>
 
 
@@ -80,14 +80,15 @@
                                     <!--                                    </div>-->
 
 
-                                    <div class="text-right pt-4">
-                                        <button type="submit" class="btn btn-primary submit-hotel-profile-btn"
-                                                id="submit-hotel-profile-btn"><i class="link-icon"
-                                                                                 data-feather="save"></i> Save Profile
-                                        </button>
-                                    </div>
                                 </div>
                             </form>
+
+                            <div class="text-right pt-4">
+                                <button type="submit" class="btn btn-primary submit-hotel-profile-btn"
+                                        id="submit-hotel-profile-btn"><i class="link-icon"
+                                                                         data-feather="save"></i> Save Profile
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -99,6 +100,9 @@
 
 <th:block id="js-resources">
     <script src="assets/user/js/modify-profile.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"
+            integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <script>
         $(document).ready(function () {
@@ -133,7 +137,10 @@
                             nameInput.value = response.name;
                             phoneInput.value = response.phone;
                             addressInput.value = response.address;
-                            avatarInput.src = response.imageUrl;
+                            // avatarInput.src = response.imageUrl;
+                            if (response.imageUrl !== null && response.imageUrl !== "") {
+                                avatarInput.src = response.imageUrl;
+                            }
 
                         },
                         error: function (xhr, status, error) {
@@ -142,6 +149,45 @@
                     });
                 }
             }
+
+            $("#uploadForm").validate({
+                onfocusout: false,
+                onkeyup: false,
+                onclick: false,
+                rules: {
+                    "name": {
+                        required: true,
+                        maxlength: 100
+                    },
+                    "phone": {
+                        required: true,
+                        minlength: 10,
+                        maxlength: 15,
+                        digits: true
+                    },
+                    "address": {
+                        required: true,
+                        maxlength: 500
+                    }
+                },
+                messages: {
+                    "name": {
+                        required: "Please enter the hotel name.",
+                        maxlength: "The hotel name must not exceed 100 characters."
+                    },
+                    "phone": {
+                        required: "Please enter the phone number.",
+                        minlength: "Phone number must be at least 10 digits.",
+                        maxlength: "Phone number must not exceed 15 digits.",
+                        digits: "Please enter a valid phone number with digits only."
+                    },
+                    "address": {
+                        required: "Please enter the hotel address.",
+                        maxlength: "The address must not exceed 500 characters."
+                    }
+                },
+                errorClass: "custom-error-message"
+            });
 
 
             // toastr.options.timeOut = 2500; // 2.5s
@@ -165,58 +211,32 @@
             });
 
             btnSubmit.addEventListener('click', function () {
-                // if (!chosenFile) {
-                //     toastr.error("Chưa chọn file");
-                //     return;
-                // }
-                //
-                // let imageUrl = null;
-                const formData = new FormData();
-                formData.append('file', chosenFile);
-                formData.append('name', nameInput.value);
-                formData.append('phone', phoneInput.value);
-                formData.append('address', addressInput.value);
-                formData.append('email', emailInput.value);
-                // $.ajax({
-                //     url: '/api/v1/files',
-                //     data: formData,
-                //     type: 'POST',
-                //     contentType: false, // NEEDED, DON'T OMIT THIS (requires jQuery 1.6+)
-                //     processData: false, // NEEDED, DON'T OMIT THIS
-                //     success: function (data) {
-                //         console.log(data);
-                //         imageUrl = data;
-                //     },
-                //     error: function (errorData) {
-                //         console.log(errorData);
-                //         toastr.error(errorData);
-                //     }
-                // });
-                //
-                //
-                // let formDataHotel = {
-                //     name: nameInput.value,
-                //     email: emailInput.value,
-                //     phone: phoneInput.value,
-                //     avatar: imageUrl,
-                //     address: addressInput.value
-                // }
-                $.ajax({
-                    url: '/api/v1/partner/hotel',
-                    data: formData,
-                    type: 'PUT',
-                    contentType: false, // NEEDED, DON'T OMIT THIS (requires jQuery 1.6+)
-                    processData: false, // NEEDED, DON'T OMIT THIS
-                    success: function (data) {
-                        toastr.success("Update thông tin khách sạn thành công")
-                        console.log(data);
-                        location.reload();
-                    },
-                    error: function (errorData) {
-                        console.log(errorData);
-                        toastr.error(errorData);
-                    }
-                });
+                if ($("#uploadForm").valid()) {
+                    const formData = new FormData();
+                    formData.append('file', chosenFile);
+                    formData.append('name', nameInput.value);
+                    formData.append('phone', phoneInput.value);
+                    formData.append('address', addressInput.value);
+                    formData.append('email', emailInput.value);
+
+                    console.log(JSON.stringify(formData))
+                    $.ajax({
+                        url: '/api/v1/partner/hotel',
+                        data: formData,
+                        type: 'PUT',
+                        contentType: false, // NEEDED, DON'T OMIT THIS (requires jQuery 1.6+)
+                        processData: false, // NEEDED, DON'T OMIT THIS
+                        success: function (data) {
+                            toastr.success("Update thông tin khách sạn thành công")
+                            console.log(data);
+                            window.location.reload();
+                        },
+                        error: function (errorData) {
+                            console.log(errorData);
+                            toastr.error("Vui lòng điền đầy đủ thông tin bắt buộc");
+                        }
+                    });
+                }
             });
 
 

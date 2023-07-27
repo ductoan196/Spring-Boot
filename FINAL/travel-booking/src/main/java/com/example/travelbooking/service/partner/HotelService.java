@@ -48,13 +48,18 @@ public class HotelService {
     }
 
 
-    public Hotel updateHotel(UpdateHotelRequest updateHotelRequest) {
-        Hotel hotel = hotelRepository.findByEmail(updateHotelRequest.getEmail())
+    public Hotel updateHotel(UpdateHotelRequest request) {
+        Hotel hotel = hotelRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new NotFoundException("Không tìm thấy hotel trong danh sách"));
-        hotel.setName(updateHotelRequest.getName());
-        hotel.setImageUrl(updateHotelRequest.getAvatar());
-        hotel.setPhone(updateHotelRequest.getPhone());
-        hotel.setAddress(updateHotelRequest.getAddress());
+
+
+        hotel.setName(request.getName());
+        hotel.setPhone(request.getPhone());
+        hotel.setAddress(request.getAddress());
+        if (request.getAvatar() != null && !request.getAvatar().isEmpty()) {
+            String imgUrl = fileService.upload(request.getAvatar());
+            hotel.setImageUrl(imgUrl);
+        }
 
         return hotelRepository.save(hotel);
     }

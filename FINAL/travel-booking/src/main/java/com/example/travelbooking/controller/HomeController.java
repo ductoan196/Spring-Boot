@@ -1,10 +1,14 @@
 package com.example.travelbooking.controller;
 
+import com.example.travelbooking.entity.Facility;
 import com.example.travelbooking.exception.UserNotFoundException;
+import com.example.travelbooking.repository.FacilityRepository;
 import com.example.travelbooking.security.SecurityUtils;
 import com.example.travelbooking.service.UserService;
 import com.example.travelbooking.service.partner.HotelService;
+import com.example.travelbooking.statics.BedType;
 import com.example.travelbooking.statics.Gender;
+import com.example.travelbooking.statics.RoomStatus;
 import io.grpc.internal.ServiceConfigUtil;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -15,6 +19,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -24,6 +30,7 @@ import java.util.Optional;
 public class HomeController {
 
     UserService userService;
+    FacilityRepository facilityRepository;
     // User
     @GetMapping("/home")
     public String home() {
@@ -116,10 +123,14 @@ public class HomeController {
         return "management/partner/room-management";
     }
 
-//    @GetMapping("/partner/add-room")
-//    public String addRoom() {
-//        return "management/partner/add-room";
-//    }
+    @GetMapping("/partner/add-room")
+    public String addRoom(Model model) {
+        List<Facility> facilityList = facilityRepository.findAll();
+        model.addAttribute("facilityList", facilityList);
+        model.addAttribute("bedTypes", BedType.values());
+        model.addAttribute("roomStatusList", RoomStatus.values());
+        return "management/partner/add-room";
+    }
 
     @GetMapping("/partner/coupon")
     public String coupon() {

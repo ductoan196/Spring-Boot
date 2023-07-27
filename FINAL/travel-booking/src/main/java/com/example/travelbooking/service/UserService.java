@@ -3,7 +3,7 @@ package com.example.travelbooking.service;
 import com.example.travelbooking.entity.Hotel;
 import com.example.travelbooking.entity.OTP;
 import com.example.travelbooking.exception.*;
-import com.example.travelbooking.model.request.*;
+import com.example.travelbooking.model.request.registration.*;
 import com.example.travelbooking.repository.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.example.travelbooking.entity.Role;
@@ -253,6 +253,15 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(newPassword));
         userRepository.save(user);
     }
+
+//    public void resetPassword(ResetPasswordRequest request) {
+//
+//        User user = userRepository.findById(request.getUserId())
+//                .orElseThrow(() -> new UserNotFoundException("Không tìm thấy email trong hệ thống"));
+//
+//        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+//        userRepository.save(user);
+//    }
 
     public void sendOtp(String email) {
         emailService.sendSimpleMail(email);

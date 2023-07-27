@@ -1,9 +1,12 @@
 package com.example.travelbooking.entity;
 
+import com.example.travelbooking.statics.BedType;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
@@ -14,11 +17,14 @@ import javax.persistence.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Bed extends BaseEntity{
 
-    String name;
+//    @OneToMany(mappedBy = "bed", cascade = CascadeType.ALL)
+//    List<BedTypeWithQuantity> bedTypeWithQuantityList = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "bed_type_id")
     BedType bedType;
 
-    int bed_nums;
+    int quantity;
+
+    @ManyToOne
+    @JoinColumn(name = "room_id")
+    private Room room;
 }

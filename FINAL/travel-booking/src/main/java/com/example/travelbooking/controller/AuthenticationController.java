@@ -3,14 +3,13 @@ package com.example.travelbooking.controller;
 import com.example.travelbooking.entity.RefreshToken;
 import com.example.travelbooking.exception.OTPNotFoundException;
 import com.example.travelbooking.exception.RefreshTokenNotFoundException;
-import com.example.travelbooking.model.request.*;
+import com.example.travelbooking.model.request.registration.*;
 import com.example.travelbooking.model.response.JwtResponse;
 import com.example.travelbooking.repository.RefreshTokenRepository;
 import com.example.travelbooking.repository.UserRepository;
 import com.example.travelbooking.security.CustomUserDetails;
 import com.example.travelbooking.security.JwtUtils;
 import com.example.travelbooking.service.UserService;
-import com.example.travelbooking.statics.Gender;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -23,7 +22,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -147,6 +145,14 @@ public class AuthenticationController {
 
         return new  ModelAndView("/user/success-page.html");
     }
+
+//    @PostMapping("/reset-password")
+//    public ModelAndView resetPassword(@Valid @RequestBody ResetPasswordRequest resetPasswordRequest) {
+//
+//        userService.resetPassword(resetPasswordRequest);
+//
+//        return new  ModelAndView("/user/success-page.html");
+//    }
 
     @PostMapping("/logout")
     public ResponseEntity<?> logout() {

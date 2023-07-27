@@ -1,20 +1,16 @@
-package com.example.travelbooking.entity;
+package com.example.travelbooking.model.request.partner;
 
 import com.example.travelbooking.statics.BedType;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import javax.persistence.*;
-
 @Data
-@Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "beds")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Amenity extends BaseEntity{
-    BedType bedType;
 
+public class CreateBedRequest {
+    String bedType;
     int quantity;
 }

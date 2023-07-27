@@ -1,4 +1,4 @@
-package com.example.travelbooking.model.request;
+package com.example.travelbooking.model.request.registration;
 
 import lombok.AccessLevel;
 import lombok.Data;
@@ -10,9 +10,15 @@ import javax.validation.constraints.Size;
 
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ResetPasswordRequest {
-     Long userId;
+public class RegistrationPartnerRequest {
+    @NotBlank
+    @Size(max = 50)
+    @Email(message = "Email không hợp lệ")
+    String email;
 
     @NotBlank
-    String newPassword;
+    String password;
+
+    @NotBlank
+    String hotelName;
 }

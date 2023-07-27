@@ -24,4 +24,5 @@ public class Hotel extends BaseEntity{
     String imageUrl;
 
     String address;
+
 }
