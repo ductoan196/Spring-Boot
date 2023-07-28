@@ -7,6 +7,7 @@ import com.example.travelbooking.entity.Image;
 import com.example.travelbooking.statics.RoomStatus;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import java.util.List;
@@ -27,13 +28,13 @@ public class UpdateRoomRequest {
 
     int room_nums;
 
-    Hotel hotel;
+    String hotelEmail;
 
-    List<Image> images;
-
-    List<Bed> bedList;
+    List<MultipartFile> images;
 
     RoomStatus roomStatus;
 
-    List<Facility> facilities;
+    List<String> facilities;
+
+    List<CreateBedRequest> beds;
 }

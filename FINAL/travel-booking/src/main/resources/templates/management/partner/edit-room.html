@@ -142,7 +142,7 @@
                     </div>
 
                     <div class="text-center mb-5">
-                        <button type="submit" class="btn btn-primary" id="create-room-btn"><i class="link-icon"
+                        <button type="submit" class="btn btn-primary" id="update-room-btn"><i class="link-icon"
                                                                                               data-feather="save"></i>
                             Lưu thay đổi
                         </button>
@@ -162,7 +162,7 @@
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <script th:inline="javascript">
-        let selectedFacilities = /*[[${selectedFacilities}]]*/;
+        let selectedFacilities = [[${selectedFacilities}]];
         const facilitySelect = document.getElementById("facilityList");
         for (let i = 0; i < facilitySelect.options.length; i++) {
             const option = facilitySelect.options[i];
@@ -212,6 +212,8 @@
         });
 
         $(document).ready(function () {
+
+            let roomId = [[${roomId}]];
 
             $("#uploadForm").validate({
                 onfocusout: false,
@@ -283,14 +285,13 @@
             });
 
 
-            document.getElementById("create-room-btn").addEventListener("click", function () {
+            document.getElementById("update-room-btn").addEventListener("click", function () {
 
                 if ($("#uploadForm").valid()) {
                     // Tạo formData mới
                     const formData = new FormData();
 
                     let userInfo = JSON.parse(localStorage.getItem("userInfo"))
-
 
                     // Thu thập thông tin từ các trường form và thêm vào formData
                     formData.append("name", document.getElementById("roomName").value);
@@ -333,8 +334,8 @@
                     });
 
                     $.ajax({
-                        url: '/api/v1/partner/rooms',
-                        type: 'POST',
+                        url: '/api/v1/partner/rooms/' + roomId,
+                        type: 'PUT',
                         processData: false,
                         contentType: false,
                         data: formData,

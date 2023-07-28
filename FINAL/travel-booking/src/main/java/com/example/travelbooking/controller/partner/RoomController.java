@@ -2,6 +2,7 @@ package com.example.travelbooking.controller.partner;
 
 import com.example.travelbooking.entity.Room;
 import com.example.travelbooking.model.request.partner.CreateRoomRequest;
+import com.example.travelbooking.model.request.partner.UpdateRoomRequest;
 import com.example.travelbooking.service.partner.RoomService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +26,9 @@ public class RoomController {
         return ResponseEntity.status(HttpStatus.CREATED).body(room);
     }
 
-//    @GetMapping("/api/v1/partner/rooms/{roomId}")
-//    public ModelAndView editRoom(@PathVariable Long roomId) {
-//        ModelAndView modelAndView = new ModelAndView("/partner/rooms/edit")
-//    }
+    @PutMapping(value = "/{roomId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Room> updateRoom(@PathVariable Long roomId, @ModelAttribute UpdateRoomRequest request) {
+        Room room = roomService.updateRoom(roomId, request);
+        return ResponseEntity.status(HttpStatus.OK).body(room);
+    }
 }

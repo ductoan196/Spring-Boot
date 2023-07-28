@@ -4,4 +4,5 @@ import com.example.travelbooking.entity.Bed;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface BedRepository extends JpaRepository<Bed, Long> {
+    void deleteAllByRoomId(Long roomId);
 }

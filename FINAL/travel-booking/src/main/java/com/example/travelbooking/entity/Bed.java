@@ -17,9 +17,6 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Bed extends BaseEntity{
 
-//    @OneToMany(mappedBy = "bed", cascade = CascadeType.ALL)
-//    List<BedTypeWithQuantity> bedTypeWithQuantityList = new ArrayList<>();
-
     BedType bedType;
 
     int quantity;
