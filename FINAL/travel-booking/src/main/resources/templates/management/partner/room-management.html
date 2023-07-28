@@ -25,7 +25,8 @@
                 <li class="breadcrumb-item"><a href="dashboard.html">Dashboard</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Room Management</li>
             </ol>
-            <a href="/partner/add-room" class="btn btn-primary"><i class="link-icon" data-feather="plus"></i> Add room</a>
+            <a href="/partner/add-room" class="btn btn-primary"><i class="link-icon" data-feather="plus"></i> Add
+                room</a>
         </nav>
         <div class="search-box p-4 bg-white rounded mb-3 box-shadow">
             <form class="forms-sample">
@@ -73,22 +74,52 @@
                                     <th class="text-center">Action</th>
                                 </tr>
                                 </thead>
+
                                 <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Bungalow</td>
-                                    <td>TV, Wifi</td>
-                                    <td>600000</td>
-                                    <td>3</td>
-                                    <td>Available</td>
+                                <tr th:each="room: ${roomList}">
+                                    <td th:text="${room.id}"/>
+                                    <td th:text="${room.name}"/>
+                                    <td>
+                                        <span th:each="facility, iterStat : ${room.facilities}">
+                                            <span th:text="${facility.name}"></span>
+                                            <span th:if="${!iterStat.last}">, </span>
+                                        </span>
+                                    </td>
+
+                                    <td>
+                                        <script th:inline="javascript">
+                                            var price = /*[[${room.price}]]*/;
+                                            var formattedPrice = new Intl.NumberFormat('vi-VN').format(price);
+                                            document.write(formattedPrice);
+                                        </script>
+                                    </td>
+                                    <td th:text="${room.capacity}"/>
+                                    <td th:text="${room.roomStatus.name}"/>
+
                                     <td class="text-center">
-                                        <span class="form-check form-switch"><input type="checkbox" class="form-check-input" id="formSwitch1"></span>
+                                        <span class="form-check form-switch"><input type="checkbox"
+                                                                                    class="form-check-input"
+                                                                                    id="formSwitch1"></span>
                                     </td>
                                     <td class="text-center">
                                         <ul class="d-flex list-unstyled mb-0 justify-content-center">
-                                            <li class="me-2"><a href="#" data-bs-toggle="modal" data-bs-target="#view"><i class="link-icon" data-feather="eye"></i></a></li>
-                                            <li class="me-2"><a href="#" data-bs-toggle="modal" data-bs-target="#addslider"><i class="link-icon" data-feather="edit"></i></a></li>
-                                            <li><a href="#"><i class="link-icon" data-feather="delete"></i></a></li>
+                                            <li class="me-2">
+                                                <a th:href="@{'/edit-room/' + ${room.id}}"
+                                                   target="_blank">
+                                                    <i class="link-icon" data-feather="eye"></i>
+                                                </a>
+                                            </li>
+                                            <li class="me-2">
+                                                <a th:href="@{'/partner/rooms/' + ${room.id}}"
+                                                   target="_blank">
+                                                    <i class="link-icon" data-feather="edit"></i>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <i class="link-icon" data-feather="delete"></i>
+                                                </a>
+                                            </li>
                                         </ul>
                                     </td>
                                 </tr>

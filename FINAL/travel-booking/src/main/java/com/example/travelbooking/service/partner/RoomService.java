@@ -7,6 +7,7 @@ import com.example.travelbooking.entity.Room;
 import com.example.travelbooking.exception.NotFoundException;
 import com.example.travelbooking.model.request.partner.CreateBedRequest;
 import com.example.travelbooking.model.request.partner.CreateRoomRequest;
+import com.example.travelbooking.model.response.partner.RoomResponse;
 import com.example.travelbooking.repository.BedRepository;
 import com.example.travelbooking.repository.FacilityRepository;
 import com.example.travelbooking.repository.HotelRepository;
@@ -14,6 +15,7 @@ import com.example.travelbooking.repository.RoomRepository;
 import com.example.travelbooking.service.FileService;
 import com.example.travelbooking.statics.BedType;
 import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -30,6 +32,7 @@ public class RoomService {
     HotelRepository hotelRepository;
     FacilityRepository facilityRepository;
     FileService fileService;
+    ModelMapper modelMapper;
 
 
     public Room createRoom(CreateRoomRequest request) {
@@ -80,4 +83,27 @@ public class RoomService {
         }
         throw new IllegalArgumentException("Invalid bed type: " + bedTypeString);
     }
+
+    public List<RoomResponse> getAllRooms() {
+        List<Room>rooms = roomRepository.findAll();
+        List<RoomResponse> roomResponses= new ArrayList<>();
+        for (Room room : rooms) {
+            RoomResponse roomResponse = new RoomResponse();
+            roomResponse.setName(room.getName());
+            roomResponse.setDescription(room.getDescription());
+            roomResponse.setPrice(room.getPrice());
+            roomResponse.setCapacity(room.getCapacity());
+            roomResponse.setRoom_nums(room.getRoom_nums());
+            roomResponse.setHotel(room.getHotel()); // Thay "getName()" bằng getter phù hợp
+            roomResponse.setImageUrls(room.getImageUrls());
+            roomResponse.setRoomStatus(room.getRoomStatus());
+            roomResponse.setFacilities(room.getFacilities());
+            roomResponses.add(roomResponse);
+        }
+
+        return roomResponses;
+    }
+
+
+
 }

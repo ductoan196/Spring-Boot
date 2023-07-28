@@ -10,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("api/v1/partner/rooms")
@@ -19,15 +20,13 @@ public class RoomController {
     RoomService roomService;
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Room> createRoomWithoutBed(@ModelAttribute CreateRoomRequest request) {
+    public ResponseEntity<Room> createRoom(@ModelAttribute CreateRoomRequest request) {
         Room room = roomService.createRoom(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(room);
     }
 
-    @PutMapping("{roomId}/bed")
-    public ResponseEntity<Room> updateBedforRoom(@RequestBody CreateRoomRequest request) {
-        Room room = roomService.createRoom(request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(room);
-    }
-    
+//    @GetMapping("/api/v1/partner/rooms/{roomId}")
+//    public ModelAndView editRoom(@PathVariable Long roomId) {
+//        ModelAndView modelAndView = new ModelAndView("/partner/rooms/edit")
+//    }
 }

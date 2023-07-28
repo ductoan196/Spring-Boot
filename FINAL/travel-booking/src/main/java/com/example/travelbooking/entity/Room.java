@@ -44,5 +44,4 @@ public class Room extends BaseEntity{
             inverseJoinColumns = @JoinColumn(name = "facility_id")
     )
     List<Facility> facilities;
-
 }

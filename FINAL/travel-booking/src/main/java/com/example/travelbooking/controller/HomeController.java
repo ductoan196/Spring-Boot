@@ -1,14 +1,20 @@
 package com.example.travelbooking.controller;
 
 import com.example.travelbooking.entity.Facility;
+import com.example.travelbooking.entity.Room;
+import com.example.travelbooking.exception.NotFoundException;
 import com.example.travelbooking.exception.UserNotFoundException;
+import com.example.travelbooking.model.response.partner.RoomResponse;
 import com.example.travelbooking.repository.FacilityRepository;
+import com.example.travelbooking.repository.RoomRepository;
 import com.example.travelbooking.security.SecurityUtils;
 import com.example.travelbooking.service.UserService;
 import com.example.travelbooking.service.partner.HotelService;
+import com.example.travelbooking.service.partner.RoomService;
 import com.example.travelbooking.statics.BedType;
 import com.example.travelbooking.statics.Gender;
 import com.example.travelbooking.statics.RoomStatus;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.grpc.internal.ServiceConfigUtil;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -17,11 +23,13 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 @AllArgsConstructor
@@ -31,6 +39,10 @@ public class HomeController {
 
     UserService userService;
     FacilityRepository facilityRepository;
+    RoomRepository roomRepository;
+    RoomService roomService;
+    ObjectMapper objectMapper;
+
     // User
     @GetMapping("/home")
     public String home() {
@@ -119,7 +131,10 @@ public class HomeController {
     }
 
     @GetMapping("/partner/room-management")
-    public String roomList() {
+    public String roomList(Model model) {
+        List<Room> roomList = roomRepository.findAll();
+//        List<RoomResponse> roomList = roomService.getAllRooms();
+        model.addAttribute("roomList", roomList);
         return "management/partner/room-management";
     }
 
@@ -130,6 +145,25 @@ public class HomeController {
         model.addAttribute("bedTypes", BedType.values());
         model.addAttribute("roomStatusList", RoomStatus.values());
         return "management/partner/add-room";
+    }
+
+    @GetMapping("/partner/rooms/{roomId}")
+    public String editRoom(@PathVariable Long roomId, Model model) {
+        Room room = roomRepository.findById(roomId)
+                .orElseThrow(() -> new NotFoundException("Không tìm thấy room trong danh sách"));
+        model.addAttribute(room);
+
+        List<Facility> facilityList = facilityRepository.findAll();
+
+        List<String> selectedFacilities = room.getFacilities().stream()
+                .map(Facility::getName)
+                .collect(Collectors.toList());
+
+        model.addAttribute("facilityList", facilityList);
+        model.addAttribute("selectedFacilities", selectedFacilities);
+        model.addAttribute("bedTypes", BedType.values());
+        model.addAttribute("roomStatusList", RoomStatus.values());
+        return "management/partner/edit-room";
     }
 
     @GetMapping("/partner/coupon")

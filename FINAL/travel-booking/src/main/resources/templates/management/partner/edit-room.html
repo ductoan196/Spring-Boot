@@ -44,7 +44,7 @@
             <ol class="breadcrumb mb-0">
                 <li class="breadcrumb-item"><a href="dashboard.html">Dashboard</a></li>
                 <li class="breadcrumb-item"><a href="popup-ads.html">Room</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Add Room</li>
+                <li class="breadcrumb-item active" aria-current="page">Edit Room</li>
             </ol>
             <a href="/partner/room-management" class="btn btn-primary"><i class="link-icon" data-feather="arrow-left"></i> Back To
                 List</a>
@@ -61,50 +61,44 @@
                                     <input class="form-control" type="file" id="roomImages" multiple>
                                 </div>
                                 <div class="col-lg-4 mb-5">
-                                    <label for="roomName" class="form-label">Room Name *</label>
+                                    <label for="roomName" class="form-label" >Room Name *</label>
                                     <input type="text" class="form-control" id="roomName" autocomplete="off"
-                                           placeholder name="name">
+                                           placeholder name="name" th:value="${room.name}">
                                 </div>
                                 <div class="col-lg-4 mb-5">
                                     <label for="roomPrice" class="form-label">Price * (VNĐ)</label>
                                     <div class="input-group">
                                         <input type="number" class="form-control" id="roomPrice"
-                                               placeholder="Enter price" min="1" autocomplete="off" name="price">
+                                               placeholder="Enter price" autocomplete="off" name="price" th:value="${room.price}">
                                     </div>
                                 </div>
-                                <!--                                <div class="col-lg-4 mb-3">-->
-                                <!--                                    <label class="form-label">Coupon Validity Time</label>-->
-                                <!--                                    <div class="input-group date datepicker" id="datePickerExample">-->
-                                <!--                                        <input type="text" class="form-control">-->
-                                <!--                                        <span class="input-group-text input-group-addon"><i data-feather="calendar"></i></span>-->
-                                <!--                                    </div>-->
-                                <!--                                </div>-->
                                 <div class="col-lg-4 mb-5">
                                     <label for="roomCapacity" class="form-label"> Capacity *</label>
                                     <input type="number" class="form-control" id="roomCapacity" autocomplete="off"
-                                           placeholder name="capacity">
+                                           placeholder name="capacity" th:value="${room.capacity}">
                                 </div>
                                 <div class="col-lg-4 mb-5">
                                     <label for="roomQuantity" class="form-label"> Room Quantity *</label>
                                     <input type="number" class="form-control" id="roomQuantity" autocomplete="off"
-                                           placeholder name="quantity">
+                                           placeholder name="quantity" th:value="${room.room_nums}">
                                 </div>
                                 <div class="col-lg-4 mb-5">
                                     <label for="roomStatusList" class="form-label">Status *</label>
                                     <select class="form-select" id="roomStatusList">
                                         <option th:each="status : ${roomStatusList}" th:value="${status}"
-                                                th:text="${status.getName}"
+                                                th:text="${status.getName}" th:selected="${status == room.roomStatus}"
                                                 class="text-body"></option>
                                     </select>
                                 </div>
-
+<!--&lt;!&ndash;                              -->
                                 <div class="col-lg-4 mb-5">
                                     <label for="facilityList" class="form-label">Facility *</label>
                                     <select class="form-select facility-select" id="facilityList"
                                             data-selected-facility="">
-                                        <option th:each="facility : ${facilityList}" th:value="${facility.getName}"
-                                                th:text="${facility.getName}"
-                                                class="text-body facility-option">Facility
+                                        <option th:each="facility : ${facilityList}"
+                                                th:value="${facility.name}"
+                                                th:text="${facility.name}"
+                                                th:selected="${selectedFacilities.contains(facility.name)} ? 'selected' : null">Facility
                                         </option>
                                     </select>
                                 </div>
@@ -151,7 +145,7 @@
                     <div class="text-center mb-5">
                         <button type="submit" class="btn btn-primary" id="create-room-btn"><i class="link-icon"
                                                                                               data-feather="save"></i>
-                            Tạo phòng mới
+                            Lưu thay đổi
                         </button>
                     </div>
                 </div>
@@ -169,6 +163,17 @@
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <!-- Trong phần thẻ <script> -->
+    <script th:inline="javascript">
+        let selectedFacilities = /*[[${selectedFacilities}]]*/;
+        const facilitySelect = document.getElementById("facilityList");
+        for (let i = 0; i < facilitySelect.options.length; i++) {
+            const option = facilitySelect.options[i];
+            const facilityName = option.value;
+            if (selectedFacilities.includes(facilityName)) {
+                option.selected = true;
+            }
+        }
+    </script>
     <script>
         $(document).ready(function () {
             // Áp dụng Select2 cho phần tử <select>
