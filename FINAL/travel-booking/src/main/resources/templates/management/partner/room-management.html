@@ -12,7 +12,8 @@
     <title>Partner Dashboard</title>
 
     <th:block id="css-resources">
-
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap-grid.min.css"/>
     </th:block>
 </head>
 
@@ -88,7 +89,7 @@
 
                                     <td>
                                         <script th:inline="javascript">
-                                            var price = /*[[${room.price}]]*/;
+                                            var price = [[${room.price}]];
                                             var formattedPrice = new Intl.NumberFormat('vi-VN').format(price);
                                             document.write(formattedPrice);
                                         </script>
@@ -116,7 +117,9 @@
                                                 </a>
                                             </li>
                                             <li>
-                                                <a href="#">
+                                                <input type="hidden" id="roomId" th:value="${room.id}">
+                                                <a href="#" id="delete-room-btn" data-bs-toggle="modal"
+                                                   data-bs-target="#confirmDelete">
                                                     <i class="link-icon" data-feather="delete"></i>
                                                 </a>
                                             </li>
@@ -145,9 +148,34 @@
             </div>
         </div>
     </div>
+
 </main>
 
 <th:block id="js-resources">
+    <script>
+        $(document).ready(function () {
+            $('#confirmDeleteBtn').click(function () {
+                const roomId = $("#roomId").val();
+                $.ajax({
+                    url: '/api/v1/partner/rooms/' + roomId, // Thay thế đúng đường dẫn API của bạn
+                    type: 'DELETE',
+                    success: function (response) {
+                        // Xử lý kết quả trả về từ API nếu cần
+                        console.log('ok');
+                        window.location.reload();
+                        toastr.success('Đã xóa phòng thành công.');
+                        
+                    },
+                    error: function (xhr, status, error) {
+                        // Xử lý lỗi (nếu có)
+                        console.error(error);
+                        toastr.error('Đã xảy ra lỗi khi xóa phòng.');
+                    }
+                });
+            });
+        });
+
+    </script>
 </th:block>
 </body>
 

@@ -166,17 +166,6 @@
             integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-    <script th:inline="javascript">
-        let selectedFacilities = [[${selectedFacilities}]];
-        const facilitySelect = document.getElementById("facilityList");
-        for (let i = 0; i < facilitySelect.options.length; i++) {
-            const option = facilitySelect.options[i];
-            const facilityName = option.value;
-            if (selectedFacilities.includes(facilityName)) {
-                option.selected = true;
-            }
-        }
-    </script>
     <script>
         $(document).ready(function () {
             // Áp dụng Select2 cho phần tử <select>
@@ -191,7 +180,12 @@
             // Xử lý khi nút "Thêm giường" được ấn
             $("#addBedButton").on("click", function () {
                 // Sao chép dòng giường đầu tiên và thêm vào dưới cùng
-                var newBedRow = $(".bed-row:first").clone();
+                const newBedRow = $(".bed-row:first").clone().get(0); // Hoặc có thể dùng .first()
+
+                // Xóa giá trị bedType của select trong dòng được sao chép
+                const bedTypeSelect = newBedRow.querySelector(".bed-type");
+                bedTypeSelect.selectedIndex = -1;
+
                 $(".container").append(newBedRow);
             });
 
@@ -347,13 +341,14 @@
                         success: function (response) {
                             // Xử lý kết quả trả về từ API (nếu cần)
                             console.log('ok');
-                            toastr.success('Đã tạo phòng thành công.');
+                            toastr.success('Đã lưu.');
                             console.log(response);
+                            window.location.href = `http://localhost:8080/partner/room-management`;
                         },
                         error: function (xhr, status, error) {
                             // Xử lý lỗi (nếu có)
                             console.error(error);
-                            toastr.error('Đã xảy ra lỗi khi tạo phòng.');
+                            toastr.error('Đã xảy ra lỗi khi lưu');
                         }
                     });
                     // Console log dữ liệu formData dưới dạng JSON

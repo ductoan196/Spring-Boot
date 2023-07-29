@@ -1,0 +1,21 @@
+<!-- Modal -->
+<div th:fragment="confirm-delete-modal" class="modal fade" id="confirmDelete" tabindex="-1"
+     aria-labelledby="confirmDelete" aria-hidden="true">
+    <div class="modal-dialog top-20">
+        <div class="modal-content">
+            <div class="modal-header d-flex">
+                <h4 class="modal-title me-auto" id="exampleModalLabel">Xác nhận xóa phòng</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Bạn có chắc chắn muốn xóa phòng này? Hành động này sẽ không thể hoàn tác!
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="confirmDeleteBtn" >Confirm</button>
+            </div>
+        </div>
+    </div>
+</div>
+

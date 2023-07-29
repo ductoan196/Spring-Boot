@@ -1,6 +1,7 @@
 package com.example.travelbooking.controller.partner;
 
 import com.example.travelbooking.entity.Room;
+import com.example.travelbooking.exception.NotFoundException;
 import com.example.travelbooking.model.request.partner.CreateRoomRequest;
 import com.example.travelbooking.model.request.partner.UpdateRoomRequest;
 import com.example.travelbooking.service.partner.RoomService;
@@ -27,8 +28,22 @@ public class RoomController {
     }
 
     @PutMapping(value = "/{roomId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Room> updateRoom(@PathVariable Long roomId, @ModelAttribute UpdateRoomRequest request) {
+    public ResponseEntity<?> updateRoom(@PathVariable Long roomId, @ModelAttribute UpdateRoomRequest request) {
         Room room = roomService.updateRoom(roomId, request);
-        return ResponseEntity.status(HttpStatus.OK).body(room);
+        return ResponseEntity.ok(null);
     }
+
+    @DeleteMapping("/{roomId}")
+    public ResponseEntity<?> deleteRoom(@PathVariable Long roomId) {
+        try {
+            // Gọi phương thức xóa phòng từ service
+            roomService.deleteRoom(roomId);
+            return ResponseEntity.ok().build(); // Trả về HTTP status code 200 OK nếu xóa thành công
+        } catch (NotFoundException e) {
+            return ResponseEntity.notFound().build(); // Trả về HTTP status code 404 Not Found nếu không tìm thấy phòng cần xóa
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to delete room"); // Trả về HTTP status code 500 Internal Server Error nếu xảy ra lỗi trong quá trình xóa
+        }
+    }
+
 }

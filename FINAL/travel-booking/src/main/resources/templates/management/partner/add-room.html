@@ -183,7 +183,8 @@
             // Xử lý khi nút "Thêm giường" được ấn
             $("#addBedButton").on("click", function () {
                 // Sao chép dòng giường đầu tiên và thêm vào dưới cùng
-                var newBedRow = $(".bed-row:first").clone();
+                const newBedRow = $(".bed-row:first").clone().get(0); // Hoặc có thể dùng .first()
+
                 $(".container").append(newBedRow);
             });
 
@@ -340,6 +341,7 @@
                             console.log('ok');
                             toastr.success('Đã tạo phòng thành công.');
                             console.log(response);
+                            window.location.href = `http://localhost:8080/partner/room-management`;
                         },
                         error: function (xhr, status, error) {
                             // Xử lý lỗi (nếu có)

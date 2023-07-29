@@ -133,10 +133,8 @@ public class RoomService {
         List<String> imageUrls= fileService.upload(request.getImages());
         room.setImageUrls(imageUrls);
 
-        Hotel hotel = hotelRepository.findByEmail(request.getHotelEmail())
-                .orElseThrow(() -> new NotFoundException("Không tìm thấy hotel trong danh sách"));
-        room.setHotel(hotel);
-
+        // Xóa tất cả các facility của phòng đó khỏi cơ sở dữ liệu
+        room.getFacilities().clear();
         List<Facility> facilities = new ArrayList<>();
         for (String s : request.getFacilities()) {
             Facility facility = facilityRepository.findByName(s)
@@ -145,6 +143,17 @@ public class RoomService {
         }
         room.setFacilities(facilities);
 
-        return roomRepository.save(room);
+        room = roomRepository.save(room);
+        bedRepository.saveAll(beds);
+        return room;
+    }
+
+    public void deleteRoom(Long roomId) {
+        Room room = roomRepository.findById(roomId)
+                .orElseThrow(() -> new NotFoundException("Không tìm thấy room trong danh sách"));
+        room.getFacilities().clear();
+        bedRepository.deleteAllByRoomId(roomId);
+
+        roomRepository.deleteById(roomId);
     }
 }
