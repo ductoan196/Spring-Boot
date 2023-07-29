@@ -73,7 +73,9 @@ public class RoomService {
         }
         room.setFacilities(facilities);
 
-        return roomRepository.save(room);
+        room = roomRepository.save(room);
+        bedRepository.saveAll(beds);
+        return room;
     }
 
     private BedType findBedTypeFromString(String bedTypeString) {

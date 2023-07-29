@@ -1,30 +1,24 @@
 package com.example.travelbooking.controller.partner;
 
 import com.example.travelbooking.entity.Hotel;
-import com.example.travelbooking.model.request.partner.CreateRoomRequest;
-import com.example.travelbooking.model.request.partner.UpdateHotelRequest;
-import com.example.travelbooking.model.request.partner.UpdateRoomRequest;
-import com.example.travelbooking.model.response.partner.RoomResponse;
 import com.example.travelbooking.service.UserService;
 import com.example.travelbooking.service.partner.HotelService;
 import com.example.travelbooking.statics.Gender;
-import com.example.travelbooking.statics.RoomStatus;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.hibernate.sql.Update;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.Valid;
-import java.time.LocalDate;
-import java.util.List;
-
-
+@Slf4j
 @Controller
 @RequestMapping("/api/v1/partner")
 @AllArgsConstructor
@@ -47,22 +41,6 @@ public class HotelController {
         return new ResponseEntity<>(hotel, HttpStatus.OK);
     }
 
-
-//    // Cập nhật thông tin khách sạn
-//    @PutMapping("/hotel")
-//    public ResponseEntity<?> updateHotel(@Valid @RequestBody UpdateHotelRequest updateHotelRequest) {
-//        try {
-//            Hotel updatedHotel = hotelService.updateHotel(updateHotelRequest);
-//            if (updatedHotel != null) {
-//                return ResponseEntity.ok(updatedHotel);
-//            } else {
-//                return ResponseEntity.notFound().build();
-//            }
-//        } catch (Exception e) {
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to update hotel");
-//        }
-//    }
-    // Cập nhật thông tin khách sạn
     @PutMapping("/hotel")
     public ResponseEntity<?> updateHotel(@RequestParam(value = "file", required = false) MultipartFile file,
                                          @RequestParam("name") String name,
@@ -80,32 +58,4 @@ public class HotelController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to update hotel");
         }
     }
-
-//    @PutMapping("/hotel")
-//    public ResponseEntity<?> updateHotel(@ModelAttribute UpdateHotelRequest request) {
-//        try {
-//            Hotel updatedHotel = hotelService.updateHotel(request);
-//            if (updatedHotel != null) {
-//                return ResponseEntity.ok(updatedHotel);
-//            } else {
-//                return ResponseEntity.notFound().build();
-//            }
-//        } catch (Exception e) {
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to update hotel");
-//        }
-//    }
-
-    // Lấy danh sách phòng khách sạn
-    @GetMapping("/rooms")
-    public ResponseEntity<?> getRooms(Model model) {
-        try {
-            List<RoomResponse> rooms = hotelService.getRoomList();
-            model.addAttribute(rooms);
-            return ResponseEntity.ok(rooms);
-
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error");
-        }
-    }
-
 }

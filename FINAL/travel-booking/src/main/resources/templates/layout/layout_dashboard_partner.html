@@ -88,7 +88,7 @@
                         <span class="link-title">Coupon</span>
                     </a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" onclick="logout()">
                     <a href="/" class="nav-link">
                         <i class="link-icon" data-feather="log-out"></i>
                         <span class="link-title">Sign out</span>
@@ -149,13 +149,13 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button"
                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img class="wd-30 ht-30 rounded-circle" src="/assets/user/images/default-avatar.png"
+                            <img class="wd-30 ht-30 rounded-circle" src="/assets/user/images/default-hotel.jpg"
                                  alt="profile">
                         </a>
                         <div class="dropdown-menu p-0" aria-labelledby="profileDropdown">
                             <div class="d-flex flex-column align-items-center border-bottom px-5 py-3">
                                 <div class="mb-3">
-                                    <img class="wd-80 ht-80 rounded-circle" src="/assets/user/images/default-avatar.png"
+                                    <img class="wd-80 ht-80 rounded-circle" src="/assets/user/images/default-hotel.jpg"
                                          alt>
                                 </div>
                                 <div class="text-center">
@@ -186,7 +186,7 @@
                                         <span>Switch User</span>
                                     </a>
                                 </li>
-                                <li class="dropdown-item py-2">
+                                <li class="dropdown-item py-2" onclick="logout()">
                                     <a class="text-body ms-0">
                                         <i class="me-2 icon-md" data-feather="log-out"></i>
                                         <span>Log Out</span>
@@ -233,9 +233,10 @@
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="/assets/admin/js/template.js"></script>
 
-
 <script src="/assets/admin/js/dashboard-light.js"></script>
 <script src="/assets/admin/js/datepicker.js"></script>
+
+<script src="/assets/user/js/modify-profile.js"></script>
 
 ///TOASTR
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>

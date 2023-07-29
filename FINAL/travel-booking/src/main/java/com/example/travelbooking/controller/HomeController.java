@@ -1,10 +1,12 @@
 package com.example.travelbooking.controller;
 
+import com.example.travelbooking.entity.Bed;
 import com.example.travelbooking.entity.Facility;
 import com.example.travelbooking.entity.Room;
 import com.example.travelbooking.exception.NotFoundException;
 import com.example.travelbooking.exception.UserNotFoundException;
 import com.example.travelbooking.model.response.partner.RoomResponse;
+import com.example.travelbooking.repository.BedRepository;
 import com.example.travelbooking.repository.FacilityRepository;
 import com.example.travelbooking.repository.RoomRepository;
 import com.example.travelbooking.security.SecurityUtils;
@@ -40,6 +42,7 @@ public class HomeController {
     UserService userService;
     FacilityRepository facilityRepository;
     RoomRepository roomRepository;
+    BedRepository bedRepository;
     RoomService roomService;
     ObjectMapper objectMapper;
 
@@ -153,6 +156,8 @@ public class HomeController {
                 .orElseThrow(() -> new NotFoundException("Không tìm thấy room trong danh sách"));
         model.addAttribute(room);
 
+        List<Bed> beds = bedRepository.findByRoom(roomId);
+
         List<Facility> facilityList = facilityRepository.findAll();
 
         List<String> selectedFacilities = room.getFacilities().stream()
@@ -163,6 +168,7 @@ public class HomeController {
         model.addAttribute("selectedFacilities", selectedFacilities);
         model.addAttribute("bedTypes", BedType.values());
         model.addAttribute("roomStatusList", RoomStatus.values());
+        model.addAttribute("beds", beds);
         return "management/partner/edit-room";
     }
 

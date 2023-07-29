@@ -92,12 +92,11 @@
                                 </div>
                                 <div class="col-lg-4 mb-5">
                                     <label for="facilityList" class="form-label">Facility *</label>
-                                    <select class="form-select facility-select" id="facilityList"
-                                            data-selected-facility="">
+                                    <select class="form-select facility-select" id="facilityList" multiple>
                                         <option th:each="facility : ${facilityList}"
                                                 th:value="${facility.name}"
                                                 th:text="${facility.name}"
-                                                th:selected="${selectedFacilities.contains(facility.name)} ? 'selected' : null">Facility
+                                                th:selected="${selectedFacilities.contains(facility.name)}">Facility
                                         </option>
                                     </select>
                                 </div>
@@ -105,7 +104,8 @@
                                 <div class="col-lg-8 mb-5">
                                     <label for="roomDescription" class="form-label">Description</label>
                                     <textarea class="form-control" id="roomDescription" rows="4"
-                                              placeholder="Enter description..." name="description"></textarea>
+                                              placeholder="Enter description..." name="description"
+                                    th:text="${room.description}"></textarea>
                                 </div>
 
                             </div>
@@ -119,21 +119,26 @@
                                     </div>
                                 </div>
 
-                                <div class="row bed-row mt-3">
-                                    <div class="col-lg-4">
-                                        <select class="form-select bed-type" data-selected-bed-type="">
-                                            <option value="" disabled selected>Chọn loại giường</option>
-                                            <option th:each="bedType : ${bedTypes}" th:value="${bedType}"
-                                                    th:text="${bedType.getName}"
-                                                    class="text-body" data-bed-type="${bedType}">BedType
-                                            </option>
-                                        </select>
-                                    </div>
-                                    <div class="col-lg-4">
-                                        <input type="number" class="form-control bed-quantity" placeholder="Nhập số lượng" name="bedQuantity">
-                                    </div>
-                                    <div class="col-lg-4">
-                                        <button type="button" class="btn btn-danger btn-remove-bed">Xóa</button>
+                                <div th:each="bed: ${beds}">
+                                    <div class="row bed-row mt-3">
+                                        <div class="col-lg-4">
+                                            <select class="form-select bed-type" data-selected-bed-type="">
+                                                <option value="" disabled selected>Chọn loại giường</option>
+                                                <option th:each="bedType : ${bedTypes}" th:value="${bedType}"
+                                                        th:text="${bedType.getName}"
+                                                        th:selected="${bedType == bed.bedType}"
+                                                        class="text-body" data-bed-type="${bedType}">BedType
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <input type="number" class="form-control bed-quantity"
+                                                   placeholder="Nhập số lượng" name="bedQuantity"
+                                            th:value="${bed.quantity}">
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <button type="button" class="btn btn-danger btn-remove-bed">Xóa</button>
+                                        </div>
                                     </div>
                                 </div>
 

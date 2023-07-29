@@ -166,10 +166,36 @@ btnPartnerSignup.addEventListener('click', function () {
     }
 
 });
+//
+// btnSignout.addEventListener('click', function () {
+//     const jwt = localStorage.getItem('jwt');
+//     // console.log("Đang đăng xuất")
+//     $.ajax({
+//         url: '/api/v1/authentication/logout',
+//         type: 'POST',
+//         headers: {
+//             Authorization: `Bearer ${jwt}`
+//         },
+//         success: function (response) {
+//             console.log('ok')
+//             toastr.success('Đã đăng xuất');
+//             // Ẩn avatar
+//             hideAvatar();
+//             // Xóa dữ liệu trong Local Storage
+//             localStorage.removeItem('jwt');
+//             localStorage.removeItem('userInfo');
+//             localStorage.removeItem('refreshToken');
+//             window.location.href = `http://localhost:8080/home`;
+//         },
+//         error: function (error) {
+//             console.log('Đăng xuất thất bại', error);
+//         }
+//     });
+// })
 
-btnSignout.addEventListener('click', function () {
+// Function logout
+function logout() {
     const jwt = localStorage.getItem('jwt');
-    // console.log("Đang đăng xuất")
     $.ajax({
         url: '/api/v1/authentication/logout',
         type: 'POST',
@@ -185,14 +211,18 @@ btnSignout.addEventListener('click', function () {
             localStorage.removeItem('jwt');
             localStorage.removeItem('userInfo');
             localStorage.removeItem('refreshToken');
+            window.location.href = `http://localhost:8080/home`;
         },
         error: function (error) {
             console.log('Đăng xuất thất bại', error);
         }
     });
-})
+}
 
-
+// Gán sự kiện click cho nút "Log out"
+btnSignout.addEventListener('click', function () {
+    logout();
+});
 
 function refreshToken() {
     const jwt = localStorage.getItem('jwt');
