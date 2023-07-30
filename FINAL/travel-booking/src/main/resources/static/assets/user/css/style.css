@@ -8283,3 +8283,26 @@ ul.sidebar-tags li a:hover {
 }
 
 
+/* Lớp overlay để làm mờ nền xung quanh */
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Màu đen với độ trong suốt 0.5 */
+    z-index: 9999; /* Đảm bảo hiển thị trên các element khác */
+}
+
+/* Thẻ div để hiển thị vòng xoay loading trong Bootstrap */
+#loading {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10000; /* Đảm bảo hiển thị trên overlay */
+}
+
+

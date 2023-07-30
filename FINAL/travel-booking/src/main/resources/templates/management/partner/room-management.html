@@ -154,17 +154,23 @@
 <th:block id="js-resources">
     <script>
         $(document).ready(function () {
+            $('#confirmDelete').on('show.bs.modal', function (event) {
+                const button = $(event.relatedTarget); // Nút mở modal
+                const roomId = button.siblings('#roomId').val(); // Lấy giá trị roomId từ ô input ẩn có id là 'roomId'
+                $(this).find('#confirmDeleteBtn').attr('data-roomId', roomId); // Cập nhật giá trị roomId vào nút xác nhận
+            });
+
             $('#confirmDeleteBtn').click(function () {
-                const roomId = $("#roomId").val();
+                const roomId = $(this).attr('data-roomId');
                 $.ajax({
-                    url: '/api/v1/partner/rooms/' + roomId, // Thay thế đúng đường dẫn API của bạn
+                    url: '/api/v1/partner/rooms/' + roomId,
                     type: 'DELETE',
                     success: function (response) {
                         // Xử lý kết quả trả về từ API nếu cần
                         console.log('ok');
                         window.location.reload();
                         toastr.success('Đã xóa phòng thành công.');
-                        
+
                     },
                     error: function (xhr, status, error) {
                         // Xử lý lỗi (nếu có)

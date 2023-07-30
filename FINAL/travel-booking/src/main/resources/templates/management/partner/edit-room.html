@@ -182,9 +182,9 @@
                 // Sao chép dòng giường đầu tiên và thêm vào dưới cùng
                 const newBedRow = $(".bed-row:first").clone().get(0); // Hoặc có thể dùng .first()
 
-                // Xóa giá trị bedType của select trong dòng được sao chép
-                const bedTypeSelect = newBedRow.querySelector(".bed-type");
-                bedTypeSelect.selectedIndex = -1;
+                // Thiết lập số lượng về 1 trong dòng mới sao chép
+                const quantityInput = newBedRow.querySelector(".bed-quantity");
+                quantityInput.value = 1;
 
                 $(".container").append(newBedRow);
             });
@@ -287,6 +287,28 @@
             document.getElementById("update-room-btn").addEventListener("click", function () {
 
                 if ($("#uploadForm").valid()) {
+
+                    const selectedBedTypes = [];
+                    const selectBoxes = document.querySelectorAll(".bed-type");
+                    selectBoxes.forEach(function (selectBox) {
+                        const selectedValue = selectBox.value;
+                        if (selectedValue) {
+                            selectedBedTypes.push(selectedValue);
+                        }
+                    });
+
+                    // Kiểm tra xem có hai bedType giống nhau hay không
+                    const hasDuplicateBedType = selectedBedTypes.some(function (value, index) {
+                        return selectedBedTypes.indexOf(value) !== index;
+                    });
+
+                    if (hasDuplicateBedType) {
+                        // Nếu có bedType trùng lặp, hiển thị thông báo lỗi và ngăn người dùng submit form
+                        event.preventDefault();
+                        toastr.error("Vui lòng chọn mỗi loại giường chỉ một lần.");
+                        return;
+                    }
+
                     // Tạo formData mới
                     const formData = new FormData();
 

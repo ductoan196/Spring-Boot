@@ -112,6 +112,7 @@ public class HomeController {
         return "user/term_policy";
     }
 
+    //Notification
     @GetMapping("/success_page")
     public String successPage() {
         return "user/success-page";
@@ -122,12 +123,14 @@ public class HomeController {
         return "user/success-reset-password";
     }
 
-
+    @GetMapping("/access-denied")
+    public String fobidenPage() {
+        return "user/notification/403";
+    }
 
 
     //Management-partner
 
-    //Management admin
     @GetMapping("partner/dashboard-partner")
     public String dashboadPartner() {
         return "management/partner/dashboard-partner";
@@ -181,16 +184,15 @@ public class HomeController {
 
 
     //Management-user
-    @GetMapping("/dashboard-user")
+    @GetMapping("/user/dashboard-user")
     public String dashboardUser() {
         return "management/user/dashboard-user";
     }
 
-    @GetMapping("/booking-user-managent")
+    @GetMapping("/booking-user-management")
     public String bookingUser() {
         return "management/user/booking-user";
     }
-
 
     //Management admin
     @GetMapping("admin/dashboard-admin")

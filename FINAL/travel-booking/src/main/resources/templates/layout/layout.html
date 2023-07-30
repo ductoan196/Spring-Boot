@@ -40,6 +40,17 @@
 <!-- SIGNUP PARTNER MODAL -->
 <th:block th:replace="~{fragments/signup-partner :: login-partner-modal}"></th:block>
 
+<!--LOADING-->
+<!-- Lớp overlay để làm mờ nền xung quanh -->
+<div class="overlay"></div>
+
+<!-- Thẻ div để hiển thị vòng xoay loading trong Bootstrap -->
+<div id="loading">
+    <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+
 <!-- FOOTER -->
 <th:block th:replace="~{fragments/footer :: footer}"></th:block>
 
@@ -69,6 +80,8 @@
 <!--    Đăng nhập, đăng ký-->
 <script src="/assets/user/js/login-signup.js"></script>
 
+<!--Loading-->
+<script src="/assets/user/js/loading.js"></script>
 
 <script>
     // Lấy ngày hiện tại
@@ -83,6 +96,30 @@
     document.getElementById("current-date").innerHTML = " " + day + ", " + month + " " + year;
 </script>
 
+<script>
+    $(document).ready(function () {
+        const jwt = localStorage.getItem("jwt");
+        const userInfo = localStorage.getItem("userInfo");
+        // Đã đăng nhập, kiểm tra quyền truy cập
+        const userInfor = JSON.parse(userInfo);
+        const roles = userInfor.roles || [];
+        console.log("okay")
+
+        // Lấy nút "My Account" và thêm sự kiện click
+        $('#my-account-btn').click(function () {
+            console.log("oke")
+
+            // Kiểm tra vai trò của người dùng và chuyển hướng tới trang dashboard tương ứng
+            if (roles.includes("ADMIN")) {
+                window.location.href = "http://localhost:8080/admin/dashboard-admin";
+            } else if (roles.includes("PARTNER")) {
+                window.location.href = "http://localhost:8080/partner/dashboard-partner";
+            } else {
+                window.location.href = "http://localhost:8080/user/dashboard-user";
+            }
+        });
+    });
+</script>
 <!-- Common JS-->
 <th:block th:replace="${jsResources} ?: ~{}"></th:block>
 </body>

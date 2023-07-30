@@ -95,6 +95,8 @@ btnSignup.addEventListener('click', function () {
     );
     let isValid = checkSignUpValidate();
     if (isValid) {
+        showLoading();
+
         let email = $('#signup-email').val()
         let password = $('#signup-password').val()
         let formdata = {
@@ -121,6 +123,9 @@ btnSignup.addEventListener('click', function () {
                     toastr.error('Đăng Kí Thất Bại');
                     console.error(error);
                 }
+            },
+            complete: function () {
+                hideLoading();
             }
         })
     }
@@ -133,6 +138,8 @@ btnPartnerSignup.addEventListener('click', function () {
     );
     let isValid = checkPartnerSignUpValidate();
     if (isValid) {
+        showLoading();
+
         let email = $('#signup-partner-email').val()
         let password = $('#signup-partner-password').val()
         let hotelName = $('#signup-partner-name').val()
@@ -161,39 +168,15 @@ btnPartnerSignup.addEventListener('click', function () {
                     toastr.error('Đăng Kí Thất Bại');
                     console.error(error);
                 }
+            },
+            complete: function () {
+                hideLoading();
             }
         })
     }
 
 });
-//
-// btnSignout.addEventListener('click', function () {
-//     const jwt = localStorage.getItem('jwt');
-//     // console.log("Đang đăng xuất")
-//     $.ajax({
-//         url: '/api/v1/authentication/logout',
-//         type: 'POST',
-//         headers: {
-//             Authorization: `Bearer ${jwt}`
-//         },
-//         success: function (response) {
-//             console.log('ok')
-//             toastr.success('Đã đăng xuất');
-//             // Ẩn avatar
-//             hideAvatar();
-//             // Xóa dữ liệu trong Local Storage
-//             localStorage.removeItem('jwt');
-//             localStorage.removeItem('userInfo');
-//             localStorage.removeItem('refreshToken');
-//             window.location.href = `http://localhost:8080/home`;
-//         },
-//         error: function (error) {
-//             console.log('Đăng xuất thất bại', error);
-//         }
-//     });
-// })
 
-// Function logout
 function logout() {
     const jwt = localStorage.getItem('jwt');
     $.ajax({
