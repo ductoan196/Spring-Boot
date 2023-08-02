@@ -3,16 +3,19 @@ package com.example.travelbooking.controller.partner;
 import com.example.travelbooking.entity.Room;
 import com.example.travelbooking.exception.NotFoundException;
 import com.example.travelbooking.model.request.partner.CreateRoomRequest;
+import com.example.travelbooking.model.request.partner.RoomSearchRequest;
 import com.example.travelbooking.model.request.partner.UpdateRoomRequest;
+import com.example.travelbooking.model.response.partner.RoomSearchResponse;
 import com.example.travelbooking.service.partner.RoomService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("api/v1/partner/rooms")
@@ -44,6 +47,13 @@ public class RoomController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to delete room"); // Trả về HTTP status code 500 Internal Server Error nếu xảy ra lỗi trong quá trình xóa
         }
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<?> search(RoomSearchRequest request, Model model) {
+      List<RoomSearchResponse> roomSearchResponse= roomService.searchRoom(request);
+      model.addAttribute("roomList", roomSearchResponse);
+       return ResponseEntity.ok(roomSearchResponse);
     }
 
 }

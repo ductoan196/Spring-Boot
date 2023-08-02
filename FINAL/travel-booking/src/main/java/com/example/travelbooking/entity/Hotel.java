@@ -25,4 +25,7 @@ public class Hotel extends BaseEntity{
 
     String address;
 
+    @OneToOne
+    @JoinColumn(name = "ward_code")
+    Ward addressDetail;
 }

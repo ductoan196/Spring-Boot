@@ -282,50 +282,6 @@ function checkPartnerSignUpValidate() {
     return isCheck;
 }
 
-// function validateResetEmail() {
-//     const email = resetEmailEle.value;
-//
-//     if (email === '') {
-//         setError(resetEmailEle, 'Email không được để trống');
-//         return false;
-//     } else if (!validateEmail(email)) {
-//         setError(resetEmailEle, 'Email không đúng định dạng');
-//         return false;
-//     } else {
-//         setSuccess(resetEmailEle);
-//         return true;
-//     }
-// }
-//
-// function validateNewPassword() {
-//     const password = newPasswordEle.value;
-//     const confirmPassword = confirmNewPasswordEle.value;
-//
-//     let isValid = true;
-//
-//     if (password === '') {
-//         setError(newPasswordEle, 'Password không được để trống');
-//         isValid = false;
-//     } else if (!validatePassword(password)) {
-//         setError(newPasswordEle, 'Vui lòng nhập password từ 6 đến 15 ký tự, bao gồm cả chữ và số');
-//         isValid = false;
-//     } else {
-//         setSuccess(newPasswordEle);
-//     }
-//
-//     if (confirmPassword === '') {
-//         setError(confirmNewPasswordEle, 'Re-enter Password không được để trống');
-//         isValid = false;
-//     } else if (confirmNewPasswordEle !== password) {
-//         setError(confirmPasswordElement, 'Password và Re-enter password không giống nhau');
-//         isValid = false;
-//     } else {
-//         setSuccess(confirmNewPasswordEle);
-//     }
-//
-//     return isValid;
-// }
-
 
 //NEW VALIDATE
 function validateEmail(email) {

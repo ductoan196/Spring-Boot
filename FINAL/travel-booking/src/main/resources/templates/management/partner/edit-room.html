@@ -354,6 +354,7 @@
                         formData.append(`beds[${index}].quantity`, bed.quantity);
                     });
 
+
                     $.ajax({
                         url: '/api/v1/partner/rooms/' + roomId,
                         type: 'PUT',

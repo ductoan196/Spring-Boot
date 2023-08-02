@@ -23,9 +23,9 @@ public class Room extends BaseEntity{
 
     Double price;
 
-    int capacity;
+    Integer capacity;
 
-    int room_nums;
+    Integer room_nums;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "hotel_id")

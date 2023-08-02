@@ -11,6 +11,7 @@ btnResetPass.addEventListener('click', function () {
     );
     let isValid = validateResetEmail();
     if (isValid) {
+        showLoading();
         let email = $('#reset-email').val()
         let formdata = {
             email: email
@@ -31,6 +32,9 @@ btnResetPass.addEventListener('click', function () {
                 setError(resetEmailEle, 'Email chưa đăng ký, vui lòng kiểm tra lại email')
                 // toastr.error('Email chưa đăng ký, vui lòng kiểm tra lại email');
                 console.error(error);
+            },
+            complete: function () {
+                hideLoading();
             }
         })
     }
@@ -43,6 +47,7 @@ btnResetNewPass.addEventListener('click', function () {
     );
     let isValid = validateNewPassword();
     if (isValid) {
+        showLoading();
         let newPassword = $('#new-password').val()
 
         // const userId = document.getElementById('userId').value;
@@ -67,6 +72,9 @@ btnResetNewPass.addEventListener('click', function () {
                 // setError(resetEmailEle, 'Email chưa đăng ký, vui lòng kiểm tra lại email')
                 // toastr.error('Email chưa đăng ký, vui lòng kiểm tra lại email');
                 console.error(error);
+            },
+            complete: function () {
+                hideLoading();
             }
         })
     }

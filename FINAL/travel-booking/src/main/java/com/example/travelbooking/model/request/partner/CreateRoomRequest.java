@@ -20,9 +20,9 @@ public class CreateRoomRequest {
 
     Double price;
 
-    int capacity;
+    Integer capacity;
 
-    int room_nums;
+    Integer room_nums;
 
     String hotelEmail;
 

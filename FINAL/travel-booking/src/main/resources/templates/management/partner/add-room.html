@@ -155,7 +155,6 @@
         <!-- Thẻ div để hiển thị vòng xoay loading trong Bootstrap -->
         <div id="loading">
             <div class="spinner-border" role="status">
-                <span class="sr-only">Loading...</span>
             </div>
         </div>
     </div>
@@ -316,12 +315,73 @@
             document.getElementById("create-room-btn").addEventListener("click", function () {
 
                 if ($("#uploadForm").valid()) {
+                    const selectedBedTypes = [];
+                    const selectBoxes = document.querySelectorAll(".bed-type");
+                    selectBoxes.forEach(function (selectBox) {
+                        const selectedValue = selectBox.value;
+                        if (selectedValue) {
+                            selectedBedTypes.push(selectedValue);
+                        }
+                    });
+
+                    // Kiểm tra xem có hai bedType giống nhau hay không
+                    const hasDuplicateBedType = selectedBedTypes.some(function (value, index) {
+                        return selectedBedTypes.indexOf(value) !== index;
+                    });
+
+                    if (hasDuplicateBedType) {
+                        // Nếu có bedType trùng lặp, hiển thị thông báo lỗi và ngăn người dùng submit form
+                        event.preventDefault();
+                        toastr.error("Vui lòng chọn mỗi loại giường chỉ một lần.");
+                        return;
+                    }
+
+                    // Tạo formData mới
+                    const formData = new FormData();
+
+                    let userInfo = JSON.parse(localStorage.getItem("userInfo"))
+
+                    // Thu thập thông tin từ các trường form và thêm vào formData
+                    formData.append("name", document.getElementById("roomName").value);
+                    formData.append("description", document.getElementById("roomDescription").value);
+                    formData.append("price", document.getElementById("roomPrice").value);
+                    formData.append("capacity", document.getElementById("roomCapacity").value);
+                    formData.append("room_nums", document.getElementById("roomQuantity").value);
+                    formData.append("roomStatus", document.getElementById("roomStatusList").value);
+                    formData.append("hotelEmail", userInfo.username);
+
+                    // Xử lý phần file ảnh từ trường "roomImages"
+                    const roomImagesInput = document.getElementById("roomImages");
+                    const images = roomImagesInput.files;
+                    for (let i = 0; i < images.length; i++) {
+                        formData.append("images", images[i]);
+                    }
+
+                    // Lấy danh sách các facility đã chọn từ Select2 và chuyển thành mảng []
+                    const selectedFacilities = $("#facilityList").val();
+                    formData.append("facilities", selectedFacilities);
+
+                    // Thu thập thông tin về giường từ các dòng giường
+                    const bedRows = document.querySelectorAll(".bed-row");
+                    const beds = [];
+
+                    bedRows.forEach(function (bedRow) {
+                        const bedType = bedRow.querySelector(".bed-type").value;
+                        const bedQuantity = bedRow.querySelector(".bed-quantity").value;
+
+                        // Tạo đối tượng CreateBedRequest từ giá trị của trường beds
+                        const bedRequest = {bedType: bedType, quantity: bedQuantity};
+
+                        beds.push(bedRequest);
+                    });
+
+                    // Thêm mảng beds vào formData
+                    beds.forEach(function (bed, index) {
+                        formData.append(`beds[${index}].bedType`, bed.bedType);
+                        formData.append(`beds[${index}].quantity`, bed.quantity);
+                    });
+
                     showLoading();
-
-                    checkDuplicateBed();
-
-                    createFormData();
-
                     $.ajax({
                         url: '/api/v1/partner/rooms',
                         type: 'POST',
@@ -386,7 +446,7 @@
                 // Nếu có bedType trùng lặp, hiển thị thông báo lỗi và ngăn người dùng submit form
                 event.preventDefault();
                 toastr.error("Vui lòng chọn mỗi loại giường chỉ một lần.");
-                return;
+                return false;
             }
         }
 

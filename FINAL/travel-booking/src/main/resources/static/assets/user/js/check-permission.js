@@ -5,7 +5,7 @@ window.onload = function () {
     // Kiểm tra nếu chưa đăng nhập
     if (!jwtToken || !userInfo) {
         const pathName = window.location.pathname;
-        const isLoginRequiredPage = pathName.includes('/admin/') || pathName.includes('/partner/');
+        const isLoginRequiredPage = pathName.includes('/admin/') || pathName.includes('/partner/')|| pathName.includes('/user/');
 
         if (isLoginRequiredPage) {
             toastr.success('Vui lòng đăng nhập tài khoản');

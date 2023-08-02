@@ -7,17 +7,21 @@ import com.example.travelbooking.entity.Room;
 import com.example.travelbooking.exception.NotFoundException;
 import com.example.travelbooking.model.request.partner.CreateBedRequest;
 import com.example.travelbooking.model.request.partner.CreateRoomRequest;
+import com.example.travelbooking.model.request.partner.RoomSearchRequest;
 import com.example.travelbooking.model.request.partner.UpdateRoomRequest;
 import com.example.travelbooking.model.response.partner.RoomResponse;
+import com.example.travelbooking.model.response.partner.RoomSearchResponse;
 import com.example.travelbooking.repository.BedRepository;
 import com.example.travelbooking.repository.FacilityRepository;
 import com.example.travelbooking.repository.HotelRepository;
 import com.example.travelbooking.repository.RoomRepository;
+import com.example.travelbooking.repository.custom.RoomCustomRepository;
 import com.example.travelbooking.service.FileService;
 import com.example.travelbooking.statics.BedType;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +33,8 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class RoomService {
     RoomRepository roomRepository;
+    RoomCustomRepository roomCustomRepository;
+
     BedRepository bedRepository;
     HotelRepository hotelRepository;
     FacilityRepository facilityRepository;
@@ -155,5 +161,9 @@ public class RoomService {
         bedRepository.deleteAllByRoomId(roomId);
 
         roomRepository.deleteById(roomId);
+    }
+
+    public List<RoomSearchResponse> searchRoom(RoomSearchRequest request) {
+        return roomCustomRepository.searchRoom(request);
     }
 }
