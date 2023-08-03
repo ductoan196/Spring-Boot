@@ -16,15 +16,17 @@ import java.util.List;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class RoomResponse {
+    Long id;
+
     String name;
 
     String description;
 
     Double price;
 
-    int capacity;
+    Integer capacity;
 
-    int room_nums;
+    Integer room_nums;
 
     Hotel hotel;
 

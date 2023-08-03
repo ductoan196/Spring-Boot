@@ -57,43 +57,43 @@ class TravelBookingApplicationTests {
         System.out.println(userLogin);
     }
 
-    @Test
-    void createFacility() {
-        List<Facility> facilities = new ArrayList<>();
-        facilities.add(new Facility("TV"));
-        facilities.add(new Facility("Air conditioning"));
-        facilities.add(new Facility("Wi-Fi"));
-        facilities.add(new Facility("Mini-bar"));
-        facilities.add(new Facility("Hairdryer"));
-        facilities.add(new Facility("Safe box"));
-        facilities.add(new Facility("Telephone"));
-        facilities.add(new Facility("Coffee/tea maker"));
-        facilities.add(new Facility("Desk"));
-        facilities.add(new Facility("Iron and ironing board"));
-        facilities.add(new Facility("Bathrobe"));
-        facilities.add(new Facility("Slippers"));
-        facilities.add(new Facility("Toiletries"));
-        facilities.add(new Facility("Shower"));
-        facilities.add(new Facility("Bathtub"));
-        facilities.add(new Facility("Towels"));
-        facilities.add(new Facility("Sofa"));
-        facilities.add(new Facility("Wardrobe/closet"));
-        facilities.add(new Facility("Dining area"));
-        facilities.add(new Facility("Refrigerator"));
-        facilities.add(new Facility("Microwave"));
-        facilities.add(new Facility("Electric kettle"));
-        facilities.add(new Facility("Oven"));
-        facilities.add(new Facility("Dishwasher"));
-        facilities.add(new Facility("Washing machine"));
-        facilities.add(new Facility("Room service"));
-        facilities.add(new Facility("Luggage storage"));
-        facilities.add(new Facility("Elevator"));
-        facilities.add(new Facility("Swimming pool"));
-        facilities.add(new Facility("Fitness center"));
-
-        // Lưu danh sách facilities vào database bằng JpaRepository
-        facilityRepository.saveAll(facilities);
-
-    }
+//    @Test
+//    void createFacility() {
+//        List<Facility> facilities = new ArrayList<>();
+//        facilities.add(new Facility("TV"));
+//        facilities.add(new Facility("Air conditioning"));
+//        facilities.add(new Facility("Wi-Fi"));
+//        facilities.add(new Facility("Mini-bar"));
+//        facilities.add(new Facility("Hairdryer"));
+//        facilities.add(new Facility("Safe box"));
+//        facilities.add(new Facility("Telephone"));
+//        facilities.add(new Facility("Coffee/tea maker"));
+//        facilities.add(new Facility("Desk"));
+//        facilities.add(new Facility("Iron and ironing board"));
+//        facilities.add(new Facility("Bathrobe"));
+//        facilities.add(new Facility("Slippers"));
+//        facilities.add(new Facility("Toiletries"));
+//        facilities.add(new Facility("Shower"));
+//        facilities.add(new Facility("Bathtub"));
+//        facilities.add(new Facility("Towels"));
+//        facilities.add(new Facility("Sofa"));
+//        facilities.add(new Facility("Wardrobe/closet"));
+//        facilities.add(new Facility("Dining area"));
+//        facilities.add(new Facility("Refrigerator"));
+//        facilities.add(new Facility("Microwave"));
+//        facilities.add(new Facility("Electric kettle"));
+//        facilities.add(new Facility("Oven"));
+//        facilities.add(new Facility("Dishwasher"));
+//        facilities.add(new Facility("Washing machine"));
+//        facilities.add(new Facility("Room service"));
+//        facilities.add(new Facility("Luggage storage"));
+//        facilities.add(new Facility("Elevator"));
+//        facilities.add(new Facility("Swimming pool"));
+//        facilities.add(new Facility("Fitness center"));
+//
+//        // Lưu danh sách facilities vào database bằng JpaRepository
+//        facilityRepository.saveAll(facilities);
+//
+//    }
 
 }

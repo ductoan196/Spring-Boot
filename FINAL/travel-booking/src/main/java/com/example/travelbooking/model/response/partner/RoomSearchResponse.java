@@ -1,6 +1,7 @@
 package com.example.travelbooking.model.response.partner;
 
 import com.example.travelbooking.entity.Facility;
+import com.example.travelbooking.entity.Hotel;
 import com.example.travelbooking.statics.RoomStatus;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
@@ -21,6 +22,10 @@ public class RoomSearchResponse {
     Integer capacity;
 
     Integer room_nums;
+
+    Hotel hotel;
+
+    List<String> imageUrls;
 
     RoomStatus roomStatus;
 

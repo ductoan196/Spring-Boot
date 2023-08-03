@@ -3,8 +3,7 @@ package com.example.travelbooking.entity;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Data
 @Entity
@@ -13,6 +12,10 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @Table(name = "facilities")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Facility extends BaseEntity{
+public class Facility{
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
+
     String name;
 }

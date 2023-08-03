@@ -94,23 +94,28 @@ public class RoomService {
     }
 
     public List<RoomResponse> getAllRooms() {
-        List<Room>rooms = roomRepository.findAll();
-        List<RoomResponse> roomResponses= new ArrayList<>();
-        for (Room room : rooms) {
-            RoomResponse roomResponse = new RoomResponse();
-            roomResponse.setName(room.getName());
-            roomResponse.setDescription(room.getDescription());
-            roomResponse.setPrice(room.getPrice());
-            roomResponse.setCapacity(room.getCapacity());
-            roomResponse.setRoom_nums(room.getRoom_nums());
-            roomResponse.setHotel(room.getHotel());
-            roomResponse.setImageUrls(room.getImageUrls());
-            roomResponse.setRoomStatus(room.getRoomStatus());
-            roomResponse.setFacilities(room.getFacilities());
-            roomResponses.add(roomResponse);
-        }
+        List<Room> rooms = roomRepository.findAll();
+
+        List<RoomResponse> roomResponses = rooms.stream()
+                .map(this::convertToRoomResponse)
+                .collect(Collectors.toList());
 
         return roomResponses;
+    }
+
+    private RoomResponse convertToRoomResponse(Room room) {
+        RoomResponse roomResponse = new RoomResponse();
+        roomResponse.setId(room.getId());
+        roomResponse.setName(room.getName());
+        roomResponse.setDescription(room.getDescription());
+        roomResponse.setPrice(room.getPrice());
+        roomResponse.setCapacity(room.getCapacity());
+        roomResponse.setRoom_nums(room.getRoom_nums());
+        roomResponse.setHotel(room.getHotel());
+        roomResponse.setImageUrls(room.getImageUrls());
+        roomResponse.setRoomStatus(room.getRoomStatus());
+        roomResponse.setFacilities(room.getFacilities());
+        return roomResponse;
     }
 
 

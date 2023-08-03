@@ -1,4 +1,4 @@
-package com.example.travelbooking.controller.partner;
+package com.example.travelbooking.controller.partner.api;
 
 import com.example.travelbooking.entity.Hotel;
 import com.example.travelbooking.service.UserService;

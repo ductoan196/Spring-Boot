@@ -1,4 +1,4 @@
-package com.example.travelbooking.controller.partner;
+package com.example.travelbooking.controller.partner.api;
 
 import com.example.travelbooking.entity.Room;
 import com.example.travelbooking.exception.NotFoundException;
@@ -52,7 +52,7 @@ public class RoomController {
     @GetMapping("/search")
     public ResponseEntity<?> search(RoomSearchRequest request, Model model) {
       List<RoomSearchResponse> roomSearchResponse= roomService.searchRoom(request);
-      model.addAttribute("roomList", roomSearchResponse);
+//      model.addAttribute("roomList", roomSearchResponse);
        return ResponseEntity.ok(roomSearchResponse);
     }
 
