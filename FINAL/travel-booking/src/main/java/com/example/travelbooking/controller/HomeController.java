@@ -43,7 +43,7 @@ public class HomeController {
         return "user/index";
     }
 
-    @GetMapping("/home/v1")
+    @GetMapping("/")
     public String home1() {
         return "user/index";
     }
@@ -126,8 +126,10 @@ public class HomeController {
         return "management/partner/coupon";
     }
 
-
-
+    @GetMapping("/maps")
+    public String maps() {
+        return "user/maps";
+    }
 
     //Management-user
     @GetMapping("/user/dashboard-user")

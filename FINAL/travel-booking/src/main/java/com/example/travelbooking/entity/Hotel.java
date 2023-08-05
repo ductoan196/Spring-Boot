@@ -1,5 +1,6 @@
 package com.example.travelbooking.entity;
 
+import com.example.travelbooking.entity.location.Ward;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -23,9 +24,14 @@ public class Hotel extends BaseEntity{
 
     String imageUrl;
 
-    String address;
+    String province;
 
-    @OneToOne
-    @JoinColumn(name = "ward_code")
-    Ward addressDetail;
+    String district;
+
+    String ward;
+
+    String street;
+
+    //Full address (street + ward + district + province)
+    String address;
 }

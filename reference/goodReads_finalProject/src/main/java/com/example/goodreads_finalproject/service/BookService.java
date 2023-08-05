@@ -12,11 +12,11 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -145,14 +145,15 @@ public class BookService {
 
     public CommonResponse<?> searchBook(BookSearchRequest request) {
         try {
-            List<BookSearchResponse> books = bookCustomRepository.searchBook(request);
+            List<BookResponse> books = bookCustomRepository.searchBook(request);
             Integer pageIndex = request.getPageIndex();
             Integer pageSize = request.getPageSize();
 
             int pageNumber = (int) Math.ceil((float) books.size() / pageSize);
 
-            PaginationUtils<BookSearchResponse> paginationUtils = new PaginationUtils<>();
+            PaginationUtils<BookResponse> paginationUtils = new PaginationUtils<>();
             books = paginationUtils.searchData(books, pageIndex, pageSize);
+
 
             return CommonResponse.builder()
                     .pageNumber(pageNumber)
@@ -169,10 +170,8 @@ public class BookService {
         if (bookOptional.isEmpty()) {
             throw new NotFoundException("Book not found!");
         }
-
         String status = request.getReadingStatus();
         ReadingStatus enumValue = null;
-
         for (ReadingStatus readingStatus : ReadingStatus.values()) {
             if (readingStatus.getName().equals(status)) {
                 enumValue = readingStatus;
@@ -187,11 +186,10 @@ public class BookService {
                 .user(user)
                 .readingStatus(enumValue)
                 .build();
-
         readingBookRepository.save(readingBook);
     }
 
-    public CommonResponse<?> getMyBook(ReadingBookRequest request) {
+    public CommonResponse<?> getMyBookPagination(ReadingBookRequest request) {
         Optional<User> userOptional = userRepository.findById(request.getUserId());
         if (userOptional.isEmpty()) {
             throw new NotFoundException("User not exist!");
@@ -204,6 +202,7 @@ public class BookService {
                             .book(readingBook.getBook())
                             .readingStatus(readingBook.getReadingStatus().getName())
                             .readingProgress(readingBook.getReadingProgress())
+                            .addedDateTime(LocalDate.now())
                             .startedDateTime(readingBook.getStartedDateTime())
                             .finishedDateTime(readingBook.getFinishedDateTime())
                             .build());
@@ -220,4 +219,30 @@ public class BookService {
                 .data(readingBookResponses)
                 .build();
     }
+
+    public List<Integer> countMyBookList(Long userId) {
+        Optional<User> userOptional = userRepository.findById(userId);
+        if (userOptional.isEmpty()) {
+            throw new NotFoundException("User not exist!");
+        }
+        List<ReadingBook> readingBooks = readingBookRepository.findAllByUser(userOptional.get());
+        List<Integer> result = new ArrayList<>();
+        int countRead = 0;
+        int countReading = 0;
+        int countWantToRead = 0;
+        for (ReadingBook readingBook : readingBooks) {
+            switch (readingBook.getReadingStatus().getName()) {
+                case "To-read" -> countWantToRead++;
+                case "Reading" -> countReading++;
+                case "Read" -> countRead++;
+            }
+        }
+        int countAllMyBook = countRead + countReading + countWantToRead;
+        result.add(countAllMyBook);
+        result.add(countRead);
+        result.add(countReading);
+        result.add(countWantToRead);
+        return result;
+    }
 }
+

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Google Maps Marker</title>
+    <style>
+        #map-container {
+            width: 600px; /* Độ rộng của khung bản đồ */
+            height: 400px; /* Chiều cao của khung bản đồ */
+        }
+        #map {
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+<div id="map-container">
+    <div id="map"></div>
+</div>
+<script>
+    // Tọa độ latitude và longitude
+    var lat = 21.0381145;
+    var long = 105.8506129;
+
+    function initMap() {
+        // Tạo một đối tượng bản đồ
+        var map = new google.maps.Map(document.getElementById('map'), {
+            center: { lat: lat, lng: long },
+            zoom: 14
+        });
+
+        // Tạo một đánh dấu trên bản đồ với tọa độ lat và long
+        var marker = new google.maps.Marker({
+            position: { lat: lat, lng: long },
+            map: map,
+            title: 'Test maps xem nào'
+        });
+    }
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAoWOLjDkFNpk1ZS15jTN-YhlONrCF-6QE&callback=initMap" async defer></script>
+</body>
+</html>

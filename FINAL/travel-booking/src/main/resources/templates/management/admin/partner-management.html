@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/layout_dashboard_partner :: main-fragment(
+                                                ~{:: title},
+                                                ~{:: #css-resources},
+                                                ~{:: #js-resources},
+                                                ~{:: #main-content}
+                                               )}">
+
+<head>
+
+    <title>Partner Dashboard</title>
+
+    <th:block id="css-resources">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/js/bootstrap.min.js"></script>
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap-grid.min.css"/>
+    </th:block>
+</head>
+
+<body>
+
+<main id="main-content">
+    <div class="page-content">
+        <nav class="page-breadcrumb d-flex align-items-center justify-content-between">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a href="dashboard.html">Dashboard</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Room Management</li>
+            </ol>
+            <a href="/partner/add-room" class="btn btn-primary"><i class="link-icon" data-feather="plus"></i> Add
+                room</a>
+        </nav>
+        <div class="search-box p-4 bg-white rounded mb-3 box-shadow">
+            <div class="col-lg-3 pb-4">
+                <h5>Room Management Lists</h5>
+            </div>
+            <form class="forms-sample">
+                <div class="row align-items-center">
+
+                    <div class="col-lg-4 col-md-4">
+                        <input type="text" placeholder="Search by room name" class="form-control" id="searchName">
+                    </div>
+                    <div class="col-lg-4 col-md-4">
+                        <input type="text" placeholder="Search by capacity" class="form-control" id="searchCapacity">
+                    </div>
+                    <div class="col-lg-3 col-md-4">
+                        <select class="form-select" id="searchRoomStatus">
+                            <option th:each="status : ${roomStatusList}" th:value="${status}"
+                                    th:text="${status.getName}"
+                                    class="text-body"></option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+            <div class="mt-3">
+                <button type="submit" class="btn btn-primary px-3 py-2" id="search-room-btn"><i class="link-icon"
+                                                                                                data-feather="search"></i>
+                    Search
+                </button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="dataTableExample" class="table">
+                                <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Address</th>
+                                    <th>Status</th>
+                                    <th class="text-center">Action</th>
+                                </tr>
+                                </thead>
+
+                                <tbody>
+                                <tr th:each="room: ${roomList.data}">
+                                    <td th:text="${room.id}"/>
+                                    <td th:text="${room.name}"/>
+                                    <td>
+                                        <span th:each="facility, iterStat : ${room.facilities}">
+                                            <span th:text="${facility.name}"></span>
+                                            <span th:if="${!iterStat.last}">, </span>
+                                        </span>
+                                    </td>
+
+                                    <td>
+                                        <script th:inline="javascript">
+                                            var price = [[${room.price}]];
+                                            var formattedPrice = new Intl.NumberFormat('vi-VN').format(price);
+                                            document.write(formattedPrice);
+                                        </script>
+                                    </td>
+                                    <td th:text="${room.capacity}"/>
+                                    <td th:text="${room.roomStatus.name}"/>
+
+                                    <td class="text-center">
+                                        <ul class="d-flex list-unstyled mb-0 justify-content-center">
+                                            <li class="me-2">
+                                                <a href="#" data-bs-toggle="modal" data-bs-target="#viewRoom">
+                                                    <i class="link-icon" data-feather="eye"></i>
+                                                </a>
+                                            </li>
+                                            <li class="me-2">
+                                                <a th:href="@{'/partner/rooms/' + ${room.id}}"
+                                                   target="_blank">
+                                                    <i class="link-icon" data-feather="edit"></i>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <input type="hidden" id="roomId" th:value="${room.id}">
+                                                <a href="#" id="delete-room-btn" data-bs-toggle="modal"
+                                                   data-bs-target="#confirmDelete">
+                                                    <i class="link-icon" data-feather="delete"></i>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </td>
+                                </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="dataTables_paginate">
+                <ul class="pagination">
+                    <li class="paginate_button page-item">
+                        <a href="#" class="page-link">Previous</a>
+                    </li>
+                    <li class="paginate_button page-item active"><a href="#" class="page-link">1</a></li>
+                    <li class="paginate_button page-item"><a href="#" class="page-link">2</a></li>
+                    <li class="paginate_button page-item"><a href="#" class="page-link">3</a></li>
+                    <li class="paginate_button page-item"><a href="#" class="page-link">Next</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- view MODAL -->
+    <div th:replace="~{fragments/view_room:: view-room-modal}"></div>
+</main>
+
+<th:block id="js-resources">
+    <script>
+        $(document).ready(function () {
+            $('#confirmDelete').on('show.bs.modal', function (event) {
+                const button = $(event.relatedTarget); // Nút mở modal
+                const roomId = button.siblings('#roomId').val(); // Lấy giá trị roomId từ ô input ẩn có id là 'roomId'
+                $(this).find('#confirmDeleteBtn').attr('data-roomId', roomId); // Cập nhật giá trị roomId vào nút xác nhận
+            });
+
+            $('#confirmDeleteBtn').click(function () {
+                const roomId = $(this).attr('data-roomId');
+                $.ajax({
+                    url: '/api/v1/partner/rooms/' + roomId,
+                    type: 'DELETE',
+                    success: function (response) {
+                        // Xử lý kết quả trả về từ API nếu cần
+                        console.log('ok');
+                        window.location.reload();
+                        toastr.success('Đã xóa phòng thành công.');
+
+                    },
+                    error: function (xhr, status, error) {
+                        // Xử lý lỗi (nếu có)
+                        console.error(error);
+                        toastr.error('Đã xảy ra lỗi khi xóa phòng.');
+                    }
+                });
+            });
+
+            $('#search-room-btn').on("click", function (event) {
+                event.preventDefault();
+                let url = `/partner/room-management`
+                const name = $('#searchName').val();
+                const capacity = $('#searchCapacity').val();
+
+                if (name !== '') {
+                    url += `?name=${name}`;
+                }
+                if (capacity !== '') {
+                    url += `${name ? '&' : '?'}capacity=${capacity}`
+                }
+
+                window.location.href = url;
+
+            });
+            keepValue();
+            function keepValue() {
+                // Giữ lại giá trị tìm kiếm trên thanh search khi trang tải lần đầu
+                const params = new URLSearchParams(window.location.search);
+                const nameParam = params.get('name');
+                const capacityParam = params.get('capacity');
+
+                if (nameParam) {
+                    $('#searchName').val(nameParam);
+                }
+
+                if (capacityParam) {
+                    $('#searchCapacity').val(capacityParam);
+                }
+            }
+        });
+    </script>
+</th:block>
+</body>
+
+</html>

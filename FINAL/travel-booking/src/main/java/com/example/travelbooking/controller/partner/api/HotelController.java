@@ -1,6 +1,7 @@
 package com.example.travelbooking.controller.partner.api;
 
 import com.example.travelbooking.entity.Hotel;
+import com.example.travelbooking.model.request.partner.UpdateHotelRequest;
 import com.example.travelbooking.service.UserService;
 import com.example.travelbooking.service.partner.HotelService;
 import com.example.travelbooking.statics.Gender;
@@ -12,10 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
@@ -41,21 +39,34 @@ public class HotelController {
         return new ResponseEntity<>(hotel, HttpStatus.OK);
     }
 
-    @PutMapping("/hotel")
-    public ResponseEntity<?> updateHotel(@RequestParam(value = "file", required = false) MultipartFile file,
-                                         @RequestParam("name") String name,
-                                         @RequestParam("phone") String phone,
-                                         @RequestParam("email") String email,
-                                         @RequestParam("address") String address) {
-        try {
-            Hotel updatedHotel = hotelService.updateHotelwithAvatar(file, name, phone, address, email);
-            if (updatedHotel != null) {
-                return ResponseEntity.ok(updatedHotel);
-            } else {
-                return ResponseEntity.notFound().build();
-            }
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to update hotel");
+//    @PutMapping("/hotel")
+//    public ResponseEntity<?> updateHotel(@RequestParam(value = "file", required = false) MultipartFile file,
+//                                         @RequestParam("name") String name,
+//                                         @RequestParam("phone") String phone,
+//                                         @RequestParam("email") String email,
+//                                         @RequestParam("address") String address) {
+//        try {
+//            Hotel updatedHotel = hotelService.updateHotelwithAvatar(file, name, phone, address, email);
+//            if (updatedHotel != null) {
+//                return ResponseEntity.ok(updatedHotel);
+//            } else {
+//                return ResponseEntity.notFound().build();
+//            }
+//        } catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to update hotel");
+//        }
+//    }
+@PutMapping("/hotel")
+public ResponseEntity<?> updateHotel(@ModelAttribute UpdateHotelRequest request) {
+    try {
+        Hotel updatedHotel = hotelService.updateHotel(request);
+        if (updatedHotel != null) {
+            return ResponseEntity.ok(updatedHotel);
+        } else {
+            return ResponseEntity.notFound().build();
         }
+    } catch (Exception e) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to update hotel");
     }
+}
 }

@@ -9,6 +9,7 @@ import com.example.travelbooking.model.request.partner.CreateBedRequest;
 import com.example.travelbooking.model.request.partner.CreateRoomRequest;
 import com.example.travelbooking.model.request.partner.RoomSearchRequest;
 import com.example.travelbooking.model.request.partner.UpdateRoomRequest;
+import com.example.travelbooking.model.response.partner.CommonResponse;
 import com.example.travelbooking.model.response.partner.RoomResponse;
 import com.example.travelbooking.model.response.partner.RoomSearchResponse;
 import com.example.travelbooking.repository.BedRepository;
@@ -17,6 +18,7 @@ import com.example.travelbooking.repository.HotelRepository;
 import com.example.travelbooking.repository.RoomRepository;
 import com.example.travelbooking.repository.custom.RoomCustomRepository;
 import com.example.travelbooking.service.FileService;
+import com.example.travelbooking.service.PaginationUtils;
 import com.example.travelbooking.statics.BedType;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -168,7 +170,24 @@ public class RoomService {
         roomRepository.deleteById(roomId);
     }
 
-    public List<RoomSearchResponse> searchRoom(RoomSearchRequest request) {
-        return roomCustomRepository.searchRoom(request);
+    public CommonResponse searchRoom(RoomSearchRequest request) {
+
+        try {
+            List<RoomSearchResponse> rooms = roomCustomRepository.searchRoom(request);
+            Integer pageIndex = request.getPageIndex();
+            Integer pageSize = request.getPageSize();
+
+            int pageNumber = (int) Math.ceil((float) rooms.size() / pageSize);
+
+            PaginationUtils<RoomSearchResponse> paginationUtils = new PaginationUtils<>();
+            rooms = paginationUtils.searchData(rooms, pageIndex, pageSize);
+
+            return CommonResponse.builder()
+                    .pageNumber(pageNumber)
+                    .data(rooms)
+                    .build();
+        } catch (Exception e) {
+            throw new NotFoundException("Page index out of bound");
+        }
     }
 }

@@ -273,8 +273,8 @@ table > tfoot > tr > th,
 table > thead > tr > td,
 table > tbody > tr > td,
 table > tfoot > tr > td {
-    border-top: 1px solid #dbdbdb;
-    border: 1px solid #dbdbdb;
+    border-bottom: 1px solid #dbdbdb;
+    /*border: 1px solid #dbdbdb;*/
     line-height: 2.5;
     padding-left: 3px;
     text-align: center;
@@ -282,7 +282,7 @@ table > tfoot > tr > td {
 }
 
 table thead tr th {
-    border-top: 1px solid #dbdbdb;
+    border-bottom: 1px solid #dbdbdb;
     text-align: center;
     text-transform: capitalize;
 }
@@ -301,14 +301,14 @@ table > thead > tr > th {
     vertical-align: bottom;
 }
 
-table > caption + thead > tr:first-child > th,
-table > colgroup + thead > tr:first-child > th,
-table > thead:first-child > tr:first-child > th,
-table > caption + thead > tr:first-child > td,
-table > colgroup + thead > tr:first-child > td,
-table > thead:first-child > tr:first-child > td {
-    border-bottom: 0;
-}
+/*table > caption + thead > tr:first-child > th,*/
+/*table > colgroup + thead > tr:first-child > th,*/
+/*table > thead:first-child > tr:first-child > th,*/
+/*table > caption + thead > tr:first-child > td,*/
+/*table > colgroup + thead > tr:first-child > td,*/
+/*table > thead:first-child > tr:first-child > td {*/
+/*    border-bottom: 0;*/
+/*}*/
 
 table > tbody + tbody {
     border-top: 2px solid #dbdbdb;
@@ -1952,16 +1952,28 @@ li.menu-item-has-mega-menu {
 
 .tg-headervtwo .tg-themedropdown + .tg-themedropdown {
     margin: 0 0 0 2px;
+
 }
 
 .tg-headervtwo .tg-currencydropdown .tg-themedropdownmenu {
     margin: 1px 0 0;
 }
 
+.tg-headervtwo .tg-currencydropdown {
+    display: flex;
+    padding: 7px 20px;
+    align-items: center;
+}
+
 .tg-headervtwo .tg-currencydropdown .tg-btnthemedropdown span {
     color: #fff;
     line-height: normal;
 }
+
+.tg-headervtwo .tg-currencydropdown .tg-btnthemedropdown a img {
+    border-radius: 50%;
+}
+
 
 .tg-headervtwo .tg-currencydropdown .tg-btnthemedropdown span:after {
     top: 3px;
@@ -1970,6 +1982,15 @@ li.menu-item-has-mega-menu {
 .tg-headervtwo .tg-themebadge {
     background: #fff;
     color: #666 !important;
+}
+
+.btn-group-regis {
+    padding-top: 13px;
+    padding-bottom: 13px
+}
+
+.btn-group-regis .btn-regis-signin, .btn-group-regis .btn-regis-signup {
+    color: white;
 }
 
 /* =============================================

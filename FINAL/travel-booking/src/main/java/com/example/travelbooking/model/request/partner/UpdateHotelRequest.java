@@ -20,5 +20,14 @@ public class UpdateHotelRequest {
 
     MultipartFile avatar;
 
+    String province;
+
+    String district;
+
+    String ward;
+
+    String street;
+
+    //Full address (street + ward + district + province)
     String address;
 }

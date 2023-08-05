@@ -13,7 +13,8 @@
 
     <th:block id="css-resources">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/js/bootstrap.min.js"></script>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap-grid.min.css"/>
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap-grid.min.css"/>
     </th:block>
 </head>
 
@@ -39,6 +40,9 @@
                     <div class="col-lg-4 col-md-4">
                         <input type="text" placeholder="Search by room name" class="form-control" id="searchName">
                     </div>
+                    <div class="col-lg-4 col-md-4">
+                        <input type="text" placeholder="Search by capacity" class="form-control" id="searchCapacity">
+                    </div>
                     <div class="col-lg-3 col-md-4">
                         <select class="form-select" id="searchRoomStatus">
                             <option th:each="status : ${roomStatusList}" th:value="${status}"
@@ -49,8 +53,8 @@
                 </div>
             </form>
             <div class="mt-3">
-                <button type="submit" class="btn btn-primary px-3 py-2" id="search-room-btn" ><i class="link-icon"
-                                                                                      data-feather="search"></i>
+                <button type="submit" class="btn btn-primary px-3 py-2" id="search-room-btn"><i class="link-icon"
+                                                                                                data-feather="search"></i>
                     Search
                 </button>
             </div>
@@ -75,7 +79,7 @@
                                 </thead>
 
                                 <tbody>
-                                <tr th:each="room: ${roomList}">
+                                <tr th:each="room: ${roomList.data}">
                                     <td th:text="${room.id}"/>
                                     <td th:text="${room.name}"/>
                                     <td>
@@ -131,26 +135,62 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="dataTables_paginate">
-                <ul class="pagination">
-                    <li class="paginate_button page-item">
-                        <a href="#" class="page-link">Previous</a>
-                    </li>
-                    <li class="paginate_button page-item active"><a href="#" class="page-link">1</a></li>
-                    <li class="paginate_button page-item"><a href="#" class="page-link">2</a></li>
-                    <li class="paginate_button page-item"><a href="#" class="page-link">3</a></li>
-                    <li class="paginate_button page-item"><a href="#" class="page-link">Next</a></li>
-                </ul>
-            </div>
-        </div>
+
+        <nav aria-label="Page navigation" class="d-flex justify-content-center">
+            <ul class="pagination">
+                <li class="page-item" id="previousButton" th:classappend="${currentPage <= 1 ? 'disabled' : ''}">
+                    <a class="page-link" th:href="@{/partner/room-management?pageIndex={page}(page=${currentPage - 1})}">Previous</a>
+                </li>
+                <li class="page-item" th:each="page : ${#numbers.sequence(1, roomList.getPageNumber)}"
+                    th:classappend="${currentPage == page ? 'active' : ''}">
+                    <a class="page-link" th:href="@{/partner/room-management(pageIndex=${page})}"><span th:text="${page}"></span></a>
+                </li>
+                <li class="page-item" id="nextButton" th:classappend="${currentPage >= roomList.getPageNumber ? 'disabled' : ''}">
+                    <a class="page-link" th:href="@{/partner/room-management?pageIndex={page}(page=${currentPage + 1})}">Next</a>
+                </li>
+            </ul>
+        </nav>
+
+        <!--        <th:block th:replace="fragments/pagination::pagination(${currentPage},${roomList})"></th:block>-->
     </div>
+
 
     <!-- view MODAL -->
     <div th:replace="~{fragments/view_room:: view-room-modal}"></div>
 </main>
 
 <th:block id="js-resources">
+    <script>
+        $(document).ready(function() {
+            // Lấy các thẻ li chứa nút Previous và Next bằng ID
+            const previousButton = document.getElementById('previousButton');
+            const nextButton = document.getElementById('nextButton');
+
+            // Lấy giá trị currentPage và roomList.pageNumber từ Thymeleaf và chuyển thành số nguyên
+            const currentPage = parseInt([[${currentPage}]]);
+            console.log(currentPage <= 1)
+
+            const pageNumber = parseInt([[${roomList.pageNumber}]]);
+
+            // Kiểm tra và cập nhật trạng thái của nút Previous và Next
+            function updateButtonState() {
+                if (currentPage <= 1) {
+                    previousButton.classList.add('disabled');
+                } else {
+                    previousButton.classList.remove('disabled');
+                }
+
+                if (currentPage >= pageNumber) {
+                    nextButton.classList.add('disabled');
+                } else {
+                    nextButton.classList.remove('disabled');
+                }
+            }
+
+            // Gọi hàm cập nhật trạng thái khi trang được tải
+            updateButtonState();
+        })
+    </script>
     <script>
         $(document).ready(function () {
             $('#confirmDelete').on('show.bs.modal', function (event) {
@@ -181,26 +221,35 @@
 
             $('#search-room-btn').on("click", function (event) {
                 event.preventDefault();
-                const name = document.getElementById("searchName").value;
-                const formData ={
-                    name: name
+                let url = `/partner/room-management`
+                const name = $('#searchName').val();
+                const capacity = $('#searchCapacity').val();
+
+                if (name !== '') {
+                    url += `?name=${name}`;
                 }
-                console.log(formData);
-                $.ajax({
-                    url: '/api/v1/partner/rooms/search',
-                    type: 'GET',
-                    data: formData,
-                    success: function (roomList) {
-                        // Xử lý kết quả trả về từ API nếu cần
-                        console.log(roomList);
-                    },
-                    error: function (xhr, status, error) {
-                        // Xử lý lỗi (nếu có)
-                        console.error(error);
-                        toastr.error('Đã xảy ra lỗi khi search.');
-                    }
-                });
+                if (capacity !== '') {
+                    url += `${name ? '&' : '?'}capacity=${capacity}`
+                }
+
+                window.location.href = url;
+
             });
+            keepValue();
+            function keepValue() {
+                // Giữ lại giá trị tìm kiếm trên thanh search khi trang tải lần đầu
+                const params = new URLSearchParams(window.location.search);
+                const nameParam = params.get('name');
+                const capacityParam = params.get('capacity');
+
+                if (nameParam) {
+                    $('#searchName').val(nameParam);
+                }
+
+                if (capacityParam) {
+                    $('#searchCapacity').val(capacityParam);
+                }
+            }
         });
     </script>
 </th:block>

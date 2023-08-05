@@ -1,10 +1,11 @@
 package com.example.travelbooking.model.request.partner;
 
+import com.example.travelbooking.model.request.BaseSearchRequest;
 import com.example.travelbooking.statics.RoomStatus;
 import lombok.Data;
 
 @Data
-public class RoomSearchRequest extends BaseSearchRequest{
+public class RoomSearchRequest extends BaseSearchRequest {
 
     Long id;
 
@@ -19,6 +20,5 @@ public class RoomSearchRequest extends BaseSearchRequest{
     Integer room_nums;
 
     RoomStatus roomStatus;
-
 
 }

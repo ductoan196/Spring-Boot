@@ -49,11 +49,4 @@ public class RoomController {
         }
     }
 
-    @GetMapping("/search")
-    public ResponseEntity<?> search(RoomSearchRequest request, Model model) {
-      List<RoomSearchResponse> roomSearchResponse= roomService.searchRoom(request);
-//      model.addAttribute("roomList", roomSearchResponse);
-       return ResponseEntity.ok(roomSearchResponse);
-    }
-
 }

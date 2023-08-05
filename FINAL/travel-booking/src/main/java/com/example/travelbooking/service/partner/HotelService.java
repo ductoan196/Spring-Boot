@@ -52,14 +52,18 @@ public class HotelService {
         Hotel hotel = hotelRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new NotFoundException("Không tìm thấy hotel trong danh sách"));
 
-
+        MultipartFile file = request.getAvatar();
+        if (file != null && !file.isEmpty()) {
+            String imgUrl = fileService.upload(file);
+            hotel.setImageUrl(imgUrl);
+        }
         hotel.setName(request.getName());
         hotel.setPhone(request.getPhone());
         hotel.setAddress(request.getAddress());
-        if (request.getAvatar() != null && !request.getAvatar().isEmpty()) {
-            String imgUrl = fileService.upload(request.getAvatar());
-            hotel.setImageUrl(imgUrl);
-        }
+        hotel.setProvince(request.getProvince());
+        hotel.setDistrict(request.getDistrict());
+        hotel.setWard(request.getWard());
+        hotel.setStreet(request.getStreet());
 
         return hotelRepository.save(hotel);
     }
