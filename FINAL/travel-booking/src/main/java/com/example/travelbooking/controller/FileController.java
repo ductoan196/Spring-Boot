@@ -1,7 +1,6 @@
 package com.example.travelbooking.controller;
 
-import com.example.travelbooking.model.response.UploadFileResponse;
-import com.example.travelbooking.service.FileService;
+import com.example.travelbooking.service.user.FileService;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;

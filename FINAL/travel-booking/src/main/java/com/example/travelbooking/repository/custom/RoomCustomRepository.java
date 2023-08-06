@@ -54,7 +54,7 @@ import java.util.Map;
 @Repository
 @Data
 public class RoomCustomRepository extends BaseRepository {
-    public List<RoomSearchResponse> searchRoom(RoomSearchRequest request) {
+    public List<RoomSearchResponse> searchRoom(RoomSearchRequest request, Long hotelId) {
         String sql = "SELECT r.id id, r.name name, r.description description, r.price price, r.capacity capacity, " +
                 "r.room_nums room_nums, r.room_status room_status, " +
                 "f.id AS facility_id, f.name AS facility_name " +
@@ -64,6 +64,10 @@ public class RoomCustomRepository extends BaseRepository {
                 "WHERE 1 = 1";  // WHERE 1 = 1 added for flexibility in building the query dynamically
 
         Map<String, Object> parameter = new HashMap<>();
+        if (hotelId != null) {
+            sql += " AND r.hotel_id = :hotelId";
+            parameter.put("hotelId", hotelId);
+        }
         if (request.getId()!= null){
             sql += " and r.id = :id";
             parameter.put("id",request.getId());

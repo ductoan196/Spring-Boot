@@ -9,7 +9,7 @@ import com.example.travelbooking.repository.RefreshTokenRepository;
 import com.example.travelbooking.repository.UserRepository;
 import com.example.travelbooking.security.CustomUserDetails;
 import com.example.travelbooking.security.JwtUtils;
-import com.example.travelbooking.service.UserService;
+import com.example.travelbooking.service.user.UserService;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -26,6 +26,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.mail.MessagingException;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.Set;
 import java.util.UUID;
@@ -49,7 +51,7 @@ public class AuthenticationController {
     AuthenticationManager authenticationManager;
 
     @PostMapping("/login")
-    public JwtResponse authenticateUser(@Valid @RequestBody LoginRequest request) {
+    public JwtResponse authenticateUser(@Valid @RequestBody LoginRequest request, HttpServletResponse response) {
         Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
 
@@ -68,13 +70,19 @@ public class AuthenticationController {
                 .build();
         refreshTokenRepository.save(refreshTokenEntity);
 
-        return JwtResponse.builder()
+         JwtResponse jwtResponse= JwtResponse.builder()
                 .jwt(jwt)
                 .refreshToken(refreshToken)
                 .id(userDetails.getId())
                 .username(userDetails.getUsername())
                 .roles(roles)
                 .build();
+
+        javax.servlet.http.Cookie jwtCookie = new Cookie("jwtToken", jwtResponse.getJwt());
+        jwtCookie.setPath("/");
+        response.addCookie(jwtCookie);
+
+        return jwtResponse;
     }
 
     @PostMapping("/signup")
@@ -109,9 +117,9 @@ public class AuthenticationController {
     }
 
     @PostMapping("/refresh-token")
-    public ResponseEntity<?> refreshToken(@RequestBody @Valid RefreshTokenRequest request) {
+    public ResponseEntity<?> refreshToken(@RequestBody @Valid RefreshTokenRequest request, HttpServletResponse response) {
         try {
-            return ResponseEntity.ok(userService.refreshToken(request));
+            return ResponseEntity.ok(userService.refreshToken(request, response));
         } catch (RefreshTokenNotFoundException | UsernameNotFoundException ex) {
             return new ResponseEntity<>("Thông tin refreshToken không chính xác", HttpStatus.BAD_REQUEST);
         }
@@ -155,7 +163,12 @@ public class AuthenticationController {
 //    }
 
     @PostMapping("/logout")
-    public ResponseEntity<?> logout() {
+    public ResponseEntity<?> logout(HttpServletResponse response) {
+        Cookie jwtCookie = new Cookie("jwtToken", null);
+        jwtCookie.setMaxAge(0);
+        jwtCookie.setPath("/");
+        response.addCookie(jwtCookie);
+
         userService.logout();
         return ResponseEntity.ok(null);
     }

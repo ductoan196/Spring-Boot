@@ -17,18 +17,15 @@ import com.example.travelbooking.repository.FacilityRepository;
 import com.example.travelbooking.repository.HotelRepository;
 import com.example.travelbooking.repository.RoomRepository;
 import com.example.travelbooking.repository.custom.RoomCustomRepository;
-import com.example.travelbooking.service.FileService;
-import com.example.travelbooking.service.PaginationUtils;
+import com.example.travelbooking.service.user.FileService;
+import com.example.travelbooking.service.user.PaginationUtils;
 import com.example.travelbooking.statics.BedType;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -170,10 +167,13 @@ public class RoomService {
         roomRepository.deleteById(roomId);
     }
 
-    public CommonResponse searchRoom(RoomSearchRequest request) {
+    public CommonResponse searchRoom(RoomSearchRequest request, String currentEmail) {
 
         try {
-            List<RoomSearchResponse> rooms = roomCustomRepository.searchRoom(request);
+            Hotel hotel = hotelRepository.findByEmail(currentEmail)
+                    .orElseThrow(() -> new NotFoundException("Không tìm thấy hotel trong danh sách"));
+
+            List<RoomSearchResponse> rooms = roomCustomRepository.searchRoom(request, hotel.getId());
             Integer pageIndex = request.getPageIndex();
             Integer pageSize = request.getPageSize();
 

@@ -1,31 +1,19 @@
 package com.example.travelbooking.service.partner;
 
 import com.example.travelbooking.entity.Hotel;
-import com.example.travelbooking.entity.Room;
 import com.example.travelbooking.exception.NotFoundException;
-import com.example.travelbooking.exception.UserNotFoundException;
-import com.example.travelbooking.model.request.partner.CreateRoomRequest;
 import com.example.travelbooking.model.request.partner.UpdateHotelRequest;
-import com.example.travelbooking.model.request.partner.UpdateRoomRequest;
 import com.example.travelbooking.model.response.partner.RoomResponse;
 import com.example.travelbooking.repository.HotelRepository;
 import com.example.travelbooking.repository.RoomRepository;
-import com.example.travelbooking.security.SecurityUtils;
-import com.example.travelbooking.service.FileService;
-import com.example.travelbooking.service.UserService;
-import com.example.travelbooking.statics.Gender;
+import com.example.travelbooking.service.user.FileService;
+import com.example.travelbooking.service.user.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service

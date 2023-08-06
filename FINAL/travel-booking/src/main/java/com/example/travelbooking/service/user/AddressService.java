@@ -1,4 +1,4 @@
-package com.example.travelbooking.service;
+package com.example.travelbooking.service.user;
 
 import com.example.travelbooking.entity.location.District;
 import com.example.travelbooking.entity.location.Province;

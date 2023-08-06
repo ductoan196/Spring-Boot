@@ -1,13 +1,11 @@
-package com.example.travelbooking.service;
+package com.example.travelbooking.service.user;
 
-import com.example.travelbooking.entity.Hotel;
-import com.example.travelbooking.entity.OTP;
+import com.example.travelbooking.entity.*;
 import com.example.travelbooking.exception.*;
 import com.example.travelbooking.model.request.registration.*;
+import com.example.travelbooking.model.request.user.UpdateUserRequest;
 import com.example.travelbooking.repository.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.example.travelbooking.entity.Role;
-import com.example.travelbooking.entity.User;
 import com.example.travelbooking.model.response.JwtResponse;
 import com.example.travelbooking.model.response.UserResponse;
 import com.example.travelbooking.security.CustomUserDetails;
@@ -25,8 +23,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.mail.MessagingException;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -50,6 +51,8 @@ public class UserService {
 
     final RefreshTokenRepository refreshTokenRepository;
 
+    final FileService fileService;
+
     EmailService emailService;
 
     @Value("${application.security.refreshToken.tokenValidityMilliseconds}")
@@ -59,7 +62,7 @@ public class UserService {
 
     public UserService(PasswordEncoder passwordEncoder, UserRepository userRepository,
                        RoleRepository roleRepository, HotelRepository hotelRepository, OTPRepository otpRepository, ObjectMapper objectMapper,
-                       RefreshTokenRepository refreshTokenRepository, JwtUtils jwtUtils, EmailService emailService) {
+                       RefreshTokenRepository refreshTokenRepository, FileService fileService, JwtUtils jwtUtils, EmailService emailService) {
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
@@ -67,6 +70,7 @@ public class UserService {
         this.otpRepository = otpRepository;
         this.objectMapper = objectMapper;
         this.refreshTokenRepository = refreshTokenRepository;
+        this.fileService = fileService;
         this.jwtUtils = jwtUtils;
         this.emailService = emailService;
     }
@@ -133,11 +137,13 @@ public class UserService {
         return Collections.emptyList();
     }
 
-    public UserResponse getDetail(Long id) throws ClassNotFoundException {
-        return userRepository.findById(id).map(u -> objectMapper.convertValue(u, UserResponse.class)).orElseThrow(ClassNotFoundException::new);
+    public UserResponse getDetail(Long userId) throws ClassNotFoundException {
+        User user= userRepository.findById(userId)
+                .orElseThrow(ClassNotFoundException::new);
+        return convertUserToUserResponse(user);
     }
 
-    public JwtResponse refreshToken(RefreshTokenRequest request) throws RefreshTokenNotFoundException {
+    public JwtResponse refreshToken(RefreshTokenRequest request, HttpServletResponse response) throws RefreshTokenNotFoundException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
         String newToken = userRepository.findById(userDetails.getId())
@@ -158,9 +164,16 @@ public class UserService {
         if (newToken == null) {
             throw new RefreshTokenNotFoundException();
         }
-        return JwtResponse.builder()
+
+         JwtResponse jwtResponse = JwtResponse.builder()
                 .jwt(newToken)
                 .build();
+        //Set lại cookie
+        Cookie jwtCookie = new Cookie("jwtToken", jwtResponse.getJwt());
+        jwtCookie.setPath("/");
+        response.addCookie(jwtCookie);
+
+         return jwtResponse;
     }
 
     @Transactional
@@ -278,5 +291,37 @@ public class UserService {
             throw new UsernameNotFoundException("Tài khoản không tồn tại");
         }
         System.out.println(userIdOptional.get());
+    }
+
+    public UserResponse updateUser(UpdateUserRequest request, Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("Không tìm thấy email trong hệ thống"));
+
+        MultipartFile file = request.getAvatar();
+        if (file != null && !file.isEmpty()) {
+            String imgUrl = fileService.upload(file);
+            Image image = new Image();
+            image.setImageUrl(imgUrl);
+            user.setAvatar(image);
+        }
+        user.setFullName(request.getFullName());
+        user.setPhone(request.getPhone());
+        user.setAddress(request.getAddress());
+        user.setGender(request.getGender());
+        user.setFullName(request.getFullName());
+
+        userRepository.save(user);
+        return convertUserToUserResponse(user);
+    }
+
+    private UserResponse convertUserToUserResponse(User user) {
+        UserResponse userResponse = new UserResponse();
+        userResponse.setAvatar(user.getAvatar().getImageUrl());
+        userResponse.setGender(user.getGender());
+        userResponse.setPhone(userResponse.getPhone());
+        userResponse.setEmail(user.getEmail());
+        userResponse.setAddress(user.getAddress());
+
+        return userResponse;
     }
 }

@@ -9,11 +9,10 @@ import com.example.travelbooking.entity.location.Ward;
 import com.example.travelbooking.exception.NotFoundException;
 import com.example.travelbooking.model.request.partner.RoomSearchRequest;
 import com.example.travelbooking.model.response.partner.CommonResponse;
-import com.example.travelbooking.model.response.partner.RoomResponse;
-import com.example.travelbooking.model.response.partner.RoomSearchResponse;
 import com.example.travelbooking.repository.*;
-import com.example.travelbooking.service.AddressService;
-import com.example.travelbooking.service.UserService;
+import com.example.travelbooking.security.SecurityUtils;
+import com.example.travelbooking.service.user.AddressService;
+import com.example.travelbooking.service.user.UserService;
 import com.example.travelbooking.service.partner.RoomService;
 import com.example.travelbooking.statics.BedType;
 import com.example.travelbooking.statics.RoomStatus;
@@ -30,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Controller
@@ -61,7 +61,7 @@ public class PartnerController {
     public String editRoom(@PathVariable Long roomId, Model model) {
         Room room = roomRepository.findById(roomId)
                 .orElseThrow(() -> new NotFoundException("Không tìm thấy room trong danh sách"));
-        model.addAttribute(room);
+        model.addAttribute("room", room);
 
         List<Bed> beds = bedRepository.findByRoom(roomId);
 
@@ -83,26 +83,40 @@ public class PartnerController {
     public String dashboadPartner(Model model) {
         List<Province> provinces = provinceRepository.findAll();
         model.addAttribute("provinceList", provinces);
-//        model.addAttribute("districtList", districts);
-//        model.addAttribute("wardList", wards);
         return "management/partner/dashboard-partner";
     }
 
+    @GetMapping("partner/hotel-profile")
+    public String hotelProfile(Model model) {
+        List<Province> provinces = provinceRepository.findAll();
+        model.addAttribute("provinceList", provinces);
+//        model.addAttribute("districtList", districts);
+//        model.addAttribute("wardList", wards);
+        return "management/partner/hotel-profile";
+    }
+
     @GetMapping("/partner/room-management")
-    public String roomList(RoomSearchRequest request, Model model) {
+    public String searchRoomList(RoomSearchRequest request, Model model) {
+        String currentUserEmail = SecurityUtils.getCurrentUserEmail()
+                .orElseThrow(() -> new NotFoundException("Không tìm thấy currentEmail"));
 
-        CommonResponse<?> commonResponse = roomService.searchRoom(request);
+        CommonResponse<?> commonResponse = roomService.searchRoom(request, currentUserEmail);
 
-        model.addAttribute("roomStatusList", RoomStatus.values());
         model.addAttribute("roomList", commonResponse);
         model.addAttribute("currentPage", request.getPageIndex());
         return "management/partner/room-management";
     }
 
+    @GetMapping("/partner/account-info")
+    public String accountInfo(Model model) {
+
+        return "management/partner/account-info";
+    }
+
     // API để lấy danh sách District tương ứng với Province
     @GetMapping("/get-districts")
     public ResponseEntity<?> getDistricts(@RequestParam String province) {
-        List<District> districtList= addressService.getDistrictsByProvince(province);
+        List<District> districtList = addressService.getDistrictsByProvince(province);
         return ResponseEntity.ok(districtList);
     }
 

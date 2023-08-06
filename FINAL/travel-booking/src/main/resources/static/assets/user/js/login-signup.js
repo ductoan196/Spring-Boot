@@ -182,9 +182,6 @@ function logout() {
     $.ajax({
         url: '/api/v1/authentication/logout',
         type: 'POST',
-        headers: {
-            Authorization: `Bearer ${jwt}`
-        },
         success: function (response) {
             console.log('ok')
             toastr.success('Đã đăng xuất');

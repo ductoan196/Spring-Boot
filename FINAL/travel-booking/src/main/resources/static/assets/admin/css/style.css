@@ -24871,3 +24871,72 @@ div.tox .tox-dialog__body {
     transform: translate(-50%, -50%);
     z-index: 10000; /* Đảm bảo hiển thị trên overlay */
 }
+
+
+/*Thêm sửa phòng*/
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+    background-color: #029e9d;
+    border: 1px solid #fff;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+    color: #fff;
+}
+
+.select2-container--default .select2-selection--multiple {
+    border: 1px solid #e9ecef;
+    border-radius: 10px;
+}
+
+.upload-box {
+    position: relative;
+    border: 2px dashed #ccc;
+    padding: 30px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.upload-box p {
+    margin: 0;
+    font-size: 16px;
+    color: #ccc; /* Màu xám cho chữ "upload" */
+}
+
+.upload-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 24px;
+}
+
+.preview-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.preview-image-container {
+    position: relative;
+    margin: 5px;
+}
+
+.preview-image {
+    max-width: 100px;
+    max-height: 100px;
+}
+
+.delete-button {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background-color: gray;
+    color: #fff;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    cursor: pointer;
+    border-radius: 50%; /* Đặt border-radius là 50% để tạo hình tròn */
+}

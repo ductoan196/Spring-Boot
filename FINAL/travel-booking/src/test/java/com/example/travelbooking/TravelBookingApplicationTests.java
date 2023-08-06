@@ -7,17 +7,13 @@ import com.example.travelbooking.repository.HotelRepository;
 import com.example.travelbooking.repository.LocationRepository;
 import com.example.travelbooking.repository.OTPRepository;
 import com.example.travelbooking.security.SecurityUtils;
-import com.example.travelbooking.service.UserService;
-import lombok.AllArgsConstructor;
-import lombok.experimental.FieldDefaults;
+import com.example.travelbooking.service.user.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @SpringBootTest
 

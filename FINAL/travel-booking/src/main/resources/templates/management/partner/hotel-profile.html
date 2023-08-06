@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/layout_dashboard_partner :: main-fragment(
+                                                ~{:: title},
+                                                ~{:: #css-resources},
+                                                ~{:: #js-resources},
+                                                ~{:: #main-content}
+                                               )}">
+
+<head>
+
+  <title>Partner Dashboard</title>
+
+  <th:block id="css-resources">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet"/>
+    <style>
+      .select2-container .select2-selection--single {
+        height: 45px; /* Thay đổi chiều cao theo ý muốn */
+        border: 1px solid #e9ecef;
+        border-radius: 10px;
+      }
+
+      .select2-container--default .select2-selection--single .select2-selection__arrow b {
+        margin-left: -17px;
+        margin-top: 7px;
+      }
+
+      .select2-container .select2-selection--single .select2-selection__rendered {
+        padding-left: 15px;
+      }
+    </style>
+  </th:block>
+</head>
+
+<body>
+
+<main id="main-content">
+  <div class="page-content">
+
+    <div class="row">
+      <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="mb-4">Hotel Information</h4>
+            <div class="container">
+              <div class="row my-t bs">
+                <div class="col d-flex justify-content-center">
+                  <img id="avatar-hotel" class="rounded-circle" style="width: 150px; height: 150px"
+                       alt="Avatar"
+                       src="/assets/user/images/default-hotel.jpg"/>
+
+                </div>
+                <div class="row mt-2 mx-0">
+                  <div class="col d-flex justify-content-center">
+                    <button class="btn btn-sm change-avatar-hotel" style="border: 0.5px solid grey">
+                      <i class="link-icon p-1" data-feather="upload"></i> Upload avatar
+                    </button>
+                    <button class="btn btn-sm btn-success submit-avatar-btn ml-1" hidden="hidden">
+                      Save
+                    </button>
+                  </div>
+                </div>
+
+              </div>
+              <form class="forms-sample mt-3" id="uploadForm">
+                <div class="row">
+                  <input type="file" hidden="hidden" id="avatar-input-hotel"/>
+                  <div class="col-lg-6 mb-4">
+                    <label for="name" class="form-label"> Full Name *</label>
+                    <input type="text" class="form-control" id="name" autocomplete="off"
+                           placeholder name="name">
+                  </div>
+                  <div class="col-lg-6 mb-4">
+                    <label for="email" class="form-label">Email Address *</label>
+                    <input type="email" class="form-control" id="email" autocomplete="off"
+                           placeholder name="email">
+                  </div>
+                  <div class="col-lg-6 mb-4">
+                    <label for="phone" class="form-label">Phone No. *</label>
+                    <input type="number" class="form-control" id="phone" autocomplete="off"
+                           placeholder name="phone">
+                  </div>
+
+                  <!--                                    <div class="col-lg-6 mb-3">-->
+                  <!--                                        <label for="address" class="form-label"> Address *</label>-->
+                  <!--                                        <input type="text" class="form-control" id="address" autocomplete="off"-->
+                  <!--                                               placeholder name="address">-->
+                  <!--                                    </div>-->
+
+                </div>
+                <div class="row">
+
+                  <div class="col-lg-6">
+                    <h4 class="pt-5 pb-4">Location</h4>
+                    <div class="row">
+                      <div class="col-lg-6 mb-3">
+                        <label for="province" class="form-label"> Province *</label>
+                        <select class="form-control select2" id="province" required>
+                          <option value="" selected disabled>Choose province/city</option>
+                          <option th:each="province : ${provinceList}"
+                                  th:value="${province.getName_en}"
+                                  th:text="${province.getName_en}"
+                                  class="text-body" style="height: 50px"></option>
+                        </select>
+                      </div>
+                      <div class="col-lg-6 mb-3">
+                        <label for="district" class="form-label"> District *</label>
+                        <select class="form-control select2" id="district" required>
+                          <option value="" selected disabled>Choose district</option>
+                        </select>
+                      </div>
+                      <div class="col-lg-6 mb-3">
+                        <label for="ward" class="form-label"> Ward *</label>
+                        <select class="form-control select2" id="ward" required>
+                          <option value="" selected disabled>Choose ward</option>
+                        </select>
+                      </div>
+                      <div class="col-lg-6 mb-3">
+                        <label for="street" class="form-label"> Street *</label>
+                        <input type="text" class="form-control" id="street" autocomplete="off"
+                               placeholder="Enter street" name="street">
+                      </div>
+                    </div>
+                  </div>
+                  <!--                                    <div class="col-lg-6 px-5">-->
+                  <!--                                        <div id="map-container" style="width: 500px; height: 300px">-->
+                  <!--                                            <div id="map" style="height: 100%; width: 100%"></div>-->
+                  <!--                                        </div>-->
+                  <!--                                    </div>-->
+                </div>
+              </form>
+
+              <div class="text-right pt-4">
+                <button type="submit" class="btn btn-primary submit-hotel-profile-btn"
+                        id="submit-hotel-profile-btn"><i class="link-icon"
+                                                         data-feather="save"></i> Save Profile
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<th:block id="js-resources">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"
+          integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+  <!--    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAoWOLjDkFNpk1ZS15jTN-YhlONrCF-6QE&callback=initMap" async defer></script>-->
+
+  <script>
+    // // Tọa độ latitude và longitude
+    // let lat ;
+    // let long;
+    //
+    // function initMap() {
+    //     // Tạo một đối tượng bản đồ
+    //     var map = new google.maps.Map(document.getElementById('map'), {
+    //         center: { lat: lat, lng: long },
+    //         zoom: 14
+    //     });
+    //
+    //     // Tạo một đánh dấu trên bản đồ với tọa độ lat và long
+    //     var marker = new google.maps.Marker({
+    //         position: { lat: lat, lng: long },
+    //         map: map,
+    //         title: 'Test maps xem nào'
+    //     });
+    // }
+
+    $(document).ready(function () {
+      // Kích hoạt Select2 cho các thẻ select
+      $('.select2').select2();
+
+
+      // Xử lý sự kiện khi chọn Province
+      $('#province').on('change', function () {
+        const selectedProvince = document.getElementById("province").value
+        if (selectedProvince) {
+          // Gọi API để lấy danh sách District tương ứng với Province
+          $.ajax({
+            url: `/get-districts?province=${selectedProvince}`,
+            type: 'GET',
+            success: function (data) {
+              // Xóa tất cả các option cũ trong thẻ District
+              $('#district').empty().append('<option value="" selected disabled>Choose district</option>');
+              // Thêm danh sách District mới vào thẻ District
+              data.forEach(function (district) {
+                $('#district').append(`<option value="${district.code}">${district.name_en}</option>`);
+              });
+              // Kích hoạt lại Select2 cho thẻ District
+              $('#district').prop('disabled', false).trigger('change');
+            },
+            error: function (xhr, status, error) {
+              console.error(error);
+            }
+          });
+        } else {
+          // Nếu không chọn Province thì reset thẻ District và Ward
+          $('#district').empty().append('<option value="" selected disabled>Chọn quận/huyện</option>').prop('disabled', true).trigger('change');
+          $('#ward').empty().append('<option value="" selected disabled>Chọn phường/xã</option>').prop('disabled', true).trigger('change');
+        }
+      });
+
+      // Xử lý sự kiện khi chọn District
+      $('#district').on('change', function () {
+        const selectedDistrict = document.getElementById("district").value
+        if (selectedDistrict) {
+          // Gọi API để lấy danh sách District tương ứng với Province
+          $.ajax({
+            url: `/get-wards?districtCode=${selectedDistrict}`,
+            type: 'GET',
+            success: function (data) {
+              // Xóa tất cả các option cũ trong thẻ District
+              $('#ward').empty().append('<option value="" selected disabled>Choose ward</option>');
+              // Thêm danh sách District mới vào thẻ District
+              data.forEach(function (ward) {
+                $('#ward').append(`<option value="${ward.code}">${ward.name_en}</option>`);
+              });
+              // Kích hoạt lại Select2 cho thẻ District
+              $('#ward').prop('disabled', false).trigger('change');
+            },
+            error: function (xhr, status, error) {
+              console.error(error);
+            }
+          });
+        } else {
+          // Nếu không chọn District thì reset thẻ  Ward
+          $('#ward').empty().append('<option value="" selected disabled>Choose ward</option>').prop('disabled', true).trigger('change');
+        }
+      });
+
+      let userInfo = JSON.parse(localStorage.getItem("userInfo"))
+      let emailInput = document.getElementById('email');
+      let nameInput = document.getElementById('name');
+      let phoneInput = document.getElementById('phone');
+      let avatarInput = document.getElementById('avatar-hotel')
+
+      var wardSelect = document.getElementById("ward");
+
+      const btnSubmit = document.getElementById('submit-hotel-profile-btn');
+
+      emailInput.value = userInfo.username;
+      emailInput.readOnly = true;
+
+      getHotelByEmail();
+
+      function getHotelByEmail() {
+
+        const jwt = localStorage.getItem('jwt');
+        let emailHotel = userInfo.username
+        if (jwt) {
+          $.ajax({
+            url: `/api/v1/partner/hotel?email=${encodeURIComponent(emailHotel)}`,
+            type: 'GET',
+            headers: {
+              'Authorization': 'Bearer ' + jwt
+            },
+            success: function (response) {
+              // Xử lý dữ liệu khách sạn nhận được từ response
+              console.log(response);
+              // Hiển thị thông tin khách sạn trong giao diện
+              nameInput.value = response.name;
+              phoneInput.value = response.phone;
+              // avatarInput.src = response.imageUrl;
+              if (response.imageUrl !== null && response.imageUrl !== "") {
+                avatarInput.src = response.imageUrl;
+              }
+              // Đặt giá trị cho trường select của tỉnh/thành phố
+              $('#province').val(response.province).trigger('change');
+              $('#street').val(response.street).trigger('change');
+
+              // Đặt giá trị cho trường select của quận/huyện
+              $('#district').val(response.district).trigger('change');
+
+              // Đặt giá trị cho trường select của quận/huyện
+              $('#ward').val(response.ward).trigger('change');
+
+            },
+            error: function (xhr, status, error) {
+              console.error(error);
+            }
+          });
+        }
+      }
+
+      $("#uploadForm").validate({
+        onfocusout: false,
+        onkeyup: false,
+        onclick: false,
+        rules: {
+          "name": {
+            required: true,
+            maxlength: 100
+          },
+          "phone": {
+            required: true,
+            minlength: 10,
+            maxlength: 15,
+            digits: true
+          },
+          "address": {
+            required: true,
+            maxlength: 500
+          },
+          "street":{
+            required: true
+          }
+        },
+        messages: {
+          "name": {
+            required: "Please enter the hotel name.",
+            maxlength: "The hotel name must not exceed 100 characters."
+          },
+          "phone": {
+            required: "Please enter the phone number.",
+            minlength: "Phone number must be at least 10 digits.",
+            maxlength: "Phone number must not exceed 15 digits.",
+            digits: "Please enter a valid phone number with digits only."
+          },
+          "address": {
+            required: "Please enter the hotel address.",
+            maxlength: "The address must not exceed 500 characters."
+          },
+          "street":{
+            required: "Please enter detail street address."
+          }
+        },
+        errorClass: "custom-error-message"
+      });
+
+
+      // toastr.options.timeOut = 2500; // 2.5s
+      let chosenFile = null;
+
+      $(".change-avatar-hotel").click(() => {
+        $("#avatar-input-hotel").click();
+      });
+
+      $("#avatar-input-hotel").change(event => {
+        const tempFiles = event.target.files;
+        if (!tempFiles || tempFiles.length === 0) {
+          return;
+        }
+        console.log(event.target.files[0].data);
+        chosenFile = tempFiles[0];
+
+        const imageBlob = new Blob([chosenFile], {type: chosenFile.type});
+        const imageUrl = URL.createObjectURL(imageBlob);
+        $("#avatar-hotel").attr("src", imageUrl);
+      });
+
+      btnSubmit.addEventListener('click', function () {
+        const province = $('#province option:selected').text();
+        const district = $('#district option:selected').text();
+        const ward = $('#ward option:selected').text();
+        const street = $('#street').val();
+
+        const address = street+ ', ' + ward + ', ' + district +', ' + province;
+        console.log(address);
+        if ($("#uploadForm").valid()) {
+          const formData = new FormData();
+          if (chosenFile !== null) {
+            formData.append('avatar', chosenFile);
+          }
+          // formData.append('avatar', chosenFile);
+          formData.append('name', nameInput.value);
+          formData.append('phone', phoneInput.value);
+          formData.append('address', address);
+          formData.append('email', emailInput.value);
+          formData.append('province', province);
+          formData.append('district', district);
+          formData.append('ward', ward);
+          formData.append('street', street);
+
+          console.log(JSON.stringify(formData))
+          $.ajax({
+            url: '/api/v1/partner/hotel',
+            data: formData,
+            type: 'PUT',
+            contentType: false, // NEEDED, DON'T OMIT THIS (requires jQuery 1.6+)
+            processData: false, // NEEDED, DON'T OMIT THIS
+            success: function (data) {
+              toastr.success("Update thông tin khách sạn thành công")
+              console.log(data);
+              window.location.reload();
+            },
+            error: function (errorData) {
+              console.log(errorData);
+              toastr.error("Vui lòng điền đầy đủ thông tin bắt buộc");
+            }
+          });
+        }
+      });
+
+    });
+
+
+  </script>
+</th:block>
+</body>
+
+</html>

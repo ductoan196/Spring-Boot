@@ -30,6 +30,59 @@
                 border-radius: 10px;
             }
 
+            .upload-box {
+                position: relative;
+                border: 2px dashed #ccc;
+                padding: 30px;
+                text-align: center;
+                cursor: pointer;
+            }
+
+            .upload-box p {
+                margin: 0;
+                font-size: 16px;
+                color: #ccc; /* Màu xám cho chữ "upload" */
+            }
+
+            .upload-icon {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                font-size: 24px;
+            }
+
+            .preview-container {
+                display: flex;
+                flex-wrap: wrap;
+            }
+
+            .preview-image-container {
+                position: relative;
+                margin: 5px;
+            }
+
+            .preview-image {
+                max-width: 100px;
+                max-height: 100px;
+            }
+
+            .delete-button {
+                position: absolute;
+                top: -10px;
+                right: -10px;
+                background-color: gray;
+                color: #fff;
+                width: 24px;
+                height: 24px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 12px;
+                cursor: pointer;
+                border-radius: 50%; /* Đặt border-radius là 50% để tạo hình tròn */
+            }
+
         </style>
     </th:block>
 
@@ -56,10 +109,20 @@
                         <h4 class="mb-4">Room Information</h4>
                         <form class="forms-sample" id="uploadForm">
                             <div class="row">
-                                <div class="col-lg-12 mb-5">
+                                <div class="col-lg-8 mb-4">
                                     <label for="roomImages" class="form-label">Room Photos</label>
-                                    <input class="form-control" type="file" id="roomImages" multiple>
+                                    <div id="uploadBox" class="upload-box">
+                                        <i class="me-2 icon-md" data-feather="upload"></i>
+                                        <p>Click or drag images here to upload</p>
+                                    </div>
+                                    <input class="form-control multi file-upload-input with-preview" type="file" name="files[]"
+                                           id="roomImages" multiple maxlength="3" style="display: none;">
                                 </div>
+                                <div class="col-lg-12 mb-5">
+                                    <div class="preview-container" id="previewContainer"></div>
+                                </div>
+
+
                                 <div class="col-lg-4 mb-5">
                                     <label for="roomName" class="form-label" >Room Name *</label>
                                     <input type="text" class="form-control" id="roomName" autocomplete="off"
@@ -165,6 +228,59 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"
             integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    //Hiển thị phần hình ảnh khi upload
+    <script>
+        const uploadBox = document.getElementById('uploadBox');
+        const fileInput = document.getElementById('roomImages');
+        const previewContainer = document.getElementById('previewContainer');
+
+        uploadBox.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        fileInput.addEventListener('change', handleImagePreview);
+
+        function handleImagePreview(event) {
+            const files = event.target.files;
+            const minFiles = 1; // Số lượng tối thiểu
+            const maxFiles = 5; // Số lượng tối đa
+
+            if (files.length < minFiles || files.length > maxFiles) {
+                toastr.error(`Please select at least ${minFiles} and maximum ${maxFiles} images.`);
+                fileInput.value = '';
+                return;
+            }
+
+            // Xóa hết các hình ảnh preview cũ
+            previewContainer.innerHTML = '';
+
+            // Hiển thị hình ảnh preview
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                const imageBlob = new Blob([file], {type: file.type});
+                const imageUrl = URL.createObjectURL(imageBlob);
+
+                const imagePreviewContainer = document.createElement('div');
+                imagePreviewContainer.classList.add('preview-image-container');
+                const imagePreview = document.createElement('img');
+                imagePreview.classList.add('preview-image');
+                imagePreview.src = imageUrl;
+                imagePreviewContainer.appendChild(imagePreview);
+
+                // Thêm nút xóa hình ảnh
+                const deleteButton = document.createElement('span');
+                deleteButton.classList.add('delete-button');
+                deleteButton.innerText = 'X';
+                deleteButton.addEventListener('click', () => {
+                    imagePreviewContainer.remove();
+                });
+                imagePreviewContainer.appendChild(deleteButton);
+
+                previewContainer.appendChild(imagePreviewContainer);
+            }
+        }
+    </script>
 
     <script>
         $(document).ready(function () {
@@ -354,7 +470,7 @@
                         formData.append(`beds[${index}].quantity`, bed.quantity);
                     });
 
-
+                    showLoading();
                     $.ajax({
                         url: '/api/v1/partner/rooms/' + roomId,
                         type: 'PUT',
@@ -372,6 +488,9 @@
                             // Xử lý lỗi (nếu có)
                             console.error(error);
                             toastr.error('Đã xảy ra lỗi khi lưu');
+                        },
+                        complete: function () {
+                            hideLoading();
                         }
                     });
                     // Console log dữ liệu formData dưới dạng JSON

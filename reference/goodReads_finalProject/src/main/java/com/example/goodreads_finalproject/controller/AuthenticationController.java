@@ -51,7 +51,8 @@ public class AuthenticationController {
 
     @PostMapping("/login")
     public JwtResponse authenticateUser(@Valid @RequestBody LoginRequest request, HttpServletResponse response) {
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
+        Authentication authentication = authenticationManager
+                .authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtUtils.generateJwtToken(authentication);
@@ -83,9 +84,11 @@ public class AuthenticationController {
                 .fullName(user.getFullName())
                 .avatar(user.getAvatar())
                 .build();
+        //Set cookie
         Cookie jwtCookie = new Cookie("jwtToken", jwtResponse.getJwt());
         jwtCookie.setPath("/");
         response.addCookie(jwtCookie);
+
         return jwtResponse;
     }
 

@@ -1,8 +1,9 @@
-package com.example.travelbooking.service;
+package com.example.travelbooking.service.user;
 
 import com.example.travelbooking.entity.User;
 import com.example.travelbooking.repository.UserRepository;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
@@ -15,6 +16,7 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.File;
 
+@Slf4j
 @Service
 public class EmailService {
 
@@ -66,17 +68,37 @@ public class EmailService {
     }
 
     public void sendVerificationEmail(User user, String otpCode) {
-        SimpleMailMessage mailMessage = new SimpleMailMessage();
+//        SimpleMailMessage mailMessage = new SimpleMailMessage();
+//
+//
+//        // Tạo đường dẫn xác nhận
+//        String confirmationLink = "http://localhost:8080/api/v1/authentication/verify?id=" + user.getId() + "&code=" + otpCode;
+//
+//        mailMessage.setFrom(sender);
+//        mailMessage.setTo(user.getEmail());
+//        mailMessage.setSubject("Xác nhận đăng ký");
+//        mailMessage.setText("Vui lòng ấn vào liên kết sau để xác nhận đăng ký:" + confirmationLink);
+//
+//        javaMailSender.send(mailMessage);
+
+        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
 
         // Tạo đường dẫn xác nhận
         String confirmationLink = "http://localhost:8080/api/v1/authentication/verify?id=" + user.getId() + "&code=" + otpCode;
 
-        mailMessage.setFrom(sender);
-        mailMessage.setTo(user.getEmail());
-        mailMessage.setSubject("Xác nhận đăng ký");
-        mailMessage.setText("Vui lòng ấn vào liên kết sau để xác nhận đăng ký:" + confirmationLink);
+        // Nội dung email sẽ là HTML
+        String emailContent = "<p>Vui lòng ấn vào <a href='" + confirmationLink + "'>Tại đây</a> để xác nhận đăng ký.</p>";
 
-        javaMailSender.send(mailMessage);
+        try {
+            helper.setFrom(sender);
+            helper.setTo(user.getEmail());
+            helper.setSubject("Xác nhận đăng ký");
+            helper.setText(emailContent, true); // Đặt true để đánh dấu emailContent là HTML
+            javaMailSender.send(mimeMessage);
+        } catch (MessagingException e) {
+            throw new RuntimeException("Lỗi gửi email: " + e.getMessage());
+        }
     }
 
     public void sendResetEmail(User user, String otpCode) {
@@ -90,6 +112,12 @@ public class EmailService {
         mailMessage.setSubject("Xác nhận lấy lại mật khẩu");
         mailMessage.setText("Vui lòng ấn vào liên kết sau để reset password:" + resetPassLink);
 
-        javaMailSender.send(mailMessage);
+        try {
+            // Gửi email
+            javaMailSender.send(mailMessage);
+        } catch (Exception e) {
+            // Ném một exception tùy chỉnh khi gửi email thất bại
+            throw new RuntimeException("Lỗi gửi email reset password: " + e.getMessage());
+        }
     }
 }

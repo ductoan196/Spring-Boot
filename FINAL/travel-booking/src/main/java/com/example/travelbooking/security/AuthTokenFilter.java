@@ -14,6 +14,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -34,26 +35,9 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
         try {
-            String jwt = parseJwt(request);
+            String jwt = resolveToken(request);
             if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
                 String username = jwtUtils.getUserNameFromJwtToken(jwt);
-
-//                // Kiểm tra xem jwtToken có cần được làm mới không
-//                if (jwtUtils.isTokenExpired(jwt)) {
-//                    // Lấy refreshToken từ request
-//                    String refreshToken = getRefreshTokenFromRequest(request);
-//
-//                    // Kiểm tra tính hợp lệ của refreshToken
-//                    if (jwtUtils.validateRefreshToken(refreshToken)) {
-//                        // Làm mới jwtToken từ refreshToken
-//                        String newToken = jwtUtils.refreshJwtToken(jwt, refreshToken);
-//
-//                        if (newToken != null) {
-//                            // Đặt jwtToken mới vào header Authorization để gửi lại cho client
-//                            response.setHeader("Authorization", "Bearer " + newToken);
-//                        }
-//                    }
-//                }
 
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
                 UsernamePasswordAuthenticationToken authentication =
@@ -79,6 +63,20 @@ public class AuthTokenFilter extends OncePerRequestFilter {
             return headerAuth.substring(7);
         }
 
+        return null;
+    }
+
+    private static final String JWT_COOKIE_NAME = "jwtToken";
+    public String resolveToken(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals(JWT_COOKIE_NAME)) {
+                    // Trích xuất JWT từ cookie
+                    return cookie.getValue();
+                }
+            }
+        }
         return null;
     }
 }

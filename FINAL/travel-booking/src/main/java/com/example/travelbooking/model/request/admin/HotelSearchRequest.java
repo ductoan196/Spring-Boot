@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PartnerSearchRequest extends BaseSearchRequest {
+public class HotelSearchRequest extends BaseSearchRequest {
     Long id;
 
     String name;

@@ -21,7 +21,8 @@ window.onload = function () {
             '/admin/': 'ADMIN',
             '/partner/': 'PARTNER',
             // Thêm các trang khác yêu cầu quyền truy cập và vai trò tương ứng ở đây
-            '/user/': 'USER', // Ví dụ: trang dành cho người dùng bình thường yêu cầu vai trò "USER"
+            '/user/': 'USER',
+            '/api/v1/users': 'PARTNER'
         };
 
         // Kiểm tra quyền truy cập dựa trên đường dẫn

@@ -2,8 +2,9 @@ package com.example.travelbooking.controller;
 
 import com.example.travelbooking.exception.ExistedUserException;
 import com.example.travelbooking.model.request.registration.CreateUserRequest;
+import com.example.travelbooking.model.request.user.UpdateUserRequest;
 import com.example.travelbooking.model.response.UserResponse;
-import com.example.travelbooking.service.UserService;
+import com.example.travelbooking.service.user.UserService;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -42,5 +43,10 @@ public class UserController {
         }
     }
 
+    @PutMapping
+    public ResponseEntity<?> updateUser(@ModelAttribute UpdateUserRequest request, Long userId) {
+        UserResponse userResponse = userService.updateUser(request, userId);
+        return ResponseEntity.ok(userResponse);
+    }
 
 }

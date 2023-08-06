@@ -39,7 +39,7 @@ public class User extends BaseEntity {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "avatar_id")
-    private Image avatar;
+    Image avatar;
 
     @Enumerated(EnumType.STRING)
     UserStatus userStatus;

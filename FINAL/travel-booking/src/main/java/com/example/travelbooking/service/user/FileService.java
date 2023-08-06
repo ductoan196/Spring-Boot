@@ -1,4 +1,4 @@
-package com.example.travelbooking.service;
+package com.example.travelbooking.service.user;
 
 import com.example.travelbooking.model.response.UploadFileResponse;
 import com.google.auth.Credentials;
