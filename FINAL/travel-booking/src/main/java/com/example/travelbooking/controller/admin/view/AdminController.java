@@ -4,6 +4,7 @@ import com.example.travelbooking.model.request.admin.HotelSearchRequest;
 import com.example.travelbooking.model.response.partner.CommonResponse;
 import com.example.travelbooking.security.SecurityUtils;
 import com.example.travelbooking.service.admin.AdminService;
+import com.example.travelbooking.statics.Gender;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,7 +25,9 @@ public class AdminController {
     }
 
     @GetMapping("admin/admin-profile")
-    public String adminProfile() {
+    public String adminProfile(Model model) {
+
+        model.addAttribute("genderList", Gender.values());
         return "management/admin/admin-profile";
     }
 

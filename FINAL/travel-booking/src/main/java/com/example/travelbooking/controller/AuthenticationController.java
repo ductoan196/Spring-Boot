@@ -1,9 +1,12 @@
 package com.example.travelbooking.controller;
 
 import com.example.travelbooking.entity.RefreshToken;
+import com.example.travelbooking.entity.User;
 import com.example.travelbooking.exception.OTPNotFoundException;
 import com.example.travelbooking.exception.RefreshTokenNotFoundException;
+import com.example.travelbooking.exception.UnverifiedAccountException;
 import com.example.travelbooking.model.request.registration.*;
+import com.example.travelbooking.model.request.user.ReActiveRequest;
 import com.example.travelbooking.model.response.JwtResponse;
 import com.example.travelbooking.repository.RefreshTokenRepository;
 import com.example.travelbooking.repository.UserRepository;
@@ -51,7 +54,7 @@ public class AuthenticationController {
     AuthenticationManager authenticationManager;
 
     @PostMapping("/login")
-    public JwtResponse authenticateUser(@Valid @RequestBody LoginRequest request, HttpServletResponse response) {
+    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest request, HttpServletResponse response) {
         Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
 
@@ -59,14 +62,25 @@ public class AuthenticationController {
         String jwt = jwtUtils.generateJwtToken(authentication);
 
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        if (!userDetails.isVerified()) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Account is not activated");
+        }
+
         Set<String> roles = userDetails.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toSet());
 
+        User user = userRepository.findById(userDetails.getId()).get();
+        String avatarUrl;
+        if (user.getAvatar() != null) {
+            avatarUrl = user.getAvatar().getImageUrl();
+        } else {
+            avatarUrl = null;
+        }
         String refreshToken = UUID.randomUUID().toString();
         RefreshToken refreshTokenEntity = RefreshToken.builder()
                 .refreshToken(refreshToken)
-                .user(userRepository.findById(userDetails.getId()).get())
+                .user(user)
                 .build();
         refreshTokenRepository.save(refreshTokenEntity);
 
@@ -74,15 +88,18 @@ public class AuthenticationController {
                 .jwt(jwt)
                 .refreshToken(refreshToken)
                 .id(userDetails.getId())
-                .username(userDetails.getUsername())
+                .email(userDetails.getUsername())
                 .roles(roles)
+                 .avatar(avatarUrl)
+                 .fullName(user.getFullName())
+                 .gender(user.getGender())
                 .build();
 
         javax.servlet.http.Cookie jwtCookie = new Cookie("jwtToken", jwtResponse.getJwt());
         jwtCookie.setPath("/");
         response.addCookie(jwtCookie);
 
-        return jwtResponse;
+        return ResponseEntity.ok(jwtResponse);
     }
 
     @PostMapping("/signup")
@@ -173,13 +190,10 @@ public class AuthenticationController {
         return ResponseEntity.ok(null);
     }
 
-    @PostMapping("/{email}/otp-sending")
-    public void sendOtp(@PathVariable String email) {
-        userService.sendOtp(email);
+    @PostMapping("/resend-active-email/")
+    public ResponseEntity<?> resentActivationEmail(@RequestBody ReActiveRequest request){
+        userService.resentActiveEmail(request.getEmail());
+        return ResponseEntity.ok(HttpStatus.CREATED);
     }
 
-    @PostMapping("/{email}/attach-file")
-    public void sendAttachedFileMail(@PathVariable String email) throws MessagingException {
-        userService.sendAttachedMail(email);
-    }
 }

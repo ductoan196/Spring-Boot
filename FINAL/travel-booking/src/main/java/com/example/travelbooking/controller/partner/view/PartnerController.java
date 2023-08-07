@@ -15,6 +15,7 @@ import com.example.travelbooking.service.user.AddressService;
 import com.example.travelbooking.service.user.UserService;
 import com.example.travelbooking.service.partner.RoomService;
 import com.example.travelbooking.statics.BedType;
+import com.example.travelbooking.statics.Gender;
 import com.example.travelbooking.statics.RoomStatus;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AccessLevel;
@@ -109,6 +110,7 @@ public class PartnerController {
 
     @GetMapping("/partner/account-info")
     public String accountInfo(Model model) {
+        model.addAttribute("genderList", Gender.values());
 
         return "management/partner/account-info";
     }

@@ -9,96 +9,244 @@
 
 <head>
 
-    <title>User Dashboard</title>
+    <title>Partner Dashboard</title>
 
     <th:block id="css-resources">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet"/>
+        <style>
+            .select2-container .select2-selection--single {
+                height: 45px; /* Thay đổi chiều cao theo ý muốn */
+                border: 1px solid #e9ecef;
+                border-radius: 10px;
+            }
 
+            .select2-container--default .select2-selection--single .select2-selection__arrow b {
+                margin-left: -17px;
+                margin-top: 7px;
+            }
+
+            .select2-container .select2-selection--single .select2-selection__rendered {
+                padding-left: 15px;
+            }
+        </style>
     </th:block>
 </head>
 
 <body>
 
-    <main id="main-content">
-        <div class="page-content">
+<main id="main-content">
+    <div class="page-content">
 
-            <div class="row">
-                <div class="col-md-12 grid-margin stretch-card">
-                    <div class="card">
-                        <div class="card-body">
-                            <h4 class="mb-4">Your Information</h4>
-                            <div class="container">
-                                <div class="row my-t bs">
-                                    <div class="col d-flex justify-content-center">
-                                        <img id="avatar-test" class="rounded-circle" style="width: 150px; height: 150px" alt="Avatar"
-                                             src="assets/user/images/default-avatar.png"/>
+        <div class="row">
+            <div class="col-md-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="mb-4">Account Infor</h4>
+                        <div class="container">
+                            <div class="row my-t bs">
+                                <div class="col d-flex justify-content-center">
+                                    <img id="avatar-account" class="rounded-circle" style="width: 150px; height: 150px"
+                                         alt="Avatar"
+                                         src="/assets/user/images/default-avatar.png"/>
+
                                 </div>
                                 <div class="row mt-2 mx-0">
                                     <div class="col d-flex justify-content-center">
-                                        <input type="file" hidden="hidden" id="avatar-input-test111"/>
-                                        <button class="btn btn-sm change-avatar111" style="border: 0.5px solid grey">
-                                            <i class="link-icon p-1" data-feather="upload"></i> Upload avatar</button>
-                                        <button class="btn btn-sm btn-success submit-avatar-btn ml-1" hidden="hidden">Save</button>
+                                        <button class="btn btn-sm change-avatar-account" style="border: 0.5px solid grey">
+                                            <i class="link-icon p-1" data-feather="upload"></i> Upload avatar
+                                        </button>
+                                        <button class="btn btn-sm btn-success submit-avatar-btn ml-1" hidden="hidden">
+                                            Save
+                                        </button>
                                     </div>
                                 </div>
 
                             </div>
-                            <form class="forms-sample mt-5">
+                            <form class="forms-sample mt-3" id="uploadForm">
                                 <div class="row">
-
-                                    <div class="col-lg-6 mb-3">
-                                        <label for="fullname" class="form-label"> Full Name</label>
-                                        <input type="text" class="form-control" id="fullname" autocomplete="off"
-                                               placeholder>
+                                    <input type="file" hidden="hidden" id="avatar-input-account"/>
+                                    <div class="col-lg-6 mb-4">
+                                        <label for="name" class="form-label"> Full Name *</label>
+                                        <input type="text" class="form-control" id="name" autocomplete="off"
+                                               placeholder name="name">
                                     </div>
-                                    <div class="col-lg-6 mb-3">
-                                        <label for="email" class="form-label">Email Address</label>
+                                    <div class="col-lg-6 mb-4">
+                                        <label for="email" class="form-label">Email Address *</label>
                                         <input type="email" class="form-control" id="email" autocomplete="off"
-                                               placeholder>
+                                               placeholder name="email">
                                     </div>
-                                    <div class="col-lg-6 mb-3">
-                                        <label for="phone" class="form-label">Phone No.</label>
-                                        <input type="number" class="form-control" id="phone" autocomplete="off"
-                                               placeholder>
-                                    </div>
-
-                                    <div class="col-lg-6 mb-3">
-                                        <label for="address" class="form-label"> Address</label>
-                                        <input type="text" class="form-control" id="address" autocomplete="off"
-                                               placeholder>
-                                    </div>
-
-
-                                    <div class="col-lg-6 mb-3">
-                                        <label for="gender" class="form-label">Gender</label>
-                                        <select class="form-select" id="gender" name="gender">
-                                            <option th:each="gender : ${genders}" th:value="${gender}" th:text="${gender}"></option>
+                                    <div class="col-lg-4 mb-5">
+                                        <label for="genderList" class="form-label">Status *</label>
+                                        <select class="form-select" id="genderList" name="gender">
+                                            <option value="" disabled selected>Choose gender</option>
+                                            <option th:each="gender : ${genderList}" th:value="${gender}"
+                                                    th:text="${gender.getName}"
+                                                    class="text-body"></option>
                                         </select>
-                                    </div>
-
-                                    <div class="col-lg-6 mb-3">
-                                        <label for="website" class="form-label"> Date of birth</label>
-                                        <input type="date" class="form-control" id="website" autocomplete="off"
-                                               placeholder>
-                                    </div>
-
-                                    <div class="text-right pt-4">
-                                        <button type="submit" class="btn btn-primary"><i class="link-icon"
-                                                                                         data-feather="save"></i> Save Profile</button>
                                     </div>
                                 </div>
                             </form>
+                            <div class="text-right pt-4">
+                                <button type="submit" class="btn btn-primary submit-account-profile-btn"
+                                        id="submit-account-profile-btn"><i class="link-icon"
+                                                                           data-feather="save"></i> Save Profile
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            </div>
         </div>
-    </main>
+    </div>
+</main>
 
-    <th:block id="js-resources">
-        <script src="assets/user/js/modify-profile.js"></script>
-    </th:block>
+<th:block id="js-resources">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"
+            integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <!--    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAoWOLjDkFNpk1ZS15jTN-YhlONrCF-6QE&callback=initMap" async defer></script>-->
+
+    <script>
+        $(document).ready(function () {
+            // Kích hoạt Select2 cho các thẻ select
+            $('.select2').select2();
+
+            let userInfo = JSON.parse(localStorage.getItem("userInfo"))
+            let emailInput = document.getElementById('email');
+            let nameInput = document.getElementById('name');
+            let avatarInput = document.getElementById('avatar-account')
+            const btnSubmit = document.getElementById('submit-account-profile-btn');
+
+            emailInput.value = userInfo.email;
+            emailInput.readOnly = true;
+
+
+            //Fill lại giá trị hiện tại của User
+            getUserDetail();
+
+            function getUserDetail() {
+
+                const jwt = localStorage.getItem('jwt');
+                let userId = userInfo.id;
+                console.log(userId)
+                if (jwt) {
+                    $.ajax({
+                        url: `/api/v1/user/${userId}`,
+                        type: 'GET',
+                        success: function (response) {
+                            // Xử lý dữ liệu user nhận được từ response
+                            console.log(response);
+                            // Hiển thị thông tin user trong giao diện
+                            nameInput.value = response.fullName;
+                            // avatarInput.src = response.imageUrl;
+                            if (response.avatar !== null && response.avatar !== "") {
+                                avatarInput.src = response.avatar;
+                            }
+                            if (response.gender !== null && response.gender !== "") {
+                                $("#genderList").val(response.gender);
+                            }
+
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(error);
+                        }
+                    });
+                }
+            }
+
+            $("#uploadForm").validate({
+                onfocusout: false,
+                onkeyup: false,
+                onclick: false,
+                rules: {
+                    "name": {
+                        required: true,
+                        minlength: 5,
+                        maxlength: 50
+                    },
+                    "gender": {
+                        required:true
+                    }
+                },
+                messages: {
+                    "name": {
+                        required: "Please enter your full name",
+                        minlength: "Full name must be at least 5 characters long",
+                        maxlength: "Full name must not exceed 50 characters"
+                    },
+                    "gender":{
+                        required: "Please choose your gender"
+                    }
+                },
+                errorClass: "custom-error-message"
+            });
+
+
+            // toastr.options.timeOut = 2500; // 2.5s
+            let chosenFile = null;
+
+            $(".change-avatar-account").click(() => {
+                $("#avatar-input-account").click();
+            });
+
+            $("#avatar-input-account").change(event => {
+                const tempFiles = event.target.files;
+                if (!tempFiles || tempFiles.length === 0) {
+                    return;
+                }
+                console.log(event.target.files[0].data);
+                chosenFile = tempFiles[0];
+
+                const imageBlob = new Blob([chosenFile], {type: chosenFile.type});
+                const imageUrl = URL.createObjectURL(imageBlob);
+                $("#avatar-account").attr("src", imageUrl);
+            });
+
+            btnSubmit.addEventListener('click', function () {
+
+                if ($("#uploadForm").valid()) {
+                    const formData = new FormData();
+                    if (chosenFile !== null) {
+                        formData.append('avatar', chosenFile);
+                    }
+                    // formData.append('avatar', chosenFile);
+                    formData.append('fullName', nameInput.value);
+                    formData.append('gender', $("#genderList").val())
+                    formData.append('id', userInfo.id)
+
+                    console.log(JSON.stringify(formData))
+                    showLoading();
+                    $.ajax({
+                        url: '/api/v1/user',
+                        data: formData,
+                        type: 'PUT',
+                        contentType: false, // NEEDED, DON'T OMIT THIS (requires jQuery 1.6+)
+                        processData: false, // NEEDED, DON'T OMIT THIS
+                        success: function (data) {
+                            toastr.success("Update thông tin thành công")
+                            console.log(data);
+                            // //Update local storage
+                            // userInfo.fullName = data.fullName;
+                            // userInfo.avatar= data.avatar;
+                            // userInfo.gender=data.gender;
+                            window.location.reload();
+                        },
+                        error: function (errorData) {
+                            console.log(errorData);
+                            toastr.error("Vui lòng điền đầy đủ thông tin bắt buộc");
+                        },
+                        complete: function () {
+                            hideLoading();
+                        }
+                    });
+                }
+            });
+
+        });
+    </script>
+</th:block>
 </body>
 
 </html>

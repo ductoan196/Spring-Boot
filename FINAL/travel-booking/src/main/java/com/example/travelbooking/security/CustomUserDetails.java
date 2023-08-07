@@ -59,4 +59,9 @@ public class CustomUserDetails implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+    // Thêm getter cho trường isVerified
+    public boolean isVerified() {
+        return user.isVerified();
+    }
 }

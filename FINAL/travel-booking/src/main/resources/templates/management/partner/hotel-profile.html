@@ -245,7 +245,7 @@
 
       const btnSubmit = document.getElementById('submit-hotel-profile-btn');
 
-      emailInput.value = userInfo.username;
+      emailInput.value = userInfo.email;
       emailInput.readOnly = true;
 
       getHotelByEmail();
@@ -253,14 +253,11 @@
       function getHotelByEmail() {
 
         const jwt = localStorage.getItem('jwt');
-        let emailHotel = userInfo.username
+        let emailHotel = userInfo.email
         if (jwt) {
           $.ajax({
             url: `/api/v1/partner/hotel?email=${encodeURIComponent(emailHotel)}`,
             type: 'GET',
-            headers: {
-              'Authorization': 'Bearer ' + jwt
-            },
             success: function (response) {
               // Xử lý dữ liệu khách sạn nhận được từ response
               console.log(response);

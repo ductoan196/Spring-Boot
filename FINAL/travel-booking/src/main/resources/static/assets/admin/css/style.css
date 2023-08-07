@@ -24850,6 +24850,11 @@ div.tox .tox-dialog__body {
     /* Đặt các thuộc tính CSS khác tùy chỉnh cho phần tử input */
 }
 
+.form-select:not(.error) {
+    color: black;
+    font-size: 14px;
+    /* Đặt các thuộc tính CSS khác tùy chỉnh cho phần tử input */
+}
 /* Lớp overlay để làm mờ nền xung quanh */
 .overlay {
     display: none;

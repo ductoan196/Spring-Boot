@@ -185,7 +185,7 @@
 
             function getHotelByEmail() {
                 const jwt = localStorage.getItem('jwt');
-                let emailHotel = userInfo.username
+                let emailHotel = userInfo.email
                 let hotelId = null;
                 if (jwt) {
                     $.ajax({

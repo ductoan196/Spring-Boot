@@ -1,5 +1,6 @@
 package com.example.travelbooking.model.response;
 
+import com.example.travelbooking.statics.Gender;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -18,8 +19,13 @@ public class JwtResponse {
 
     Long id;
 
-    String username;
+    String email;
 
     Set<String> roles;
 
+    String avatar;
+
+    String fullName;
+
+    Gender gender;
 }

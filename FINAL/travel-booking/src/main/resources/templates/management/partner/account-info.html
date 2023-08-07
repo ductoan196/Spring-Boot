@@ -75,6 +75,15 @@
                                         <input type="email" class="form-control" id="email" autocomplete="off"
                                                placeholder name="email">
                                     </div>
+                                    <div class="col-lg-4 mb-5">
+                                        <label for="genderList" class="form-label">Status *</label>
+                                        <select class="form-select" id="genderList" name="gender">
+                                            <option value="" disabled selected>Choose gender</option>
+                                            <option th:each="gender : ${genderList}" th:value="${gender}"
+                                                    th:text="${gender.getName}"
+                                                    class="text-body"></option>
+                                        </select>
+                                    </div>
                                 </div>
                             </form>
                             <div class="text-right pt-4">
@@ -100,45 +109,43 @@
     <!--    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAoWOLjDkFNpk1ZS15jTN-YhlONrCF-6QE&callback=initMap" async defer></script>-->
 
     <script>
-
-
         $(document).ready(function () {
             // Kích hoạt Select2 cho các thẻ select
             $('.select2').select2();
 
-
+            let userInfo = JSON.parse(localStorage.getItem("userInfo"))
             let emailInput = document.getElementById('email');
             let nameInput = document.getElementById('name');
-            // let phoneInput = document.getElementById('phone');
             let avatarInput = document.getElementById('avatar-account')
             const btnSubmit = document.getElementById('submit-account-profile-btn');
 
-            emailInput.value = userInfo.username;
+            emailInput.value = userInfo.email;
             emailInput.readOnly = true;
 
+
+            //Fill lại giá trị hiện tại của User
             getUserDetail();
 
             function getUserDetail() {
 
-                let userInfo = JSON.parse(localStorage.getItem("userInfo"))
                 const jwt = localStorage.getItem('jwt');
                 let userId = userInfo.id;
                 console.log(userId)
                 if (jwt) {
                     $.ajax({
-                        url: `/api/v1/users/${userId}`,
+                        url: `/api/v1/user/${userId}`,
                         type: 'GET',
-                        headers: {
-                            'Authorization': 'Bearer ' + jwt
-                        },
                         success: function (response) {
                             // Xử lý dữ liệu user nhận được từ response
                             console.log(response);
                             // Hiển thị thông tin user trong giao diện
-                            nameInput.value = response.name;
+                            nameInput.value = response.fullName;
                             // avatarInput.src = response.imageUrl;
-                            if (response.imageUrl !== null && response.imageUrl !== "") {
-                                avatarInput.src = response.imageUrl;
+                            if (response.avatar !== null && response.avatar !== "") {
+                                avatarInput.src = response.avatar;
+                            }
+                            if (response.gender !== null && response.gender !== "") {
+                                $("#genderList").val(response.gender);
                             }
 
                         },
@@ -156,13 +163,21 @@
                 rules: {
                     "name": {
                         required: true,
-                        maxlength: 100
+                        minlength: 5,
+                        maxlength: 50
+                    },
+                    "gender": {
+                        required:true
                     }
                 },
                 messages: {
                     "name": {
-                        required: "Please enter the account name.",
-                        maxlength: "The account name must not exceed 100 characters."
+                        required: "Please enter your full name",
+                        minlength: "Full name must be at least 5 characters long",
+                        maxlength: "Full name must not exceed 50 characters"
+                    },
+                    "gender":{
+                        required: "Please choose your gender"
                     }
                 },
                 errorClass: "custom-error-message"
@@ -190,44 +205,42 @@
             });
 
             btnSubmit.addEventListener('click', function () {
-                const province = $('#province option:selected').text();
-                const district = $('#district option:selected').text();
-                const ward = $('#ward option:selected').text();
-                const street = $('#street').val();
 
-                console.log(address);
                 if ($("#uploadForm").valid()) {
                     const formData = new FormData();
                     if (chosenFile !== null) {
                         formData.append('avatar', chosenFile);
                     }
                     // formData.append('avatar', chosenFile);
-                    formData.append('name', nameInput.value);
-                    formData.append('email', emailInput.value);
+                    formData.append('fullName', nameInput.value);
+                    formData.append('gender', $("#genderList").val())
+                    formData.append('id', userInfo.id)
 
                     console.log(JSON.stringify(formData))
+                    showLoading();
                     $.ajax({
-                        url: '/api/v1/users',
+                        url: '/api/v1/user',
                         data: formData,
                         type: 'PUT',
                         contentType: false, // NEEDED, DON'T OMIT THIS (requires jQuery 1.6+)
                         processData: false, // NEEDED, DON'T OMIT THIS
                         success: function (data) {
-                            toastr.success("Update thông tin khách sạn thành công")
+                            toastr.success("Update thông tin thành công")
                             console.log(data);
                             window.location.reload();
                         },
                         error: function (errorData) {
                             console.log(errorData);
                             toastr.error("Vui lòng điền đầy đủ thông tin bắt buộc");
+                        },
+                        complete: function () {
+                            hideLoading();
                         }
                     });
                 }
             });
 
         });
-
-
     </script>
 </th:block>
 </body>

@@ -26,6 +26,22 @@
 
     <link rel="shortcut icon" href="/assets/admin/images/favicon.png"/>
 
+    //TOASTR
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        #dropdown-menu-profile {
+            width: 200px; !important; /* Điều chỉnh kích thước chiều rộng cần thiết */
+        }
+
+        /* Giới hạn hiển thị số lượng ký tự cho phần fullName */
+        #profileName {
+            white-space: nowrap; /* Không xuống dòng */
+            overflow: hidden; /* Ẩn phần vượt quá giới hạn */
+            text-overflow: ellipsis; /* Hiển thị dấu ba chấm khi vượt quá giới hạn */
+            max-width: 100px; /* Điều chỉnh số lượng ký tự tối đa hiển thị */
+        }
+    </style>
     <!-- Components CSS -->
     <th:block th:replace="${cssResources} ?: ~{}"></th:block>
 </head>
@@ -34,7 +50,7 @@
 
     <nav class="sidebar">
         <div class="sidebar-header">
-            <a href="../user/index.html" class="sidebar-brand">
+            <a href="/home" class="sidebar-brand">
                 <img src="/assets/user/images/logo1.png" alt="logo" class="w-75">
             </a>
             <div class="sidebar-toggler not-active">
@@ -46,16 +62,22 @@
         <div class="sidebar-body">
             <ul class="nav">
                 <li class="nav-item">
-                    <a href="/dashboard-user" class="nav-link">
+                    <a href="/user/dashboard-user" class="nav-link">
                         <i class="link-icon" data-feather="box"></i>
-                        <span class="link-title">My Profile</span>
+                        <span class="link-title">Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/user/bookings" class="nav-link">
+                        <i class="link-icon" data-feather="home"></i>
+                        <span class="link-title">Bookings</span>
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a href="appointment.html" class="nav-link">
+                    <a href="/user/user-profile" class="nav-link">
                         <i class="link-icon" data-feather="table"></i>
-                        <span class="link-title">My booking</span>
+                        <span class="link-title">Account Info</span>
                     </a>
                 </li>
 
@@ -69,7 +91,7 @@
                     <div class="collapse" id="events">
                         <ul class="nav sub-menu">
                             <li class="nav-item">
-                                <a href="events.html" class="nav-link">Change Password</a>
+                                <a href="/user/change-password" class="nav-link">Change Password</a>
                             </li>
                             <li class="nav-item">
                                 <a href="addevents.html" class="nav-link">Payment</a>
@@ -81,11 +103,11 @@
 
                 <li class="nav-item">
                     <a href="coupon.html" class="nav-link">
-                        <i class="link-icon" data-feather="star"></i>
-                        <span class="link-title">My review</span>
+                        <i class="link-icon" data-feather="gift"></i>
+                        <span class="link-title">Coupon</span>
                     </a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" onclick="logout()">
                     <a href="/" class="nav-link">
                         <i class="link-icon" data-feather="log-out"></i>
                         <span class="link-title">Sign out</span>
@@ -97,7 +119,7 @@
 
     <div class="page-wrapper">
 
-        <nav class="navbar">
+        <nav class="navbar top-0">
             <a href="#" class="sidebar-toggler">
                 <i data-feather="menu"></i>
             </a>
@@ -146,21 +168,19 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button"
                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img class="wd-30 ht-30 rounded-circle" src="/assets/user/images/default-avatar.png"
+                            <img id="avatarImg" class="wd-30 ht-30 rounded-circle" src="/assets/user/images/default-avatar.png"
                                  alt="profile">
                         </a>
-                        <div class="dropdown-menu p-0" aria-labelledby="profileDropdown">
+                        <div class="dropdown-menu p-0" id="dropdown-menu-profile" aria-labelledby="profileDropdown">
                             <div class="d-flex flex-column align-items-center border-bottom px-5 py-3">
                                 <div class="mb-3">
-                                    <img class="wd-80 ht-80 rounded-circle" src="/assets/user/images/default-avatar.png"
+                                    <img id="avatarImgBig" class="wd-80 ht-80 rounded-circle" src="/assets/user/images/default-avatar.png"
                                          alt>
                                 </div>
                                 <div class="text-center">
-                                    <p class="tx-16 fw-bolder">Nelson Kelly Burton</p>
+                                    <p id="profileName" class="tx-16 fw-bolder">User name</p>
                                     <p class="tx-12 text-muted">
-                                        <a href="/cdn-cgi/l/email-protection"
-                                           class="__cf_email__"
-                                           data-cfemail="98f6fdf4ebf7f6f6d8fff5f9f1f4b6fbf7f5">[email&#160;protected]</a>
+                                        <a href="#"></a>
                                     </p>
                                 </div>
                             </div>
@@ -171,19 +191,7 @@
                                         <span>Profile</span>
                                     </a>
                                 </li>
-                                <li class="dropdown-item py-2">
-                                    <a class="text-body ms-0">
-                                        <i class="me-2 icon-md" data-feather="edit"></i>
-                                        <span>Edit Profile</span>
-                                    </a>
-                                </li>
-                                <li class="dropdown-item py-2">
-                                    <a class="text-body ms-0">
-                                        <i class="me-2 icon-md" data-feather="repeat"></i>
-                                        <span>Switch User</span>
-                                    </a>
-                                </li>
-                                <li class="dropdown-item py-2">
+                                <li class="dropdown-item py-2" onclick="logout()">
                                     <a class="text-body ms-0">
                                         <i class="me-2 icon-md" data-feather="log-out"></i>
                                         <span>Log Out</span>
@@ -207,7 +215,12 @@
         </footer>
 
     </div>
+
+
 </div>
+
+<!-- CONFIRM DELETE MODAL -->
+<th:block th:replace="~{fragments/confirm-delete :: confirm-delete-modal}"></th:block>
 
 <!--    Script-->
 <script data-cfasync="false"
@@ -230,12 +243,10 @@
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="/assets/admin/js/template.js"></script>
 
-
 <script src="/assets/admin/js/dashboard-light.js"></script>
 <script src="/assets/admin/js/datepicker.js"></script>
 
 <script src="/assets/user/js/modify-profile.js"></script>
-
 
 <!--CHECK PERMISSION-->
 <script src="/assets/user/js/check-permission.js"></script>
@@ -248,9 +259,50 @@
 
 <!--TOASTR-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    $(document).ready(function () {
+        let userInfo = JSON.parse(localStorage.getItem("userInfo"))
 
-<th:block th:replace="${jsResources} ?: ~{}"></th:block>
+        getUserDetail();
 
+        function getUserDetail() {
+
+            const jwt = localStorage.getItem('jwt');
+            let userId = userInfo.id;
+            console.log(userId)
+            if (jwt) {
+                $.ajax({
+                    url: `/api/v1/user/${userId}`,
+                    type: 'GET',
+                    success: function (response) {
+                        // avatarInput.src = response.imageUrl;
+                        if (response.avatar !== null && response.avatar !== "") {
+                            userInfo.avatar = response.avatar;
+                            $("#avatarImg").attr("src", response.avatar);
+                            $("#avatarImgBig").attr("src", response.avatar);
+                        }
+                        if (response.fullName !== null && response.fullName !== "") {
+                            userInfo.fullName = response.fullName;
+                            $("#profileName").text(response.fullName);
+                        }
+                        userInfo.gender = response.gender;
+                        userInfo.phone = response.phone;
+                        userInfo.address= response.address;
+                        localStorage.setItem("userInfo", JSON.stringify(userInfo));
+
+
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+            }
+        }
+    });
+</script>
+<th:block th:replace="${jsResources} ?: ~{}">
+
+</th:block>
 
 </body>
 </html>

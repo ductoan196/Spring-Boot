@@ -293,8 +293,8 @@ public class UserService {
         System.out.println(userIdOptional.get());
     }
 
-    public UserResponse updateUser(UpdateUserRequest request, Long userId) {
-        User user = userRepository.findById(userId)
+    public UserResponse updateUser(UpdateUserRequest request) {
+        User user = userRepository.findById(request.getId())
                 .orElseThrow(() -> new UserNotFoundException("Không tìm thấy email trong hệ thống"));
 
         MultipartFile file = request.getAvatar();
@@ -308,7 +308,6 @@ public class UserService {
         user.setPhone(request.getPhone());
         user.setAddress(request.getAddress());
         user.setGender(request.getGender());
-        user.setFullName(request.getFullName());
 
         userRepository.save(user);
         return convertUserToUserResponse(user);
@@ -316,12 +315,31 @@ public class UserService {
 
     private UserResponse convertUserToUserResponse(User user) {
         UserResponse userResponse = new UserResponse();
-        userResponse.setAvatar(user.getAvatar().getImageUrl());
+
+        String avatarUrl = user.getAvatar() != null ? user.getAvatar().getImageUrl() : null;
+        userResponse.setId(user.getId());
+        userResponse.setAvatar(avatarUrl);
+        userResponse.setFullName(user.getFullName());
         userResponse.setGender(user.getGender());
-        userResponse.setPhone(userResponse.getPhone());
+        userResponse.setPhone(user.getPhone());
         userResponse.setEmail(user.getEmail());
         userResponse.setAddress(user.getAddress());
 
         return userResponse;
+    }
+
+    public void resentActiveEmail(String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new NotFoundException("Không tìm thấy user"));
+        // Gửi OTP đến email của người dùng
+        String otpCode = generateOtpCode();
+
+        // Lưu OTP vào cơ sở dữ liệu
+        OTP otp = new OTP();
+        otp.setConfirmationCode(otpCode);
+        otp.setUser(user);
+        otpRepository.save(otp);
+
+        emailService.sendVerificationEmail(user, otpCode);
     }
 }

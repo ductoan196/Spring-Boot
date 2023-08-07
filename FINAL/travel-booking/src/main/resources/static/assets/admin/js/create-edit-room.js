@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 $(document).ready(function () {
 
-    let roomId = /*[[${roomId}]]*/;
+    let roomId = [[${roomId}]]
 
     $("#uploadForm").validate({
         onfocusout: false,
@@ -126,7 +126,7 @@ $(document).ready(function () {
             formData.append("capacity", document.getElementById("roomCapacity").value);
             formData.append("room_nums", document.getElementById("roomQuantity").value);
             formData.append("roomStatus", document.getElementById("roomStatusList").value);
-            formData.append("hotelEmail", userInfo.username);
+            formData.append("hotelEmail", userInfo.email);
 
             // Xử lý phần file ảnh từ trường "roomImages"
             const roomImagesInput = document.getElementById("roomImages");
@@ -199,7 +199,7 @@ $(document).ready(function () {
             formData.append("capacity", document.getElementById("roomCapacity").value);
             formData.append("room_nums", document.getElementById("roomQuantity").value);
             formData.append("roomStatus", document.getElementById("roomStatusList").value);
-            formData.append("hotelEmail", userInfo.username);
+            formData.append("hotelEmail", userInfo.email);
 
             // Xử lý phần file ảnh từ trường "roomImages"
             const roomImagesInput = document.getElementById("roomImages");

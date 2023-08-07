@@ -24,16 +24,6 @@ const btnSignout = document.getElementById('signout-btn');
 // const btnResetNewPass = document.getElementById('set-new-password-btn');
 const inputEles = document.querySelectorAll('.input-row');
 
-$(document).ready(function () {
-    const userInformationStr = localStorage.getItem("userInfo");
-    if (userInformationStr) {
-        const userInformation = JSON.parse(userInformationStr);
-        if (userInformation.username) {
-            showAvatar()
-        }
-    }
-});
-
 btnLogin.addEventListener('click', function () {
     Array.from(inputEles).map((ele) =>
         ele.classList.remove('success', 'error')
@@ -62,8 +52,11 @@ btnLogin.addEventListener('click', function () {
 
                 let userInfor = {
                     id: response.id,
-                    username: response.username,
-                    roles: response.roles
+                    email: response.email,
+                    roles: response.roles,
+                    avatar: response.avatar,
+                    fullName: response.fullName,
+                    gender: response.gender
                 };
                 localStorage.setItem("userInfo", JSON.stringify(userInfor));
                 toastr.success('Đăng Nhập Thành Công!');
@@ -82,9 +75,13 @@ btnLogin.addEventListener('click', function () {
                 cleanInput()
             },
             error: function (xhr, status, error) {
+                if (xhr.status === 403) {
+                    $('#signInSignUp').modal("hide");
+                    $("#reactive-modal").modal("show");
+                } else {
                 console.error(error);
                 toastr.error('Thông Tin Tài Khoản Hoặc Mật Khẩu Không Chính Xác!');
-            }
+            }}
         });
     }
 });
@@ -215,9 +212,6 @@ function refreshToken() {
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(formData),
-            headers: {
-                'Authorization': 'Bearer' + " " + jwt
-            },
             success: function (response) {
                 localStorage.setItem("jwt", response.jwt)
             },
@@ -228,8 +222,34 @@ function refreshToken() {
     }
 }
 
+
+$(".resend-activation-btn").click(function (event) {
+    event.preventDefault()
+    let email = $('#login-email').val()
+    let formData={
+        email:email
+    }
+    showLoading();
+    $.ajax({
+        url: '/api/v1/authentication/resend-active-email/',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(formData),
+        success: function (response) {
+            toastr.success('Đã Gửi Lại Email Kích Hoạt!');
+            $("#reactive-modal").modal("hide")
+        },
+        error: function (xhr, status, error) {
+            toastr.error("Gửi Email Thất Bại")
+        },
+        complete: function () {
+            hideLoading();
+        }
+    });
+});
+
 //Set 60s thif refresh token lai mot lan
-setInterval(refreshToken, 60*1000)
+setInterval(refreshToken, 60*1000*15)
 
 function cleanInput() {
     $('#signup-email').val('');
@@ -327,17 +347,6 @@ function isAuthenticated() {
     return !!jwt;
 }
 
-// Hàm để hiển thị avatar
-function showAvatar() {
-    const avatarElement = document.querySelector('.avatar');
-    avatarElement.style.display = 'block';
-
-    const loginRegisterElement = document.querySelectorAll('.user-partner');
-    loginRegisterElement.forEach(element => {
-        element.style.display = 'none';
-    })
-    }
-
 // Hàm để ẩn avatar
 function hideAvatar() {
     const avatarElement = document.querySelector('.avatar');
@@ -357,7 +366,7 @@ function hideAvatar() {
 //
 //         const userInfo = JSON.parse(localStorage.getItem("userInfo"));
 //         $(".email-info").empty();
-//         const userHtmlContent = "<span>" + userInfo.username + "</span>";
+//         const userHtmlContent = "<span>" + userInfo.email + "</span>";
 //         $(".email-info").append(userHtmlContent);
 //
 //

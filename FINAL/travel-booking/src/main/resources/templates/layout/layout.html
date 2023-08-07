@@ -21,6 +21,20 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+    <style>
+        #dropdown-menu-profile {
+            width: 200px; !important; /* Điều chỉnh kích thước chiều rộng cần thiết */
+        }
+
+        /* Giới hạn hiển thị số lượng ký tự cho phần fullName */
+        #profileName {
+            white-space: nowrap; /* Không xuống dòng */
+            overflow: hidden; /* Ẩn phần vượt quá giới hạn */
+            text-overflow: ellipsis; /* Hiển thị dấu ba chấm khi vượt quá giới hạn */
+            max-width: 100px; /* Điều chỉnh số lượng ký tự tối đa hiển thị */
+        }
+    </style>
+
     <!-- Components CSS -->
     <th:block th:replace="${cssResources} ?: ~{}"></th:block>
 </head>
@@ -35,6 +49,9 @@
 
 <!-- LOGIN MODAL -->
 <th:block th:replace="~{fragments/login_modal :: login-modal}"></th:block>
+
+<!-- LOGIN REACTIVE -->
+<th:block th:replace="~{fragments/reactive-modal :: reactive-modal}"></th:block>
 
 
 <!-- SIGNUP PARTNER MODAL -->
@@ -98,11 +115,51 @@
 
 <script>
     $(document).ready(function () {
+        let userInfo = JSON.parse(localStorage.getItem("userInfo"))
+
+        getUserDetail();
+
+        function getUserDetail() {
+
+            const jwt = localStorage.getItem('jwt');
+            let userId = userInfo.id;
+            console.log(userId)
+            if (jwt) {
+                $.ajax({
+                    url: `/api/v1/user/${userId}`,
+                    type: 'GET',
+                    success: function (response) {
+                        // avatarInput.src = response.imageUrl;
+                        if (response.avatar !== null && response.avatar !== "") {
+                            userInfo.avatar = response.avatar;
+                            $("#avatarImg").attr("src", response.avatar);
+                            $("#avatarImgBig").attr("src", userInfo.avatar);
+                        }
+                        if (response.fullName !== null && response.fullName !== "") {
+                            userInfo.fullName = response.fullName;
+                            $("#profileName").text(response.fullName);
+                        }
+                        localStorage.setItem("userInfo", JSON.stringify(userInfo));
+
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+            }
+        }
+    });
+</script>
+<script>
+    $(document).ready(function () {
         const jwt = localStorage.getItem("jwt");
-        const userInfo = localStorage.getItem("userInfo");
+        const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+
+        if (userInfo) {
+            showAvatar()
+        }
         // Đã đăng nhập, kiểm tra quyền truy cập
-        const userInfor = JSON.parse(userInfo);
-        const roles = userInfor.roles || [];
+        const roles = userInfo.roles || [];
         console.log("okay")
 
         // Lấy nút "My Account" và thêm sự kiện click
@@ -118,6 +175,28 @@
                 window.location.href = "http://localhost:8080/user/dashboard-user";
             }
         });
+
+        // Hàm để hiển thị avatar
+        function showAvatar() {
+            const avatarElement = document.querySelector('.avatar');
+            avatarElement.style.display = 'block';
+
+            const loginRegisterElement = document.querySelectorAll('.user-partner');
+            loginRegisterElement.forEach(element => {
+                element.style.display = 'none';
+            })
+        }
+
+// Hàm để ẩn avatar
+        function hideAvatar() {
+            const avatarElement = document.querySelector('.avatar');
+            avatarElement.style.display = 'none';
+
+            const loginRegisterElement = document.querySelectorAll('.user-partner');
+            loginRegisterElement.forEach(element => {
+                element.style.display = 'block';
+            })
+        }
     });
 </script>
 <!-- Common JS-->

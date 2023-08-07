@@ -121,10 +121,7 @@ public class HomeController {
     }
 
     //Management-user
-    @GetMapping("/user/dashboard-user")
-    public String dashboardUser() {
-        return "management/user/dashboard-user";
-    }
+
 
     @GetMapping("/booking-user-management")
     public String bookingUser() {

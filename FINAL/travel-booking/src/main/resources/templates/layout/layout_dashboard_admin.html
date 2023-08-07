@@ -29,6 +29,19 @@
     //TOASTR
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+    <style>
+        #dropdown-menu-profile {
+            width: 200px; !important; /* Điều chỉnh kích thước chiều rộng cần thiết */
+        }
+
+        /* Giới hạn hiển thị số lượng ký tự cho phần fullName */
+        #profileName {
+            white-space: nowrap; /* Không xuống dòng */
+            overflow: hidden; /* Ẩn phần vượt quá giới hạn */
+            text-overflow: ellipsis; /* Hiển thị dấu ba chấm khi vượt quá giới hạn */
+            max-width: 100px; /* Điều chỉnh số lượng ký tự tối đa hiển thị */
+        }
+    </style>
     <!-- Components CSS -->
     <th:block th:replace="${cssResources} ?: ~{}"></th:block>
 </head>
@@ -145,27 +158,25 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button"
                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img class="wd-30 ht-30 rounded-circle" src="/assets/user/images/default-hotel.jpg"
+                            <img id="avatarImg" class="wd-30 ht-30 rounded-circle" src="/assets/user/images/default-avatar.png"
                                  alt="profile">
                         </a>
-                        <div class="dropdown-menu p-0" aria-labelledby="profileDropdown">
+                        <div class="dropdown-menu p-0" id="dropdown-menu-profile" aria-labelledby="profileDropdown">
                             <div class="d-flex flex-column align-items-center border-bottom px-5 py-3">
                                 <div class="mb-3">
-                                    <img class="wd-80 ht-80 rounded-circle" src="/assets/user/images/default-hotel.jpg"
+                                    <img id="avatarImgBig" class="wd-80 ht-80 rounded-circle" src="/assets/user/images/default-avatar.png"
                                          alt>
                                 </div>
                                 <div class="text-center">
-                                    <p class="tx-16 fw-bolder">Nelson Kelly Burton</p>
+                                    <p id="profileName" class="tx-16 fw-bolder">User name</p>
                                     <p class="tx-12 text-muted">
-                                        <a href="/cdn-cgi/l/email-protection"
-                                           class="__cf_email__"
-                                           data-cfemail="98f6fdf4ebf7f6f6d8fff5f9f1f4b6fbf7f5">[email&#160;protected]</a>
+                                        <a href="#"></a>
                                     </p>
                                 </div>
                             </div>
                             <ul class="list-unstyled p-1">
                                 <li class="dropdown-item py-2">
-                                    <a href="profile.html" class="text-body ms-0">
+                                    <a href="admin/admin-profile" class="text-body ms-0">
                                         <i class="me-2 icon-md" data-feather="user"></i>
                                         <span>Profile</span>
                                     </a>
@@ -238,6 +249,47 @@
 
 <!--TOASTR-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script>
+    $(document).ready(function () {
+        let userInfo = JSON.parse(localStorage.getItem("userInfo"))
+
+        getUserDetail();
+
+        function getUserDetail() {
+
+            const jwt = localStorage.getItem('jwt');
+            let userId = userInfo.id;
+            console.log(userId)
+            if (jwt) {
+                $.ajax({
+                    url: `/api/v1/user/${userId}`,
+                    type: 'GET',
+                    success: function (response) {
+                        // avatarInput.src = response.imageUrl;
+                        if (response.avatar !== null && response.avatar !== "") {
+                            userInfo.avatar = response.avatar;
+                            $("#avatarImg").attr("src", response.avatar);
+                            $("#avatarImgBig").attr("src", response.avatar);
+                        }
+                        if (response.fullName !== null && response.fullName !== "") {
+                            userInfo.fullName = response.fullName;
+                            $("#profileName").text(response.fullName);
+                        }
+                        if (response.gender !== null && response.gender !== "") {
+                            userInfo.gender = response.gender;
+                        }
+                        localStorage.setItem("userInfo", JSON.stringify(userInfo));
+
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+            }
+        }
+    });
+</script>
 
 <th:block th:replace="${jsResources} ?: ~{}"></th:block>
 </body>
