@@ -9,7 +9,7 @@
 
 <head>
 
-    <title>Partner Dashboard</title>
+    <title>Booking Management</title>
 
     <th:block id="css-resources">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/js/bootstrap.min.js"></script>
@@ -39,7 +39,7 @@
         </nav>
         <div class="search-box p-4 bg-white rounded mb-3 box-shadow">
             <div class="col-lg-3 pb-4">
-                <h5>Room Management Lists</h5>
+                <h5>Booking Lists</h5>
             </div>
             <form class="forms-sample">
                 <div class="row align-items-center">
@@ -47,15 +47,15 @@
                         <input type="text" placeholder="Search by ID" class="form-control" id="searchId">
                     </div>
                     <div class="col-lg-4 col-md-4">
-                        <input type="text" placeholder="Search by room name" class="form-control" id="searchName">
+                        <input type="text" placeholder="Search by room name" class="form-control" id="searchCustomerName">
                     </div>
                     <div class="col-lg-4 col-md-4">
-                        <input type="text" placeholder="Search by capacity" class="form-control" id="searchCapacity">
+                        <input type="text" placeholder="Search by capacity" class="form-control" id="searchCustomerPhone">
                     </div>
                 </div>
             </form>
             <div class="mt-3">
-                <button type="submit" class="btn btn-primary px-3 py-2" id="search-room-btn"><i class="link-icon"
+                <button type="submit" class="btn btn-primary px-3 py-2" id="search-booking-btn"><i class="link-icon"
                                                                                                 data-feather="search"></i>
                     Search
                 </button>
@@ -70,39 +70,38 @@
                                 <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Name</th>
-                                    <th>Facility</th>
-                                    <th>Price</th>
-                                    <th>Capacity</th>
-                                    <th class="text-center">Status</th>
-                                    <th class="text-center">Tot. Rooms</th>
-                                    <th class="text-center">Avail. room</th>
-                                    <th class="text-center">Action</th>
+                                    <th>Cus. Name</th>
+                                    <th>Cus. Phone</th>
+                                    <th>Room</th>
+                                    <th>Quantity</th>
+                                    <th>Check in</th>
+                                    <th>Check out</th>
+                                    <th>Booking Date</th>
+                                    <th>Total Amount</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
                                 </tr>
                                 </thead>
 
                                 <tbody>
-                                <tr th:each="room: ${roomList.data}">
-                                    <td th:text="${room.id}"/>
-                                    <td th:text="${room.name}"/>
-                                    <td>
-                                        <span th:each="facility, iterStat : ${room.facilities}">
-                                            <span th:text="${facility.name}"></span>
-                                            <span th:if="${!iterStat.last}">, </span>
-                                        </span>
-                                    </td>
-
-                                    <td>
-                                        <script th:inline="javascript">
-                                            var price = [[${room.price}]];
-                                            var formattedPrice = new Intl.NumberFormat('vi-VN').format(price);
-                                            document.write(formattedPrice);
-                                        </script>
-                                    </td>
-                                    <td class="text-center" th:text="${room.capacity}"/>
-                                    <td th:text="${room.roomStatus.name}"/>
-                                    <td class="text-center">?</td>
-                                    <td class="text-center">?</td>
+                                <tr th:each="booking: ${bookingList.data}">
+                                    <td th:text="${booking.id}"/>
+                                    <td th:text="${booking.customerName}"/>
+                                    <td th:text="${booking.customerPhone}"/>
+                                    <td th:text="${booking.roomName}"/>
+                                    <td th:text="${booking.roomNums}"/>
+                                    <td th:text="${booking.startDate}"/>
+                                    <td th:text="${booking.endDate}"/>
+                                    <td th:text="${booking.bookingDate}"/>
+                                    <td th:text="${booking.totalAmount}"/>
+                                    <td th:text="${booking.status}"/>
+<!--                                    <td>-->
+<!--                                        <script th:inline="javascript">-->
+<!--                                            const price = [[${room.price}]];-->
+<!--                                            const formattedPrice = new Intl.NumberFormat('vi-VN').format(price);-->
+<!--                                            document.write(formattedPrice);-->
+<!--                                        </script>-->
+<!--                                    </td>-->
                                     <td class="text-center">
                                         <ul class="d-flex list-unstyled mb-0 justify-content-center">
                                             <li class="me-2">
@@ -111,13 +110,13 @@
                                                 </a>
                                             </li>
                                             <li class="me-2">
-                                                <a th:href="@{'/partner/rooms/' + ${room.id}}"
+                                                <a th:href="@{'/partner/rooms/' + ${booking.id}}"
                                                    target="_blank">
                                                     <i class="link-icon" data-feather="edit"></i>
                                                 </a>
                                             </li>
                                             <li>
-                                                <input type="hidden" id="roomId" th:value="${room.id}">
+                                                <input type="hidden" id="roomId" th:value="${booking.id}">
                                                 <a href="#" id="delete-room-btn" data-bs-toggle="modal"
                                                    data-bs-target="#confirmDelete">
                                                     <i class="link-icon" data-feather="delete"></i>
@@ -145,17 +144,17 @@
                 </li>
 
                 <!-- Page numbers -->
-                <li class="page-item" th:each="page : ${#numbers.sequence(1, roomList.getPageNumber)}"
+                <li class="page-item" th:each="page : ${#numbers.sequence(1, bookingList.getPageNumber)}"
                     th:classappend="${currentPage == page ? 'active' : ''}">
-                    <a class="page-link" th:href="@{/partner/room-management(pageIndex=${page})}"><span
+                    <a class="page-link" th:href="@{/partner/booking-management(pageIndex=${page})}"><span
                             th:text="${page}"></span></a>
                 </li>
 
                 <!-- Next button -->
                 <li class="page-item" id="nextButton"
-                    th:classappend="${currentPage >= roomList.getPageNumber ? 'disabled' : ''}">
+                    th:classappend="${currentPage >= bookingList.getPageNumber ? 'disabled' : ''}">
                     <a class="page-link"
-                       th:href="@{/partner/room-management?pageIndex={page}(page=${currentPage + 1})}">Next</a>
+                       th:href="@{/partner/booking-management?pageIndex={page}(page=${currentPage + 1})}">Next</a>
                 </li>
             </ul>
         </div>

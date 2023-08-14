@@ -1,17 +1,21 @@
 package com.example.travelbooking.controller.partner.view;
 
 import com.example.travelbooking.entity.Bed;
+import com.example.travelbooking.entity.Booking;
 import com.example.travelbooking.entity.Facility;
 import com.example.travelbooking.entity.Room;
 import com.example.travelbooking.entity.location.District;
 import com.example.travelbooking.entity.location.Province;
 import com.example.travelbooking.entity.location.Ward;
 import com.example.travelbooking.exception.NotFoundException;
+import com.example.travelbooking.model.request.partner.BookingSearchRequestByPartner;
 import com.example.travelbooking.model.request.partner.RoomSearchRequest;
 import com.example.travelbooking.model.response.partner.CommonResponse;
+import com.example.travelbooking.model.response.user.BookingResponse;
 import com.example.travelbooking.repository.*;
 import com.example.travelbooking.security.SecurityUtils;
 import com.example.travelbooking.service.user.AddressService;
+import com.example.travelbooking.service.user.BookingService;
 import com.example.travelbooking.service.user.UserService;
 import com.example.travelbooking.service.partner.RoomService;
 import com.example.travelbooking.statics.BedType;
@@ -38,16 +42,13 @@ import java.util.stream.Collectors;
 @RequestMapping
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class PartnerController {
-    UserService userService;
     FacilityRepository facilityRepository;
     RoomRepository roomRepository;
     BedRepository bedRepository;
     ProvinceRepository provinceRepository;
-    DistrictRepository districtRepository;
-    WardRepository wardRepository;
     RoomService roomService;
+    BookingService bookingService;
     AddressService addressService;
-    ObjectMapper objectMapper;
 
     @GetMapping("/partner/add-room")
     public String addRoom(Model model) {
@@ -115,17 +116,15 @@ public class PartnerController {
         return "management/partner/account-info";
     }
 
-    // API để lấy danh sách District tương ứng với Province
-    @GetMapping("/get-districts")
-    public ResponseEntity<?> getDistricts(@RequestParam String province) {
-        List<District> districtList = addressService.getDistrictsByProvince(province);
-        return ResponseEntity.ok(districtList);
+    @GetMapping("/partner/bookings")
+    public String searchBookings(BookingSearchRequestByPartner request, Model model) {
+        String currentUserEmail = SecurityUtils.getCurrentUserEmail()
+                .orElseThrow(() -> new NotFoundException("Không tìm thấy currentEmail"));
+        CommonResponse<?> commonResponse = bookingService.searchBooking(request, currentUserEmail);
+
+        model.addAttribute("bookingList", commonResponse);
+        model.addAttribute("currentPage", request.getPageIndex());
+        return "management/partner/booking-management";
     }
 
-    // API để lấy danh sách Ward tương ứng với District
-    @GetMapping("/get-wards")
-    public ResponseEntity<?> getWards(@RequestParam String districtCode) {
-        List<Ward> wardList= addressService.getWardsByDistrict(districtCode);
-        return ResponseEntity.ok(wardList);
-    }
 }

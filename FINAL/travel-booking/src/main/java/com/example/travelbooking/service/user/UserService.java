@@ -5,6 +5,7 @@ import com.example.travelbooking.exception.*;
 import com.example.travelbooking.model.request.registration.*;
 import com.example.travelbooking.model.request.user.UpdateUserRequest;
 import com.example.travelbooking.repository.*;
+import com.example.travelbooking.statics.UserStatus;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.example.travelbooking.model.response.JwtResponse;
 import com.example.travelbooking.model.response.UserResponse;
@@ -230,6 +231,7 @@ public class UserService {
 
             // Xác thực thành công, cập nhật trạng thái của người dùng
             user.setVerified(true);
+            user.setUserStatus(UserStatus.ACTIVATED);
             userRepository.save(user);
 
             // Xóa mã OTP đã sử dụng

@@ -53,7 +53,7 @@
                 <div class="row mt-2 mx-0">
                   <div class="col d-flex justify-content-center">
                     <button class="btn btn-sm change-avatar-account" style="border: 0.5px solid grey">
-                      <i class="link-icon p-1" data-feather="upload"></i> Upload avatar
+                      <i class="link-icon p-1" data-feather="upload"></i> Upload avatar <span class="text-danger">*</span>
                     </button>
                     <button class="btn btn-sm btn-success submit-avatar-btn ml-1" hidden="hidden">
                       Save
@@ -71,12 +71,12 @@
                            placeholder name="name">
                   </div>
                   <div class="col-lg-6 mb-4">
-                    <label for="email" class="form-label">Email Address *</label>
+                    <label for="email" class="form-label">Email Address <span class="text-danger">*</span></label>
                     <input type="email" class="form-control" id="email" autocomplete="off"
                            placeholder name="email">
                   </div>
                   <div class="col-lg-4 mb-5">
-                    <label for="genderList" class="form-label">Status *</label>
+                    <label for="genderList" class="form-label">Gender <span class="text-danger">*</span><span class="text-danger">*</span></label>
                     <select class="form-select" id="genderList" name="gender">
                       <option value="" disabled selected>Choose gender</option>
                       <option th:each="gender : ${genderList}" th:value="${gender}"

@@ -13,14 +13,10 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Table(name = "availability")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Availability extends BaseEntity{
+public class RoomAvailability extends BaseEntity{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "room_id")
     private Room room;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "tour_id")
-    private Tour tour;
 
     @Column(name = "start_date")
     private LocalDate startDate;

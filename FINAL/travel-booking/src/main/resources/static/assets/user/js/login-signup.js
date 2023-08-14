@@ -188,7 +188,7 @@ function logout() {
             localStorage.removeItem('jwt');
             localStorage.removeItem('userInfo');
             localStorage.removeItem('refreshToken');
-            window.location.href = `http://localhost:8080/home`;
+            window.location.href = `http://localhost:8080`;
         },
         error: function (error) {
             console.log('Đăng xuất thất bại', error);
@@ -248,8 +248,10 @@ $(".resend-activation-btn").click(function (event) {
     });
 });
 
-//Set 60s thif refresh token lai mot lan
+//Set 15 phút thì refresh token lai mot lan
 setInterval(refreshToken, 60*1000*15)
+
+
 
 function cleanInput() {
     $('#signup-email').val('');

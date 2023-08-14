@@ -3685,10 +3685,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 460 55'%3E%3Cg fill='none' fill-rule='evenodd' stroke='%23fff' stroke-width='7' opacity='.1'%3E%3Cpath d='M-345 34.5s57.5-13.8 115-13.8 115 13.8 115 13.8S-57.5 48.3 0 48.3s115-13.8 115-13.8 57.5-13.8 115-13.8 115 13.8 115 13.8 57.5 13.8 115 13.8 115-13.8 115-13.8'/%3E%3Cpath d='M-345 20.7s57.5-13.8 115-13.8 115 13.8 115 13.8S-57.5 34.5 0 34.5s115-13.8 115-13.8S172.5 6.9 230 6.9s115 13.8 115 13.8 57.5 13.8 115 13.8 115-13.8 115-13.8m-920 27.6s57.5-13.8 115-13.8 115 13.8 115 13.8S-57.5 62.1 0 62.1s115-13.8 115-13.8 57.5-13.8 115-13.8 115 13.8 115 13.8 57.5 13.8 115 13.8 115-13.8 115-13.8'/%3E%3Cpath d='M-345 6.9s57.5-13.8 115-13.8S-115 6.9-115 6.9-57.5 20.7 0 20.7 115 6.9 115 6.9 172.5-6.9 230-6.9 345 6.9 345 6.9s57.5 13.8 115 13.8S575 6.9 575 6.9'/%3E%3Cpath d='M-345-6.9s57.5-13.8 115-13.8S-115-6.9-115-6.9-57.5 6.9 0 6.9 115-6.9 115-6.9s57.5-13.8 115-13.8S345-6.9 345-6.9 402.5 6.9 460 6.9 575-6.9 575-6.9m-920 69s57.5-13.8 115-13.8 115 13.8 115 13.8S-57.5 75.9 0 75.9s115-13.8 115-13.8 57.5-13.8 115-13.8 115 13.8 115 13.8 57.5 13.8 115 13.8 115-13.8 115-13.8'/%3E%3C/g%3E%3C/svg%3E%0A"), linear-gradient(80deg, #000000, #01060d);
-    background-position: 50% 50%;
-    animation: background-move 20s linear infinite;
-    background-size: 100vw auto, 100% 100%;
+    background-color: black;
     opacity: 0.3;
     z-index: -1;
 }
@@ -3710,67 +3707,6 @@ body {
         display: none;
     }
 }
-
-/*==== bread-bg ======*/
-
-.bread-bg {
-    background-image: url("../images/bread-bg.jpg");
-}
-
-/*==== bread-bg-2 ======*/
-
-.bread-bg-2 {
-    background-image: url("../images/bread-bg2.jpg");
-}
-
-/*==== bread-bg-3 ======*/
-
-.bread-bg-3 {
-    background-image: url("../images/bread-bg3.jpg");
-}
-
-/*==== bread-bg-4 ======*/
-
-.bread-bg-4 {
-    background-image: url("../images/bread-bg4.jpg");
-}
-
-/*==== bread-bg-5 ======*/
-
-.bread-bg-5 {
-    background-image: url("../images/team-cta-bg.jpg");
-}
-
-/*==== bread-bg-6 ======*/
-
-.bread-bg-6 {
-    background-image: url("../images/bread-bg5.jpg");
-}
-
-/*==== bread-bg-7 ======*/
-
-.bread-bg-7 {
-    background-image: url("../images/bread-bg6.jpg");
-}
-
-/*==== bread-bg-8 ======*/
-
-.bread-bg-8 {
-    background-image: url("../images/bread-bg7.jpg");
-}
-
-/*==== bread-bg-9 ======*/
-
-.bread-bg-9 {
-    background-image: url("../images/bread-bg8.jpg");
-}
-
-/*==== bread-bg-10 ======*/
-
-.bread-bg-10 {
-    background-image: url("../images/bread-bg9.jpg");
-}
-
 /*==== bread-svg ======*/
 
 .bread-svg {
@@ -5459,33 +5395,6 @@ body {
 }
 
 /*============ avatar ===============*/
-
-.avatar {
-    background-color: #5d646d;
-    -webkit-border-radius: 100%;
-    -moz-border-radius: 100%;
-    border-radius: 100%;
-    height: 48px;
-    width: 48px;
-}
-
-.avatar img {
-    width: 100%;
-    height: 100%;
-    -webkit-border-radius: 100%;
-    -moz-border-radius: 100%;
-    border-radius: 100%;
-}
-
-.avatar-lg {
-    width: 80px;
-    height: 80px;
-}
-
-.avatar-sm {
-    width: 36px;
-    height: 36px;
-}
 
 /*==== tag-list =====*/
 

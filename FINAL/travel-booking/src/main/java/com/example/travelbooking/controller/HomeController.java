@@ -27,13 +27,9 @@ public class HomeController {
     ObjectMapper objectMapper;
 
     // User
-    @GetMapping("/home")
-    public String home() {
-        return "user/index";
-    }
 
     @GetMapping("/")
-    public String home1() {
+    public String home() {
         return "user/index";
     }
 
@@ -52,16 +48,6 @@ public class HomeController {
         return "user/tour-single1";
     }
 
-    @GetMapping("/hotel")
-    public String hotel() {
-        return "user/hotel_list";
-    }
-
-    @GetMapping("/hotel-detail")
-    public String hotel_detail() {
-        return "user/hotel_detail";
-    }
-
     @GetMapping("/blog")
     public String blog() {
         return "user/blog_list";
@@ -72,10 +58,6 @@ public class HomeController {
         return "user/blog_detail";
     }
 
-    @GetMapping("/search_hotel")
-    public String search() {
-        return "user/search_hotel_list";
-    }
 
     @GetMapping("/recover_pass")
     public String recoverPass() {

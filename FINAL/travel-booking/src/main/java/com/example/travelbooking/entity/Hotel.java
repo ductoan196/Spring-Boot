@@ -24,6 +24,8 @@ public class Hotel extends BaseEntity{
 
     String imageUrl;
 
+    String description;
+
     String province;
 
     String district;

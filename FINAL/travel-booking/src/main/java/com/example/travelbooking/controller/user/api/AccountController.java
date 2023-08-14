@@ -1,5 +1,6 @@
 package com.example.travelbooking.controller.user.api;
 
+import com.example.travelbooking.model.request.user.CreateBookingRequest;
 import com.example.travelbooking.model.request.user.UpdateUserRequest;
 import com.example.travelbooking.model.response.UserResponse;
 import com.example.travelbooking.service.user.UserService;

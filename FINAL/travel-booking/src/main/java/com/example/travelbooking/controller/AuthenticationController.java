@@ -34,6 +34,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @CrossOrigin
@@ -62,8 +65,12 @@ public class AuthenticationController {
         String jwt = jwtUtils.generateJwtToken(authentication);
 
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-        if (!userDetails.isVerified()) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Account is not activated");
+        if ("admin@gmail.com".equals(userDetails.getUsername())) {
+            // Thực hiện các lệnh bên dưới khi email là admin@gmail.com
+        } else {
+            if (!userDetails.isVerified()) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Account is not activated");
+            }
         }
 
         Set<String> roles = userDetails.getAuthorities().stream()
@@ -100,6 +107,17 @@ public class AuthenticationController {
         response.addCookie(jwtCookie);
 
         return ResponseEntity.ok(jwtResponse);
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(HttpServletResponse response) {
+        Cookie jwtCookie = new Cookie("jwtToken", null);
+        jwtCookie.setMaxAge(0);
+        jwtCookie.setPath("/");
+        response.addCookie(jwtCookie);
+
+        userService.logout();
+        return ResponseEntity.ok(null);
     }
 
     @PostMapping("/signup")
@@ -179,16 +197,7 @@ public class AuthenticationController {
 //        return new  ModelAndView("/user/success-page.html");
 //    }
 
-    @PostMapping("/logout")
-    public ResponseEntity<?> logout(HttpServletResponse response) {
-        Cookie jwtCookie = new Cookie("jwtToken", null);
-        jwtCookie.setMaxAge(0);
-        jwtCookie.setPath("/");
-        response.addCookie(jwtCookie);
 
-        userService.logout();
-        return ResponseEntity.ok(null);
-    }
 
     @PostMapping("/resend-active-email/")
     public ResponseEntity<?> resentActivationEmail(@RequestBody ReActiveRequest request){

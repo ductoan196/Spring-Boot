@@ -26,13 +26,13 @@ public class HotelCustomRepository extends BaseRepository {
         }
 
         if (request.getName() != null && !request.getName().trim().equals("")) {
-            sql += " and lower(u.username) like :name";
+            sql += " and lower(h.name) like :name";
             parameters.put("name", "%" + request.getName().toLowerCase() + "%");
         }
 
         if (request.getAddress() != null && !request.getAddress().trim().equals("")) {
-            sql += " and lower(u.username) like :address";
-            parameters.put("address", "%" + request.getName().toLowerCase() + "%");
+            sql += " and lower(h.address) like :address";
+            parameters.put("address", "%" + request.getAddress().toLowerCase() + "%");
         }
 
         return getNamedParameterJdbcTemplate().query(sql, parameters, BeanPropertyRowMapper.newInstance(HotelSearchResponse.class));

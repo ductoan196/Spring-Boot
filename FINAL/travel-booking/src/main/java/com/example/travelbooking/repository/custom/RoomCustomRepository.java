@@ -86,9 +86,67 @@ public class RoomCustomRepository extends BaseRepository {
             sql += " and lower(r.room_nums) = :room_nums";
             parameter.put("room_nums", request.getRoom_nums());
         }
-        // ... (xử lý các điều kiện tìm kiếm và thêm vào parameter)
 
-//        sql += " GROUP BY r.id, r.name, r.description, r.price, r.capacity, r.room_nums, r.room_status, f.id, f.name";  // GROUP BY to combine rows of the same room
+        return getNamedParameterJdbcTemplate().query(sql, parameter, (resultSet) -> {
+            List<RoomSearchResponse> responses = new ArrayList<>();
+            Map<Long, RoomSearchResponse> responseMap = new HashMap<>();
+
+            while (resultSet.next()) {
+                Long roomId = resultSet.getLong("id");
+                RoomSearchResponse response = responseMap.get(roomId);
+
+                if (response == null) {
+                    response = new RoomSearchResponse();
+                    response.setId(roomId);
+                    response.setName(resultSet.getString("name"));
+                    response.setDescription(resultSet.getString("description"));
+                    response.setPrice(resultSet.getDouble("price"));
+                    response.setCapacity(resultSet.getInt("capacity"));
+                    response.setRoom_nums(resultSet.getInt("room_nums"));
+                    response.setRoomStatus(RoomStatus.valueOf(resultSet.getString("room_status")));
+                    response.setFacilities(new ArrayList<>());
+
+                    responses.add(response);
+                    responseMap.put(roomId, response);
+                }
+
+                Long facilityId = resultSet.getLong("facility_id");
+                if (facilityId != null) {
+                    Facility facility = new Facility();
+                    facility.setId(facilityId);
+                    facility.setName(resultSet.getString("facility_name"));
+                    response.getFacilities().add(facility);
+                }
+            }
+
+            return responses;
+        });
+    }
+
+    public List<RoomSearchResponse> searchRoomByUser(RoomSearchRequest request) {
+        String sql = "SELECT *" + "FROM rooms r " +
+                "WHERE 1 = 1";  // WHERE 1 = 1 added for flexibility in building the query dynamically
+
+        Map<String, Object> parameter = new HashMap<>();
+
+        if (request.getId()!= null){
+            sql += " and r.id = :id";
+            parameter.put("id",request.getId());
+        }
+
+        if (request.getName()!= null&& !request.getName().trim().equals("")){
+            sql += " and lower(r.name) like :name";
+            parameter.put("name", "%" + request.getName().toLowerCase() + "%");
+        }
+
+        if (request.getCapacity() != null){
+            sql += " and r.capacity = :capacity";
+            parameter.put("capacity", request.getCapacity());
+        }
+        if (request.getRoom_nums() != null){
+            sql += " and lower(r.room_nums) = :room_nums";
+            parameter.put("room_nums", request.getRoom_nums());
+        }
 
         return getNamedParameterJdbcTemplate().query(sql, parameter, (resultSet) -> {
             List<RoomSearchResponse> responses = new ArrayList<>();

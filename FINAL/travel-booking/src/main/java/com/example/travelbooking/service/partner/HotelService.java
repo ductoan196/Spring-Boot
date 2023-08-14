@@ -2,11 +2,16 @@ package com.example.travelbooking.service.partner;
 
 import com.example.travelbooking.entity.Hotel;
 import com.example.travelbooking.exception.NotFoundException;
+import com.example.travelbooking.model.request.admin.HotelSearchRequest;
 import com.example.travelbooking.model.request.partner.UpdateHotelRequest;
+import com.example.travelbooking.model.response.admin.HotelSearchResponse;
+import com.example.travelbooking.model.response.partner.CommonResponse;
 import com.example.travelbooking.model.response.partner.RoomResponse;
+import com.example.travelbooking.model.response.partner.RoomSearchResponse;
 import com.example.travelbooking.repository.HotelRepository;
 import com.example.travelbooking.repository.RoomRepository;
 import com.example.travelbooking.service.user.FileService;
+import com.example.travelbooking.service.user.PaginationUtils;
 import com.example.travelbooking.service.user.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
@@ -47,6 +52,7 @@ public class HotelService {
         }
         hotel.setName(request.getName());
         hotel.setPhone(request.getPhone());
+        hotel.setDescription(request.getDescription());
         hotel.setAddress(request.getAddress());
         hotel.setProvince(request.getProvince());
         hotel.setDistrict(request.getDistrict());
@@ -57,8 +63,9 @@ public class HotelService {
     }
 
     public Hotel getHotelByEmail(String email) {
-        return hotelRepository.findByEmail(email)
+        Hotel hotel= hotelRepository.findByEmail(email)
                 .orElseThrow(() -> new NotFoundException("Không tìm thấy hotel trong danh sách"));
+        return hotel;
     }
 
     public Hotel updateHotelwithAvatar(MultipartFile file, String name, String phone, String address, String email) {
@@ -75,5 +82,12 @@ public class HotelService {
         hotel.setAddress(address);
 
         return hotelRepository.save(hotel);
+    }
+
+    public Hotel findByHotelId(Long hotelId) {
+        Hotel hotel = hotelRepository.findById(hotelId)
+                .orElseThrow(() -> new NotFoundException("Không tìm thấy hotel trong danh sách"));
+
+        return hotel;
     }
 }

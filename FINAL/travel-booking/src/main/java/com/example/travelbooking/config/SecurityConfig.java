@@ -4,6 +4,7 @@ import com.example.travelbooking.security.AuthenticationEntryPointJwt;
 import com.example.travelbooking.security.AuthTokenFilter;
 import com.example.travelbooking.security.CustomUserDetailsService;
 import com.example.travelbooking.statics.Roles;
+import com.example.travelbooking.statics.UserStatus;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -68,7 +69,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/api/v1/authentication/refresh-token", "/api/v1/authentication/logout").authenticated()
                 .antMatchers(HttpMethod.GET, "/api/v1/users", "/api/v1/users/{id}").hasAnyAuthority(Roles.USER.toString(), Roles.ADMIN.toString())
                 .antMatchers(HttpMethod.POST, "/api/v1/users").hasAnyAuthority(Roles.ADMIN.toString())
-                .antMatchers("/api/v1/partner/**", "/partner/**").hasAnyAuthority(Roles.PARTNER.toString())
+                .antMatchers("/api/v1/partner/**", "/partner/**").hasAnyAuthority(Roles.PARTNER.toString(),Roles.ADMIN.toString())
                 .antMatchers("/api/v1/admin/**", "/admin/**").hasAnyAuthority(Roles.ADMIN.toString())
                 .anyRequest().permitAll()
                 .and()

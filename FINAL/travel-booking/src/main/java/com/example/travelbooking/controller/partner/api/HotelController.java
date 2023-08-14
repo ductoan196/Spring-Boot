@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.*;
 public class HotelController {
 
     HotelService hotelService;
-    UserService userService;
 
     // Lấy thông tin chi tiết khách sạn
     @GetMapping("/dashboard-partner")
@@ -38,17 +37,18 @@ public class HotelController {
         return new ResponseEntity<>(hotel, HttpStatus.OK);
     }
 
-@PutMapping("/hotel")
-public ResponseEntity<?> updateHotel(@ModelAttribute UpdateHotelRequest request) {
-    try {
-        Hotel updatedHotel = hotelService.updateHotel(request);
-        if (updatedHotel != null) {
-            return ResponseEntity.ok(updatedHotel);
-        } else {
-            return ResponseEntity.notFound().build();
+    @PutMapping("/hotel")
+    public ResponseEntity<?> updateHotel(@ModelAttribute UpdateHotelRequest request) {
+        try {
+            Hotel updatedHotel = hotelService.updateHotel(request);
+            System.out.println(updatedHotel);
+            if (updatedHotel != null) {
+                return ResponseEntity.ok(updatedHotel);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to update hotel");
         }
-    } catch (Exception e) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to update hotel");
     }
-}
 }

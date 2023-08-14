@@ -20,6 +20,8 @@ public class UpdateHotelRequest {
 
     MultipartFile avatar;
 
+    String description;
+
     String province;
 
     String district;

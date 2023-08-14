@@ -1,37 +1,40 @@
-package com.example.travelbooking.entity;
+package com.example.travelbooking.model.response.user;
 
+import com.example.travelbooking.entity.RoomReservation;
+import com.example.travelbooking.entity.User;
 import com.example.travelbooking.statics.BookingStatus;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
-@Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "bookings")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Booking extends BaseEntity {
+public class BookingResponse {
+    Long id;
 
     Double totalAmount;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    User user;
 
     String customerName;
 
     String customerPhone;
 
-    @OneToOne
-    @JoinColumn(name = "room_reservation_id")
-    RoomReservation roomReservation;
+    Long roomId;
 
-    Long hotelId;
+    String roomName;
 
-    @Enumerated(EnumType.STRING)
+    Integer roomNums;
+
+    LocalDate startDate;
+
+    LocalDate endDate;
+
+    LocalDateTime createdDateTime;
+
     BookingStatus status;
 }

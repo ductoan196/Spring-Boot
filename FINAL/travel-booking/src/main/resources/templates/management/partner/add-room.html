@@ -130,27 +130,27 @@
 
 
                                 <div class="col-lg-4 mb-5">
-                                    <label for="roomName" class="form-label">Room Name *</label>
+                                    <label for="roomName" class="form-label">Room Name <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="roomName" autocomplete="off"
                                            placeholder="Enter name" name="name">
                                 </div>
                                 <div class="col-lg-4 mb-5">
-                                    <label for="roomPrice" class="form-label">Room Price *</label>
+                                    <label for="roomPrice" class="form-label">Room Price <span class="text-danger">*</span></label>
                                     <input type="number" class="form-control" id="roomPrice" autocomplete="off"
                                            placeholder="Enter price" name="price" oninput="validateNumberInput(this)">
                                 </div>
                                 <div class="col-lg-4 mb-5">
-                                    <label for="roomCapacity" class="form-label"> Capacity *</label>
+                                    <label for="roomCapacity" class="form-label"> Capacity <span class="text-danger">*</span></label>
                                     <input type="number" class="form-control" id="roomCapacity" autocomplete="off"
                                            placeholder="Enter capacity" name="capacity">
                                 </div>
                                 <div class="col-lg-4 mb-5">
-                                    <label for="roomQuantity" class="form-label"> Room Quantity *</label>
+                                    <label for="roomQuantity" class="form-label"> Room Quantity <span class="text-danger">*</span></label>
                                     <input type="number" class="form-control" id="roomQuantity" autocomplete="off"
                                            placeholder="Enter quantity" name="quantity">
                                 </div>
                                 <div class="col-lg-4 mb-5">
-                                    <label for="roomStatusList" class="form-label">Status *</label>
+                                    <label for="roomStatusList" class="form-label">Status <span class="text-danger">*</span></label>
                                     <select class="form-select" id="roomStatusList">
                                         <option th:each="status : ${roomStatusList}" th:value="${status}"
                                                 th:text="${status.getName}"
@@ -159,7 +159,7 @@
                                 </div>
 
                                 <div class="col-lg-4 mb-5">
-                                    <label for="facilityList" class="form-label">Facility *</label>
+                                    <label for="facilityList" class="form-label">Facility <span class="text-danger">*</span></label>
                                     <select class="form-select facility-select" id="facilityList"
                                             data-selected-facility="">
                                         <option th:each="facility : ${facilityList}" th:value="${facility.getName}"
@@ -170,7 +170,7 @@
                                 </div>
 
                                 <div class="col-lg-8 mb-5">
-                                    <label for="roomDescription" class="form-label">Description</label>
+                                    <label for="roomDescription" class="form-label">Description <span class="text-danger">*</span></label>
                                     <textarea class="form-control" id="roomDescription" rows="4"
                                               placeholder="Enter description..." name="description"></textarea>
                                 </div>
@@ -190,7 +190,7 @@
                                     <div class="col-lg-4">
                                         <select class="form-control form-select bed-type" name="bedType"
                                                 data-selected-bed-type="">
-                                            <option value="" disabled selected>Chọn loại giường</option>
+                                            <option value="" disabled selected>Chọn loại giường <span class="text-danger">*</span></option>
                                             <option th:each="bedType : ${bedTypes}" th:value="${bedType}"
                                                     th:text="${bedType.getName}"
                                                     class="text-body" data-bed-type="${bedType}">BedType

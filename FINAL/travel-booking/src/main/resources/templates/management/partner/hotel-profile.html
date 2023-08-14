@@ -66,19 +66,24 @@
                 <div class="row">
                   <input type="file" hidden="hidden" id="avatar-input-hotel"/>
                   <div class="col-lg-6 mb-4">
-                    <label for="name" class="form-label"> Full Name *</label>
+                    <label for="name" class="form-label"> Full Name <span class="text-danger">*</span></label>
                     <input type="text" class="form-control" id="name" autocomplete="off"
                            placeholder name="name">
                   </div>
                   <div class="col-lg-6 mb-4">
-                    <label for="email" class="form-label">Email Address *</label>
+                    <label for="email" class="form-label">Email Address <span class="text-danger">*</span></label>
                     <input type="email" class="form-control" id="email" autocomplete="off"
                            placeholder name="email">
                   </div>
                   <div class="col-lg-6 mb-4">
-                    <label for="phone" class="form-label">Phone No. *</label>
+                    <label for="phone" class="form-label">Phone No. <span class="text-danger">*</span></label>
                     <input type="number" class="form-control" id="phone" autocomplete="off"
                            placeholder name="phone">
+                  </div>
+                  <div class="col-lg-8 mb-5">
+                    <label for="description" class="form-label">Description <span class="text-danger">*</span></label>
+                    <textarea class="form-control" id="description" rows="4"
+                              placeholder="Enter description..." name="description"></textarea>
                   </div>
 
                   <!--                                    <div class="col-lg-6 mb-3">-->
@@ -94,7 +99,7 @@
                     <h4 class="pt-5 pb-4">Location</h4>
                     <div class="row">
                       <div class="col-lg-6 mb-3">
-                        <label for="province" class="form-label"> Province *</label>
+                        <label for="province" class="form-label"> Province <span class="text-danger">*</span></label>
                         <select class="form-control select2" id="province" required>
                           <option value="" selected disabled>Choose province/city</option>
                           <option th:each="province : ${provinceList}"
@@ -104,19 +109,19 @@
                         </select>
                       </div>
                       <div class="col-lg-6 mb-3">
-                        <label for="district" class="form-label"> District *</label>
+                        <label for="district" class="form-label"> District <span class="text-danger">*</span></label>
                         <select class="form-control select2" id="district" required>
                           <option value="" selected disabled>Choose district</option>
                         </select>
                       </div>
                       <div class="col-lg-6 mb-3">
-                        <label for="ward" class="form-label"> Ward *</label>
+                        <label for="ward" class="form-label"> Ward <span class="text-danger">*</span></label>
                         <select class="form-control select2" id="ward" required>
                           <option value="" selected disabled>Choose ward</option>
                         </select>
                       </div>
                       <div class="col-lg-6 mb-3">
-                        <label for="street" class="form-label"> Street *</label>
+                        <label for="street" class="form-label"> Street <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" id="street" autocomplete="off"
                                placeholder="Enter street" name="street">
                       </div>
@@ -216,13 +221,13 @@
             url: `/get-wards?districtCode=${selectedDistrict}`,
             type: 'GET',
             success: function (data) {
-              // Xóa tất cả các option cũ trong thẻ District
+              // Xóa tất cả các option cũ trong thẻ Ward
               $('#ward').empty().append('<option value="" selected disabled>Choose ward</option>');
               // Thêm danh sách District mới vào thẻ District
               data.forEach(function (ward) {
                 $('#ward').append(`<option value="${ward.code}">${ward.name_en}</option>`);
               });
-              // Kích hoạt lại Select2 cho thẻ District
+              // Kích hoạt lại Select2 cho thẻ Ward
               $('#ward').prop('disabled', false).trigger('change');
             },
             error: function (xhr, status, error) {
@@ -239,6 +244,7 @@
       let emailInput = document.getElementById('email');
       let nameInput = document.getElementById('name');
       let phoneInput = document.getElementById('phone');
+      let descriptionInput = document.getElementById('description');
       let avatarInput = document.getElementById('avatar-hotel')
 
       var wardSelect = document.getElementById("ward");
@@ -264,7 +270,8 @@
               // Hiển thị thông tin khách sạn trong giao diện
               nameInput.value = response.name;
               phoneInput.value = response.phone;
-              // avatarInput.src = response.imageUrl;
+              descriptionInput.value = response.description;
+
               if (response.imageUrl !== null && response.imageUrl !== "") {
                 avatarInput.src = response.imageUrl;
               }
@@ -273,7 +280,8 @@
               $('#street').val(response.street).trigger('change');
 
               // Đặt giá trị cho trường select của quận/huyện
-              $('#district').val(response.district).trigger('change');
+              $('#district').val('001').trigger('change');
+              console.log(response.district)
 
               // Đặt giá trị cho trường select của quận/huyện
               $('#ward').val(response.ward).trigger('change');
@@ -301,6 +309,11 @@
             maxlength: 15,
             digits: true
           },
+          "description": {
+            required: true,
+            maxlength: 500,
+            minlength: 20
+          },
           "address": {
             required: true,
             maxlength: 500
@@ -319,6 +332,11 @@
             minlength: "Phone number must be at least 10 digits.",
             maxlength: "Phone number must not exceed 15 digits.",
             digits: "Please enter a valid phone number with digits only."
+          },
+          "description": {
+            required: "Please enter the room description.",
+            maxlength: "The room description must not exceed 500 characters.",
+            minlength: "Description must have at least 50 characters"
           },
           "address": {
             required: "Please enter the hotel address.",
@@ -370,6 +388,7 @@
           formData.append('phone', phoneInput.value);
           formData.append('address', address);
           formData.append('email', emailInput.value);
+          formData.append('description', descriptionInput.value);
           formData.append('province', province);
           formData.append('district', district);
           formData.append('ward', ward);
@@ -380,7 +399,7 @@
             url: '/api/v1/partner/hotel',
             data: formData,
             type: 'PUT',
-            contentType: false, // NEEDED, DON'T OMIT THIS (requires jQuery 1.6+)
+            contentType: false, // NEEDED, DON'T OMIT THIS
             processData: false, // NEEDED, DON'T OMIT THIS
             success: function (data) {
               toastr.success("Update thông tin khách sạn thành công")

@@ -9,6 +9,7 @@ import com.example.travelbooking.model.request.partner.CreateBedRequest;
 import com.example.travelbooking.model.request.partner.CreateRoomRequest;
 import com.example.travelbooking.model.request.partner.RoomSearchRequest;
 import com.example.travelbooking.model.request.partner.UpdateRoomRequest;
+import com.example.travelbooking.model.request.user.RoomSearchRequestByUser;
 import com.example.travelbooking.model.response.partner.CommonResponse;
 import com.example.travelbooking.model.response.partner.RoomResponse;
 import com.example.travelbooking.model.response.partner.RoomSearchResponse;
@@ -189,5 +190,30 @@ public class RoomService {
         } catch (Exception e) {
             throw new NotFoundException("Page index out of bound");
         }
+    }
+
+    public CommonResponse<?> searchRoomByUser(RoomSearchRequestByUser request) {
+        try {
+            List<Hotel> hotels = hotelRepository.findAll();
+
+            Integer pageIndex = request.getPageIndex();
+            Integer pageSize = request.getPageSize();
+
+            int pageNumber = (int) Math.ceil((float) hotels.size() / pageSize);
+
+            PaginationUtils<Hotel> paginationUtils = new PaginationUtils<>();
+            hotels = paginationUtils.searchData(hotels, pageIndex, pageSize);
+
+            return CommonResponse.builder()
+                    .pageNumber(pageNumber)
+                    .data(hotels)
+                    .build();
+        } catch (Exception e) {
+            throw new NotFoundException("Page index out of bound");
+        }
+    }
+
+    public List<Room> findByHotelId(Long hotelId) {
+        return roomRepository.findByHotelId(hotelId);
     }
 }

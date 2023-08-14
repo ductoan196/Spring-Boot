@@ -66,17 +66,17 @@
                                 <div class="row">
                                     <input type="file" hidden="hidden" id="avatar-input-account"/>
                                     <div class="col-lg-6 mb-4">
-                                        <label for="name" class="form-label"> Full Name *</label>
+                                        <label for="name" class="form-label"> Full Name <span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" id="name" autocomplete="off"
                                                placeholder name="name">
                                     </div>
                                     <div class="col-lg-6 mb-4">
-                                        <label for="email" class="form-label">Email Address *</label>
+                                        <label for="email" class="form-label">Email Address <span class="text-danger">*</span></label>
                                         <input type="email" class="form-control" id="email" autocomplete="off"
                                                placeholder name="email">
                                     </div>
                                     <div class="col-lg-4 mb-5">
-                                        <label for="genderList" class="form-label">Status *</label>
+                                        <label for="genderList" class="form-label">Gender <span class="text-danger">*</span></label>
                                         <select class="form-select" id="genderList" name="gender">
                                             <option value="" disabled selected>Choose gender</option>
                                             <option th:each="gender : ${genderList}" th:value="${gender}"

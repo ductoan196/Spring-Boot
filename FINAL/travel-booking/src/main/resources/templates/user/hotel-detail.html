@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/layout :: main-fragment(
+                                                ~{:: title},
+                                                'full-header',
+                                                ~{:: #css-resources},
+                                                ~{:: #js-resources},
+                                                ~{:: #main-content}
+                                               )}">
+
+<head>
+
+  <title>Hotel</title>
+
+  <th:block id="css-resources">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/component/css/bootstrap-select.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/component/css/line-awesome.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/component/css/owl.carousel.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/component/css/owl.theme.default.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/component/css/jquery.fancybox.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/component/css/daterangepicker.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/component/css/animate.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/component/css/animated-headline.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/component/css/jquery-ui.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/component/css/flag-icon.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/component/css/hotel-list.css}">
+
+    <style>
+      .icon-element{
+        margin-left: 0px;
+        margin-right: 8px;
+      }
+      h1, h2, h3, h4, h5, h6 {
+        font-family: "Roboto", sans-serif;
+      }
+    </style>
+<!--    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">-->
+  </th:block>
+</head>
+
+<body>
+<main id="main-content">
+  <div class="page-content">
+
+    <section class="breadcrumb-top-bar">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="breadcrumb-list breadcrumb-top-list">
+              <ul class="list-items bg-transparent radius-none p-0">
+                <li><a href="index.html">Home</a></li>
+                <li>Hotels</li>
+                <li th:text="${hotelInfo.name}">Hilton Hotel</li>
+              </ul>
+            </div>
+            <!-- end breadcrumb-list -->
+          </div>
+          <!-- end col-lg-12 -->
+        </div>
+        <!-- end row -->
+      </div>
+      <!-- end container -->
+    </section>
+
+    <section class="breadcrumb-area bread-bg-7 py-0" style="background-image: url(https://images.pexels.com/photos/189296/pexels-photo-189296.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1)">
+      <div class="breadcrumb-wrap">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="breadcrumb-btn">
+                <div class="btn-box">
+                  <a class="theme-btn" data-fancybox="video" data-src="https://www.youtube.com/watch?v=5u1WISBbo5I" data-speed="700">
+                    <i class="la la-video-camera mr-2"></i>Video
+                  </a>
+                  <a class="theme-btn" data-src="/assets/component/images/img1.jpg" data-fancybox="gallery" data-caption="Showing image - 01" data-speed="700">
+                    <i class="la la-photo mr-2"></i>More Photos
+                  </a>
+                </div>
+                <a class="d-none" data-fancybox="gallery" data-src="/assets/component/images/img2.jpg" data-caption="Showing image - 02" data-speed="700"></a>
+                <a class="d-none" data-fancybox="gallery" data-src="/assets/component/images/img3.jpg" data-caption="Showing image - 03" data-speed="700"></a>
+                <a class="d-none" data-fancybox="gallery" data-src="/assets/component/images/img4.jpg" data-caption="Showing image - 04" data-speed="700"></a>
+              </div>
+              <!-- end breadcrumb-btn -->
+            </div>
+            <!-- end col-lg-12 -->
+          </div>
+          <!-- end row -->
+        </div>
+        <!-- end container -->
+      </div>
+      <!-- end breadcrumb-wrap -->
+    </section>
+
+    <section class="tour-detail-area padding-bottom-90px">
+      <div class="single-content-navbar-wrap menu section-bg" id="single-content-navbar">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="single-content-nav" id="single-content-nav">
+                <ul>
+                  <li><a data-scroll="description" href="#description" class="scroll-link active">Hotel Details</a></li>
+                  <li><a data-scroll="amenities" href="#availability" class="scroll-link">Availability</a></li>
+                  <li><a data-scroll="reviews" href="#reviews" class="scroll-link">Reviews</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end single-content-navbar-wrap -->
+      <div class="single-content-box">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-9">
+              <div class="single-content-wrap padding-top-60px">
+                <div id="description" class="page-scroll">
+                  <!-- end single-content-item -->
+                  <div class="section-block"></div>
+                  <div class="single-content-item padding-top-40px padding-bottom-40px">
+                    <h3 class="title font-size-20" th:text="'About ' + ${hotelInfo.name}">About</h3>
+                    <p class="py-3" th:text="${hotelInfo.description}"></p>
+                  </div>
+                  <!-- end single-content-item -->
+                  <div class="section-block"></div>
+                </div>
+                <!-- end description -->
+                <div id="availability" class="page-scroll">
+                  <div class="single-content-item padding-top-40px padding-bottom-30px">
+                    <h3 class="title font-size-20">Availability</h3>
+                    <div class="contact-form-action padding-bottom-35px">
+                      <form method="post">
+                        <div class="row">
+                          <div class="col-lg-6 responsive-column mb-3">
+                            <div class="input-box">
+                              <label class="label-text">Check in - Check out</label>
+                              <div class="form-group">
+                                <span class="la la-calendar form-icon"></span>
+                                <input class="date-range form-control" type="text" name="daterange">
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-lg-6 responsive-column mb-3">
+                            <div class="input-box">
+                              <label class="label-text">Rooms</label>
+                              <div class="form-group">
+                                <div class="select-contain w-auto">
+                                  <select class="select-contain-select">
+                                    <option value="0">Select Rooms</option>
+                                    <option value="1">1 Room</option>
+                                    <option value="2">2 Rooms</option>
+                                    <option value="3">3 Rooms</option>
+                                  </select>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-lg-6 responsive-column mb-3">
+                            <div class="input-box">
+                              <label class="label-text">Adults (18+)</label>
+                              <div class="form-group">
+                                <div class="select-contain w-auto">
+                                  <select class="select-contain-select">
+                                    <option value="0">Select Adults</option>
+                                    <option value="1">1 Adults</option>
+                                    <option value="2">2 Adults</option>
+
+                                  </select>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-lg-6 responsive-column mb-3">
+                            <div class="input-box">
+                              <label class="label-text">Children (0-17)</label>
+                              <div class="form-group">
+                                <div class="select-contain w-auto">
+                                  <select class="select-contain-select">
+                                    <option value="0">Select Children</option>
+                                    <option value="1">1 Children</option>
+                                    <option value="2">2 Children</option>
+                                    <option value="3">3 Children</option>
+                                    <option value="4">4 Children</option>
+                                    <option value="5">5 Children</option>
+                                  </select>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-lg-12">
+                            <div class="btn-box">
+                              <button type="button" class="theme-btn">Search Now</button>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                    <h3 class="title font-size-20">Available Rooms</h3>
+                    <div class="cabin-type padding-top-30px" th:each="room: ${roomList}">
+                      <div class="cabin-type-item seat-selection-item d-flex">
+                        <div class="cabin-type-img flex-shrink-0">
+                          <img src="https://images.pexels.com/photos/2467285/pexels-photo-2467285.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Room Image">
+                        </div>
+                        <div class="cabin-type-detail">
+                          <h3 class="title" th:text="${room.name}">Standard Family Room</h3>
+                          <div class="row padding-top-20px">
+                            <div class="col-lg-6 responsive-column">
+                              <div class="single-tour-feature d-flex align-items-center mb-3">
+                                <div class="single-feature-icon icon-element ml-0 flex-shrink-0 mr-2">
+                                  <i class="la la-wifi"></i>
+                                </div>
+                                <div class="single-feature-titles">
+                                  <h3 class="title font-size-15 font-weight-medium">Free Wi-Fi</h3>
+                                </div>
+                              </div>
+                            </div>
+                            <!-- end col-lg-6 -->
+                            <div class="col-lg-6 responsive-column">
+                              <div class="single-tour-feature d-flex align-items-center mb-3">
+                                <div class="single-feature-icon icon-element ml-0 flex-shrink-0 mr-2">
+                                  <i class="la la-bed"></i>
+                                </div>
+                                <div class="single-feature-titles">
+                                  <h3 class="title font-size-15 font-weight-medium">2 Single beds and 1 King beds</h3>
+                                </div>
+                              </div>
+                            </div>
+                            <!-- end col-lg-6 -->
+                            <div class="col-lg-6 responsive-column">
+                              <div class="single-tour-feature d-flex align-items-center mb-3">
+                                <div class="single-feature-icon icon-element ml-0 flex-shrink-0 mr-2">
+                                  <i class="la la-building"></i>
+                                </div>
+                                <div class="single-feature-titles">
+                                  <h3 class="title font-size-15 font-weight-medium" th:text="'Capacity: '+ ${room.capacity}">15 m²</h3>
+                                </div>
+                              </div>
+                            </div>
+                            <!-- end col-lg-6 -->
+                            <div class="col-lg-6 responsive-column">
+                              <div class="single-tour-feature d-flex align-items-center mb-3">
+                                <div class="single-feature-icon icon-element ml-0 flex-shrink-0 mr-2">
+                                  <i class="la la-hotel"></i>
+                                </div>
+                                <div class="single-feature-titles">
+                                  <h3 class="title font-size-15 font-weight-medium">Shower and bathtub</h3>
+                                </div>
+                              </div>
+                            </div>
+                            <!-- end col-lg-6 -->
+                          </div>
+                          <!-- end row -->
+                          <div class="room-photos">
+                            <a class="btn theme-btn-hover-gray" data-src="/assets/component/images/img1.jpg" data-fancybox="gallery" data-caption="Showing image - 01" data-speed="700">
+                              <i class="la la-photo mr-2"></i>Room Photos
+                            </a>
+                            <a class="d-none" data-fancybox="gallery" data-src="/assets/component/images/img2.jpg" data-caption="Showing image - 02" data-speed="700"></a>
+                            <a class="d-none" data-fancybox="gallery" data-src="/assets/component/images/img3.jpg" data-caption="Showing image - 03" data-speed="700"></a>
+                            <a class="d-none" data-fancybox="gallery" data-src="/assets/component/images/img4.jpg" data-caption="Showing image - 04" data-speed="700"></a>
+                          </div>
+                        </div>
+                        <div class="cabin-price">
+                          <p class="text-uppercase font-size-14">Per/night
+                            <strong class="mt-n1 text-black font-size-18 font-weight-black d-block"
+                                    th:text="'VNĐ ' + ${room.price}">121</strong>
+
+                          <div class="custom-checkbox mb-0">
+                            <a for="selectChb1" class="theme-btn theme-btn-small">Book now!</a>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- end cabin-type-item -->
+                    </div>
+                  </div>
+                  <!-- end single-content-item -->
+                  <div class="section-block"></div>
+                </div>
+                <!-- end location-map -->
+                <div id="amenities" class="page-scroll">
+                  <div class="single-content-item padding-top-40px padding-bottom-20px">
+                    <h3 class="title font-size-20">Amenities</h3>
+                    <div class="amenities-feature-item pt-4">
+
+                    </div>
+                  </div>
+                  <!-- end single-content-item -->
+                  <div class="section-block"></div>
+                </div>
+                <!-- end faq -->
+
+              </div>
+              <!-- end single-content-wrap -->
+            </div>
+          </div>
+          <!-- end row -->
+        </div>
+        <!-- end container -->
+      </div>
+      <!-- end single-content-box -->
+    </section>
+    <!-- start back-to-top -->
+    <div id="back-to-top">
+      <i class="la la-angle-up" title="Go top"></i>
+    </div>
+
+    <div class="section-block"></div>
+  </div>
+</main>
+
+<!-- Template JS Files -->
+<th:block id="js-resources">
+  <script th:src="@{/assets/component/js/jquery-ui.js}"></script>
+  <script th:src="@{/assets/component/js/popper.min.js}"></script>
+  <script th:src="@{/assets/component/js/bootstrap.min.js}"></script>
+  <script th:src="@{/assets/component/js/bootstrap-select.min.js}"></script>
+  <script th:src="@{/assets/component/js/moment.min.js}"></script>
+  <script th:src="@{/assets/component/js/daterangepicker.js}"></script>
+  <script th:src="@{/assets/component/js/owl.carousel.min.js}"></script>
+  <script th:src="@{/assets/component/js/jquery.fancybox.min.js}"></script>
+  <script th:src="@{/assets/component/js/jquery.countTo.min.js}"></script>
+  <script th:src="@{/assets/component/js/animated-headline.js}"></script>
+  <script th:src="@{/assets/component/js/jquery.ripples-min.js}"></script>
+  <script th:src="@{/assets/component/js/quantity-input.js}"></script>
+  <script th:src="@{/assets/component/js/main.js}"></script>
+</th:block>
+</body>
+
+</html>

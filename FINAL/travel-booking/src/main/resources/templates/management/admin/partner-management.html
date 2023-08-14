@@ -153,74 +153,25 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
         $(document).ready(function () {
-            $('#confirmDelete').on('show.bs.modal', function (event) {
-                const button = $(event.relatedTarget); // Nút mở modal
-                const roomId = button.siblings('#roomId').val(); // Lấy giá trị roomId từ ô input ẩn có id là 'roomId'
-                $(this).find('#confirmDeleteBtn').attr('data-roomId', roomId); // Cập nhật giá trị roomId vào nút xác nhận
-            });
-
-            $('#confirmDeleteBtn').click(function () {
-                const roomId = $(this).attr('data-roomId');
-                $.ajax({
-                    url: '/api/v1/partner/rooms/' + roomId,
-                    type: 'DELETE',
-                    success: function (response) {
-                        // Xử lý kết quả trả về từ API nếu cần
-                        console.log('ok');
-                        window.location.reload();
-                        toastr.success('Đã xóa phòng thành công.');
-
-                    },
-                    error: function (xhr, status, error) {
-                        // Xử lý lỗi (nếu có)
-                        console.error(error);
-                        toastr.error('Đã xảy ra lỗi khi xóa phòng.');
-                    }
-                });
-            });
 
             //Lấy lại thông tin hotel
             let userInfo = JSON.parse(localStorage.getItem("userInfo"))
-            getHotelByEmail();
 
-            function getHotelByEmail() {
-                const jwt = localStorage.getItem('jwt');
-                let emailHotel = userInfo.email
-                let hotelId = null;
-                if (jwt) {
-                    $.ajax({
-                        url: `/api/v1/partner/hotel?email=${encodeURIComponent(emailHotel)}`,
-                        type: 'GET',
-                        headers: {
-                            'Authorization': 'Bearer ' + jwt
-                        },
-                        success: function (response) {
-                            // Xử lý dữ liệu khách sạn nhận được từ response
-                            console.log(response);
-                            hotelId = response.id;
-                        },
-                        error: function (xhr, status, error) {
-                            console.error(error);
-                        }
-                    });
-                }
-            }
-
-            $('#search-room-btn').on("click", function (event) {
+            $('#search-hotel-btn').on("click", function (event) {
                 event.preventDefault();
-                let url = `/partner/room-management`
+                let url = `/admin/partner-management`
                 const name = $('#searchName').val();
-                const capacity = $('#searchCapacity').val();
-                const id = $('#searchId').val();
+                const email = $('#searchEmail').val();
+                const address = $('#searchAddress').val();
 
                 if (name !== '') {
                     url += `?name=${name}`;
                 }
-                if (capacity !== '') {
-                    url += `${name ? '&' : '?'}capacity=${capacity}`
+                if (email !== '') {
+                    url += `${name ? '&' : '?'}email=${email}`
                 }
-                if (id !== '') {
-                    url += `${name || capacity ? '&' : '?'}id=${id}`
+                if (address !== '') {
+                    url += `${name || email ? '&' : '?'}address=${address}`
                 }
 
                 window.location.href = url;
@@ -232,18 +183,17 @@
                 // Giữ lại giá trị tìm kiếm trên thanh search khi trang tải lần đầu
                 const params = new URLSearchParams(window.location.search);
                 const nameParam = params.get('name');
-                const capacityParam = params.get('capacity');
-                const idParam = params.get('id')
+                const emailParam = params.get('email');
+                const addressParam = params.get('address')
 
                 if (nameParam) {
                     $('#searchName').val(nameParam);
                 }
-
-                if (capacityParam) {
-                    $('#searchCapacity').val(capacityParam);
+                if (emailParam) {
+                    $('#searchEmail').val(emailParam);
                 }
-                if (idParam) {
-                    $('#searchId').val(idParam);
+                if (addressParam) {
+                    $('#searchAddress').val(addressParam);
                 }
             }
         });
