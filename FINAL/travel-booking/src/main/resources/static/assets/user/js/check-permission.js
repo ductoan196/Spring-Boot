@@ -9,7 +9,7 @@ window.onload = function () {
 
         if (isLoginRequiredPage) {
             toastr.success('Vui lòng đăng nhập tài khoản');
-            window.location.href = "http://localhost:8080/home";
+            window.location.href = "http://localhost:8080";
         }
     } else {
         // Đã đăng nhập, kiểm tra quyền truy cập

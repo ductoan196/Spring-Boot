@@ -10,6 +10,7 @@ import com.example.travelbooking.entity.location.Ward;
 import com.example.travelbooking.exception.NotFoundException;
 import com.example.travelbooking.model.request.partner.BookingSearchRequestByPartner;
 import com.example.travelbooking.model.request.partner.RoomSearchRequest;
+import com.example.travelbooking.model.request.partner.UpdateBookingStatusRequest;
 import com.example.travelbooking.model.response.partner.CommonResponse;
 import com.example.travelbooking.model.response.user.BookingResponse;
 import com.example.travelbooking.repository.*;
@@ -28,10 +29,7 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -126,5 +124,7 @@ public class PartnerController {
         model.addAttribute("currentPage", request.getPageIndex());
         return "management/partner/booking-management";
     }
+
+
 
 }

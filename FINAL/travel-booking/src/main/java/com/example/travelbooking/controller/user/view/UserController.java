@@ -65,6 +65,8 @@ public class UserController {
         return "user/hotel-detail";
     }
 
+
+
     @GetMapping("/bookings/checkout")
     public String checkout() {
         return "/user/checkout";

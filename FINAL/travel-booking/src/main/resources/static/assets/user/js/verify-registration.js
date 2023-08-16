@@ -22,7 +22,7 @@
 //
 //         // Chuyển hướng về trang chủ sau 2 giây
 //         setTimeout(function() {
-//             window.location.href = "http://localhost:8080/home";
+//             window.location.href = "http://localhost:8080";
 //         }, 2000);
 //     }
 //

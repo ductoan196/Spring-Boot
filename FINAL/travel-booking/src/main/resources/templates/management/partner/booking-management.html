@@ -21,6 +21,30 @@
                 pointer-events: none;
                 cursor: not-allowed;
             }
+            table .status-box {
+                display: inline-block;
+                padding: 3px 6px; /* Điều chỉnh khoảng cách xung quanh chữ */
+                border-radius: 4px;
+                font-weight: bold;
+                text-align: center; /* Căn chỉnh văn bản trong hộp */
+                position: relative; /* Để làm việc với các phần tử con bên trong */
+            }
+
+
+            /* Các class tương ứng với trạng thái */
+            .pending-box {
+                background-color: yellow;
+            }
+
+            .confirm-box {
+                background-color: green;
+                color: white;
+            }
+
+            .cancel-box {
+                background-color: red;
+                color: white;
+            }
         </style>
     </th:block>
 </head>
@@ -32,10 +56,8 @@
         <nav class="page-breadcrumb d-flex align-items-center justify-content-between">
             <ol class="breadcrumb mb-0">
                 <li class="breadcrumb-item"><a href="/partner/dashboard-partner">Dashboard</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Room Management</li>
+                <li class="breadcrumb-item active" aria-current="page">Booking Management</li>
             </ol>
-            <a href="/partner/add-room" class="btn btn-primary"><i class="link-icon" data-feather="plus"></i> Add
-                room</a>
         </nav>
         <div class="search-box p-4 bg-white rounded mb-3 box-shadow">
             <div class="col-lg-3 pb-4">
@@ -47,10 +69,10 @@
                         <input type="text" placeholder="Search by ID" class="form-control" id="searchId">
                     </div>
                     <div class="col-lg-4 col-md-4">
-                        <input type="text" placeholder="Search by room name" class="form-control" id="searchCustomerName">
+                        <input type="text" placeholder="Search by customer name" class="form-control" id="searchCustomerName">
                     </div>
                     <div class="col-lg-4 col-md-4">
-                        <input type="text" placeholder="Search by capacity" class="form-control" id="searchCustomerPhone">
+                        <input type="text" placeholder="Search by customer phone" class="form-control" id="searchCustomerPhone">
                     </div>
                 </div>
             </form>
@@ -70,16 +92,16 @@
                                 <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Cus. Name</th>
-                                    <th>Cus. Phone</th>
+                                    <th>Name</th>
+                                    <th>Phone</th>
                                     <th>Room</th>
-                                    <th>Quantity</th>
+                                    <th>Qty</th>
                                     <th>Check in</th>
                                     <th>Check out</th>
                                     <th>Booking Date</th>
                                     <th>Total Amount</th>
                                     <th>Status</th>
-                                    <th>Action</th>
+                                    <th class="text-center">Action</th>
                                 </tr>
                                 </thead>
 
@@ -92,36 +114,28 @@
                                     <td th:text="${booking.roomNums}"/>
                                     <td th:text="${booking.startDate}"/>
                                     <td th:text="${booking.endDate}"/>
-                                    <td th:text="${booking.bookingDate}"/>
+                                    <td th:text="${booking.createdDateTime}"/>
                                     <td th:text="${booking.totalAmount}"/>
-                                    <td th:text="${booking.status}"/>
-<!--                                    <td>-->
-<!--                                        <script th:inline="javascript">-->
-<!--                                            const price = [[${room.price}]];-->
-<!--                                            const formattedPrice = new Intl.NumberFormat('vi-VN').format(price);-->
-<!--                                            document.write(formattedPrice);-->
-<!--                                        </script>-->
-<!--                                    </td>-->
+                                    <td class="text-center">
+                                        <div th:class="${booking.status.name == 'Pending' ? 'status-box pending-box' : (booking.status.name == 'Confirmed' ? 'status-box confirm-box' : 'status-box cancel-box')}">
+                                            <span class="status-text" th:text="${booking.status.name}"></span>
+                                        </div>
+                                    </td>
                                     <td class="text-center">
                                         <ul class="d-flex list-unstyled mb-0 justify-content-center">
-                                            <li class="me-2">
-                                                <a href="#" data-bs-toggle="modal" data-bs-target="#viewRoom">
-                                                    <i class="link-icon" data-feather="eye"></i>
-                                                </a>
-                                            </li>
-                                            <li class="me-2">
-                                                <a th:href="@{'/partner/rooms/' + ${booking.id}}"
-                                                   target="_blank">
-                                                    <i class="link-icon" data-feather="edit"></i>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <input type="hidden" id="roomId" th:value="${booking.id}">
-                                                <a href="#" id="delete-room-btn" data-bs-toggle="modal"
-                                                   data-bs-target="#confirmDelete">
-                                                    <i class="link-icon" data-feather="delete"></i>
-                                                </a>
-                                            </li>
+                                            <a href="#" class="btn btn-primary px-1 py-1 confirm-booking-btn me-2"
+                                               th:attr="data-booking-id=${booking.id}"
+                                               th:if="${booking.status.name == 'Pending'}"
+                                               value="CONFIRMED">
+                                                <i class="link-icon" data-feather="check"></i> Confirm
+                                            </a>
+
+                                            <a class="btn btn-danger px-1 py-1 cancel-booking-btn"
+                                               th:attr="data-booking-id=${booking.id}"
+                                               th:unless="${booking.status.name == 'Cancelled'}"
+                                               th:value="CANCELLED">
+                                                <i class="link-icon" data-feather="x"></i> Cancel
+                                            </a>
                                         </ul>
                                     </td>
                                 </tr>
@@ -134,7 +148,7 @@
             </div>
         </div>
 
-        //PAGINATION
+<!--        PAGINATION-->
         <div aria-label="Page navigation" class="d-flex justify-content-center">
             <ul class="pagination">
                 <!-- Previous button -->
@@ -161,31 +175,28 @@
 
     </div>
 
-    <!-- view MODAL -->
-    <div th:replace="~{fragments/view_room:: view-room-modal}"></div>
 </main>
 
 <th:block id="js-resources">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script th:inline="javascript">
 
-    <script>
-        $(document).ready(function () {
-            $('#confirmDelete').on('show.bs.modal', function (event) {
-                const button = $(event.relatedTarget); // Nút mở modal
-                const roomId = button.siblings('#roomId').val(); // Lấy giá trị roomId từ ô input ẩn có id là 'roomId'
-                $(this).find('#confirmDeleteBtn').attr('data-roomId', roomId); // Cập nhật giá trị roomId vào nút xác nhận
-            });
+            $(document).ready(function () {
+            $('.confirm-booking-btn, .cancel-booking-btn').click(function () {
+                const newStatus = $(this).attr("value")
+                const bookingId = $(this).data("booking-id");
 
-            $('#confirmDeleteBtn').click(function () {
-                const roomId = $(this).attr('data-roomId');
                 $.ajax({
-                    url: '/api/v1/partner/rooms/' + roomId,
-                    type: 'DELETE',
+                    url: '/api/v1/partner/bookings/' + bookingId,
+                    type: 'PUT',
+                    data: JSON.stringify({ status: newStatus }),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
                     success: function (response) {
                         // Xử lý kết quả trả về từ API nếu cần
                         console.log('ok');
                         window.location.reload();
-                        toastr.success('Đã xóa phòng thành công.');
+                        toastr.success('Đã update thành công.');
 
                     },
                     error: function (xhr, status, error) {
@@ -194,75 +205,9 @@
                         toastr.error('Đã xảy ra lỗi khi xóa phòng.');
                     }
                 });
-            });
 
-            //Lấy lại thông tin hotel
-            let userInfo = JSON.parse(localStorage.getItem("userInfo"))
-            getHotelByEmail();
-
-            function getHotelByEmail() {
-                const jwt = localStorage.getItem('jwt');
-                let emailHotel = userInfo.email
-                let hotelId = null;
-                if (jwt) {
-                    $.ajax({
-                        url: `/api/v1/partner/hotel?email=${encodeURIComponent(emailHotel)}`,
-                        type: 'GET',
-                        headers: {
-                            'Authorization': 'Bearer ' + jwt
-                        },
-                        success: function (response) {
-                            // Xử lý dữ liệu khách sạn nhận được từ response
-                            console.log(response);
-                            hotelId = response.id;
-                        },
-                        error: function (xhr, status, error) {
-                            console.error(error);
-                        }
-                    });
-                }
-            }
-
-            $('#search-room-btn').on("click", function (event) {
-                event.preventDefault();
-                let url = `/partner/room-management`
-                const name = $('#searchName').val();
-                const capacity = $('#searchCapacity').val();
-                const id = $('#searchId').val();
-
-                if (name !== '') {
-                    url += `?name=${name}`;
-                }
-                if (capacity !== '') {
-                    url += `${name ? '&' : '?'}capacity=${capacity}`
-                }
-                if (id !== '') {
-                    url += `${name || capacity ? '&' : '?'}id=${id}`
-                }
-
-                window.location.href = url;
 
             });
-            keepValue();
-
-            function keepValue() {
-                // Giữ lại giá trị tìm kiếm trên thanh search khi trang tải lần đầu
-                const params = new URLSearchParams(window.location.search);
-                const nameParam = params.get('name');
-                const capacityParam = params.get('capacity');
-                const idParam = params.get('id')
-
-                if (nameParam) {
-                    $('#searchName').val(nameParam);
-                }
-
-                if (capacityParam) {
-                    $('#searchCapacity').val(capacityParam);
-                }
-                if (idParam) {
-                    $('#searchId').val(idParam);
-                }
-            }
         });
     </script>
 </th:block>

@@ -216,4 +216,10 @@ public class RoomService {
     public List<Room> findByHotelId(Long hotelId) {
         return roomRepository.findByHotelId(hotelId);
     }
+
+    public RoomResponse getRoomById(Long id) {
+        Room room = roomRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Không tìm thấy room trong danh sách"));
+        return convertToRoomResponse(room);
+    }
 }

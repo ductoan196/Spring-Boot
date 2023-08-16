@@ -63,7 +63,7 @@ btnLogin.addEventListener('click', function () {
 
                 setTimeout(function() {
                     if (response.roles.includes("USER")) {
-                        window.location.href = `http://localhost:8080/home`;
+                        window.location.href = `http://localhost:8080`;
                     } else if (response.roles.includes("PARTNER")) {
                         window.location.href = `http://localhost:8080/partner/dashboard-partner`;
                     } else if (response.roles.includes("ADMIN")) {

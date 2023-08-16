@@ -4,6 +4,7 @@ import com.example.travelbooking.entity.*;
 import com.example.travelbooking.exception.NotFoundException;
 import com.example.travelbooking.model.request.partner.BookingSearchRequestByPartner;
 import com.example.travelbooking.model.request.partner.RoomSearchRequest;
+import com.example.travelbooking.model.request.partner.UpdateBookingStatusRequest;
 import com.example.travelbooking.model.request.user.CreateBookingRequest;
 import com.example.travelbooking.model.response.partner.CommonResponse;
 import com.example.travelbooking.model.response.partner.RoomSearchResponse;
@@ -104,4 +105,12 @@ public class BookingService {
         }
     }
 
+    public BookingResponse updateBookingStatus(Long bookingId, UpdateBookingStatusRequest request) {
+        Booking booking = bookingRepository.findById(bookingId)
+                .orElseThrow(() -> new NotFoundException("Không tìm thấy booking trong hệ thống"));
+        booking.setStatus(request.getStatus());
+
+        bookingRepository.save(booking);
+        return convertBookingToBookingResponse(booking);
+    }
 }

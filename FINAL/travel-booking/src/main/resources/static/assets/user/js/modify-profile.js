@@ -15,7 +15,7 @@ function logout() {
             localStorage.removeItem('jwt');
             localStorage.removeItem('userInfo');
             localStorage.removeItem('refreshToken');
-            window.location.href = `http://localhost:8080/home`;
+            window.location.href = `http://localhost:8080`;
         },
         error: function (error) {
             console.log('Đăng xuất thất bại', error);

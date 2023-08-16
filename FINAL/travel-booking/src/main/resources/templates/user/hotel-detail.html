@@ -13,7 +13,7 @@
   <title>Hotel</title>
 
   <th:block id="css-resources">
-    <link rel="stylesheet" type="text/css" th:href="@{/assets/component/css/bootstrap-select.min.css}">
+
     <link rel="stylesheet" type="text/css" th:href="@{/assets/component/css/line-awesome.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/assets/component/css/owl.carousel.min.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/assets/component/css/owl.theme.default.min.css}">
@@ -141,46 +141,13 @@
                           </div>
                           <div class="col-lg-6 responsive-column mb-3">
                             <div class="input-box">
-                              <label class="label-text">Rooms</label>
+                              <label class="label-text">Guests</label>
                               <div class="form-group">
-                                <div class="select-contain w-auto">
-                                  <select class="select-contain-select">
-                                    <option value="0">Select Rooms</option>
-                                    <option value="1">1 Room</option>
-                                    <option value="2">2 Rooms</option>
-                                    <option value="3">3 Rooms</option>
-                                  </select>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="col-lg-6 responsive-column mb-3">
-                            <div class="input-box">
-                              <label class="label-text">Adults (18+)</label>
-                              <div class="form-group">
-                                <div class="select-contain w-auto">
-                                  <select class="select-contain-select">
-                                    <option value="0">Select Adults</option>
+                                <div class="select-contain w-auto" style="height: 49.6px;">
+                                  <select id="guest-number">
+                                    <option value="0" selected disabled>Select Adults</option>
                                     <option value="1">1 Adults</option>
                                     <option value="2">2 Adults</option>
-
-                                  </select>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="col-lg-6 responsive-column mb-3">
-                            <div class="input-box">
-                              <label class="label-text">Children (0-17)</label>
-                              <div class="form-group">
-                                <div class="select-contain w-auto">
-                                  <select class="select-contain-select">
-                                    <option value="0">Select Children</option>
-                                    <option value="1">1 Children</option>
-                                    <option value="2">2 Children</option>
-                                    <option value="3">3 Children</option>
-                                    <option value="4">4 Children</option>
-                                    <option value="5">5 Children</option>
                                   </select>
                                 </div>
                               </div>
@@ -188,7 +155,7 @@
                           </div>
                           <div class="col-lg-12">
                             <div class="btn-box">
-                              <button type="button" class="theme-btn">Search Now</button>
+                              <button type="button" class="theme-btn search-availability">Search Now</button>
                             </div>
                           </div>
                         </div>
@@ -259,14 +226,23 @@
                           </div>
                         </div>
                         <div class="cabin-price">
+                          <input type="hidden" class="room-id" th:value="${room.id}" />
+
                           <p class="text-uppercase font-size-14">Per/night
-                            <strong class="mt-n1 text-black font-size-18 font-weight-black d-block"
-                                    th:text="'VNĐ ' + ${room.price}">121</strong>
+                            <strong class="mt-n1 text-black font-size-18 font-weight-black d-block">
+                              [[${#numbers.formatDecimal(room.price, 0, 'COMMA', 0, 'POINT') }]] VNĐ
+                            </strong>
+                          <div class="cabin-price" style="display: none;">
+                            <span class="room-price" th:text="${room.price}"></span>
+                          </div>
+                          </p>
+
 
                           <div class="custom-checkbox mb-0">
-                            <a for="selectChb1" class="theme-btn theme-btn-small">Book now!</a>
+                            <a class="theme-btn theme-btn-small bookNow" href="/bookings/checkout">Book now!</a>
                           </div>
                         </div>
+
                       </div>
                       <!-- end cabin-type-item -->
                     </div>
@@ -304,22 +280,43 @@
 
     <div class="section-block"></div>
   </div>
+
 </main>
 
 <!-- Template JS Files -->
+
 <th:block id="js-resources">
+  <script>
+    $(document).ready(function () {
+      const dateRange = $('.date-range').val();
+
+      // Xử lý dateRange để lấy ngày check-in và check-out
+      const [checkin, checkout] = dateRange.split(' - ');
+      $('.bookNow').click(function (event) {
+        event.preventDefault();
+        const $roomInfo = $(this).closest('.cabin-price');
+        const roomId = $roomInfo.find('.room-id').val();
+        console.log(roomId);
+
+        const guests = $('#guest-number').val();
+        const roomPrice = $(this).parent().find('.room-price').text();
+        // let encodedCheckInDate = btoa(checkIn);
+        // let encodedCheckOutDate = btoa(checkOut);
+        let url = "/bookings/checkout?roomId=" + roomId + "&checkin=" + checkin + "&checkout=" + checkout + "&guests=" + guests;
+
+        // Chuyển hướng đến URL mới
+        window.location.href = url;
+      });
+
+      $('.search-availability').click(function () {
+
+      });
+
+    });
+  </script>
   <script th:src="@{/assets/component/js/jquery-ui.js}"></script>
-  <script th:src="@{/assets/component/js/popper.min.js}"></script>
-  <script th:src="@{/assets/component/js/bootstrap.min.js}"></script>
-  <script th:src="@{/assets/component/js/bootstrap-select.min.js}"></script>
-  <script th:src="@{/assets/component/js/moment.min.js}"></script>
   <script th:src="@{/assets/component/js/daterangepicker.js}"></script>
-  <script th:src="@{/assets/component/js/owl.carousel.min.js}"></script>
   <script th:src="@{/assets/component/js/jquery.fancybox.min.js}"></script>
-  <script th:src="@{/assets/component/js/jquery.countTo.min.js}"></script>
-  <script th:src="@{/assets/component/js/animated-headline.js}"></script>
-  <script th:src="@{/assets/component/js/jquery.ripples-min.js}"></script>
-  <script th:src="@{/assets/component/js/quantity-input.js}"></script>
   <script th:src="@{/assets/component/js/main.js}"></script>
 </th:block>
 </body>

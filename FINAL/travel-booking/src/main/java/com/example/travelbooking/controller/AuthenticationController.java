@@ -176,7 +176,7 @@ public class AuthenticationController {
             return modelAndView;
         }
         catch (OTPNotFoundException e){
-            return new ModelAndView("/home");
+            return new ModelAndView("/");
         }
 
     }
