@@ -222,6 +222,7 @@
 </main>
 
 <th:block id="js-resources">
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 
@@ -230,15 +231,46 @@
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     //Hiển thị phần hình ảnh khi upload
-    <script>
+    <script th:inline="javascript">
+        const imageUrls = [[${room.imageUrls}]];
+        console.log(imageUrls);
+        const previewContainer = document.getElementById('previewContainer');
+
+        // Function để hiển thị hình ảnh đã có
+        function displaySavedImages() {
+            previewContainer.innerHTML = '';
+
+            imageUrls.forEach(imageUrl => {
+                const imagePreviewContainer = document.createElement('div');
+                imagePreviewContainer.classList.add('preview-image-container');
+                const imagePreview = document.createElement('img');
+                imagePreview.classList.add('preview-image');
+                imagePreview.src = imageUrl;
+                imagePreviewContainer.appendChild(imagePreview);
+
+                // Thêm nút xóa hình ảnh
+                const deleteButton = document.createElement('span');
+                deleteButton.classList.add('delete-button');
+                deleteButton.innerText = 'X';
+                deleteButton.addEventListener('click', () => {
+                    // Handle xóa hình ảnh ở đây
+                    imagePreviewContainer.remove();
+                });
+                imagePreviewContainer.appendChild(deleteButton);
+
+                previewContainer.appendChild(imagePreviewContainer);
+            });
+        }
+
+        // Gọi hàm hiển thị hình ảnh đã có khi trang tải
+        displaySavedImages();
+
         const uploadBox = document.getElementById('uploadBox');
         const fileInput = document.getElementById('roomImages');
-        const previewContainer = document.getElementById('previewContainer');
 
         uploadBox.addEventListener('click', () => {
             fileInput.click();
         });
-
         fileInput.addEventListener('change', handleImagePreview);
 
         function handleImagePreview(event) {
@@ -282,6 +314,7 @@
         }
     </script>
 
+    //Xử lý các tác vụ khác
     <script>
         $(document).ready(function () {
             // Áp dụng Select2 cho phần tử <select>

@@ -12852,3 +12852,9 @@ body {
 .input-row.error small {
     visibility: visible;
 }
+
+.custom-error-message {
+    color: red;
+    font-size: 12px;
+    /* Các thuộc tính CSS khác tùy chỉnh hiển thị */
+}

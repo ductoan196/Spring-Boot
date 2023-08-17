@@ -22,6 +22,14 @@
         <link rel="stylesheet" type="text/css" th:href="@{/assets/component/css/animated-headline.css}">
         <link rel="stylesheet" type="text/css" th:href="@{/assets/component/css/flag-icon.min.css}">
         <link rel="stylesheet" type="text/css" th:href="@{/assets/component/css/hotel-list.css}">
+
+        <style>
+            .card-item .card-img img {
+                width: 100%;
+                height: 200px; !important;
+                object-fit: cover; /* Đảm bảo ảnh không bị bóp méo và lấp đầy khung */
+            }
+        </style>
     </th:block>
 </head>
 
@@ -114,33 +122,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- end sidebar-widget -->
-                            <div class="sidebar-widget">
-                                <h3 class="title stroke-shape">Review Score</h3>
-                                <div class="sidebar-category">
-                                    <div class="custom-checkbox">
-                                        <input type="checkbox" id="r6">
-                                        <label for="r6">Excellent</label>
-                                    </div>
-                                    <div class="custom-checkbox">
-                                        <input type="checkbox" id="r7">
-                                        <label for="r7">Very Good</label>
-                                    </div>
-                                    <div class="custom-checkbox">
-                                        <input type="checkbox" id="r8">
-                                        <label for="r8">Average</label>
-                                    </div>
-                                    <div class="custom-checkbox">
-                                        <input type="checkbox" id="r9">
-                                        <label for="r9">Poor</label>
-                                    </div>
-                                    <div class="custom-checkbox">
-                                        <input type="checkbox" id="r10">
-                                        <label for="r10">Terrible</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- end sidebar-widget -->
+
                             <div class="sidebar-widget">
                                 <h3 class="title stroke-shape">Filter by Rating</h3>
                                 <div class="sidebar-review">
@@ -271,79 +253,7 @@
                                     </a>
                                 </div>
                             </div>
-                            <!-- end sidebar-widget -->
-                            <div class="sidebar-widget">
-                                <h3 class="title stroke-shape">Hotel Theme</h3>
-                                <div class="sidebar-category">
-                                    <div class="custom-checkbox">
-                                        <input type="checkbox" id="ht1">
-                                        <label for="ht1">Best value</label>
-                                    </div>
-                                    <div class="custom-checkbox">
-                                        <input type="checkbox" id="ht2">
-                                        <label for="ht2">Boutique</label>
-                                    </div>
-                                    <div class="custom-checkbox">
-                                        <input type="checkbox" id="ht3">
-                                        <label for="ht3">Budget</label>
-                                    </div>
-                                    <div class="custom-checkbox">
-                                        <input type="checkbox" id="ht4">
-                                        <label for="ht4">Business</label>
-                                    </div>
-                                    <div class="custom-checkbox">
-                                        <input type="checkbox" id="ht5">
-                                        <label for="ht5">Charming</label>
-                                    </div>
-                                    <div class="custom-checkbox">
-                                        <input type="checkbox" id="ht6">
-                                        <label for="ht6">Classic</label>
-                                    </div>
-                                    <div class="collapse" id="hotelThemeMenu">
-                                        <div class="custom-checkbox">
-                                            <input type="checkbox" id="ht7">
-                                            <label for="ht7">Green</label>
-                                        </div>
-                                        <div class="custom-checkbox">
-                                            <input type="checkbox" id="ht8">
-                                            <label for="ht8">Luxury</label>
-                                        </div>
-                                        <div class="custom-checkbox">
-                                            <input type="checkbox" id="ht9">
-                                            <label for="ht9">Mid-range</label>
-                                        </div>
-                                        <div class="custom-checkbox">
-                                            <input type="checkbox" id="ht10">
-                                            <label for="ht10">Party</label>
-                                        </div>
-                                        <div class="custom-checkbox">
-                                            <input type="checkbox" id="ht11">
-                                            <label for="ht11">Quaint</label>
-                                        </div>
-                                        <div class="custom-checkbox">
-                                            <input type="checkbox" id="ht12">
-                                            <label for="ht12">Quite</label>
-                                        </div>
-                                        <div class="custom-checkbox">
-                                            <input type="checkbox" id="ht14">
-                                            <label for="ht14">Romantic</label>
-                                        </div>
-                                        <div class="custom-checkbox">
-                                            <input type="checkbox" id="ht15">
-                                            <label for="ht15">Standard</label>
-                                        </div>
-                                        <div class="custom-checkbox">
-                                            <input type="checkbox" id="ht16">
-                                            <label for="ht16">Trendy</label>
-                                        </div>
-                                    </div>
-                                    <a class="btn-text" data-toggle="collapse" href="#hotelThemeMenu" role="button" aria-expanded="false" aria-controls="hotelThemeMenu">
-                                        <span class="show-more">Show More <i class="la la-angle-down"></i></span>
-                                        <span class="show-less">Show Less <i class="la la-angle-up"></i></span>
-                                    </a>
-                                </div>
-                            </div>
-                            <!-- end sidebar-widget -->                        </div>
+                                                  </div>
                         <!-- end sidebar -->
                     </div>
                     <!-- end col-lg-4 -->
@@ -410,14 +320,40 @@
             </div>
             <!-- end container -->
         </section>
+<!--        //PAGINATION-->
+        <div aria-label="Page navigation" class="d-flex justify-content-center mb-5">
+            <ul class="pagination">
+                <!-- Previous button -->
+                <li class="page-item prev-button" th:classappend="${currentPage == 1 ? 'disabled' : ''}">
+                    <a class="page-link"
+                       th:href="@{/partner/room-management?pageIndex={page}(page=${currentPage - 1})}">Previous</a>
+                </li>
 
+                <!-- Page numbers -->
+                <li class="page-item" th:each="page : ${#numbers.sequence(1, hotelList.getPageNumber)}"
+                    th:classappend="${currentPage == page ? 'active' : ''}">
+                    <a class="page-link" th:href="@{/partner/room-management(pageIndex=${page})}"><span
+                            th:text="${page}"></span></a>
+                </li>
+
+                <!-- Next button -->
+                <li class="page-item" id="nextButton"
+                    th:classappend="${currentPage >= hotelList.getPageNumber ? 'disabled' : ''}">
+                    <a class="page-link"
+                       th:href="@{/partner/room-management?pageIndex={page}(page=${currentPage + 1})}">Next</a>
+                </li>
+            </ul>
+        </div>
         <div class="section-block"></div>
     </div>
 </main>
 
     <!-- Template JS Files -->
 <th:block id="js-resources">
-
+    <script th:src="@{/assets/component/js/jquery-ui.js}"></script>
+    <script th:src="@{/assets/component/js/daterangepicker.js}"></script>
+    <script th:src="@{/assets/component/js/jquery.fancybox.min.js}"></script>
+    <script th:src="@{/assets/component/js/main.js}"></script>
 </th:block>
 </body>
 

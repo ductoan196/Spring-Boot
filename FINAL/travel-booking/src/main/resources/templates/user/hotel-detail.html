@@ -135,7 +135,7 @@
                               <label class="label-text">Check in - Check out</label>
                               <div class="form-group">
                                 <span class="la la-calendar form-icon"></span>
-                                <input class="date-range form-control" type="text" name="daterange">
+                                <input class="date-range form-control" type="text" name="daterange" min="">
                               </div>
                             </div>
                           </div>
@@ -145,9 +145,12 @@
                               <div class="form-group">
                                 <div class="select-contain w-auto" style="height: 49.6px;">
                                   <select id="guest-number">
-                                    <option value="0" selected disabled>Select Adults</option>
-                                    <option value="1">1 Adults</option>
-                                    <option value="2">2 Adults</option>
+                                    <option value="0" selected disabled>Select Guests</option>
+                                    <option value="1">1 Guest</option>
+                                    <option value="2">2 Guests</option>
+                                    <option value="3">3 Guests</option>
+                                    <option value="4">4 Guests</option>
+                                    <option value="5">5 Guests</option>
                                   </select>
                                 </div>
                               </div>
@@ -288,6 +291,26 @@
 <th:block id="js-resources">
   <script>
     $(document).ready(function () {
+      const dateRangeInput = document.querySelector(".date-range");
+
+      const today = new Date();
+      const tomorrow = new Date(today);
+      tomorrow.setDate(tomorrow.getDate() + 1);
+
+      const todayFormatted = formatDate(today);
+      dateRangeInput.min = todayFormatted;
+      const tomorrowFormatted = formatDate(tomorrow);
+
+      const defaultDateRange = todayFormatted + " - " + tomorrowFormatted;
+      dateRangeInput.value = defaultDateRange;
+      function formatDate(date) {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const day = String(date.getDate()).padStart(2, "0");
+        return `${day}/${month}/${year}`;
+      }
+
+
       const dateRange = $('.date-range').val();
 
       // Xử lý dateRange để lấy ngày check-in và check-out
@@ -299,7 +322,6 @@
         console.log(roomId);
 
         const guests = $('#guest-number').val();
-        const roomPrice = $(this).parent().find('.room-price').text();
         // let encodedCheckInDate = btoa(checkIn);
         // let encodedCheckOutDate = btoa(checkOut);
         let url = "/bookings/checkout?roomId=" + roomId + "&checkin=" + checkin + "&checkout=" + checkout + "&guests=" + guests;
