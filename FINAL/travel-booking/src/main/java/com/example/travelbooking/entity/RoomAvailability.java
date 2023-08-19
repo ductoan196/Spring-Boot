@@ -11,16 +11,21 @@ import java.time.LocalDate;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "availability")
+@Table(name = "room_availability")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class RoomAvailability extends BaseEntity{
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "room_id")
-    private Room room;
+public class RoomAvailability extends BaseEntity {
+    @Column(name = "hotel_id")
+    Long hotelId;
 
-    @Column(name = "start_date")
-    private LocalDate startDate;
+    @Column(name = "room_id")
+    Long roomId;
 
-    @Column(name = "end_date")
-    private LocalDate endDate;
+    @Column(name = "date")
+    LocalDate date;
+
+    @Column(name = "available_rooms")
+    Integer availableRooms;
+
+    @Column(name = "booked_rooms")
+    Integer bookedRooms;
 }

@@ -122,9 +122,10 @@
         function getUserDetail() {
 
             const jwt = localStorage.getItem('jwt');
-            let userId = userInfo.id;
-            console.log(userId)
+
             if (jwt) {
+                let userId = userInfo.id;
+                console.log(userId)
                 $.ajax({
                     url: `/api/v1/user/${userId}`,
                     type: 'GET',
@@ -156,25 +157,35 @@
         const userInfo = JSON.parse(localStorage.getItem("userInfo"));
 
         if (userInfo) {
-            showAvatar()
-        }
-        // Đã đăng nhập, kiểm tra quyền truy cập
-        const roles = userInfo.roles || [];
-        console.log("okay")
+            showAvatar();
 
-        // Lấy nút "My Account" và thêm sự kiện click
-        $('#my-account-btn').click(function () {
-            console.log("oke")
+            // Đã đăng nhập, kiểm tra quyền truy cập
+            const roles = userInfo.roles || [];
+            console.log("okay");
 
-            // Kiểm tra vai trò của người dùng và chuyển hướng tới trang dashboard tương ứng
-            if (roles.includes("ADMIN")) {
-                window.location.href = "http://localhost:8080/admin/dashboard-admin";
-            } else if (roles.includes("PARTNER")) {
-                window.location.href = "http://localhost:8080/partner/dashboard-partner";
-            } else {
-                window.location.href = "http://localhost:8080/user/dashboard-user";
+            // Lấy nút "My Account" và thêm sự kiện click
+            $('#my-account-btn').click(function () {
+                console.log("oke")
+
+                // Kiểm tra vai trò của người dùng và chuyển hướng tới trang dashboard tương ứng
+                if (roles.includes("ADMIN")) {
+                    window.location.href = "http://localhost:8080/admin/dashboard-admin";
+                } else if (roles.includes("PARTNER")) {
+                    window.location.href = "http://localhost:8080/partner/dashboard-partner";
+                } else {
+                    window.location.href = "http://localhost:8080/user/dashboard-user";
+                }
+            });
+        } else {
+            const pathName = window.location.pathname;
+            const isLoginRequiredPage = pathName.includes('/admin/') || pathName.includes('/partner/')|| pathName.includes('/user/');
+
+            if (isLoginRequiredPage) {
+                toastr.success('Vui lòng đăng nhập tài khoản');
+                window.location.href = "http://localhost:8080";
             }
-        });
+        }
+
 
         // Hàm để hiển thị avatar
         function showAvatar() {

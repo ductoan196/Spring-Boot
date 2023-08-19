@@ -154,13 +154,13 @@
                 <!-- Previous button -->
                 <li class="page-item prev-button" th:classappend="${currentPage == 1 ? 'disabled' : ''}">
                     <a class="page-link"
-                       th:href="@{/partner/room-management?pageIndex={page}(page=${currentPage - 1})}">Previous</a>
+                       th:href="@{/partner/bookings?pageIndex={page}(page=${currentPage - 1})}">Previous</a>
                 </li>
 
                 <!-- Page numbers -->
                 <li class="page-item" th:each="page : ${#numbers.sequence(1, bookingList.getPageNumber)}"
                     th:classappend="${currentPage == page ? 'active' : ''}">
-                    <a class="page-link" th:href="@{/partner/booking-management(pageIndex=${page})}"><span
+                    <a class="page-link" th:href="@{/partner/bookings(pageIndex=${page})}"><span
                             th:text="${page}"></span></a>
                 </li>
 
@@ -168,7 +168,7 @@
                 <li class="page-item" id="nextButton"
                     th:classappend="${currentPage >= bookingList.getPageNumber ? 'disabled' : ''}">
                     <a class="page-link"
-                       th:href="@{/partner/booking-management?pageIndex={page}(page=${currentPage + 1})}">Next</a>
+                       th:href="@{/partner/bookings?pageIndex={page}(page=${currentPage + 1})}">Next</a>
                 </li>
             </ul>
         </div>

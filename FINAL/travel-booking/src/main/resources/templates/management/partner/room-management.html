@@ -75,8 +75,7 @@
                                     <th>Price</th>
                                     <th>Capacity</th>
                                     <th class="text-center">Status</th>
-                                    <th class="text-center">Tot. Rooms</th>
-                                    <th class="text-center">Avail. room</th>
+                                    <th class="text-center">Qty</th>
                                     <th class="text-center">Action</th>
                                 </tr>
                                 </thead>
@@ -100,9 +99,8 @@
                                         </script>
                                     </td>
                                     <td class="text-center" th:text="${room.capacity}"/>
-                                    <td th:text="${room.roomStatus.name}"/>
-                                    <td class="text-center">?</td>
-                                    <td class="text-center">?</td>
+                                    <td class="text-center" th:text="${room.roomStatus.name}"/>
+                                    <td class="text-center" th:text="${room.room_nums}"/>
                                     <td class="text-center">
                                         <ul class="d-flex list-unstyled mb-0 justify-content-center">
                                             <li class="me-2">

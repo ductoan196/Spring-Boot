@@ -63,7 +63,7 @@ btnLogin.addEventListener('click', function () {
 
                 setTimeout(function() {
                     if (response.roles.includes("USER")) {
-                        window.location.href = `http://localhost:8080`;
+                        window.location.reload();
                     } else if (response.roles.includes("PARTNER")) {
                         window.location.href = `http://localhost:8080/partner/dashboard-partner`;
                     } else if (response.roles.includes("ADMIN")) {
@@ -87,11 +87,25 @@ btnLogin.addEventListener('click', function () {
 });
 
 btnSignup.addEventListener('click', function () {
+    console.log("hi error")
     Array.from(inputEles).map((ele) =>
         ele.classList.remove('success', 'error')
     );
+
+
     let isValid = checkSignUpValidate();
     if (isValid) {
+        // Check if the checkbox for Terms and Privacy is checked
+        let agreeCheckbox = $('#agreeTerm');
+        let errorMessage = $('.error-message');
+
+
+        if (!agreeCheckbox.is(':checked')) {
+            errorMessage.text('Please agree to the Terms and Conditions.');
+            return;
+        } else {
+            errorMessage.text(''); // Clear any previous error message
+        }
         showLoading();
 
         let email = $('#signup-email').val()
@@ -133,8 +147,20 @@ btnPartnerSignup.addEventListener('click', function () {
     Array.from(inputEles).map((ele) =>
         ele.classList.remove('success', 'error')
     );
+
     let isValid = checkPartnerSignUpValidate();
     if (isValid) {
+        // Check if the checkbox for Terms and Privacy is checked
+        let agreeCheckbox = $('#agreeTerm');
+        let errorMessage = $('.error-message');
+
+
+        if (!agreeCheckbox.is(':checked')) {
+            errorMessage.text('Please agree to the Terms and Conditions.');
+            return;
+        } else {
+            errorMessage.text(''); // Clear any previous error message
+        }
         showLoading();
 
         let email = $('#signup-partner-email').val()

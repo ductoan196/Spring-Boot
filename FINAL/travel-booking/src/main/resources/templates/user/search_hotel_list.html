@@ -57,69 +57,41 @@
                                 <div class="sidebar-widget-item">
                                     <div class="contact-form-action">
                                         <form action="#">
-                                            <div class="input-box">
+                                            <div class="input-box mb-2">
                                                 <label class="label-text">Destination / hotel name</label>
                                                 <div class="form-group">
                                                     <span class="la la-map-marker form-icon"></span>
                                                     <input class="form-control" type="text" name="text" placeholder="Destination, hotel name">
                                                 </div>
                                             </div>
-                                            <div class="input-box">
+                                            <div class="input-box mb-2">
                                                 <label class="label-text">Check in - Check out</label>
                                                 <div class="form-group">
                                                     <span class="la la-calendar form-icon"></span>
                                                     <input class="date-range form-control" type="text" name="daterange">
                                                 </div>
                                             </div>
+                                            <div class="input-box">
+                                                <label class="label-text">Number of guests</label>
+                                                <div class="form-group">
+                                                    <div class="select-contain w-auto" style="height: 49.6px;">
+                                                        <select id="guest-number">
+                                                            <option value="0" selected disabled>Select Guests</option>
+                                                            <option value="1">1 Guest</option>
+                                                            <option value="2">2 Guests</option>
+                                                            <option value="3">3 Guests</option>
+                                                            <option value="4">4 Guests</option>
+                                                            <option value="5">5 Guests</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </form>
                                     </div>
                                 </div>
-                                <!-- end sidebar-widget-item -->
-                                <div class="sidebar-widget-item">
-                                    <div class="qty-box mb-2 d-flex align-items-center justify-content-between">
-                                        <label class="font-size-16">Rooms</label>
-                                        <div class="qtyBtn d-flex align-items-center">
-                                            <input type="text" name="qtyInput" value="0">
-                                        </div>
-                                    </div>
-                                    <!-- end qty-box -->
-                                    <div class="qty-box mb-2 d-flex align-items-center justify-content-between">
-                                        <label class="font-size-16">Adults <span>18+</span></label>
-                                        <div class="qtyBtn d-flex align-items-center">
-                                            <input type="text" name="qtyInput" value="0">
-                                        </div>
-                                    </div>
-                                    <!-- end qty-box -->
-                                    <div class="qty-box mb-2 d-flex align-items-center justify-content-between">
-                                        <label class="font-size-16">Children <span>2-12 years old</span></label>
-                                        <div class="qtyBtn d-flex align-items-center">
-                                            <input type="text" name="qtyInput" value="0">
-                                        </div>
-                                    </div>
-                                    <!-- end qty-box -->
-                                </div>
-                                <!-- end sidebar-widget-item -->
+
                                 <div class="btn-box pt-2">
                                     <a href="hotel-search-result.html" class="theme-btn">Search Now</a>
-                                </div>
-                            </div>
-                            <!-- end sidebar-widget -->
-                            <div class="sidebar-widget">
-                                <h3 class="title stroke-shape">Filter by Price</h3>
-                                <div class="sidebar-price-range">
-                                    <div class="main-search-input-item">
-                                        <div class="price-slider-amount padding-bottom-20px">
-                                            <label for="amount2" class="filter__label">Price:</label>
-                                            <input type="text" id="amount2" class="amounts">
-                                        </div>
-                                        <!-- end price-slider-amount -->
-                                        <div id="slider-range2"></div>
-                                        <!-- end slider-range -->
-                                    </div>
-                                    <!-- end main-search-input-item -->
-                                    <div class="btn-box pt-4">
-                                        <button class="theme-btn theme-btn-small theme-btn-transparent" type="button">Apply</button>
-                                    </div>
                                 </div>
                             </div>
 

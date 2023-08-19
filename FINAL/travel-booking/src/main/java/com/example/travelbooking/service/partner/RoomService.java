@@ -17,6 +17,7 @@ import com.example.travelbooking.repository.BedRepository;
 import com.example.travelbooking.repository.FacilityRepository;
 import com.example.travelbooking.repository.HotelRepository;
 import com.example.travelbooking.repository.RoomRepository;
+import com.example.travelbooking.repository.custom.HotelSearchCustomRepositoryByUser;
 import com.example.travelbooking.repository.custom.RoomCustomRepository;
 import com.example.travelbooking.service.user.FileService;
 import com.example.travelbooking.service.user.PaginationUtils;
@@ -37,6 +38,7 @@ public class RoomService {
 
     BedRepository bedRepository;
     HotelRepository hotelRepository;
+    HotelSearchCustomRepositoryByUser hotelSearchCustomRepositoryByUser;
     FacilityRepository facilityRepository;
     FileService fileService;
     ModelMapper modelMapper;
@@ -194,7 +196,8 @@ public class RoomService {
 
     public CommonResponse<?> searchRoomByUser(RoomSearchRequestByUser request) {
         try {
-            List<Hotel> hotels = hotelRepository.findAll();
+//            List<Hotel> hotels = hotelRepository.findAll();
+            List<Hotel> hotels = hotelSearchCustomRepositoryByUser.searchAvailableHotels(request);
 
             Integer pageIndex = request.getPageIndex();
             Integer pageSize = request.getPageSize();

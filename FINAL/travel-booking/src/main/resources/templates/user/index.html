@@ -12,6 +12,25 @@
     <title>Trang chủ</title>
 
     <th:block id="css-resources">
+        <link rel="stylesheet" type="text/css" th:href="@{/assets/component/css/line-awesome.css}">
+
+        <link rel="stylesheet" type="text/css" th:href="@{/assets/component/css/daterangepicker.css}">
+
+        <style>
+            .form-group{
+                position: relative;
+            }
+             .form-group .form-icon {
+                 position: absolute;
+                 top: 16px;
+                 left: 15px;
+                 font-size: 18px;
+             }
+            .form-group .form-control {
+                padding: 10px 20px 10px 40px;
+
+            }
+        </style>
 
     </th:block>
 </head>
@@ -44,36 +63,73 @@
                                     </ul>
                                     <div class="tab-content mt-3">
                                         <div class="tab-pane fade show active" id="hotelTab">
-                                            <form class="row d-flex align-items-center justify-content-between">
-                                                <div class="form-group col-lg-6 mb-2">
-                                                    <label for="destination-hotel">Destination</label>
-                                                    <input type="text" class="form-control" id="destination-hotel"
-                                                           placeholder="Enter your destination" autocomplete="on">
+<!--                                            <form class="row d-flex align-items-center justify-content-between">-->
+<!--                                                <div class="form-group col-lg-6 mb-2">-->
+<!--                                                    <label for="destination-hotel">Destination</label>-->
+<!--                                                    <input type="text" class="form-control" id="destination-hotel"-->
+<!--                                                           placeholder="Enter your destination" autocomplete="on">-->
+<!--                                                </div>-->
+<!--                                                <div class="form-group col-lg-6 mb-2">-->
+<!--                                                    <label for="check-in-hotel">Check-in</label>-->
+<!--                                                    <input type="date" class="form-control date datepicker" id="check-in-hotel">-->
+<!--                                                </div>-->
+<!--                                                <div class="form-group col-lg-6 mb-2">-->
+<!--                                                    <label for="check-out-hotel">Check-out</label>-->
+<!--                                                    <input type="date" class="form-control" id="check-out-hotel">-->
+<!--                                                </div>-->
+<!--                                                <div class="form-group col-lg-6 mb-3">-->
+<!--                                                    <label for="guests">Guests</label>-->
+<!--                                                    <select class="form-control" id="guests">-->
+<!--                                                        <option value="1">1</option>-->
+<!--                                                        <option value="2">2</option>-->
+<!--                                                        <option value="3">3</option>-->
+<!--                                                        <option value="4">4</option>-->
+<!--                                                    </select>-->
+<!--                                                </div>-->
+<!--                                                <div class="col-lg-12">-->
+<!--                                                    <div class="form-group mb-0 text-center" id="user-search-home">-->
+<!--                                                        <a href="#" class="nir-btn w-100"><i class="fa fa-search mr-2"></i>-->
+<!--                                                            Search Now</a>-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
+<!--                                            </form>-->
+                                            <form action="#" class="row d-flex align-items-center justify-content-between">
+                                                <div class="input-box mb-2">
+                                                    <label class="label-text">Destination / hotel name</label>
+                                                    <div class="form-group d-flex">
+                                                        <span class="la la-map-marker form-icon"></span>
+                                                        <input class="form-control location" type="text" name="text" placeholder="Destination, hotel name">
+                                                    </div>
                                                 </div>
-                                                <div class="form-group col-lg-6 mb-2">
-                                                    <label for="check-in-hotel">Check-in</label>
-                                                    <input type="date" class="form-control date datepicker" id="check-in-hotel">
+                                                <div class="input-box mb-2">
+                                                    <label class="label-text">Check in - Check out</label>
+                                                    <div class="form-group">
+                                                        <span class="la la-calendar form-icon"></span>
+                                                        <input class="date-range form-control" type="text" name="daterange">
+                                                    </div>
                                                 </div>
-                                                <div class="form-group col-lg-6 mb-2">
-                                                    <label for="check-out-hotel">Check-out</label>
-                                                    <input type="date" class="form-control" id="check-out-hotel">
-                                                </div>
-                                                <div class="form-group col-lg-6 mb-3">
-                                                    <label for="guests">Guests</label>
-                                                    <select class="form-control" id="guests">
-                                                        <option value="1">1</option>
-                                                        <option value="2">2</option>
-                                                        <option value="3">3</option>
-                                                        <option value="4">4</option>
-                                                    </select>
-                                                </div>
-                                                <div class="col-lg-12">
-                                                    <div class="form-group mb-0 text-center" id="user-search-home">
-                                                        <a href="#" class="nir-btn w-100"><i class="fa fa-search mr-2"></i>
-                                                            Search Now</a>
+                                                <div class="input-box">
+                                                    <label class="label-text">Number of guests</label>
+                                                    <div class="form-group">
+                                                        <div class="select-contain w-auto" style="height: 49.6px;">
+                                                            <select id="guest-number">
+                                                                <option value="0" selected disabled>Select Guests</option>
+                                                                <option value="1">1 Guest</option>
+                                                                <option value="2">2 Guests</option>
+                                                                <option value="3">3 Guests</option>
+                                                                <option value="4">4 Guests</option>
+                                                                <option value="5">5 Guests</option>
+                                                            </select>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </form>
+                                            <div class="col-lg-12 px-0 py-3">
+                                                <div class="form-group mb-0 text-center" id="user-search-home">
+                                                    <a href="#" class="nir-btn w-100"><i class="fa fa-search mr-2"></i>
+                                                        Search Now</a>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="tab-pane fade" id="tourTab">
                                             <form class="row d-flex align-items-center justify-content-between">
@@ -193,7 +249,7 @@
                                         <h5 class="mb-0"><a href="tour-grid.html" class="theme1">Viet Nam</a></h5>
                                         <h3 class="mb-0 white">Da Nang</h3>
                                     </div>
-                                    <span class="white bg-theme p-1 px-2 rounded">15 Tours</span>
+                                    <span class="white bg-theme p-1 px-2 rounded">15 Hotels</span>
                                 </div>
                                 <div class="color-overlay"></div>
                             </div>
@@ -212,7 +268,7 @@
                                                 </h5>
                                                 <h3 class="mb-0 white">Hue</h3>
                                             </div>
-                                            <span class="white bg-theme p-1 px-2 rounded">18 Tours</span>
+                                            <span class="white bg-theme p-1 px-2 rounded">18 Hotels</span>
                                         </div>
                                         <div class="color-overlay"></div>
                                     </div>
@@ -229,7 +285,7 @@
                                                 </h5>
                                                 <h3 class="mb-0 white">Ha Giang</h3>
                                             </div>
-                                            <span class="white bg-theme p-1 px-2 rounded">21 Tours</span>
+                                            <span class="white bg-theme p-1 px-2 rounded">21 Hotels</span>
                                         </div>
                                         <div class="color-overlay"></div>
                                     </div>
@@ -246,7 +302,7 @@
                                                 </h5>
                                                 <h3 class="mb-0 white">Viet Nam</h3>
                                             </div>
-                                            <span class="white bg-theme p-1 px-2 rounded">15 Tours</span>
+                                            <span class="white bg-theme p-1 px-2 rounded">15 Hotels</span>
                                         </div>
                                         <div class="color-overlay"></div>
                                     </div>
@@ -263,7 +319,7 @@
                                                 </h5>
                                                 <h3 class="mb-0 white">Viet Nam</h3>
                                             </div>
-                                            <span class="white bg-theme p-1 px-2 rounded">32 Tours</span>
+                                            <span class="white bg-theme p-1 px-2 rounded">32 Hotels</span>
                                         </div>
                                         <div class="color-overlay"></div>
                                     </div>
@@ -404,7 +460,60 @@
 </main>
 
 <th:block id="js-resources">
+    <script th:src="@{/assets/component/js/jquery-ui.js}"></script>
+    <script th:src="@{/assets/component/js/daterangepicker.js}"></script>
+    <script th:src="@{/assets/component/js/jquery.fancybox.min.js}"></script>
+    <script th:src="@{/assets/component/js/main.js}"></script>
     <script src="assets/user/js/verify-registration.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#user-search-home').click(function () {
+                const dateRange = $('.date-range').val();
+                const [checkin, checkout] = dateRange.split(' - ');
+                const location = $('.location').val();
+                const numberOfGuests = $('#guest-number').val();
+
+                // Chuyển đổi ngày tháng sang đối tượng Date
+                const checkinDate = parseDate(checkin, 'DD/MM/YYYY');
+                const checkoutDate = parseDate(checkout, 'DD/MM/YYYY');
+
+                const formData = {
+                    location: location,
+                    checkinDate: checkinDate,
+                    checkoutDate: checkoutDate,
+                    numberOfGuests: numberOfGuests
+                };
+
+                console.log(formData);
+                $.ajax({
+                    url: "/hotels",
+                    type: "GET",
+                    data: formData,
+                    success: function(data) {
+                        console.log("Search successful");
+                        // Xử lý dữ liệu trả về (data) ở đây
+                    },
+                    error: function(xhr, textStatus, errorThrown) {
+                        toastr.error("Search unsuccessful");
+                    }
+                });
+            });
+
+            function parseDate(dateString, format) {
+                const parts = dateString.split('/');
+                if (parts.length !== 3) {
+                    return null;
+                }
+                const [day, month, year] = parts.map(Number);
+
+                // Định dạng lại thành ngày tháng theo định dạng mong muốn (YYYY-MM-DD)
+                const formattedDate = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+                return formattedDate;
+            }
+
+        });
+    </script>
 
 </th:block>
 

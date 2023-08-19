@@ -1,6 +1,7 @@
 package com.example.travelbooking.service.user;
 
 import com.example.travelbooking.entity.*;
+import com.example.travelbooking.exception.NotEnoughRoomsAvailableException;
 import com.example.travelbooking.exception.NotFoundException;
 import com.example.travelbooking.model.request.partner.BookingSearchRequestByPartner;
 import com.example.travelbooking.model.request.partner.RoomSearchRequest;
@@ -14,12 +15,17 @@ import com.example.travelbooking.repository.custom.BookingCustomRepository;
 import com.example.travelbooking.statics.BookingStatus;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
+@Transactional
 public class BookingService {
     UserRepository userRepository;
     RoomRepository roomRepository;
@@ -27,21 +33,55 @@ public class BookingService {
     RoomReservationRepository roomReservationRepository;
     HotelRepository hotelRepository;
     BookingCustomRepository bookingCustomRepository;
+    RoomAvailabilityRepository roomAvailabilityRepository;
 
     public BookingResponse createBooking(CreateBookingRequest request) {
-
         User user = userRepository.findById(request.getUserId())
                 .orElseThrow(() -> new NotFoundException("Không tìm thấy user trong hệ thống"));
         Room room = roomRepository.findById(request.getRoomId())
                 .orElseThrow(() -> new NotFoundException("Không tìm thấy room trong hệ thống"));
 
+        LocalDate startDate = request.getStartDate();
+        LocalDate endDate = request.getEndDate();
+        Long roomId = request.getRoomId();
+        Long hotelId = room.getHotel().getId();
+        Integer roomNums = request.getRoomNums();
+
         RoomReservation roomReservation = RoomReservation.builder()
-                .startDate(request.getStartDate())
-                .endDate(request.getEndDate())
+                .startDate(startDate)
+                .endDate(endDate)
                 .room(room)
-                .roomNums(request.getRoomNums())
+                .roomNums(roomNums)
                 .build();
         roomReservationRepository.save(roomReservation);
+
+
+        List<LocalDate> bookingDates = startDate.datesUntil(endDate).collect(Collectors.toList());
+        for (LocalDate bookingDate : bookingDates) {
+            Optional<RoomAvailability> optionalRoomAvailability = roomAvailabilityRepository.findByHotelIdAndRoomIdAndDate(hotelId, roomId, bookingDate);
+
+            if (optionalRoomAvailability.isPresent()) {
+                RoomAvailability roomAvailability = optionalRoomAvailability.get();
+
+                if (roomAvailability.getAvailableRooms() >= roomNums) {
+                    roomAvailability.setAvailableRooms(roomAvailability.getAvailableRooms() - roomNums);
+                    roomAvailability.setBookedRooms(roomAvailability.getBookedRooms() + roomNums);
+                } else {
+                    throw new NotEnoughRoomsAvailableException("Không đủ phòng trống cho ngày đã chọn");
+                }
+                roomAvailabilityRepository.save(roomAvailability);
+            } else {
+                // Create a new availability record for the date
+                RoomAvailability roomAvailability = new RoomAvailability();
+                roomAvailability.setHotelId(hotelId);
+                roomAvailability.setRoomId(roomId);
+                roomAvailability.setDate(bookingDate);
+                roomAvailability.setAvailableRooms(room.getRoom_nums()-roomNums);
+                roomAvailability.setBookedRooms(roomNums);
+                roomAvailabilityRepository.save(roomAvailability);
+            }
+
+        }
 
         Booking booking = Booking.builder()
                 .roomReservation(roomReservation)

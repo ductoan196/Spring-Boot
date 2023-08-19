@@ -27,7 +27,7 @@
                 <div class="col-lg-6">
                   <div class="blog-image rounded">
                     <a href="#"
-                       style="background-image: url(assets/user/images/trending/trending5.jpg);"></a>
+                       style="background-image: url(/assets/user/images/trending/trending5.jpg);"></a>
                   </div>
                 </div>
                 <div class="col-lg-6">
@@ -75,7 +75,7 @@
                 <div class="col-lg-6">
                   <div class="blog-image rounded">
                     <a href="#"
-                       style="background-image: url(assets/user/images/trending/trending5.jpg);"></a>
+                       style="background-image: url(/assets/user/images/trending/trending5.jpg);"></a>
                   </div>
                 </div>
                 <div class="col-lg-6">
@@ -98,17 +98,19 @@
                              id="signup-confirm-password" placeholder="Re-enter Password" autocomplete="off">
                       <small style="color: #e74c3c">Error</small>
                     </div>
-                    <div class="form-group mb-2 d-flex privacy-confirm">
-                      <input type="checkbox" class="custom-control-input" id="exampleCheck1">
-                      <label class="custom-control-label mb-0 ms-1 lh-1" for="exampleCheck1">I
+                    <div class="form-group d-flex privacy-confirm">
+                      <input type="checkbox" class="custom-control-input" id="agreeTerm">
+                      <label class="custom-control-label mb-0 ms-1 lh-1" for="agreeTerm">I
                         have read and accept the <a href="/term_policy" style="color: #029e9d">Terms and Privacy</a> Policy?</label>
                     </div>
+                    <span class="error-message" style="color: red; font-size: 12px"></span>
                     <div class="input-row">
-                      <button class="btn nir-btn w-100 login-btn mb-2" id="signup-btn">Register</button>
+                      <button class="btn nir-btn w-100 signup-btn my-2" id="signup-btn">Register</button>
                     </div>
 
-                    <p class="text-center">Already have an account? <a href="#"
-                                                                       class="theme">Login</a></p>
+                    <p class="text-center">Already have an account? <a class="theme login-tab" data-toggle="tab" href="#login"
+                                                                       role="tab">Login</a></p>
+
                   </form>
                 </div>
               </div>
@@ -120,3 +122,22 @@
   </div>
 </div>
 
+<script>
+  $(document).ready(function() {
+    // Chuyển đổi tab khi nhấn vào liên kết "Already have an account?"
+    $("a[href='#login']").click(function() {
+      $("#register-tab").removeClass("active");
+      $("#login-tab").addClass("active");
+      $("#register").removeClass("show active");
+      $("#login").addClass("show active");
+    });
+
+    // Chuyển đổi tab khi nhấn vào liên kết "Don't have an account?"
+    $("a[href='#register']").click(function() {
+      $("#login-tab").removeClass("active");
+      $("#register-tab").addClass("active");
+      $("#login").removeClass("show active");
+      $("#register").addClass("show active");
+    });
+  });
+</script>

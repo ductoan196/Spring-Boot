@@ -242,7 +242,7 @@
 
 
                           <div class="custom-checkbox mb-0">
-                            <a class="theme-btn theme-btn-small bookNow" href="/bookings/checkout">Book now!</a>
+                            <a class="theme-btn theme-btn-small bookNow" href="#">Book now!</a>
                           </div>
                         </div>
 
@@ -312,22 +312,28 @@
 
 
       const dateRange = $('.date-range').val();
+      const jwt = localStorage.getItem("jwt")
 
       // Xử lý dateRange để lấy ngày check-in và check-out
       const [checkin, checkout] = dateRange.split(' - ');
       $('.bookNow').click(function (event) {
         event.preventDefault();
-        const $roomInfo = $(this).closest('.cabin-price');
-        const roomId = $roomInfo.find('.room-id').val();
-        console.log(roomId);
 
-        const guests = $('#guest-number').val();
-        // let encodedCheckInDate = btoa(checkIn);
-        // let encodedCheckOutDate = btoa(checkOut);
-        let url = "/bookings/checkout?roomId=" + roomId + "&checkin=" + checkin + "&checkout=" + checkout + "&guests=" + guests;
+        if (jwt) {
+          const $roomInfo = $(this).closest('.cabin-price');
+          const roomId = $roomInfo.find('.room-id').val();
+          console.log(roomId);
 
-        // Chuyển hướng đến URL mới
-        window.location.href = url;
+          const guests = $('#guest-number').val();
+          let url = "/bookings/checkout?roomId=" + roomId + "&checkin=" + checkin + "&checkout=" + checkout + "&guests=" + guests;
+
+          // Chuyển hướng đến URL mới
+          window.location.href = url;
+        } else {
+          toastr.error("Vui lòng đăng nhập tài khoản để thực hiện booking")
+          $('#signInSignUp').modal("show");
+        }
+
       });
 
       $('.search-availability').click(function () {
