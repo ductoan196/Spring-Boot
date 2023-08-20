@@ -125,7 +125,7 @@
                                                 </div>
                                             </form>
                                             <div class="col-lg-12 px-0 py-3">
-                                                <div class="form-group mb-0 text-center" id="user-search-home">
+                                                <div class="form-group mb-0 text-center" id="user-search-btn">
                                                     <a href="#" class="nir-btn w-100"><i class="fa fa-search mr-2"></i>
                                                         Search Now</a>
                                                 </div>
@@ -468,36 +468,51 @@
 
     <script>
         $(document).ready(function () {
-            $('#user-search-home').click(function () {
+            $('#user-search-btn').click(function () {
                 const dateRange = $('.date-range').val();
                 const [checkin, checkout] = dateRange.split(' - ');
                 const location = $('.location').val();
                 const numberOfGuests = $('#guest-number').val();
 
-                // Chuyển đổi ngày tháng sang đối tượng Date
-                const checkinDate = parseDate(checkin, 'DD/MM/YYYY');
-                const checkoutDate = parseDate(checkout, 'DD/MM/YYYY');
+                let url = `/hotels`
 
-                const formData = {
-                    location: location,
-                    checkinDate: checkinDate,
-                    checkoutDate: checkoutDate,
-                    numberOfGuests: numberOfGuests
-                };
+                if (location !== '') {
+                    url += `?location=${location}`;
+                }
+                if (checkin !== '') {
+                    url += `${location ? '&' : '?'}checkin=${checkin}`
+                }
+                if (checkout !== '') {
+                    url += `${checkin ? '&' : '?'}checkout=${checkout}`
+                }
+                if (numberOfGuests !== '' && numberOfGuests != null) {
+                    url += `${location || checkin ? '&' : '?'}guests=${numberOfGuests}`
+                }
 
-                console.log(formData);
-                $.ajax({
-                    url: "/hotels",
-                    type: "GET",
-                    data: formData,
-                    success: function(data) {
-                        console.log("Search successful");
-                        // Xử lý dữ liệu trả về (data) ở đây
-                    },
-                    error: function(xhr, textStatus, errorThrown) {
-                        toastr.error("Search unsuccessful");
-                    }
-                });
+                window.location.href = url;
+
+                // // Chuyển đổi ngày tháng sang đối tượng Date
+                // const checkinDate = parseDate(checkin, 'DD/MM/YYYY');
+                // const checkoutDate = parseDate(checkout, 'DD/MM/YYYY');
+                // const formData = {
+                //     location: location,
+                //     checkinDate: checkinDate,
+                //     checkoutDate: checkoutDate,
+                //     numberOfGuests: numberOfGuests
+                // };
+                // console.log(formData);
+                // $.ajax({
+                //     url: "/hotels",
+                //     type: "GET",
+                //     data: formData,
+                //     success: function(data) {
+                //         console.log("Search successful");
+                //         // Xử lý dữ liệu trả về (data) ở đây
+                //     },
+                //     error: function(xhr, textStatus, errorThrown) {
+                //         toastr.error("Search unsuccessful");
+                //     }
+                // });
             });
 
             function parseDate(dateString, format) {

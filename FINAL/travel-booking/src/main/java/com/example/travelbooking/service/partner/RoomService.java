@@ -1,9 +1,6 @@
 package com.example.travelbooking.service.partner;
 
-import com.example.travelbooking.entity.Bed;
-import com.example.travelbooking.entity.Facility;
-import com.example.travelbooking.entity.Hotel;
-import com.example.travelbooking.entity.Room;
+import com.example.travelbooking.entity.*;
 import com.example.travelbooking.exception.NotFoundException;
 import com.example.travelbooking.model.request.partner.CreateBedRequest;
 import com.example.travelbooking.model.request.partner.CreateRoomRequest;
@@ -13,10 +10,7 @@ import com.example.travelbooking.model.request.user.RoomSearchRequestByUser;
 import com.example.travelbooking.model.response.partner.CommonResponse;
 import com.example.travelbooking.model.response.partner.RoomResponse;
 import com.example.travelbooking.model.response.partner.RoomSearchResponse;
-import com.example.travelbooking.repository.BedRepository;
-import com.example.travelbooking.repository.FacilityRepository;
-import com.example.travelbooking.repository.HotelRepository;
-import com.example.travelbooking.repository.RoomRepository;
+import com.example.travelbooking.repository.*;
 import com.example.travelbooking.repository.custom.HotelSearchCustomRepositoryByUser;
 import com.example.travelbooking.repository.custom.RoomCustomRepository;
 import com.example.travelbooking.service.user.FileService;
@@ -26,8 +20,10 @@ import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -42,6 +38,7 @@ public class RoomService {
     FacilityRepository facilityRepository;
     FileService fileService;
     ModelMapper modelMapper;
+    RoomAvailabilityRepository roomAvailabilityRepository;
 
 
     public Room createRoom(CreateRoomRequest request) {
@@ -196,8 +193,20 @@ public class RoomService {
 
     public CommonResponse<?> searchRoomByUser(RoomSearchRequestByUser request) {
         try {
-//            List<Hotel> hotels = hotelRepository.findAll();
-            List<Hotel> hotels = hotelSearchCustomRepositoryByUser.searchAvailableHotels(request);
+            List<RoomSearchResponse> rooms = roomCustomRepository.searchRoomByLocationAndCapacity(request);
+
+            List<RoomAvailability> bookedRooms = roomAvailabilityRepository.findByDateBetweenAndAvailableRooms(request.getCheckinDate(), request.getCheckoutDate(), 0);
+
+            for (RoomAvailability roomAvailability : bookedRooms) {
+                rooms.removeIf(room -> room.getId().equals(roomAvailability.getRoomId()));
+            }
+
+            List<Hotel> hotels = new ArrayList<>();
+            for (RoomSearchResponse room : rooms) {
+                if (!hotels.contains(room.getHotel())) {
+                    hotels.add(room.getHotel());
+                }
+            }
 
             Integer pageIndex = request.getPageIndex();
             Integer pageSize = request.getPageSize();
@@ -225,4 +234,6 @@ public class RoomService {
                 .orElseThrow(() -> new NotFoundException("Không tìm thấy room trong danh sách"));
         return convertToRoomResponse(room);
     }
+
+
 }

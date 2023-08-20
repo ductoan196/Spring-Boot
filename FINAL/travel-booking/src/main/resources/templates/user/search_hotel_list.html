@@ -61,7 +61,7 @@
                                                 <label class="label-text">Destination / hotel name</label>
                                                 <div class="form-group">
                                                     <span class="la la-map-marker form-icon"></span>
-                                                    <input class="form-control" type="text" name="text" placeholder="Destination, hotel name">
+                                                    <input class="form-control location" type="text" name="text" placeholder="Destination, hotel name" id="location">
                                                 </div>
                                             </div>
                                             <div class="input-box mb-2">
@@ -91,7 +91,7 @@
                                 </div>
 
                                 <div class="btn-box pt-2">
-                                    <a href="hotel-search-result.html" class="theme-btn">Search Now</a>
+                                    <a href="hotel-search-result.html" id="user-search-btn" class="theme-btn">Search Now</a>
                                 </div>
                             </div>
 
@@ -326,6 +326,79 @@
     <script th:src="@{/assets/component/js/daterangepicker.js}"></script>
     <script th:src="@{/assets/component/js/jquery.fancybox.min.js}"></script>
     <script th:src="@{/assets/component/js/main.js}"></script>
+    <script>
+        $(document).ready(function () {
+
+            $('#user-search-btn').click(function (event) {
+                event.preventDefault();
+                const dateRange = $('.date-range').val();
+                const [checkin, checkout] = dateRange.split(' - ');
+                const location = $('.location').val();
+                const numberOfGuests = $('#guest-number').val();
+
+                let url = `/hotels`
+
+                if (location !== '') {
+                    url += `?location=${location}`;
+                }
+                if (checkin !== '') {
+                    url += `${location ? '&' : '?'}checkin=${checkin}`
+                }
+                if (checkout !== '') {
+                    url += `${checkin ? '&' : '?'}checkout=${checkout}`
+                }
+                if (numberOfGuests !== '' && numberOfGuests != null) {
+                    url += `${location || checkin ? '&' : '?'}guests=${numberOfGuests}`
+                }
+
+                window.location.href = url;
+
+                // // Chuyển đổi ngày tháng sang đối tượng Date
+                // const checkinDate = parseDate(checkin, 'DD/MM/YYYY');
+                // const checkoutDate = parseDate(checkout, 'DD/MM/YYYY');
+                // const formData = {
+                //     location: location,
+                //     checkinDate: checkinDate,
+                //     checkoutDate: checkoutDate,
+                //     numberOfGuests: numberOfGuests
+                // };
+                // console.log(formData);
+                // $.ajax({
+                //     url: "/hotels",
+                //     type: "GET",
+                //     data: formData,
+                //     success: function(data) {
+                //         console.log("Search successful");
+                //         // Xử lý dữ liệu trả về (data) ở đây
+                //     },
+                //     error: function(xhr, textStatus, errorThrown) {
+                //         toastr.error("Search unsuccessful");
+                //     }
+                // });
+            });
+            keepValue();
+
+            function keepValue() {
+                // Giữ lại giá trị tìm kiếm trên thanh search khi trang tải lần đầu
+                const params = new URLSearchParams(window.location.search);
+                const location = params.get('location');
+                const checkin = params.get('checkin');
+                const checkout = params.get('checkout')
+                const guests = params.get('guests')
+
+                if (location) {
+                    $('#location').val(location);
+                }
+
+                if (checkin) {
+                    $('.date-range').val(`${checkin} - ${checkout}`);
+                }
+                if (guests) {
+                    $('#guest-number').val(guests);
+                }
+            }
+        });
+    </script>
 </th:block>
 </body>
 

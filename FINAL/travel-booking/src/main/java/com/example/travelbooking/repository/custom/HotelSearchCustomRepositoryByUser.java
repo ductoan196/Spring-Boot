@@ -23,16 +23,6 @@ public class HotelSearchCustomRepositoryByUser extends BaseRepository {
 
         Map<String, Object> parameter = new HashMap<>();
 
-        if (searchRequest.getCheckinDate() != null) {
-            sql += " AND ra.date >= :checkInDate";
-            parameter.put("checkInDate", searchRequest.getCheckinDate());
-        }
-
-        if (searchRequest.getCheckoutDate() != null) {
-            sql += " AND ra.date <= :checkOutDate";
-            parameter.put("checkOutDate", searchRequest.getCheckoutDate());
-        }
-
         if (searchRequest.getLocation() != null) {
             sql += " AND h.location = :location";
             parameter.put("location", searchRequest.getLocation());
