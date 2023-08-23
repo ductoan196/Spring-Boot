@@ -1,22 +1,18 @@
 package com.example.goodreads_finalproject.service;
 
-import com.example.goodreads_finalproject.entity.Otp;
-import com.example.goodreads_finalproject.entity.Role;
-import com.example.goodreads_finalproject.entity.User;
+import com.example.goodreads_finalproject.entity.*;
 import com.example.goodreads_finalproject.exception.*;
-import com.example.goodreads_finalproject.model.request.ResetPasswordRequest;
-import com.example.goodreads_finalproject.model.request.CreateUserRequest;
-import com.example.goodreads_finalproject.model.request.RefreshTokenRequest;
-import com.example.goodreads_finalproject.model.request.RegistrationRequest;
+import com.example.goodreads_finalproject.model.request.*;
+import com.example.goodreads_finalproject.model.response.CommonResponse;
 import com.example.goodreads_finalproject.model.response.JwtResponse;
+import com.example.goodreads_finalproject.model.response.LocationResponse;
 import com.example.goodreads_finalproject.model.response.UserResponse;
-import com.example.goodreads_finalproject.repository.OtpRepository;
-import com.example.goodreads_finalproject.repository.RefreshTokenRepository;
-import com.example.goodreads_finalproject.repository.RoleRepository;
-import com.example.goodreads_finalproject.repository.UserRepository;
+import com.example.goodreads_finalproject.repository.*;
+import com.example.goodreads_finalproject.repository.custom.UserCustomRepository;
 import com.example.goodreads_finalproject.security.CustomUserDetails;
 import com.example.goodreads_finalproject.security.JwtUtils;
 import com.example.goodreads_finalproject.security.SecurityUtils;
+import com.example.goodreads_finalproject.statics.Gender;
 import com.example.goodreads_finalproject.statics.Roles;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AccessLevel;
@@ -29,7 +25,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
@@ -56,6 +51,14 @@ public class UserService {
     EmailService emailService;
     @Autowired
     OtpRepository otpRepository;
+    @Autowired
+    UserCustomRepository userCustomRepository;
+    @Autowired
+    ProvinceRepository provinceRepository;
+    @Autowired
+    DistrictRepository districtRepository;
+    @Autowired
+    WardRepository wardRepository;
 
     @Value("${application.security.refreshToken.tokenValidityMilliseconds}")
     long refreshTokenValidityMilliseconds;
@@ -80,22 +83,11 @@ public class UserService {
                 .email(registrationRequest.getEmail())
                 .password(passwordEncoder.encode(registrationRequest.getPassword()))
                 .roles(roles)
+                .avatar("https://firebasestorage.googleapis.com/v0/b/fir-e9a96.appspot.com/o/images%2Fu_60x60-267f0ca0ea48fd3acfd44b95afa64f01.png?alt=media&token=894f32ca-266a-40c1-81c0-eb7f8142f13a")
+                .phone("")
                 .build();
         userRepository.save(user);
         emailService.sendOtpActivedAccount(user.getEmail());
-    }
-
-
-    public List<UserResponse> getAll() {
-        List<User> users = userRepository.findAll();
-        if (!CollectionUtils.isEmpty(users)) {
-            return users.stream().map(u -> objectMapper.convertValue(u, UserResponse.class)).collect(Collectors.toList());
-        }
-        return Collections.emptyList();
-    }
-
-    public UserResponse getDetail(Long id) throws ClassNotFoundException {
-        return userRepository.findById(id).map(u -> objectMapper.convertValue(u, UserResponse.class)).orElseThrow(ClassNotFoundException::new);
     }
 
     public JwtResponse refreshToken(RefreshTokenRequest request, HttpServletResponse response) throws RefreshTokenNotFoundException {
@@ -114,7 +106,6 @@ public class UserService {
                             return jwtUtils.generateJwtToken(authentication);
                         }))
                 .orElseThrow(() -> new UsernameNotFoundException("Tài khoản không tồn tại"));
-
 
         if (newToken == null) {
             throw new RefreshTokenNotFoundException();
@@ -139,7 +130,6 @@ public class UserService {
         }
         refreshTokenRepository.logOut(userIdOptional.get());
         SecurityContextHolder.clearContext();
-
     }
 
     public void createUser(CreateUserRequest request) throws ExistedUserException {
@@ -149,11 +139,18 @@ public class UserService {
         }
 
         Set<Role> roles = roleRepository.findByName(Roles.USER).stream().collect(Collectors.toSet());
+        String avatar;
+        if (request.getAvatar() == null) {
+            avatar = "https://firebasestorage.googleapis.com/v0/b/fir-e9a96.appspot.com/o/images%2Fu_60x60-267f0ca0ea48fd3acfd44b95afa64f01.png?alt=media&token=894f32ca-266a-40c1-81c0-eb7f8142f13a";
+        } else {
+            avatar = request.getAvatar();
+        }
 
         User user = User.builder()
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .roles(roles)
+                .avatar(avatar)
                 .build();
         userRepository.save(user);
     }
@@ -174,10 +171,6 @@ public class UserService {
         return userRepository.findByEmailAndActivated(email, true);
     }
 
-    public Optional<User> findByEmail(String email) {
-        return userRepository.findByEmail(email);
-    }
-
     public void checkOtp(String otpCode) throws OtpExpiredException {
         Otp otp = otpRepository.findByOtpCode(otpCode).get();
         if (LocalDateTime.now().isAfter(otp.getExpiredAt())) {
@@ -192,6 +185,117 @@ public class UserService {
         }
         User user = otp.getUser();
         user.setPassword(passwordEncoder.encode(resetPasswordRequest.getNewPassword()));
+        userRepository.save(user);
+    }
+
+    public CommonResponse<?> searchUser(UserSearchRequest request) {
+        try {
+            List<UserResponse> users = userCustomRepository.searchUser(request);
+            Integer pageIndex = request.getPageIndex();
+            Integer pageSize = request.getPageSize();
+            PaginationUtils<UserResponse> paginationUtils = new PaginationUtils<>();
+            int pageNumber = paginationUtils.getPageNumber(users, pageSize);
+            users = paginationUtils.searchData(users, pageIndex, pageSize);
+            return CommonResponse.builder()
+                    .pageNumber(pageNumber)
+                    .data(users)
+                    .build();
+        } catch (Exception e) {
+            throw new NotFoundException("Page index out of bound!");
+        }
+    }
+
+    public void lockedOrUnlockedUser(Long userId) {
+        Optional<User> userOptional = userRepository.findById(userId);
+        if (userOptional.isEmpty()) {
+            throw new NotFoundException("User not found");
+        }
+        User user = userOptional.get();
+        user.setLocked(!user.isLocked());
+        userRepository.save(user);
+    }
+
+    public UserResponse findUserById(Long userId) {
+        return userCustomRepository.getUserById(userId);
+    }
+
+    public void updateUser(UserRequest request) {
+        Long id = SecurityUtils.getCurrentUserLoginId().get();
+        User user = userRepository.findById(id).get();
+        Gender gender = Gender.convertGender(request.getGender());
+
+        user.setAvatar(request.getAvatar().equals("") ? user.getAvatar() : request.getAvatar());
+        user.setAbout(request.getAbout());
+        user.setFullName(request.getFullName());
+        user.setDob(request.getDob());
+        user.setGender(gender);
+        user.setPhone(request.getPhone());
+        userRepository.save(user);
+    }
+
+    public void changePassword(ChangePasswordRequest request) throws BadRequestException {
+        Long currentUserLoginId = SecurityUtils.getCurrentUserLoginId().get();
+        User user = userRepository.findById(currentUserLoginId).get();
+        String newPassword = request.getNewPassword();
+//        String reNewPassword = request.getRePassword();
+//        String curentPassword = passwordEncoder.encode(request.getCurrentPassword());
+        if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
+            throw new BadRequestException();
+        }
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
+    }
+
+    public List<LocationResponse> getAllProvince() {
+        List<Province> provinces = provinceRepository.findAll();
+        List<LocationResponse> result = new ArrayList<>();
+        provinces.forEach(p -> {
+            LocationResponse locationResponse = LocationResponse.builder()
+                    .provinceCode(p.getCode())
+                    .provinceName(p.getName())
+                    .build();
+            result.add(locationResponse);
+        });
+        return result;
+    }
+
+    public List<LocationResponse> getDistricts(String provinceCode) throws BadRequestException {
+        Optional<List<District>> districtOptional = districtRepository.findAllByProvinceCode(provinceCode);
+        if (districtOptional.isEmpty()) {
+            throw new BadRequestException();
+        }
+        List<LocationResponse> result = new ArrayList<>();
+        districtOptional.get().forEach(p -> {
+            LocationResponse locationResponse = LocationResponse.builder()
+                    .districtCode(p.getCode())
+                    .districtName(p.getName())
+                    .build();
+            result.add(locationResponse);
+        });
+        return result;
+    }
+
+    public List<LocationResponse> getWards(String districtCode) throws BadRequestException {
+        Optional<List<Ward>> wardOptional = wardRepository.findAllByDistrictCode(districtCode);
+        if (wardOptional.isEmpty()) {
+            throw new BadRequestException();
+        }
+        List<LocationResponse> result = new ArrayList<>();
+        wardOptional.get().forEach(p -> {
+            LocationResponse locationResponse = LocationResponse.builder()
+                    .wardCode(p.getCode())
+                    .wardName(p.getName())
+                    .build();
+            result.add(locationResponse);
+        });
+        return result;
+    }
+
+    public void updateAddress(WardRequest wardRequest) {
+        Long id = SecurityUtils.getCurrentUserLoginId().get();
+        User user = userRepository.findById(id).get();
+        user.setAddress(wardRepository.findByCode(wardRequest.getWardCode()));
+        user.setStreet(wardRequest.getStreet());
         userRepository.save(user);
     }
 }

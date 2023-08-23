@@ -33,6 +33,16 @@
       h1, h2, h3, h4, h5, h6 {
         font-family: "Roboto", sans-serif;
       }
+      .disabled {
+        opacity: 0.8;
+        pointer-events: none;
+        cursor: not-allowed;
+      }
+      .card-img img {
+        width: 100%;
+        height: 226px; !important;
+        object-fit: cover; /* Đảm bảo ảnh không bị bóp méo và lấp đầy khung */
+      }
     </style>
 <!--    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">-->
   </th:block>
@@ -157,8 +167,8 @@
                             </div>
                           </div>
                           <div class="col-lg-12">
-                            <div class="btn-box">
-                              <button type="button" class="theme-btn search-availability">Search Now</button>
+                            <div class="btn-box " id="user-search-btn">
+                              <button type="button" class="theme-btn search-availability" >Check Now</button>
                             </div>
                           </div>
                         </div>
@@ -167,8 +177,9 @@
                     <h3 class="title font-size-20">Available Rooms</h3>
                     <div class="cabin-type padding-top-30px" th:each="room: ${roomList}">
                       <div class="cabin-type-item seat-selection-item d-flex">
-                        <div class="cabin-type-img flex-shrink-0">
-                          <img src="https://images.pexels.com/photos/2467285/pexels-photo-2467285.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Room Image">
+                        <div class="cabin-type-img flex-shrink-0 card-img">
+                          <img th:src="${#lists.isEmpty(room.imageUrls) ? '/assets/user/images/no-photo.jpg' : room.imageUrls[0]}"
+                               alt="Room Image">
                         </div>
                         <div class="cabin-type-detail">
                           <h3 class="title" th:text="${room.name}">Standard Family Room</h3>
@@ -179,7 +190,12 @@
                                   <i class="la la-wifi"></i>
                                 </div>
                                 <div class="single-feature-titles">
-                                  <h3 class="title font-size-15 font-weight-medium">Free Wi-Fi</h3>
+                                  <h3 class="title font-size-15 font-weight-medium" th:inline="text">
+                                    <span style="display: inline" th:each="facility, iterStat : ${room.facilities}">
+                                            <span th:text="${facility.name}"></span>
+                                            <span th:if="${!iterStat.last}">, </span>
+                                        </span>
+                                  </h3>
                                 </div>
                               </div>
                             </div>
@@ -198,7 +214,7 @@
                             <div class="col-lg-6 responsive-column">
                               <div class="single-tour-feature d-flex align-items-center mb-3">
                                 <div class="single-feature-icon icon-element ml-0 flex-shrink-0 mr-2">
-                                  <i class="la la-building"></i>
+                                  <i class="la la-users"></i>
                                 </div>
                                 <div class="single-feature-titles">
                                   <h3 class="title font-size-15 font-weight-medium" th:text="'Capacity: '+ ${room.capacity}">15 m²</h3>
@@ -209,10 +225,11 @@
                             <div class="col-lg-6 responsive-column">
                               <div class="single-tour-feature d-flex align-items-center mb-3">
                                 <div class="single-feature-icon icon-element ml-0 flex-shrink-0 mr-2">
-                                  <i class="la la-hotel"></i>
+                                  <i class="la la-check"></i>
                                 </div>
                                 <div class="single-feature-titles">
-                                  <h3 class="title font-size-15 font-weight-medium">Shower and bathtub</h3>
+                                  <h3 class="title font-size-15 font-weight-medium roomNums"
+                                      th:text="'Available: '+ ${room.room_nums}" th:value="${room.room_nums}"></h3>
                                 </div>
                               </div>
                             </div>
@@ -242,7 +259,16 @@
 
 
                           <div class="custom-checkbox mb-0">
-                            <a class="theme-btn theme-btn-small bookNow" href="#">Book now!</a>
+                            <select id="roomQuantitySelect" th:if="${room.room_nums > 0}" class="theme-select theme-btn-small col-8 px-1 py-2 mb-2">
+                              <option value="" disabled selected>Select room</option>
+                              <option th:each="quantity : ${#numbers.sequence(1, room.room_nums)}"
+                                      th:value="${quantity}" th:text="${quantity}"></option>
+                            </select>
+                            <a class="theme-btn theme-btn-small bookNow" href="#"
+                               th:classappend="${room.room_nums == 0 ? 'disabled' : ''}">
+                              <span th:if="${room.room_nums == 0}">Out of rooms</span>
+                              <span th:if="${room.room_nums != 0}">Book now!</span>
+                            </a>
                           </div>
                         </div>
 
@@ -291,55 +317,136 @@
 <th:block id="js-resources">
   <script>
     $(document).ready(function () {
-      const dateRangeInput = document.querySelector(".date-range");
+      let hotelId = [[${hotelId}]];
 
-      const today = new Date();
-      const tomorrow = new Date(today);
-      tomorrow.setDate(tomorrow.getDate() + 1);
+      keepValue();
+      function keepValue() {
+        // Giữ lại giá trị tìm kiếm trên thanh search khi trang tải lần đầu
+        const params = new URLSearchParams(window.location.search);
+        const location = params.get('location');
+        const checkin = params.get('checkin');
+        const checkout = params.get('checkout')
+        const guests = params.get('guests')
 
-      const todayFormatted = formatDate(today);
-      dateRangeInput.min = todayFormatted;
-      const tomorrowFormatted = formatDate(tomorrow);
 
-      const defaultDateRange = todayFormatted + " - " + tomorrowFormatted;
-      dateRangeInput.value = defaultDateRange;
-      function formatDate(date) {
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, "0");
-        const day = String(date.getDate()).padStart(2, "0");
-        return `${day}/${month}/${year}`;
+
+        if (location) {
+          $('#location').val(location);
+        }
+
+        if (checkin) {
+          const checkinDate = formatDateBack(checkin)
+          const checkoutDate = formatDateBack(checkout);
+          $('.date-range').val(`${checkinDate} - ${checkoutDate}`);
+        }
+        if (guests) {
+          $('#guest-number').val(guests);
+        }
+
       }
 
-
-      const dateRange = $('.date-range').val();
-      const jwt = localStorage.getItem("jwt")
-
-      // Xử lý dateRange để lấy ngày check-in và check-out
-      const [checkin, checkout] = dateRange.split(' - ');
       $('.bookNow').click(function (event) {
         event.preventDefault();
+        const params = new URLSearchParams(window.location.search);
+        const location = params.get('location');
+        const checkin = params.get('checkin');
+        const checkout = params.get('checkout')
+        const guests = params.get('guests')
 
+        // const roomNums = $('#roomQuantitySelect').val();
+
+        if (!checkin || !guests) {
+          toastr.error('Please choose date, number of guest and check availability')
+          return;
+        }
+
+        const $roomInfo = $(this).closest('.cabin-price');
+        const roomId = $roomInfo.find('.room-id').val();
+        const roomNums = $roomInfo.find('#roomQuantitySelect').val();
+
+        if (!roomNums) {
+          toastr.error('Please choose quantity of rooms you want to order')
+          return;
+        }
+
+        const jwt = localStorage.getItem("jwt");
         if (jwt) {
-          const $roomInfo = $(this).closest('.cabin-price');
-          const roomId = $roomInfo.find('.room-id').val();
-          console.log(roomId);
 
-          const guests = $('#guest-number').val();
-          let url = "/bookings/checkout?roomId=" + roomId + "&checkin=" + checkin + "&checkout=" + checkout + "&guests=" + guests;
+
+          let url = "/bookings/checkout?roomId=" + roomId + "&checkin=" + checkin + "&checkout=" + checkout + "&guests=" + guests + "&roomNums=" + roomNums;
 
           // Chuyển hướng đến URL mới
           window.location.href = url;
         } else {
-          toastr.error("Vui lòng đăng nhập tài khoản để thực hiện booking")
+          toastr.error("Please login first before booking")
           $('#signInSignUp').modal("show");
         }
 
       });
 
-      $('.search-availability').click(function () {
+      $('#user-search-btn').click(function (event) {
+        event.preventDefault();
+
+        const dateRange = $('.date-range').val();
+        const [checkin, checkout] = dateRange.split(' - ');
+        const numberOfGuests = $('#guest-number').val();
+
+
+
+        // Chuyển đổi ngày tháng sang đối tượng Date
+        const checkinDate = parseDate(checkin, 'DD/MM/YYYY');
+        const checkoutDate = parseDate(checkout, 'DD/MM/YYYY');
+
+        // Kiểm tra ngày check-in không được là ngày trong quá khứ
+        const currentDate = new Date();
+        const startDate = new Date(checkinDate);
+        if (startDate < currentDate) {
+          toastr.error('Please choose valid check-in date and check-out date');
+          return;
+        } else if (checkin === checkout) {
+          toastr.error('Please choose different check-in and check-out date')
+          return;
+        }
+
+
+        let url = `/hotels/`+ hotelId
+
+        if (checkin !== '') {
+          url += `?checkin=${checkinDate}`
+        }
+        if (checkout !== '') {
+          url += `${checkin ? '&' : '?'}checkout=${checkoutDate}`
+        }
+        if (numberOfGuests !== '' && numberOfGuests != null) {
+          url += `${location || checkin ? '&' : '?'}guests=${numberOfGuests}`
+        }
+
+        window.location.href = url;
 
       });
 
+      function formatDateBack(dateString) {
+        const parts = dateString.split('-');
+        if (parts.length !== 3) {
+          return null;
+        }
+        const [year, month, day] = parts.map(Number);
+
+        // Định dạng lại thành ngày tháng theo định dạng mong muốn (DD/MM/YYYY)
+        const formattedDate = `${day.toString().padStart(2, '0')}/${month.toString().padStart(2, '0')}/${year}`;
+        return formattedDate;
+      }
+      function parseDate(dateString, format) {
+        const parts = dateString.split('/');
+        if (parts.length !== 3) {
+          return null;
+        }
+        const [day, month, year] = parts.map(Number);
+
+        // Định dạng lại thành ngày tháng theo định dạng mong muốn (YYYY-MM-DD)
+        const formattedDate = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+        return formattedDate;
+      }
     });
   </script>
   <script th:src="@{/assets/component/js/jquery-ui.js}"></script>

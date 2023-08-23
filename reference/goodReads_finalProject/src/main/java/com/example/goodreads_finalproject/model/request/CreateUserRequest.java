@@ -11,6 +11,8 @@ import javax.validation.constraints.NotBlank;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CreateUserRequest {
 
+    String avatar;
+
     @NotBlank
     @Email(message = "Yêu cầu nhập đúng định dạng email")
     String email;

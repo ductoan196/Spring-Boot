@@ -2,17 +2,26 @@
 <html class="no-js" lang="" xmlns:th="http://www.thymeleaf.org"
       th:replace="~{layout/layout :: main-fragment(
                                                 ~{:: title},
-                                                ~{},
+                                                ~{:: #css},
                                                 ~{:: #header},
                                                 ~{:: #main-content},
                                                 ~{:: #footer},
-                                                ~{}
+                                                ~{:: #js}
                                                 )}">
 
 <head>
 
-    <title>Books</title>
-
+    <title>Book List</title>
+    <th:block id="css">
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
+        <link rel="stylesheet" th:href="@{/handle/paginationCSS.css}">
+        <link rel="stylesheet" th:href="@{/handle/reading-book-btn.css}">
+        <style>
+            #reading-book-status {
+                width: 125px;
+            }
+        </style>
+    </th:block>
 </head>
 <body>
 
@@ -37,7 +46,7 @@
                         <div class="tg-innerbannercontent">
                             <h1>Books</h1>
                             <ol class="tg-breadcrumb">
-                                <li><a href="javascript:void(0);">Home</a></li>
+                                <li><a href="/">Home</a></li>
                                 <li class="tg-active">Books</li>
                             </ol>
                         </div>
@@ -63,63 +72,27 @@
                                 <div id="tg-content" class="tg-content">
                                     <div class="tg-products">
 
-                                        <div class="tg-featurebook alert" role="alert">
-                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                            <div class="tg-featureditm">
-                                                <div class="row">
-                                                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 hidden-sm hidden-xs">
-                                                        <figure><img src="images/img-04.png" alt="image description">
-                                                        </figure>
-                                                    </div>
-                                                    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
-                                                        <div class="tg-featureditmcontent">
-                                                            <div class="tg-themetagbox"><span
-                                                                    class="tg-themetag">featured</span></div>
-                                                            <div class="tg-booktitle">
-                                                                <h3><a href="javascript:void(0);">Things To Know About
-                                                                    Green
-                                                                    Flat Design</a></h3>
-                                                            </div>
-                                                            <span class="tg-bookwriter">By: <a
-                                                                    href="javascript:void(0);">Farrah Whisenhunt</a></span>
-                                                            <span class="tg-stars"><span></span></span>
-                                                            <div class="tg-priceandbtn">
-																<span class="tg-bookprice">
-																	<ins>$23.18</ins>
-																	<del>$30.20</del>
-																</span>
-                                                                <a class="tg-btn tg-btnstyletwo tg-active"
-                                                                   href="javascript:void(0);">
-                                                                    <i class="fa fa-shopping-basket"></i>
-                                                                    <em>Add To Basket</em>
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
                                         <div class="tg-productgrid">
                                             <div class="tg-refinesearch">
-                                                <span>showing 1 to 8 of 20 total</span>
+                                                <span id="showing-status"></span>
                                                 <form class="tg-formtheme tg-formsortshoitems">
                                                     <fieldset>
+
+                                                        <!--                                                        <div class="form-group">-->
+                                                        <!--                                                            <label>sort by:</label>-->
+                                                        <!--                                                            <span class="tg-select">-->
+                                                        <!--																<select>-->
+                                                        <!--																	<option>name</option>-->
+                                                        <!--																	<option>name</option>-->
+                                                        <!--																	<option>name</option>-->
+                                                        <!--																</select>-->
+                                                        <!--															</span>-->
+                                                        <!--                                                        </div>-->
                                                         <div class="form-group">
-                                                            <label>sort by:</label>
+                                                            <label>Show:</label>
                                                             <span class="tg-select">
-																<select>
-																	<option>name</option>
-																	<option>name</option>
-																	<option>name</option>
-																</select>
-															</span>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label>show:</label>
-                                                            <span class="tg-select">
-																<select>
+																<select id="show-pagesize">
+																	<option>4</option>
 																	<option>8</option>
 																	<option>16</option>
 																	<option>20</option>
@@ -129,59 +102,101 @@
                                                     </fieldset>
                                                 </form>
                                             </div>
-                                            <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3" th:each="book:${bookList}">
-                                                <div class="tg-postbook">
-                                                    <figure class="tg-featureimg" th:height="256px">
-                                                        <div class="tg-bookimg">
-                                                            <div class="tg-frontcover">
-                                                                <img th:src="${book.image}" alt="image description">
+                                            <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3"
+                                                 th:each="book:${bookSearchData.data}">
+                                                <div class="item">
+                                                    <div class="tg-postbook">
+                                                        <figure class="tg-featureimg">
+                                                            <div class="tg-bookimg">
+                                                                <div class="tg-frontcover"><img
+                                                                        th:src="${book.image}"
+                                                                        alt="image description"></div>
+                                                                <div class="tg-backcover"><img th:src="${book.image}"
+                                                                                               alt="image description">
+                                                                </div>
                                                             </div>
-                                                            <div class="tg-backcover">
-                                                                <img th:src="${book.image}" alt="image description">
+                                                            <a class="tg-btnaddtowishlist" href="javascript:void(0);">
+                                                                <i class="icon-heart"></i>
+                                                                <span>Like this book</span>
+                                                            </a>
+                                                        </figure>
+                                                        <div class="tg-postbookcontent book-card"
+                                                             style="min-height: 254px; display: flex;flex-direction: column; ">
+                                                            <ul class="tg-bookscategories"
+                                                                th:with="categories=${book.categories}">
+                                                                <li th:each="category:${categories}">
+                                                                    <a href="javascript:void(0);"
+                                                                       th:text="${category.name}">Adventure</a>
+                                                                </li>
+                                                            </ul>
+                                                            <div class="tg-themetagbox"><span
+                                                                    class="tg-themetag">Goodreads Choice Award</span>
                                                             </div>
-                                                        </div>
-                                                        <a class="tg-btnaddtowishlist" href="javascript:void(0);">
-                                                            <i class="icon-heart"></i>
-                                                            <span>Mark for interest</span>
-                                                        </a>
-                                                    </figure>
-                                                    <div class="tg-postbookcontent">
-                                                        <ul class="tg-bookscategories"
-                                                            th:with="categories=${book.categories}">
-                                                            <li th:each="category:${categories}"><a
+                                                            <div class="tg-booktitle">
+                                                                <h3><a th:href="@{/books/{bookId} (bookId=${book.id})}"
+                                                                       th:text="${book.title}">Help Me Find My
+                                                                    Stomach</a></h3>
+                                                            </div>
+                                                            <span class="tg-bookwriter">By: <a
                                                                     href="javascript:void(0);"
-                                                                    th:text="${category.name}"></a>
-                                                            </li>
-                                                        </ul>
-                                                        <div class="tg-themetagbox"><span
-                                                                class="tg-themetag">sale</span>
+                                                                    th:text="${book.author}">Angela Gunning</a></span>
+
+                                                            <span class="tg-bookprice">
+                                                                <span th:text="${book.rating}"
+                                                                      style="font-weight: bolder"></span>
+                                                                <span>-</span>
+                                                                <span th:text="${book.countOfRatings}"></span>
+                                                                <span>ratings</span>
+                                                            </span>
+                                                            <!--                                                            <span class="tg-stars"-->
+                                                            <!--                                                                  th:value="${book.rating}"><span></span></span>-->
+                                                            <div id="display-rating">
+                                                                <div class="stars">
+                                                                    <svg viewBox="0 0 940.688 940.688">
+                                                                        <path
+                                                                                d="M885.344,319.071l-258-3.8l-102.7-264.399c-19.8-48.801-88.899-48.801-108.6,0l-102.7,264.399l-258,3.8 c-53.4,3.101-75.1,70.2-33.7,103.9l209.2,181.4l-71.3,247.7c-14,50.899,41.1,92.899,86.5,65.899l224.3-122.7l224.3,122.601 c45.4,27,100.5-15,86.5-65.9l-71.3-247.7l209.2-181.399C960.443,389.172,938.744,322.071,885.344,319.071z"/>
+                                                                    </svg>
+                                                                    <svg viewBox="0 0 940.688 940.688">
+                                                                        <path
+                                                                                d="M885.344,319.071l-258-3.8l-102.7-264.399c-19.8-48.801-88.899-48.801-108.6,0l-102.7,264.399l-258,3.8 c-53.4,3.101-75.1,70.2-33.7,103.9l209.2,181.4l-71.3,247.7c-14,50.899,41.1,92.899,86.5,65.899l224.3-122.7l224.3,122.601 c45.4,27,100.5-15,86.5-65.9l-71.3-247.7l209.2-181.399C960.443,389.172,938.744,322.071,885.344,319.071z"/>
+                                                                    </svg>
+                                                                    <svg viewBox="0 0 940.688 940.688">
+                                                                        <path
+                                                                                d="M885.344,319.071l-258-3.8l-102.7-264.399c-19.8-48.801-88.899-48.801-108.6,0l-102.7,264.399l-258,3.8 c-53.4,3.101-75.1,70.2-33.7,103.9l209.2,181.4l-71.3,247.7c-14,50.899,41.1,92.899,86.5,65.899l224.3-122.7l224.3,122.601 c45.4,27,100.5-15,86.5-65.9l-71.3-247.7l209.2-181.399C960.443,389.172,938.744,322.071,885.344,319.071z"/>
+                                                                    </svg>
+                                                                    <svg viewBox="0 0 940.688 940.688">
+                                                                        <path
+                                                                                d="M885.344,319.071l-258-3.8l-102.7-264.399c-19.8-48.801-88.899-48.801-108.6,0l-102.7,264.399l-258,3.8 c-53.4,3.101-75.1,70.2-33.7,103.9l209.2,181.4l-71.3,247.7c-14,50.899,41.1,92.899,86.5,65.899l224.3-122.7l224.3,122.601 c45.4,27,100.5-15,86.5-65.9l-71.3-247.7l209.2-181.399C960.443,389.172,938.744,322.071,885.344,319.071z"/>
+                                                                    </svg>
+                                                                    <svg viewBox="0 0 940.688 940.688">
+                                                                        <path
+                                                                                d="M885.344,319.071l-258-3.8l-102.7-264.399c-19.8-48.801-88.899-48.801-108.6,0l-102.7,264.399l-258,3.8 c-53.4,3.101-75.1,70.2-33.7,103.9l209.2,181.4l-71.3,247.7c-14,50.899,41.1,92.899,86.5,65.899l224.3-122.7l224.3,122.601 c45.4,27,100.5-15,86.5-65.9l-71.3-247.7l209.2-181.399C960.443,389.172,938.744,322.071,885.344,319.071z"/>
+                                                                    </svg>
+
+                                                                    <div class="overlay"
+                                                                         th:attr="rating=${book.rating}"
+                                                                         th:style="|width:${100-(book.rating*20)}%|"></div>
+
+                                                                </div>
+                                                            </div>
+
+                                                            <th:block
+                                                                    th:replace="fragments/reading-book :: readingBook(${book.readingStatus},${book.id})">
+                                                            </th:block>
+
                                                         </div>
-                                                        <div class="tg-booktitle">
-                                                            <h3>
-                                                                <a th:href="@{/users/books/{bookId} (bookId=${book.id})}"
-                                                                   th:text="${book.title}"></a>
-                                                            </h3>
-                                                        </div>
-                                                        <span class="tg-bookwriter">By:
-                                                            <a href="javascript:void(0);"
-                                                               th:text="${book.author}"></a></span>
-                                                        <span class="tg-stars"><span></span></span>
-                                                        <span class="tg-bookprice">
-															<ins>$25.18</ins>
-															<del>$27.20</del>
-														</span>
-                                                        <a class="tg-btn tg-btnstyletwo" href="javascript:void(0);">
-                                                            <!--                                                            <i class="fa fa-shopping-basket"></i>-->
-                                                            <em>Want to read</em>
-                                                        </a>
                                                     </div>
                                                 </div>
                                             </div>
-
+                                        </div>
+                                        <div id="pagination-user" class="form-group">
+                                            <th:block
+                                                    th:replace="fragments/paginationUser::pagination(${currentPage},${bookSearchData})"></th:block>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+
                             <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3 pull-left">
                                 <th:block id="tg-sidebar" th:replace="fragments/sidebar :: sidebar"></th:block>
                             </div>
@@ -210,7 +225,25 @@
 <!--************************************
         Wrapper End
 *************************************-->
+<th:block id="js">
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
+    <script th:inline="javascript">
+        let bookSearchData = [[${bookSearchData}]]
+        let currentPage = [[${currentPage}]]
+        $('#pageInput').select2({});
+
+        // Showing book status
+        let minBookInPage = ((currentPage - 1) * showPageSize) + 1;
+        let maxBookInPage = currentPage * (showPageSize);
+        if (maxBookInPage > bookSearchData.totalResult) {
+            maxBookInPage = bookSearchData.totalResult;
+        }
+        let htmlShowingItem = `showing ${minBookInPage} - ${maxBookInPage} of <b>${bookSearchData.totalResult}</b> books`
+        $('#showing-status').html(htmlShowingItem)
+
+    </script>
+</th:block>
 </body>
 
 </html>

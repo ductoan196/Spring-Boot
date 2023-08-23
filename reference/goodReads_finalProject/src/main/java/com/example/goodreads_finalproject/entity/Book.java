@@ -31,10 +31,14 @@ public class Book extends BaseEntity {
     @Column(columnDefinition = "TEXT")
     String description;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "default 0")
     double rating;
 
     LocalDate published;
 
     String buyBook;
+
+    //TODO: thêm số trang để cập nhật quá trình đọc sách
+//    @Column(nullable = false, columnDefinition = "default 0")
+//    Integer pages;
 }

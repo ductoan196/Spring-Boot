@@ -3,6 +3,7 @@ package com.example.goodreads_finalproject.controller;
 import com.example.goodreads_finalproject.entity.RefreshToken;
 import com.example.goodreads_finalproject.entity.User;
 import com.example.goodreads_finalproject.exception.AccountNotActiveException;
+import com.example.goodreads_finalproject.exception.BadRequestException;
 import com.example.goodreads_finalproject.exception.RefreshTokenNotFoundException;
 import com.example.goodreads_finalproject.model.request.*;
 import com.example.goodreads_finalproject.model.response.JwtResponse;
@@ -51,8 +52,7 @@ public class AuthenticationController {
 
     @PostMapping("/login")
     public JwtResponse authenticateUser(@Valid @RequestBody LoginRequest request, HttpServletResponse response) {
-        Authentication authentication = authenticationManager
-                .authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtUtils.generateJwtToken(authentication);
@@ -75,6 +75,12 @@ public class AuthenticationController {
                 .build();
         refreshTokenRepository.save(refreshTokenEntity);
 
+        if (user.isLocked()) {
+            return JwtResponse.builder()
+                    .locked(user.isLocked())
+                    .build();
+        }
+
         JwtResponse jwtResponse = JwtResponse.builder()
                 .jwt(jwt)
                 .refreshToken(refreshToken)
@@ -83,12 +89,11 @@ public class AuthenticationController {
                 .roles(roles)
                 .fullName(user.getFullName())
                 .avatar(user.getAvatar())
+                .locked(user.isLocked())
                 .build();
-        //Set cookie
         Cookie jwtCookie = new Cookie("jwtToken", jwtResponse.getJwt());
         jwtCookie.setPath("/");
         response.addCookie(jwtCookie);
-
         return jwtResponse;
     }
 
@@ -109,7 +114,6 @@ public class AuthenticationController {
         jwtCookie.setMaxAge(0);
         jwtCookie.setPath("/");
         response.addCookie(jwtCookie);
-
         userService.logout();
         return ResponseEntity.ok(null);
     }
@@ -117,11 +121,19 @@ public class AuthenticationController {
     @PostMapping("/refresh-token")
     public ResponseEntity<?> refreshToken(@RequestBody @Valid RefreshTokenRequest request, HttpServletResponse response) {
         try {
-            return ResponseEntity.ok(userService.refreshToken(request,response));
+            return ResponseEntity.ok(userService.refreshToken(request, response));
         } catch (RefreshTokenNotFoundException | UsernameNotFoundException ex) {
             return new ResponseEntity<>("Thông tin refreshToken không chính xác", HttpStatus.BAD_REQUEST);
         }
     }
 
-
+    @PutMapping("/password-change")
+    public ResponseEntity<?> changePassword(@RequestBody @Valid ChangePasswordRequest request) {
+        try {
+            userService.changePassword(request);
+            return new ResponseEntity<>(null, HttpStatus.OK);
+        } catch (BadRequestException e) {
+            return new ResponseEntity<>("Thay đổi mật khẩu không thành công!", HttpStatus.BAD_REQUEST);
+        }
+    }
 }

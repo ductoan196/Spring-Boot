@@ -6,6 +6,7 @@ import com.example.travelbooking.model.request.partner.CreateBedRequest;
 import com.example.travelbooking.model.request.partner.CreateRoomRequest;
 import com.example.travelbooking.model.request.partner.RoomSearchRequest;
 import com.example.travelbooking.model.request.partner.UpdateRoomRequest;
+import com.example.travelbooking.model.request.user.AvailableRoomRequestByUser;
 import com.example.travelbooking.model.request.user.RoomSearchRequestByUser;
 import com.example.travelbooking.model.response.partner.CommonResponse;
 import com.example.travelbooking.model.response.partner.RoomResponse;
@@ -19,6 +20,7 @@ import com.example.travelbooking.statics.BedType;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -195,7 +197,7 @@ public class RoomService {
         try {
             List<RoomSearchResponse> rooms = roomCustomRepository.searchRoomByLocationAndCapacity(request);
 
-            List<RoomAvailability> bookedRooms = roomAvailabilityRepository.findByDateBetweenAndAvailableRooms(request.getCheckinDate(), request.getCheckoutDate(), 0);
+            List<RoomAvailability> bookedRooms = roomAvailabilityRepository.findByDateBetweenAndAvailableRooms(request.getCheckin(), request.getCheckout(), 0);
 
             for (RoomAvailability roomAvailability : bookedRooms) {
                 rooms.removeIf(room -> room.getId().equals(roomAvailability.getRoomId()));
@@ -236,4 +238,29 @@ public class RoomService {
     }
 
 
+    public List<RoomResponse> findAvailableRoomByHotelId(Long id, AvailableRoomRequestByUser request) {
+        List<Room> rooms = roomRepository.findByHotelId(id);
+        List<RoomAvailability> availableRooms = roomAvailabilityRepository.findAvailableRooms(id, request.getCheckin(), request.getCheckout());
+
+        List<RoomResponse> roomResponses = rooms.stream()
+                .map(this::convertToRoomResponse)
+                .filter(roomResponse -> {
+                    if (request.getNumberOfGuests() != null) {
+                        return roomResponse.getCapacity() >= request.getNumberOfGuests();
+                    }
+                    return true;
+                })
+                .collect(Collectors.toList());
+
+        //Lấy ra số phòng có sẵn nhỏ nhất là số phòng có sẵn chung trong khoảng thời gian
+        for (RoomResponse roomResponse : roomResponses) {
+            for (RoomAvailability roomAvailability : availableRooms) {
+                if (roomResponse.getId().equals(roomAvailability.getRoomId()) && roomAvailability.getAvailableRooms() < roomResponse.getRoom_nums()) {
+                    roomResponse.setRoom_nums(roomAvailability.getAvailableRooms());
+                }
+            }
+        }
+
+        return roomResponses;
+    }
 }

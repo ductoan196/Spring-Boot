@@ -2354,11 +2354,15 @@ li.menu-item-has-mega-menu {
 .tg-featureimg {
     margin: 0;
     width: 100%;
-    height: auto;
-    min-height: 256px;
+    height: 215px;
     float: left;
     overflow: hidden;
     position: relative;
+}
+
+.tg-productdetail .tg-featureimg {
+    height: 100% !important;
+
 }
 
 .tg-bookimg {
@@ -2558,6 +2562,7 @@ li.menu-item-has-mega-menu {
     font-size: 16px;
     font-weight: 500;
     line-height: 19px;
+    min-height: 40px;
 }
 
 .tg-bookwriter {
@@ -3489,7 +3494,7 @@ li.menu-item-has-mega-menu {
 }
 
 .tg-widget + .tg-widget {
-    margin: 30px 0 0;
+    margin: 55px 0 0;
 }
 
 .tg-widgettitle {
@@ -5622,4 +5627,31 @@ body.tg-comingsoonpage .tg-footerbar {
     top: 10px;
     left: 50%;
     transform: translateX(-50%);
+}
+
+#display-rating {
+    display: flex;
+}
+
+.stars {
+    position: relative;
+    white-space: nowrap;
+}
+
+.stars svg {
+    width: 13px;
+}
+
+.overlay {
+    background: #fff;
+    height: 100%;
+    overflow: hidden;
+    mix-blend-mode: color;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+svg {
+    fill: #FCD01E;
 }

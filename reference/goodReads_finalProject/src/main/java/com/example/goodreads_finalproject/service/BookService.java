@@ -6,19 +6,18 @@ import com.example.goodreads_finalproject.model.request.*;
 import com.example.goodreads_finalproject.model.response.*;
 import com.example.goodreads_finalproject.repository.*;
 import com.example.goodreads_finalproject.repository.custom.BookCustomRepository;
+import com.example.goodreads_finalproject.repository.custom.ReviewCustomRepository;
 import com.example.goodreads_finalproject.statics.ReadingStatus;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -26,18 +25,25 @@ import java.util.stream.Collectors;
 public class BookService {
     BookRepository bookRepository;
     UserRepository userRepository;
-    CategoryRepository categoryRepository;
+    CategoryService categoryService;
     ReadingBookRepository readingBookRepository;
+    BookOfChallengeRepository bookOfChallengeRepository;
     ObjectMapper objectMapper;
     BookCustomRepository bookCustomRepository;
+    ReviewBookRepository reviewBookRepository;
+    ReviewCustomRepository reviewCustomRepository;
 
 
-    public void createBook(CreateBookRequest newBook) {
-        Set<Long> categoryId = newBook.getCategoryId().stream()
-                .map(Long::parseLong)
-                .collect(Collectors.toSet());
+    public void createBook(BookRequest newBook) {
+//        Set<Long> categoryId = newBook.getCategoryId().stream()
+//                .map(Long::parseLong)
+//                .collect(Collectors.toSet());
         Set<Category> categories = new HashSet<>();
-        categoryId.forEach(id -> categories.add(categoryRepository.findById(id).get()));
+        newBook.getCategoryId().forEach(id -> categories.add(categoryService.findById(id).get()));
+
+        String bookNameParam = newBook.getTitle().trim().replace(" ", "%20");
+        String buyBookFahasaLink = "https://www.fahasa.com/searchengine?q=" + bookNameParam;
+
 
         Book book = Book.builder()
                 .image(newBook.getImage().equals("") ? "/original/images/books/no-cover.png" : newBook.getImage())
@@ -47,115 +53,89 @@ public class BookService {
                 .categories(categories)
                 .description(newBook.getDescription())
                 .published(newBook.getPublished())
+                .buyBook(newBook.getBuyBook().equals("") ? buyBookFahasaLink : newBook.getBuyBook())
                 .build();
         bookRepository.save(book);
     }
 
-//    public Page<ReadingBookResponse> getAllBooksUserInterested(Long userId, Integer page, Integer pageSize) {
-//        Pageable pageRequest = PageRequest.of(page - 1, pageSize);
-//        Optional<User> userOptional = userRepository.findById(userId);
-//        if (userOptional.isEmpty()) {
-//            throw new NotFoundException("Not found user!");
-//        }
-//        Page<ReadingBook> readingBooksPage = readingBookRepository.findAllByUser(userOptional.get(), pageRequest);
-//        if (readingBooksPage == null) {
-//            throw new NotFoundException("Not found book!");
-//        }
-//        List<ReadingBookResponse> responseList = new ArrayList<>();
-//
-//        for (ReadingBook readingBook : readingBooksPage.getContent()) {
-//            responseList.add(objectMapper.convertValue(readingBook, ReadingBookResponse.class));
-//        }
-//
-//        return new PageImpl<>(responseList, pageRequest, readingBooksPage.getTotalElements());
-//    }
-
-    public void updateBook(UpdateBookRequest updateBookRequest) {
+    public void updateBook(BookRequest updateBookRequest) {
         Book book = bookRepository.findById(updateBookRequest.getBookId()).get();
         Set<Long> categoryIds = updateBookRequest.getCategoryId();
         Set<Category> categories = new HashSet<>();
 
-        categoryIds.forEach(id -> categories.add(categoryRepository.findById(id).get()));
+        categoryIds.forEach(id -> categories.add(categoryService.findById(id).get()));
 
-        String imageLink = updateBookRequest.getImage();
-        if (updateBookRequest.getImage().equals("")) {
-            imageLink = "/original/images/books/no-cover.png";
+        if (!updateBookRequest.getImage().equals("")) {
+            book.setImage(updateBookRequest.getImage());
         }
 
-        book.setImage(imageLink);
+        if (!updateBookRequest.getBuyBook().equals("")) {
+            book.setBuyBook(updateBookRequest.getBuyBook());
+        }
+
         book.setTitle(updateBookRequest.getTitle());
         book.setAuthor(updateBookRequest.getAuthor());
-        book.setBuyBook(updateBookRequest.getBuyBook());
         book.setCategories(categories);
         book.setDescription(updateBookRequest.getDescription());
         book.setPublished(updateBookRequest.getPublished());
-        book.setRating(updateBookRequest.getRating());
         bookRepository.save(book);
     }
 
-    //TODO: Ko search ra được
-    public Page<Book> findBook(String keyWord, String searchType, Integer page, Integer pageSize) {
-        Pageable pageRequest = PageRequest.of(page - 1, pageSize);
-        return switch (searchType) {
-            case "" -> bookRepository.findAllByTitleOrAuthorContainingIgnoreCase(keyWord, keyWord, pageRequest);
-            case "title" -> bookRepository.findAllByTitleContainingIgnoreCase(keyWord, pageRequest);
-            case "author" -> bookRepository.findAllByAuthorContainingIgnoreCase(keyWord, pageRequest);
-            default -> bookRepository.findAllByTitleOrAuthorContainingIgnoreCase(null, null, pageRequest);
-        };
-
-    }
-
-
-    //category
-    public void createCategory(CategoryRequest newCategoryRequest) {
-        Category category = Category.builder()
-                .name(newCategoryRequest.getCategory())
-                .build();
-        categoryRepository.save(category);
-    }
-
-    public void deleteCategory(Long id) throws BadRequestException {
-        Optional<Category> categoryOptional = categoryRepository.findById(id);
-        if (categoryOptional.isEmpty()) {
-            throw new NotFoundException("Not found category");
-        }
-        List<Book> bookList = bookRepository.findAllByCategories(categoryOptional.get());
-        if (bookList.size() > 0) {
-            throw new BadRequestException();
-        }
-        categoryRepository.deleteById(id);
-    }
-
-    public List<Category> getAllCategories() {
-        return categoryRepository.findAll();
-    }
-
-    public Page<Book> getAllBook(Integer page, Integer pageSize) {
-        Pageable pageRequest = PageRequest.of(page - 1, pageSize);
-        return bookRepository.findAll(pageRequest);
-    }
-
     public Book findBookByBookId(Long bookId) {
-        Optional<Book> bookOptional = bookRepository.findById(bookId);
-        if (bookOptional.isEmpty()) {
+        Optional<Book> bookResponse = bookRepository.findById(bookId);
+        if (bookResponse.isEmpty()) {
             throw new NotFoundException("Book not found!");
         }
-        return bookOptional.get();
+
+        return bookResponse.get();
+    }
+
+    public BookResponse findBookByBookId(Long bookId, Long userId) {
+        BookResponse bookResponse = bookCustomRepository.findByBookIdAndUserId(bookId, userId);
+        if (bookResponse == null) {
+            throw new NotFoundException("Book not found!");
+        }
+        return bookResponse;
     }
 
     public CommonResponse<?> searchBook(BookSearchRequest request) {
         try {
             List<BookResponse> books = bookCustomRepository.searchBook(request);
+            Integer totalResult = books.size();
+
             Integer pageIndex = request.getPageIndex();
             Integer pageSize = request.getPageSize();
 
-            int pageNumber = (int) Math.ceil((float) books.size() / pageSize);
-
             PaginationUtils<BookResponse> paginationUtils = new PaginationUtils<>();
+            int pageNumber = paginationUtils.getPageNumber(books, pageSize);
             books = paginationUtils.searchData(books, pageIndex, pageSize);
 
 
             return CommonResponse.builder()
+                    .totalResult(totalResult)
+                    .pageNumber(pageNumber)
+                    .data(books)
+                    .build();
+        } catch (Exception e) {
+            throw new NotFoundException("Page index out of bound");
+        }
+    }
+
+
+    public CommonResponse<?> searchBookAuthen(BookSearchRequest request, Long userId) {
+        try {
+            List<BookResponse> books = bookCustomRepository.searchBookAuthen(request, userId);
+            Integer totalResult = books.size();
+            Integer pageIndex = request.getPageIndex();
+            Integer pageSize = request.getPageSize();
+
+            PaginationUtils<BookResponse> paginationUtils = new PaginationUtils<>();
+            int pageNumber = paginationUtils.getPageNumber(books, pageSize);
+            books = paginationUtils.searchData(books, pageIndex, pageSize);
+
+
+            return CommonResponse.builder()
+                    .totalResult(totalResult)
                     .pageNumber(pageNumber)
                     .data(books)
                     .build();
@@ -170,6 +150,7 @@ public class BookService {
         if (bookOptional.isEmpty()) {
             throw new NotFoundException("Book not found!");
         }
+
         String status = request.getReadingStatus();
         ReadingStatus enumValue = null;
         for (ReadingStatus readingStatus : ReadingStatus.values()) {
@@ -181,11 +162,18 @@ public class BookService {
         if (enumValue == null) {
             throw new IllegalArgumentException("Invalid Reading Status!");
         }
-        ReadingBook readingBook = ReadingBook.builder()
-                .book(bookOptional.get())
-                .user(user)
-                .readingStatus(enumValue)
-                .build();
+        Optional<ReadingBook> readingBookOptional = readingBookRepository.findByUserAndBook(user, bookOptional.get());
+        ReadingBook readingBook;
+        if (readingBookOptional.isEmpty()) {
+            readingBook = ReadingBook.builder()
+                    .book(bookOptional.get())
+                    .user(user)
+                    .readingStatus(enumValue)
+                    .build();
+        } else {
+            readingBook = readingBookOptional.get();
+            readingBook.setReadingStatus(enumValue);
+        }
         readingBookRepository.save(readingBook);
     }
 
@@ -244,5 +232,119 @@ public class BookService {
         result.add(countWantToRead);
         return result;
     }
+
+    @Transactional
+    public void deleteBook(Long bookId) throws BadRequestException {
+        Book book = bookRepository.findById(bookId).get();
+        readingBookRepository.findAllByBook(book);
+        bookOfChallengeRepository.findAllByBook(book);
+
+        if (readingBookRepository.findAllByBook(book).isPresent() || bookOfChallengeRepository.findAllByBook(book).isPresent()) {
+            throw new BadRequestException();
+        }
+        bookCustomRepository.deleteBookCategories(bookId);
+        bookRepository.deleteById(bookId);
+    }
+
+    public List<CategoryResponse> getAllCategories() {
+        return categoryService.getAllCategories();
+    }
+
+    public CommonResponse<?> findRandomBooks(Long userId) {
+        List<Long> allIds = bookCustomRepository.getAllIds(userId);
+
+        List<Long> randomNumbers = getRandomNumbers(allIds, 7);
+        List<BookResponse> randomBooks = bookCustomRepository.findRandomBooks(randomNumbers, userId);
+
+        return CommonResponse.builder()
+                .data(randomBooks)
+                .build();
+    }
+
+    public List<Long> getRandomNumbers(List<Long> source, int count) {
+        if (count > source.size()) {
+            throw new IllegalArgumentException("Số lượng số ngẫu nhiên yêu cầu vượt quá số lượng số trong danh sách.");
+        }
+        List<Long> shuffledNumbers = new ArrayList<>(source);
+        Collections.shuffle(shuffledNumbers);
+        return shuffledNumbers.subList(0, count);
+    }
+
+    public void removeMarkBook(Long bookId, Long userId) {
+        bookCustomRepository.removeMarkBook(bookId, userId);
+        removeReview(bookId, userId);
+    }
+
+    public void removeRating(Long bookId, Long userId) {
+        reviewCustomRepository.removeRating(bookId, userId);
+        calculateAvgRating(bookId);
+    }
+
+    public void changeRating(ReviewRequest request, Long userId) {
+        saveReview(request, userId);
+        reviewCustomRepository.changeRating(request, userId);
+        if (request.getReadingStatus() == null) {
+            ReadingBookRequest readingBookRequest = ReadingBookRequest.builder()
+                    .userId(userId)
+                    .bookId(request.getBookId())
+                    .readingStatus("Read")
+                    .build();
+            markBook(readingBookRequest);
+        }
+        calculateAvgRating(request.getBookId());
+    }
+
+    public void saveReview(ReviewRequest request, Long userId) {
+        User user = userRepository.findById(userId).get();
+        Book book = bookRepository.findById(request.getBookId()).get();
+        Optional<Review> reviewOptional = reviewBookRepository.findByUserAndBook(user, book);
+        Review review;
+        if (reviewOptional.isEmpty()) {
+            review = Review.builder()
+                    .book(bookRepository.findById(request.getBookId()).get())
+                    .user(userRepository.findById(userId).get())
+                    .content(request.getContent())
+                    .rating(0)
+                    .build();
+        } else {
+            review = reviewOptional.get();
+            review.setContent(request.getContent());
+        }
+        reviewBookRepository.save(review);
+        if (request.getReadingStatus() == null) {
+            ReadingBookRequest readingBookRequest = ReadingBookRequest.builder()
+                    .userId(userId)
+                    .bookId(request.getBookId())
+                    .readingStatus("Read")
+                    .build();
+            markBook(readingBookRequest);
+        }
+    }
+
+    public void removeReview(Long bookId, Long userId) {
+        reviewCustomRepository.removeReview(bookId, userId);
+        calculateAvgRating(bookId);
+    }
+
+    public void calculateAvgRating(Long bookId) {
+        Book book = bookRepository.findById(bookId).get();
+        double totalRatingValue = 0;
+        Integer totalOfRating = 0;
+        List<AvgRatingResponse> avgRatingResponses = reviewCustomRepository.calculateAvgRating(bookId);
+        for (AvgRatingResponse avg : avgRatingResponses) {
+            totalRatingValue += avg.getRating() * avg.getCountOfRating();
+            totalOfRating += avg.getCountOfRating();
+        }
+        double avgRating;
+        if (totalOfRating == 0) {
+            avgRating = 0;
+        } else {
+            avgRating = totalRatingValue / totalOfRating;
+        }
+        DecimalFormat decimalFormat = new DecimalFormat("#.##");
+        book.setRating(Double.parseDouble(decimalFormat.format(avgRating)));
+        bookRepository.save(book);
+    }
+
 }
 

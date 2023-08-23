@@ -121,7 +121,8 @@
                                         <i class="me-2 icon-md" data-feather="upload"></i>
                                         <p>Click or drag images here to upload</p>
                                     </div>
-                                    <input class="form-control multi file-upload-input with-preview" type="file" name="files[]"
+                                    <input class="form-control multi file-upload-input with-preview" type="file"
+                                           name="files[]"
                                            id="roomImages" multiple maxlength="3" style="display: none;">
                                 </div>
                                 <div class="col-lg-12 mb-5">
@@ -130,27 +131,35 @@
 
 
                                 <div class="col-lg-4 mb-5">
-                                    <label for="roomName" class="form-label">Room Name <span class="text-danger">*</span></label>
+                                    <label for="roomName" class="form-label">Room Name <span
+                                            class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="roomName" autocomplete="off"
                                            placeholder="Enter name" name="name">
                                 </div>
                                 <div class="col-lg-4 mb-5">
-                                    <label for="roomPrice" class="form-label">Room Price <span class="text-danger">*</span></label>
-                                    <input type="number" class="form-control" id="roomPrice" autocomplete="off"
-                                           placeholder="Enter price" name="price" oninput="validateNumberInput(this)">
+                                    <label for="roomPrice" class="form-label">Room Price <span
+                                            class="text-danger">*</span></label>
+                                    <input type="number" class="form-control number-input" id="roomPrice"
+                                           autocomplete="off"
+                                           placeholder="Enter price" name="price">
                                 </div>
                                 <div class="col-lg-4 mb-5">
-                                    <label for="roomCapacity" class="form-label"> Capacity <span class="text-danger">*</span></label>
-                                    <input type="number" class="form-control" id="roomCapacity" autocomplete="off"
+                                    <label for="roomCapacity" class="form-label"> Capacity <span
+                                            class="text-danger">*</span></label>
+                                    <input type="number" class="form-control number-input" id="roomCapacity"
+                                           autocomplete="off"
                                            placeholder="Enter capacity" name="capacity">
                                 </div>
                                 <div class="col-lg-4 mb-5">
-                                    <label for="roomQuantity" class="form-label"> Room Quantity <span class="text-danger">*</span></label>
-                                    <input type="number" class="form-control" id="roomQuantity" autocomplete="off"
+                                    <label for="roomQuantity" class="form-label"> Room Quantity <span
+                                            class="text-danger">*</span></label>
+                                    <input type="number" class="form-control number-input" id="roomQuantity"
+                                           autocomplete="off"
                                            placeholder="Enter quantity" name="quantity">
                                 </div>
                                 <div class="col-lg-4 mb-5">
-                                    <label for="roomStatusList" class="form-label">Status <span class="text-danger">*</span></label>
+                                    <label for="roomStatusList" class="form-label">Status <span
+                                            class="text-danger">*</span></label>
                                     <select class="form-select" id="roomStatusList">
                                         <option th:each="status : ${roomStatusList}" th:value="${status}"
                                                 th:text="${status.getName}"
@@ -159,7 +168,8 @@
                                 </div>
 
                                 <div class="col-lg-4 mb-5">
-                                    <label for="facilityList" class="form-label">Facility <span class="text-danger">*</span></label>
+                                    <label for="facilityList" class="form-label">Facility <span
+                                            class="text-danger">*</span></label>
                                     <select class="form-select facility-select" id="facilityList"
                                             data-selected-facility="">
                                         <option th:each="facility : ${facilityList}" th:value="${facility.getName}"
@@ -170,7 +180,8 @@
                                 </div>
 
                                 <div class="col-lg-8 mb-5">
-                                    <label for="roomDescription" class="form-label">Description <span class="text-danger">*</span></label>
+                                    <label for="roomDescription" class="form-label">Description <span
+                                            class="text-danger">*</span></label>
                                     <textarea class="form-control" id="roomDescription" rows="4"
                                               placeholder="Enter description..." name="description"></textarea>
                                 </div>
@@ -190,7 +201,8 @@
                                     <div class="col-lg-4">
                                         <select class="form-control form-select bed-type" name="bedType"
                                                 data-selected-bed-type="">
-                                            <option value="" disabled selected>Chọn loại giường <span class="text-danger">*</span></option>
+                                            <option value="" disabled selected>Chọn loại giường <span
+                                                    class="text-danger">*</span></option>
                                             <option th:each="bedType : ${bedTypes}" th:value="${bedType}"
                                                     th:text="${bedType.getName}"
                                                     class="text-body" data-bed-type="${bedType}">BedType
@@ -198,7 +210,7 @@
                                         </select>
                                     </div>
                                     <div class="col-lg-4">
-                                        <input type="number" class="form-control bed-quantity"
+                                        <input type="number" class="form-control bed-quantity number-input"
                                                placeholder="Nhập số lượng" name="bedQuantity">
                                     </div>
                                     <div class="col-lg-4">
@@ -288,6 +300,9 @@
 
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/autonumeric/4.9.0/autoNumeric.min.js"
+            integrity="sha512-8gzQcg9kbS4PKtpwg52pfVLjkqSYAc5IWHnd0eLGgxlcAnqYPcVLCh9pgQErFthJvmmxFNvbCAGF6vuHtGfZsQ=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"
@@ -361,6 +376,11 @@
         });
 
         $(document).ready(function () {
+            //Ngăn chặn người dùng nhập chữ cho sđt
+            $('.number-input').on('input', function () {
+                $(this).val($(this).val().replace(/[^\d]/g, ''));
+            });
+
 
             $("#uploadForm").validate({
                 onfocusout: false,

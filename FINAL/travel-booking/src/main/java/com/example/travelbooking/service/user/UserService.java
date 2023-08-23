@@ -3,6 +3,7 @@ package com.example.travelbooking.service.user;
 import com.example.travelbooking.entity.*;
 import com.example.travelbooking.exception.*;
 import com.example.travelbooking.model.request.registration.*;
+import com.example.travelbooking.model.request.user.ChangePasswordRequest;
 import com.example.travelbooking.model.request.user.UpdateUserRequest;
 import com.example.travelbooking.repository.*;
 import com.example.travelbooking.statics.UserStatus;
@@ -344,4 +345,5 @@ public class UserService {
 
         emailService.sendVerificationEmail(user, otpCode);
     }
+
 }

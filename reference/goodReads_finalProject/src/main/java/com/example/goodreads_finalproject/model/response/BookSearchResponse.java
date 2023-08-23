@@ -28,7 +28,17 @@ public class BookSearchResponse {
 
     double rating;
 
+    String ratingDetail;
+
     LocalDate published;
 
     String buyBook;
+
+    String readingStatus;
+
+    Integer countOfRatings;
+
+    Integer countOfReview;
+
+    String content;
 }

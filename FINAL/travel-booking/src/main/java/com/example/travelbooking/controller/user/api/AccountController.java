@@ -7,6 +7,7 @@ import com.example.travelbooking.service.user.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -28,4 +29,8 @@ public class AccountController {
         return ResponseEntity.ok(userResponse);
     }
 
+    @PutMapping("/change-password")
+    public ResponseEntity<?> changePassword(Model model) {
+        return ResponseEntity.ok("Successfull update");
+    }
 }

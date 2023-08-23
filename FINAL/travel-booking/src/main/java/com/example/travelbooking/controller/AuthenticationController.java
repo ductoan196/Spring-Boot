@@ -2,10 +2,12 @@ package com.example.travelbooking.controller;
 
 import com.example.travelbooking.entity.RefreshToken;
 import com.example.travelbooking.entity.User;
+import com.example.travelbooking.exception.NotFoundException;
 import com.example.travelbooking.exception.OTPNotFoundException;
 import com.example.travelbooking.exception.RefreshTokenNotFoundException;
 import com.example.travelbooking.exception.UnverifiedAccountException;
 import com.example.travelbooking.model.request.registration.*;
+import com.example.travelbooking.model.request.user.ChangePasswordRequest;
 import com.example.travelbooking.model.request.user.ReActiveRequest;
 import com.example.travelbooking.model.response.JwtResponse;
 import com.example.travelbooking.repository.RefreshTokenRepository;
@@ -17,6 +19,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -25,7 +28,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.mail.MessagingException;
@@ -55,6 +60,9 @@ public class AuthenticationController {
     RefreshTokenRepository refreshTokenRepository;
 
     AuthenticationManager authenticationManager;
+
+    PasswordEncoder passwordEncoder;
+
 
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest request, HttpServletResponse response) {
@@ -189,13 +197,29 @@ public class AuthenticationController {
         return new  ModelAndView("/user/success-page.html");
     }
 
-//    @PostMapping("/reset-password")
-//    public ModelAndView resetPassword(@Valid @RequestBody ResetPasswordRequest resetPasswordRequest) {
-//
-//        userService.resetPassword(resetPasswordRequest);
-//
-//        return new  ModelAndView("/user/success-page.html");
-//    }
+    @PostMapping("/change-password")
+    public ResponseEntity<?> changePassword( @RequestBody ChangePasswordRequest request) {
+
+        Long userId = request.getUserId();
+        String newPassword = request.getNewPassword();
+        String confirmNewPassword = request.getConfirmNewPassword();
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new NotFoundException("User not found"));
+
+        // Kiểm tra mật khẩu cũ
+        if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Current password is incorrect");
+        }
+
+        // Kiểm tra mật khẩu mới và xác nhận mật khẩu mới
+        if (!newPassword.equals(confirmNewPassword)) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("New passwords do not match");
+        }
+        userService.resetPassword(userId, newPassword);
+
+        return ResponseEntity.ok("Change password successfully");
+    }
 
 
 

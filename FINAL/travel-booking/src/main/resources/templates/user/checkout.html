@@ -34,6 +34,12 @@
             h1, h2, h3, h4, h5, h6 {
                 font-family: "Roboto", sans-serif;
             }
+
+            .card-img img {
+                width: 100%;
+                height: 218px; !important;
+                object-fit: cover; /* Đảm bảo ảnh không bị bóp méo và lấp đầy khung */
+            }
         </style>
         <!--    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">-->
     </th:block>
@@ -85,8 +91,8 @@
                             </div>
                             <!-- form-title-wrap -->
                             <div class="form-content ">
-                                <div class="contact-form-action" id="uploadForm">
-                                    <form method="post">
+                                <div class="contact-form-action">
+                                    <form method="post"  id="uploadForm">
                                         <div class="row">
                                             <div class="col-lg-6 responsive-column mb-3">
                                                 <div class="input-box">
@@ -117,7 +123,7 @@
                                                             class="text-danger">*</span></label>
                                                     <div class="form-group">
                                                         <span class="la la-phone form-icon"></span>
-                                                        <input class="form-control customerPhone" type="text"
+                                                        <input class="form-control customerPhone" type="tel"
                                                                name="phone" placeholder="Phone Number">
                                                     </div>
                                                 </div>
@@ -155,8 +161,8 @@
                                                     LATER IN HOTEL</b>
                                                 </label>
                                                 <div class="method-description">
-                                                    <p style="font-size: 13px">KHÔNG SỢ RỦI RO! Đặt phòng hôm nay và
-                                                        thanh toán tại khách sạn</p>
+                                                    <p style="font-size: 13px">WILL NOT RISK! Book room today and
+                                                        pay at the hotel</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -282,8 +288,8 @@
                             <div class="form-content">
                                 <div class="card-item shadow-none radius-none mb-0">
                                     <div class="card-img pb-4">
-                                        <a href="room-details.html" class="d-block">
-                                            <img src="/assets/component/images/img5.jpg" alt="room-img">
+                                        <a href="room-details.html" class="d-block" >
+                                            <img src="/assets/component/images/img5.jpg" alt="room-img" id="roomImage">
                                         </a>
                                     </div>
                                     <div class="card-body p-0">
@@ -361,6 +367,11 @@
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
         $(document).ready(function () {
+            //Ngăn chặn người dùng nhập chữ cho sđt
+            $('.customerPhone').on('input', function () {
+                $(this).val($(this).val().replace(/[^\d]/g, ''));
+            });
+
             let userInfo = JSON.parse(localStorage.getItem("userInfo"));
             $('.customerName').val(userInfo.fullName);
             $('.customerEmail').val(userInfo.email);
@@ -372,6 +383,7 @@
             const checkin = urlParams.get('checkin');
             const checkout = urlParams.get('checkout');
             const guests = urlParams.get('guests')
+            const roomNums = urlParams.get('roomNums')
 
             // Tính toán số nights
             const checkinDate = new Date(convertDateFormat(checkin));
@@ -384,6 +396,7 @@
             $('#checkOutDate').text(checkout);
             $('#guests').text(guests);
             $('#nights').text(numberOfNights);
+            $('#rooms').text(roomNums);
 
             getRoomById();
 
@@ -396,6 +409,16 @@
                         console.log(response);
                         $('.room-name').text(response.name);
                         $('.hotel-name').text(response.hotel.name);
+
+                        const imageUrls =response.imageUrls;
+                        console.log(imageUrls)
+                        if (imageUrls) {
+                            $('#roomImage').attr("src", imageUrls[0]);
+                        } else {
+                            $('#roomImage').attr("src", '/assets/user/images/no-photo.jpg');
+                        }
+
+                        // Xử lý phần price
                         const price = response.price;
                         const discountPecent = 10;
                         const discountAmount = (price * discountPecent) / 100;
@@ -415,7 +438,9 @@
                         }).format(totalPrice);
                         $('#subTotalPrice').text(formattedPrice);
                         $('#discount').text(formattedDiscount);
-                        $('#totalPrice').text(formattedTotalPrice)
+                        $('#totalPrice').text(formattedTotalPrice);
+                        $('#totalPrice').val(totalPrice);
+
                     },
                     error: function (xhr, status, error) {
                         console.error(error);
@@ -492,13 +517,40 @@
                     errorMessage.text(''); // Clear any previous error message
                 }
 
-                // Validate phone input
-                const form = document.getElementById("uploadForm");
-                const phonePattern = /^\d{10,15}$/; // A pattern for 10 to 15 digits
-                const phoneInput = form.querySelector(".customerPhone");
-                if (!phonePattern.test(phoneInput.value)) {
-                    errorMessage.textContent = "Please enter a valid phone number with 10 to 15 digits.";
-                    return;
+
+                if ($("#uploadForm").valid()) {
+                    let userInfoStr = JSON.parse(localStorage.getItem("userInfo"))
+                    const formData = {
+                        userId: userInfoStr.id,
+                        customerName: $('.customerName').val(),
+                        customerPhone: $('.customerPhone').val(),
+                        roomId: roomId,
+                        startDate: checkin,
+                        endDate: checkout,
+                        totalAmount: $('#totalPrice').val(),
+                        roomNums: roomNums
+                    }
+
+                    showLoading();
+                    $.ajax({
+                        url: '/api/v1/bookings/create-booking',
+                        type: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify(formData),
+                        success: function () {
+                            console.log('ok')
+                            toastr.success('Create booking successfully');
+
+                        },
+                        error: function (xhr, status, error) {
+                            toastr.error('Booking error, please reload and booking again')
+                        },
+                        complete: function () {
+                            hideLoading();
+                        }
+                    })
+
+                    console.log(formData);
                 }
             });
         });

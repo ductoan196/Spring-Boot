@@ -6,6 +6,7 @@ import com.example.travelbooking.entity.location.District;
 import com.example.travelbooking.entity.location.Ward;
 import com.example.travelbooking.model.request.admin.HotelSearchRequest;
 import com.example.travelbooking.model.request.partner.RoomSearchRequest;
+import com.example.travelbooking.model.request.user.AvailableRoomRequestByUser;
 import com.example.travelbooking.model.request.user.RoomSearchRequestByUser;
 import com.example.travelbooking.model.response.admin.HotelSearchResponse;
 import com.example.travelbooking.model.response.partner.CommonResponse;
@@ -55,14 +56,14 @@ public class UserController {
         return "user/search_hotel_list";
     }
 
-    @GetMapping("/hotels/{id}")
-    public String hotelDetail(@PathVariable Long id, Model model) {
-        List<Room> roomList = roomService.findByHotelId(id);
-        Hotel hotel = hotelService.findByHotelId(id);
+    @GetMapping("/hotels/{hotelId}")
+    public String hotelDetail(@PathVariable Long hotelId, AvailableRoomRequestByUser request, Model model) {
+        List<RoomResponse> roomList = roomService.findAvailableRoomByHotelId(hotelId, request);
+        Hotel hotel = hotelService.findByHotelId(hotelId);
 
         model.addAttribute("hotelInfo", hotel );
         model.addAttribute("roomList", roomList);
-        return "user/hotel-detail";
+         return "user/hotel-detail";
     }
 
 

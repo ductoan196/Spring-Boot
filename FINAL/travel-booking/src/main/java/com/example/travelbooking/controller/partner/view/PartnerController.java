@@ -125,6 +125,10 @@ public class PartnerController {
         return "management/partner/booking-management";
     }
 
+    @GetMapping("/partner/change-password")
+    public String changePassword(Model model) {
+        return "management/partner/change-password";
+    }
 
 
 }

@@ -13,14 +13,17 @@
     <link
             href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,400;1,500;1,700;1,900&display=swap"
             rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
+          integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css"
           integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
+    <link rel="icon" th:href="@{/original/images/favicon1.ico}">
 
     <!-- Stylesheets -->
     <script th:src="@{/original/js/vendor/jquery-library.js}"></script>
-    <link rel="stylesheet" th:href="@{/original/multiSelect/css/example.css}">
 
     <link rel="stylesheet" th:href="@{/admin/css/vendors.css}">
     <link rel="stylesheet" th:href="@{/admin/css/main.css}">
@@ -58,22 +61,22 @@
 
             <div class="col-auto">
                 <div class="d-flex items-center">
-                    <div class="row items-center x-gap-5 y-gap-20 pl-20 lg:d-none">
-                        <div class="col-auto">
-                            <button class="button -blue-1-05 size-50 rounded-22 flex-center">
-                                <i class="icon-email-2 text-20"></i>
-                            </button>
-                        </div>
+                    <!--                    <div class="row items-center x-gap-5 y-gap-20 pl-20 lg:d-none">-->
+                    <!--                        <div class="col-auto">-->
+                    <!--                            <button class="button -blue-1-05 size-50 rounded-22 flex-center">-->
+                    <!--                                <i class="icon-email-2 text-20"></i>-->
+                    <!--                            </button>-->
+                    <!--                        </div>-->
 
-                        <div class="col-auto">
-                            <button class="button -blue-1-05 size-50 rounded-22 flex-center">
-                                <i class="icon-notification text-20"></i>
-                            </button>
-                        </div>
-                    </div>
+                    <!--                        <div class="col-auto">-->
+                    <!--                            <button class="button -blue-1-05 size-50 rounded-22 flex-center">-->
+                    <!--                                <i class="icon-notification text-20"></i>-->
+                    <!--                            </button>-->
+                    <!--                        </div>-->
+                    <!--                    </div>-->
 
-                    <div class="pl-15">
-                        <img th:src="@{/admin/img/avatars/3.png}" alt="image" class="size-50 rounded-22 object-cover">
+                    <div class="pl-15" id="avatar-admin">
+
                     </div>
                 </div>
             </div>
@@ -87,7 +90,7 @@
     <div class="dashboard__sidebar bg-white scroll-bar-1">
         <div class="sidebar -dashboard">
             <div class="sidebar__item">
-                <div class="sidebar__button -is-active">
+                <div class="sidebar__button">
                     <a href="db-dashboard.html" class="d-flex items-center text-15 lh-1 fw-500">
                         <i class="fas fa-border-all mr-15"></i>
                         Dashboard
@@ -100,7 +103,7 @@
                         <div class="accordion__button">
                             <div class="sidebar__button col-12 d-flex items-center justify-between">
                                 <div class="d-flex items-center text-15 lh-1 fw-500">
-                                    <i class="fas fa-building mr-15"></i>
+                                    <i class="fa-solid fa-book mr-15"></i>
                                     Manage Book
                                 </div>
                                 <div class="icon-chevron-sm-down text-7"></div>
@@ -109,11 +112,9 @@
 
                         <div class="accordion__content">
                             <ul class="list-disc pb-5 pl-40">
-
                                 <li>
                                     <a href="/admin/books" class="text-15">All Books</a>
                                 </li>
-
                                 <li>
                                     <a href="/admin/add-book" class="text-15">Add Book</a>
                                 </li>
@@ -122,272 +123,15 @@
                     </div>
                 </div>
             </div>
-            <div class="sidebar__item ">
-                <div class="accordion -db-sidebar js-accordion">
-                    <div class="accordion__item">
-                        <div class="accordion__button">
-                            <div class="sidebar__button col-12 d-flex items-center justify-between">
-                                <div class="d-flex items-center text-15 lh-1 fw-500">
-                                    <i class="fas fa-flag  mr-15"></i>
-                                    Manage tour
-                                </div>
-                                <div class="icon-chevron-sm-down text-7"></div>
-                            </div>
-                        </div>
-
-                        <div class="accordion__content">
-                            <ul class="list-disc pb-5 pl-40">
-
-                                <li>
-                                    <a href="db-vendor-tour.html" class="text-15">All tour</a>
-                                </li>
-
-                                <li>
-                                    <a href="db-vendor-add-tour.html" class="text-15">Add tour</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="sidebar__item ">
-                <div class="accordion -db-sidebar js-accordion">
-                    <div class="accordion__item">
-                        <div class="accordion__button">
-                            <div class="sidebar__button col-12 d-flex items-center justify-between">
-                                <div class="d-flex items-center text-15 lh-1 fw-500">
-                                    <i class="fas fa-bus-alt mr-15"></i>
-                                    Manage bus
-                                </div>
-                                <div class="icon-chevron-sm-down text-7"></div>
-                            </div>
-                        </div>
-
-                        <div class="accordion__content">
-                            <ul class="list-disc pb-5 pl-40">
-
-                                <li>
-                                    <a href="db-vendor-bus.html" class="text-15">All bus</a>
-                                </li>
-
-                                <li>
-                                    <a href="db-vendor-add-bus.html" class="text-15">Add bus</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="sidebar__item ">
-                <div class="accordion -db-sidebar js-accordion">
-                    <div class="accordion__item">
-                        <div class="accordion__button">
-                            <div class="sidebar__button col-12 d-flex items-center justify-between">
-                                <div class="d-flex items-center text-15 lh-1 fw-500">
-                                    <i class="fas fa-book t mr-15"></i>
-                                    News
-                                </div>
-                                <div class="icon-chevron-sm-down text-7"></div>
-                            </div>
-                        </div>
-
-                        <div class="accordion__content">
-                            <ul class="list-disc pb-5 pl-40">
-
-                                <li>
-                                    <a href="db-vendor-news.html" class="text-15">All news</a>
-                                </li>
-
-                                <li>
-                                    <a href="db-add-news.html" class="text-15">Add news</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="sidebar__item ">
-                <div class="accordion -db-sidebar js-accordion">
-                    <div class="accordion__item">
-                        <div class="accordion__button">
-                            <div class="sidebar__button col-12 d-flex items-center justify-between">
-                                <div class="d-flex items-center text-15 lh-1 fw-500">
-                                    <i class="fas fa-map-marker-alt mr-15"></i>
-                                    Locations
-                                </div>
-                                <div class="icon-chevron-sm-down text-7"></div>
-                            </div>
-                        </div>
-
-                        <div class="accordion__content">
-                            <ul class="list-disc pb-5 pl-40">
-
-                                <li>
-                                    <a href="db-all-locations.html" class="text-15">All locations</a>
-                                </li>
-
-                                <li>
-                                    <a href="db-add-locations.html" class="text-15">Add locations</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="sidebar__item ">
-                <div class="accordion -db-sidebar js-accordion">
-                    <div class="accordion__item">
-                        <div class="accordion__button">
-                            <div class="sidebar__button col-12 d-flex items-center justify-between">
-                                <div class="d-flex items-center text-15 lh-1 fw-500">
-                                    <i class="fas fa-calendar-check mr-15"></i>
-                                    Event
-                                </div>
-                                <div class="icon-chevron-sm-down text-7"></div>
-                            </div>
-                        </div>
-
-                        <div class="accordion__content">
-                            <ul class="list-disc pb-5 pl-40">
-
-                                <li>
-                                    <a href="db-all-events.html" class="text-15">All events</a>
-                                </li>
-
-                                <li>
-                                    <a href="db-add-events.html" class="text-15">Add events</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="sidebar__item ">
-                <div class="accordion -db-sidebar js-accordion">
-                    <div class="accordion__item">
-                        <div class="accordion__button">
-                            <div class="sidebar__button col-12 d-flex items-center justify-between">
-                                <div class="d-flex items-center text-15 lh-1 fw-500">
-                                    <i class="fas fa-star mr-15"></i>
-                                    User plan
-                                </div>
-                                <div class="icon-chevron-sm-down text-7"></div>
-                            </div>
-                        </div>
-
-                        <div class="accordion__content">
-                            <ul class="list-disc pb-5 pl-40">
-
-                                <li>
-                                    <a href="db-all-plans.html" class="text-15">All plans</a>
-                                </li>
-
-                                <li>
-                                    <a href="db-add-plans.html" class="text-15">Add plans</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="sidebar__item ">
-                <div class="accordion -db-sidebar js-accordion">
-                    <div class="accordion__item">
-                        <div class="accordion__button">
-                            <div class="sidebar__button col-12 d-flex items-center justify-between">
-                                <div class="d-flex items-center text-15 lh-1 fw-500">
-                                    <i class="fas fa-ticket-alt mr-15"></i>
-                                    Coupon
-                                </div>
-                                <div class="icon-chevron-sm-down text-7"></div>
-                            </div>
-                        </div>
-
-                        <div class="accordion__content">
-                            <ul class="list-disc pb-5 pl-40">
-
-                                <li>
-                                    <a href="db-all-coupon.html" class="text-15">All Coupon</a>
-                                </li>
-
-                                <li>
-                                    <a href="db-add-coupon.html" class="text-15">Add Coupon</a>
-                                </li>
-
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div class="sidebar__item">
                 <div class="sidebar__button">
-                    <a href="db-all-review.html" class="d-flex items-center text-15 lh-1 fw-500">
-                        <i class="fas fa-comments mr-15"></i>
-                        Review
+                    <a href="/admin/categories" class="d-flex items-center text-15 lh-1 fw-500">
+                        <i class="fas fa-tags mr-15"></i>
+                        Manage Category
                     </a>
                 </div>
             </div>
-            <div class="sidebar__item">
-                <div class="sidebar__button">
-                    <a href="db-all-media.html" class="d-flex items-center text-15 lh-1 fw-500">
-                        <i class="fas fa-folder mr-15"></i>
-                        Media
-                    </a>
-                </div>
-            </div>
-            <div class="sidebar__item">
-                <div class="sidebar__button">
-                    <a href="db-dashboard.html" class="d-flex items-center text-15 lh-1 fw-500">
-                        <i class="far fa-paper-plane mr-15"></i>
-                        All social links
-                    </a>
-                </div>
-            </div>
-            <div class="sidebar__item ">
-                <div class="accordion -db-sidebar js-accordion">
-                    <div class="accordion__item">
-                        <div class="accordion__button">
-                            <div class="sidebar__button col-12 d-flex items-center justify-between">
-                                <div class="d-flex items-center text-15 lh-1 fw-500">
-                                    <i class="fas fa-wallet mr-15"></i>
-                                    Payment
-                                </div>
-                                <div class="icon-chevron-sm-down text-7"></div>
-                            </div>
-                        </div>
 
-                        <div class="accordion__content">
-                            <ul class="list-disc pb-5 pl-40">
-
-                                <li>
-                                    <a href="db-dashboard.html" class="text-15">Payment information</a>
-                                </li>
-
-                                <li>
-                                    <a href="db-dashboard.html" class="text-15">All payment gateway</a>
-                                </li>
-                                <li>
-                                    <a href="db-dashboard.html" class="text-15">Add payment method</a>
-                                </li>
-                                <li>
-                                    <a href="db-dashboard.html" class="text-15">All currency</a>
-                                </li>
-                                <li>
-                                    <a href="db-dashboard.html" class="text-15">Add currency</a>
-                                </li>
-                                <li>
-                                    <a href="db-dashboard.html" class="text-15">All withdrawal method</a>
-                                </li>
-                                <li>
-                                    <a href="db-dashboard.html" class="text-15">Add withdrawal method</a>
-                                </li>
-
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div class="sidebar__item ">
                 <div class="accordion -db-sidebar js-accordion">
                     <div class="accordion__item">
@@ -404,25 +148,44 @@
                         <div class="accordion__content">
                             <ul class="list-disc pb-5 pl-40">
                                 <li>
-                                    <a href="db-dashboard.html" class="text-15">All users</a>
+                                    <a href="/admin/users" class="text-15">All users</a>
                                 </li>
                                 <li>
-                                    <a href="db-dashboard.html" class="text-15">Add user</a>
+                                    <a href="/admin/roles" class="text-15">All role</a>
                                 </li>
-                                <li>
-                                    <a href="db-dashboard.html" class="text-15">All role</a>
-                                </li>
-                                <li>
-                                    <a href="db-dashboard.html" class="text-15">Add role</a>
-                                </li>
+
                             </ul>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="sidebar__item">
+                <div class="sidebar__button">
+                    <a href="/admin/profile" class="d-flex items-center text-15 lh-1 fw-500">
+                        <i class="fas fa-user-circle  mr-15"></i>
+                        My profile
+                    </a>
+                </div>
+            </div>
+<!--            <div class="sidebar__item">-->
+<!--                <div class="sidebar__button -is-active">-->
+<!--                    <a href="db-settings.html" class="d-flex items-center text-15 lh-1 fw-500">-->
+<!--                        <i class="fas fa-cog mr-15"></i>-->
+<!--                        Settings-->
+<!--                    </a>-->
+<!--                </div>-->
+<!--            </div>-->
+            <div class="sidebar__item">
+                <div class="sidebar__button">
+                    <a href="/" class="d-flex items-center text-15 lh-1 fw-500">
+                        <i class="fa-solid fa-image-portrait mr-15"></i>
+                        User page
+                    </a>
+                </div>
+            </div>
+            <div class="sidebar__item">
                 <div class="sidebar__button ">
-                    <a href="#" class="d-flex items-center text-15 lh-1 fw-500">
+                    <a type="button" id="sign-out" class="d-flex items-center text-15 lh-1 fw-500">
                         <i class="fas fa-sign-out-alt mr-15"></i>
                         Logout
                     </a>
@@ -440,6 +203,8 @@
 <!--        integrity="sha512-QSkVNOCYLtj73J4hbmVoOV6KVZuMluZlioC+trLpewV8qMjsWqlIQvkn1KGX2StWvPMdWGBqim1xlC8krl1EKQ=="-->
 <!--        crossorigin="anonymous" referrerpolicy="no-referrer"></script>-->
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAAz77U5XQuEME6TpftaMdX0bBelQxXRlM"></script>
+<script th:src="@{/original/js/vendor/jquery-library.js}"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-storage.js"></script>
@@ -450,14 +215,10 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 <!--<script th:src="@{/original/js/vendor/bootstrap.min.js}"></script>-->
+
+<script th:src="@{/handle/authentication.js}"></script>
 <script th:src="@{/admin/js/vendors.js}"></script>
 <script th:src="@{/admin/js/main.js}"></script>
-<script th:src="@{/handle/main.js}"></script>
-
-<script th:src="@{/original/multiSelect/js/example.js}"></script>
-<script th:src="@{/original/multiSelect/js/ex-1-custom-appear.js}"></script>
-<script th:src="@{/original/multiSelect/js/m-select-d-box.js}"></script>
-
 
 <th:block th:replace="${jsResources} ?: ~{}"></th:block>
 

@@ -3,8 +3,8 @@ $(window).on("load", function () {
 
     function checkLoggedIn() {
         const jwtToken = localStorage.getItem("jwtToken");
+
         if (!jwtToken) {
-            const userInfo = JSON.parse(localStorage.getItem("userInfomation"));
             $(".tg-wishlistandcart").empty();
             const userHtmlContent = "<div class='btn-group btn-group-regis'>\n" +
                 "<a type=\"button\" href=\"/login\" class=\"btn btn-regis-signin\">SIGN IN</a>\n" +
@@ -13,7 +13,22 @@ $(window).on("load", function () {
             $(".tg-wishlistandcart").append(userHtmlContent);
 
         } else {
-            const userLoginHtml = `
+            // avatar ADMIN
+            const userInfomation = JSON.parse(localStorage.getItem('userInfomation'));
+
+            const avatar = userInfomation.avatar;
+            let avatarAdminHtml;
+            if (avatar === null) {
+                avatarAdminHtml = ` <img src="https://firebasestorage.googleapis.com/v0/b/fir-e9a96.appspot.com/o/images%2Fu_60x60-267f0ca0ea48fd3acfd44b95afa64f01.png?alt=media&token=894f32ca-266a-40c1-81c0-eb7f8142f13a" alt="image" class="size-40 rounded-22 object-cover">`
+            } else {
+                avatarAdminHtml = ` <img src="${avatar}" alt="image" class="size-40 rounded-22 object-cover">`
+            }
+            $('#avatar-admin').append(avatarAdminHtml);
+
+            // Avatar user
+            let userLoginHtml = "";
+            if (userInfomation.role[0] === 'ADMIN') {
+                userLoginHtml = `
                 <div class="dropdown tg-themedropdown tg-wishlistdropdown">
                                     <a href="javascript:void(0);" id="tg-wishlisst" class="tg-btnthemedropdown"
                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -84,10 +99,107 @@ $(window).on("load", function () {
                                     <a href="javascript:void(0);" id="tg-currenty" class="tg-btnthemedropdown"
                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <span> Hi, Tai</span>
-                                        <a href="javascript:void(0);">
-                                            <img id="avatar"
-                                                 style="border-radius: 50%;height:45px;margin-left: 10px; "
-                                                 src='https://firebasestorage.googleapis.com/v0/b/fir-e9a96.appspot.com/o/images%2FavatarTai.jpg?alt=media&token=22088018-0542-404e-a979-3d0b0494342e'
+                                        <a href="javascript:void(0);" id="avatar-user">
+                                            <img 
+                                                 style="border-radius: 50%;height:45px;margin-left: 10px; padding: 2px"
+                                                 src="${avatar}"
+                                                 alt="image description"></a>
+                                    </a>
+
+                                    <ul class="dropdown-menu tg-themedropdownmenu" aria-labelledby="tg-currenty">
+                                        <li>
+                                            <a href="/admin/books">
+                                                <i class="fa-regular fa-user"></i>
+                                                <span>Admin page</span>
+                                            </a>
+                                        </li>
+                                        
+                                        <li>
+                                            <a href="#" id="sign-out">
+                                                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                                                <span>Sign out</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                `
+            } else {
+
+                userLoginHtml = `
+                <div class="dropdown tg-themedropdown tg-wishlistdropdown">
+                                    <a href="javascript:void(0);" id="tg-wishlisst" class="tg-btnthemedropdown"
+                                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <span class="tg-themebadge">3</span>
+                                        <i class="fa-regular fa-bell"></i>
+                                    </a>
+                                    <div class="dropdown-menu tg-themedropdownmenu" aria-labelledby="tg-wishlisst">
+                                        <div class="tg-description">
+                                            <p>No products were added to the wishlist!</p>
+                                        </div>
+                                    </div>
+                                </div>
+                <div class="dropdown tg-themedropdown tg-minicartdropdown">
+                                    <a href="javascript:void(0);" id="tg-minicart" class="tg-btnthemedropdown"
+                                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <span class="tg-themebadge">3</span>
+                                        <i class="fa-solid fa-people-group"></i>
+                                    </a>
+                                    <div class="dropdown-menu tg-themedropdownmenu" aria-labelledby="tg-minicart">
+                                        <div class="tg-minicartbody">
+                                            <div class="tg-minicarproduct">
+                                                <figure>
+                                                    <img src="images/products/img-01.jpg" alt="image description">
+
+                                                </figure>
+                                                <div class="tg-minicarproductdata">
+                                                    <h5><a href="javascript:void(0);">Our State Fair Is A Great
+                                                        Function</a></h5>
+                                                    <h6><a href="javascript:void(0);">$ 12.15</a></h6>
+                                                </div>
+                                            </div>
+                                            <div class="tg-minicarproduct">
+                                                <figure>
+                                                    <img src="images/products/img-02.jpg" alt="image description">
+
+                                                </figure>
+                                                <div class="tg-minicarproductdata">
+                                                    <h5><a href="javascript:void(0);">Bring Me To Light</a></h5>
+                                                    <h6><a href="javascript:void(0);">$ 12.15</a></h6>
+                                                </div>
+                                            </div>
+                                            <div class="tg-minicarproduct">
+                                                <figure>
+                                                    <img src="images/products/img-03.jpg" alt="image description">
+
+                                                </figure>
+                                                <div class="tg-minicarproductdata">
+                                                    <h5><a href="javascript:void(0);">Have Faith In Your Soul</a>
+                                                    </h5>
+                                                    <h6><a href="javascript:void(0);">$ 12.15</a></h6>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tg-minicartfoot">
+                                            <a class="tg-btnemptycart" href="javascript:void(0);">
+                                                <i class="fa fa-trash-o"></i>
+                                                <span>Clear Your Cart</span>
+                                            </a>
+                                            <span class="tg-subtotal">Subtotal: <strong>35.78</strong></span>
+                                            <div class="tg-btns">
+                                                <a class="tg-btn tg-active" href="javascript:void(0);">View Cart</a>
+                                                <a class="tg-btn" href="javascript:void(0);">Checkout</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                <div class="dropdown tg-themedropdown tg-currencydropdown">
+                                    <a href="javascript:void(0);" id="tg-currenty" class="tg-btnthemedropdown"
+                                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <span> Hi, Tai</span>
+                                        <a href="javascript:void(0);" id="avatar-user">
+                                            <img 
+                                                 style="border-radius: 50%;height:45px;margin-left: 10px; padding: 2px"
+                                                 src="${avatar}"
                                                  alt="image description"></a>
                                     </a>
 
@@ -106,44 +218,43 @@ $(window).on("load", function () {
                                         </li>
                                         <li>
                                             <a href="#" id="sign-out">
-                                                <i>€</i>
+                                                <i class="fa-solid fa-arrow-right-from-bracket"></i>
                                                 <span>Sign out</span>
                                             </a>
                                         </li>
                                     </ul>
                                 </div>
             `;
+            }
+
             $(".tg-wishlistandcart").append(userLoginHtml);
         }
     }
 
     checkLoggedIn();
 
-    $(document).ready(function () {
-        // Sign out
-        $("#sign-out").click(() => {
-            console.log("sign out")
-            let jwtToken = getJwtToken();
-            if (jwtToken) {
-                $.ajax({
-                    url: '/api/v1/authentication/logout',
-                    type: 'POST',
-                    success: function () {
-                        localStorage.clear()
-                        toastr.success("Log out success")
-                        setTimeout(function () {
-                            window.location.href = 'http://localhost:8080/login'
-                        }, 700)
-                    },
-                    error: function () {
-                        toastr.warning("Error network!")
-                    }
-                });
-            } else {
-                toastr.warning("You are not login")
-            }
-        });
-    })
+    // Sign out
+    $("#sign-out").click(() => {
+        let jwtToken = getJwtToken();
+        if (jwtToken) {
+            $.ajax({
+                url: '/api/v1/authentication/logout',
+                type: 'POST',
+                success: function () {
+                    localStorage.clear()
+                    toastr.success("Log out success")
+                    setTimeout(function () {
+                        window.location.href = 'http://localhost:8080/login'
+                    }, 700)
+                },
+                error: function () {
+                    toastr.warning("Error network!")
+                }
+            });
+        } else {
+            toastr.warning("You are not login")
+        }
+    });
 });
 
 function getJwtToken() {
@@ -206,6 +317,7 @@ $(document).ready(function () {
             },
             "password": {
                 required: true,
+                minlength: 6
             },
             "re-pass": {
                 required: true,
@@ -214,29 +326,38 @@ $(document).ready(function () {
         },
         messages: {
             "email": {
-                required: "Enter your email",
-                email: "Incorrect email format"
+                required: "* Please enter your email",
+                email: "* Incorrect email format"
             },
             "password": {
-                required: "Enter your password"
+                required: "* Please enter your password",
+                minlength: "* Please enter at least 6 characters"
+
             },
             "re-pass": {
-                required: "Repeat your password",
-                equalTo: "Re-password incorrect"
+                required: "* Repeat your password",
+                equalTo: "* Re-password incorrect"
             }
         }
     });
 
+    $('#register-form .form-group input').on('keyup', function (event) {
+        if (event.key === 'Enter') {
+            $("#signup").click();
+        }
+    })
+
     $("#signup").click((key, value) => {
         let isValidForm = $("#register-form").valid()
         if (!isValidForm) return
+        $("#signup").prop('disabled', true)
         let signupName = $('#name').val()
         let signupEmail = $('#email').val()
         let signupPassword = $('#password').val()
         let request = {
             fullName: signupName,
             email: signupEmail,
-            password: signupPassword
+            password: CryptoJS.MD5(signupPassword).toString()
         }
         $.ajax({
             url: '/api/v1/authentication/signup',
@@ -260,13 +381,6 @@ $(document).ready(function () {
         });
     });
 
-    $('.container input').on('keyup', function (event) {
-        if (event.key === 'Enter') {
-            $("#signup").click();
-        }
-    });
-
-
     // Login
     $("#login-form").validate({
         onfocusout: false,
@@ -287,11 +401,11 @@ $(document).ready(function () {
         },
         messages: {
             "email": {
-                required: "Enter your email",
-                email: "Incorrect email format"
+                required: "* Please enter your email",
+                email: "* Incorrect email format"
             },
             "password": {
-                required: "Enter your password"
+                required: "* Pleaser enter your password"
             }
         }
     });
@@ -303,7 +417,7 @@ $(document).ready(function () {
         let loginPassword = $('#password').val();
         let request = {
             email: loginEmail,
-            password: loginPassword
+            password: CryptoJS.MD5(loginPassword).toString()
         };
         $.ajax({
             url: '/api/v1/authentication/login',
@@ -311,6 +425,11 @@ $(document).ready(function () {
             data: JSON.stringify(request),
             contentType: "application/json; charset=utf-8",
             success: function (data) {
+
+                if (data.locked === true) {
+                    window.alert('Your account was locked!')
+                    return;
+                }
 
                 localStorage.clear();
                 localStorage.setItem('jwtToken', data.jwt);
@@ -366,8 +485,8 @@ $(document).ready(function () {
         },
         messages: {
             "email": {
-                required: "Enter your email",
-                email: "Incorrect email format"
+                required: "* Please enter your email",
+                email: "* Incorrect email format"
             }
         }
     });
@@ -382,11 +501,12 @@ $(document).ready(function () {
             email: emailReset
         };
         await $.ajax({
-            url: "/api/v1/users/otp-sending",
+            url: "/api/v1/anonymous/otp-sending",
             type: 'POST',
             data: JSON.stringify(request),
             contentType: "application/json; charset=utf-8",
             success: function (data) {
+                $(".email-reset-form #email").val('')
                 $('#forgot-password-modal').modal('hide');
                 toastr.success("Please check your email!");
             },
@@ -403,5 +523,14 @@ $(document).ready(function () {
         }
     });
 
+    $('#show-password').change(function () {
+        if ($(this).is(':checked')) {
+            $('#password').prop('type', 'text')
+            $('#re-pass').prop('type', 'text')
+        } else {
+            $('#password').prop('type', 'password')
+            $('#re-pass').prop('type', 'password')
+        }
+    })
 
 })

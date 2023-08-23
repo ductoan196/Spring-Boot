@@ -230,9 +230,10 @@
                     </div>
                     <!-- end col-lg-4 -->
                     <div class="col-lg-8">
-                        <div th:each="hotel: ${hotelList.data}" class="card-item card-item-list">
+                        <div th:each="hotel: ${hotelList.data}" class="card-item card-item-list hotel-info">
+                            <input type="hidden" class="hotel-id" th:value="${hotel.id}" />
                             <div class="card-img">
-                                <a href="../unused/hotel-single.html" class="d-block">
+                                <a href="#" class="d-block hotel-detail-btn">
                                     <img th:src="${hotel.imageUrl}" alt="hotel-img">
                                 </a>
                                 <div class="add-to-wishlist icon-element" data-toggle="tooltip" data-placement="top" title="Bookmark">
@@ -240,7 +241,7 @@
                                 </div>
                             </div>
                             <div class="card-body">
-                                <h3 class="card-title" ><a th:href="@{/hotels/{id}(id=${hotel.id})}" th:text="${hotel.name}">Best Western Grant Park Hotel</a></h3>
+                                <h3 class="card-title hotel-detail-btn" ><a th:href="@{/hotels/{id}(id=${hotel.id})}" th:text="${hotel.name}">Best Western Grant Park Hotel</a></h3>
                                 <p class="card-meta" th:text="${hotel.address}">124 E Huron St, Chicago</p>
                                 <div class="card-rating">
                                     <span class="badge text-white">4.4/5</span>
@@ -253,7 +254,7 @@
                                         <span class="price__num">$58.00</span>
                                         <span class="price__text">Per night</span>
                                     </p>
-                                    <a th:href="@{/hotels/{id}(id=${hotel.id})}" class="btn-text">See details<i class="la la-angle-right"></i></a>
+                                    <a th:href="@{/hotels/{id}(id=${hotel.id})}" class="btn-text hotel-detail-btn">See details<i class="la la-angle-right"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -336,16 +337,31 @@
                 const location = $('.location').val();
                 const numberOfGuests = $('#guest-number').val();
 
+                // Chuyển đổi ngày tháng sang đối tượng Date
+                const checkinDate = parseDate(checkin, 'DD/MM/YYYY');
+                const checkoutDate = parseDate(checkout, 'DD/MM/YYYY');
+
+                // Kiểm tra ngày check-in không được là ngày trong quá khứ
+                const currentDate = new Date();
+                const startDate = new Date(checkinDate);
+                if (startDate < currentDate) {
+                    toastr.error('Vui lòng chọn ngày check-in, check-out hợp lệ.');
+                    return;
+                } else if (checkin === checkout) {
+                    toastr.error('Vui lòng chọn ngày check-in và check-out khác nhau')
+                    return;
+                }
+
                 let url = `/hotels`
 
                 if (location !== '') {
                     url += `?location=${location}`;
                 }
                 if (checkin !== '') {
-                    url += `${location ? '&' : '?'}checkin=${checkin}`
+                    url += `${location ? '&' : '?'}checkin=${checkinDate}`
                 }
                 if (checkout !== '') {
-                    url += `${checkin ? '&' : '?'}checkout=${checkout}`
+                    url += `${checkin ? '&' : '?'}checkout=${checkoutDate}`
                 }
                 if (numberOfGuests !== '' && numberOfGuests != null) {
                     url += `${location || checkin ? '&' : '?'}guests=${numberOfGuests}`
@@ -378,6 +394,39 @@
             });
             keepValue();
 
+            $('.hotel-detail-btn').click(function (event) {
+                event.preventDefault();
+                const $hotelInfo = $(this).closest('.hotel-info');
+                const hotelId = $hotelInfo.find('.hotel-id').val();
+                console.log(hotelId)
+
+                const params = new URLSearchParams(window.location.search);
+                const location = params.get('location');
+                const checkin = params.get('checkin');
+                const checkout = params.get('checkout')
+                const numberOfGuests = params.get('guests')
+
+                // Chuyển đổi ngày tháng sang đối tượng Date
+                const checkinDate = parseDate(checkin, 'DD/MM/YYYY');
+                const checkoutDate = parseDate(checkout, 'DD/MM/YYYY');
+
+                console.log(checkin)
+                console.log(checkout)
+
+                let url = `/hotels/`+ hotelId
+
+                if (checkin !== '') {
+                    url += `?checkin=${checkin}`
+                }
+                if (checkout !== '') {
+                    url += `${checkin ? '&' : '?'}checkout=${checkout}`
+                }
+                if (numberOfGuests !== '' && numberOfGuests != null) {
+                    url += `${location || checkin ? '&' : '?'}guests=${numberOfGuests}`
+                }
+
+                window.location.href = url;
+            });
             function keepValue() {
                 // Giữ lại giá trị tìm kiếm trên thanh search khi trang tải lần đầu
                 const params = new URLSearchParams(window.location.search);
@@ -386,16 +435,43 @@
                 const checkout = params.get('checkout')
                 const guests = params.get('guests')
 
+                const checkinDate = formatDateBack(checkin)
+                const checkoutDate = formatDateBack(checkout)
+
                 if (location) {
                     $('#location').val(location);
                 }
 
                 if (checkin) {
-                    $('.date-range').val(`${checkin} - ${checkout}`);
+                    $('.date-range').val(`${checkinDate} - ${checkoutDate}`);
                 }
                 if (guests) {
                     $('#guest-number').val(guests);
                 }
+            }
+
+            function parseDate(dateString, format) {
+                const parts = dateString.split('/');
+                if (parts.length !== 3) {
+                    return null;
+                }
+                const [day, month, year] = parts.map(Number);
+
+                // Định dạng lại thành ngày tháng theo định dạng mong muốn (YYYY-MM-DD)
+                const formattedDate = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+                return formattedDate;
+            }
+
+            function formatDateBack(dateString) {
+                const parts = dateString.split('-');
+                if (parts.length !== 3) {
+                    return null;
+                }
+                const [year, month, day] = parts.map(Number);
+
+                // Định dạng lại thành ngày tháng theo định dạng mong muốn (DD/MM/YYYY)
+                const formattedDate = `${day.toString().padStart(2, '0')}/${month.toString().padStart(2, '0')}/${year}`;
+                return formattedDate;
             }
         });
     </script>

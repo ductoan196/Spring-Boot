@@ -12,4 +12,10 @@ public interface RoomAvailabilityRepository extends JpaRepository<RoomAvailabili
     Optional<RoomAvailability> findByHotelIdAndRoomIdAndDate(Long hotelId, Long roomId, LocalDate date);
 
     List<RoomAvailability> findByDateBetweenAndAvailableRooms(LocalDate startDate, LocalDate endDate, Integer availableRooms);
+
+    @Query(value = "SELECT * FROM room_availability " +
+            "WHERE hotel_id = :hotelId " +
+            "AND date BETWEEN :checkinDate AND :checkoutDate ", nativeQuery = true)
+    List<RoomAvailability> findAvailableRooms( Long hotelId, LocalDate checkinDate, LocalDate checkoutDate);
+
 }

@@ -126,14 +126,16 @@
                                             <a href="#" class="btn btn-primary px-1 py-1 confirm-booking-btn me-2"
                                                th:attr="data-booking-id=${booking.id}"
                                                th:if="${booking.status.name == 'Pending'}"
-                                               value="CONFIRMED">
+                                               th:value="CONFIRMED"
+                                               style="display: inline-flex; align-items: center;">
                                                 <i class="link-icon" data-feather="check"></i> Confirm
                                             </a>
 
                                             <a class="btn btn-danger px-1 py-1 cancel-booking-btn"
                                                th:attr="data-booking-id=${booking.id}"
                                                th:unless="${booking.status.name == 'Cancelled'}"
-                                               th:value="CANCELLED">
+                                               th:value="CANCELLED"
+                                               style="display: inline-flex; align-items: center;">
                                                 <i class="link-icon" data-feather="x"></i> Cancel
                                             </a>
                                         </ul>

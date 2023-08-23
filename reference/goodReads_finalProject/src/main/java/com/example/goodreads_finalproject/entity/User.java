@@ -19,12 +19,17 @@ import java.util.Set;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class User extends BaseEntity {
 
+    @Column(unique = true, nullable = false)
     String email;
 
+    @Column(nullable = false)
     String password;
 
     @Column(nullable = false, columnDefinition = "BOOLEAN default false")
     boolean activated;
+
+    @Column(nullable = false, columnDefinition = "BOOLEAN default false")
+    boolean locked;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",
@@ -32,8 +37,10 @@ public class User extends BaseEntity {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
+    @Column(nullable = false)
     String avatar;
 
+    @Column(nullable = false)
     String fullName;
 
     @Enumerated(EnumType.STRING)
@@ -41,12 +48,18 @@ public class User extends BaseEntity {
 
     LocalDate dob;
 
+    @Column(nullable = false)
     String phone;
 
     @OneToOne
     @JoinColumn(name = "ward_code")
     Ward address;
 
-    LocalDateTime deletedDateTime;
+    @Column(name = "street")
+    String street;
 
+    @Column(columnDefinition = "TEXT")
+    String about;
+
+    LocalDateTime deletedDateTime;
 }

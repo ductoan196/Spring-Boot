@@ -18,7 +18,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
@@ -30,8 +29,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     CustomUserDetailsService userDetailsService;
 
     AuthenticationEntryPointJwt unauthorizedHandler;
-
-    AccessDeniedHandler accessDeniedHandler;
 
     @Bean
     public AuthTokenFilter authenticationJwtTokenFilter() {
@@ -61,11 +58,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/api/v1/authentication/login", "/api/v1/authentication/signup").permitAll()
-                .antMatchers(HttpMethod.POST, "/api/v1/authentication/refresh-token", "/api/v1/authentication/logout").authenticated()
-                .antMatchers(HttpMethod.GET, "/api/v1/users", "/api/v1/users/{id}").hasAnyAuthority(Roles.USER.toString(), Roles.ADMIN.toString())
-                .antMatchers("/api/v1/users/**").authenticated()
+                .antMatchers(HttpMethod.POST, "/api/v1/authentication/refresh-token", "/api/v1/authentication/logout", "/api/v1/authentication/password-change").authenticated()
+//                .antMatchers(HttpMethod.GET, "/api/v1/users", "/api/v1/users/{id}").hasAnyAuthority(Roles.USER.toString(), Roles.ADMIN.toString())
+                .antMatchers("/api/v1/users/**", "/users/**").authenticated()
                 .antMatchers("/api/v1/admin/**", "/admin/**").hasAnyAuthority(Roles.ADMIN.toString())
                 .anyRequest().permitAll()
+                .and()
+                .formLogin()
+                .loginPage("/login") // Cấu hình trang đăng nhập
+                .permitAll()
                 .and()
                 .httpBasic()
                 .and()
