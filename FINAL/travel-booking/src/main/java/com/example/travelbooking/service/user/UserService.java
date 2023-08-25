@@ -346,4 +346,16 @@ public class UserService {
         emailService.sendVerificationEmail(user, otpCode);
     }
 
+    public void lockUser(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new NotFoundException("Không tìm thấy user"));
+        user.setUserStatus(UserStatus.BLOCKED);
+        userRepository.save(user);
+    }
+
+    public boolean accountIsBlocked(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new NotFoundException("Không tìm thấy user"));
+        return user.getUserStatus().equals(UserStatus.BLOCKED);
+    }
 }

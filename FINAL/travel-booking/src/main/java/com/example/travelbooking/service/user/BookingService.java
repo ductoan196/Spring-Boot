@@ -6,6 +6,7 @@ import com.example.travelbooking.exception.NotFoundException;
 import com.example.travelbooking.model.request.partner.BookingSearchRequestByPartner;
 import com.example.travelbooking.model.request.partner.RoomSearchRequest;
 import com.example.travelbooking.model.request.partner.UpdateBookingStatusRequest;
+import com.example.travelbooking.model.request.user.BookingSearchRequestByUser;
 import com.example.travelbooking.model.request.user.CreateBookingRequest;
 import com.example.travelbooking.model.response.partner.CommonResponse;
 import com.example.travelbooking.model.response.partner.RoomSearchResponse;
@@ -108,6 +109,7 @@ public class BookingService {
                 .startDate(booking.getRoomReservation().getStartDate())
                 .endDate(booking.getRoomReservation().getEndDate())
                 .status(booking.getStatus())
+                .hotelId(booking.getHotelId())
                 .totalAmount(booking.getTotalAmount())
                 .createdDateTime(booking.getCreatedDateTime())
                 .build();
@@ -121,12 +123,36 @@ public class BookingService {
         return convertBookingToBookingResponse(booking);
     }
 
-    public CommonResponse<?> searchBooking(BookingSearchRequestByPartner request, String currentUserEmail) {
+    public CommonResponse<?> searchBookingByPartner(BookingSearchRequestByPartner request, String currentUserEmail) {
         try {
             Hotel hotel = hotelRepository.findByEmail(currentUserEmail)
                     .orElseThrow(() -> new NotFoundException("Không tìm thấy hotel trong danh sách"));
 
             List<BookingResponse> bookings = bookingCustomRepository.searchBookings(request, hotel.getId());
+
+            Integer pageIndex = request.getPageIndex();
+            Integer pageSize = request.getPageSize();
+
+            int pageNumber = (int) Math.ceil((float) bookings.size() / pageSize);
+
+            PaginationUtils<BookingResponse> paginationUtils = new PaginationUtils<>();
+            bookings = paginationUtils.searchData(bookings, pageIndex, pageSize);
+
+            return CommonResponse.builder()
+                    .pageNumber(pageNumber)
+                    .data(bookings)
+                    .build();
+        } catch (Exception e) {
+            throw new NotFoundException("Page index out of bound");
+        }
+    }
+
+    public CommonResponse<?> searchBookingByUser(BookingSearchRequestByUser request, String currentUserEmail) {
+        try {
+            User user = userRepository.findByEmail(currentUserEmail)
+                    .orElseThrow(() -> new NotFoundException("Không tìm thấy user trong danh sách"));
+
+            List<BookingResponse> bookings = bookingCustomRepository.searchBookingsByUser(request, user.getId());
 
             Integer pageIndex = request.getPageIndex();
             Integer pageSize = request.getPageSize();
@@ -151,6 +177,13 @@ public class BookingService {
         booking.setStatus(request.getStatus());
 
         bookingRepository.save(booking);
+        return convertBookingToBookingResponse(booking);
+    }
+
+    public BookingResponse findById(Long bookingId) {
+        Booking booking = bookingRepository.findById(bookingId)
+                .orElseThrow(() -> new NotFoundException("Không tìm thấy booking trong hệ thống"));
+
         return convertBookingToBookingResponse(booking);
     }
 }

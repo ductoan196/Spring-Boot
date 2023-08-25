@@ -39,7 +39,7 @@
         </nav>
         <div class="search-box p-4 bg-white rounded mb-3 box-shadow">
             <div class="col-lg-3 pb-4">
-                <h5>Room Management Lists</h5>
+                <h5>Room Lists</h5>
             </div>
             <form class="forms-sample">
                 <div class="row align-items-center">
@@ -104,11 +104,6 @@
                                     <td class="text-center">
                                         <ul class="d-flex list-unstyled mb-0 justify-content-center">
                                             <li class="me-2">
-                                                <a href="#" data-bs-toggle="modal" data-bs-target="#viewRoom">
-                                                    <i class="link-icon" data-feather="eye"></i>
-                                                </a>
-                                            </li>
-                                            <li class="me-2">
                                                 <a th:href="@{'/partner/rooms/' + ${room.id}}"
                                                    target="_blank">
                                                     <i class="link-icon" data-feather="edit"></i>
@@ -118,7 +113,7 @@
                                                 <input type="hidden" id="roomId" th:value="${room.id}">
                                                 <a href="#" id="delete-room-btn" data-bs-toggle="modal"
                                                    data-bs-target="#confirmDelete">
-                                                    <i class="link-icon" data-feather="delete"></i>
+                                                    <i class="link-icon text-danger" data-feather="trash-2"></i>
                                                 </a>
                                             </li>
                                         </ul>

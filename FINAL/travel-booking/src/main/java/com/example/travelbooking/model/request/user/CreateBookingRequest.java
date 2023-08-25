@@ -1,12 +1,10 @@
 package com.example.travelbooking.model.request.user;
 
-import com.example.travelbooking.entity.RoomReservation;
-import com.example.travelbooking.entity.User;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.validation.constraints.AssertTrue;
-import javax.validation.constraints.Future;
+import javax.validation.constraints.FutureOrPresent;
 import java.time.LocalDate;
 
 @Data
@@ -23,21 +21,16 @@ public class CreateBookingRequest {
 
     Long roomId;
 
-    @Future(message = "Start date must be in the future")
+    @FutureOrPresent(message = "Checkin date must be present or in the future")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     LocalDate startDate;
 
-    @Future(message = "Start date must be in the future")
+    @FutureOrPresent(message = "Checkin date must be present or in the future")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     LocalDate endDate;
 
     Double totalAmount;
 
     Integer roomNums;
 
-    @AssertTrue(message = "End date must be after start date")
-    public boolean isEndDateAfterStartDate() {
-        if (startDate == null || endDate == null) {
-            return true; // Allow null values or handle separately
-        }
-        return !endDate.isBefore(startDate);
-    }
 }

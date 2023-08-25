@@ -45,13 +45,13 @@ public class User extends BaseEntity {
     UserStatus userStatus;
 
     @Column(name = "is_verified", nullable = false)
-    private boolean isVerified;
+    boolean isVerified;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles = new HashSet<>();
+    Set<Role> roles = new HashSet<>();
 
     LocalDateTime deletedDateTime;
 

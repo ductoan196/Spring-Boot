@@ -118,7 +118,7 @@ public class PartnerController {
     public String searchBookings(BookingSearchRequestByPartner request, Model model) {
         String currentUserEmail = SecurityUtils.getCurrentUserEmail()
                 .orElseThrow(() -> new NotFoundException("Không tìm thấy currentEmail"));
-        CommonResponse<?> commonResponse = bookingService.searchBooking(request, currentUserEmail);
+        CommonResponse<?> commonResponse = bookingService.searchBookingByPartner(request, currentUserEmail);
 
         model.addAttribute("bookingList", commonResponse);
         model.addAttribute("currentPage", request.getPageIndex());

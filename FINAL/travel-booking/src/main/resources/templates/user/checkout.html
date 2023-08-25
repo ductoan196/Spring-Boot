@@ -365,6 +365,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"
             integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script th:src="@{/assets/component/js/jquery-ui.js}"></script>
+    <script th:src="@{/assets/component/js/daterangepicker.js}"></script>
+    <script th:src="@{/assets/component/js/jquery.fancybox.min.js}"></script>
+    <script th:src="@{/assets/component/js/main.js}"></script>
     <script>
         $(document).ready(function () {
             //Ngăn chặn người dùng nhập chữ cho sđt
@@ -420,8 +424,8 @@
 
                         // Xử lý phần price
                         const price = response.price;
-                        const discountPecent = 10;
-                        const discountAmount = (price * discountPecent) / 100;
+                        const discountPercent = 0;
+                        const discountAmount = (price * discountPercent) / 100;
                         const totalPrice = price - discountAmount;
 
                         const formattedPrice = new Intl.NumberFormat('vi-VN', {
@@ -519,55 +523,58 @@
 
 
                 if ($("#uploadForm").valid()) {
-                    let userInfoStr = JSON.parse(localStorage.getItem("userInfo"))
-                    const formData = {
-                        userId: userInfoStr.id,
-                        customerName: $('.customerName').val(),
-                        customerPhone: $('.customerPhone').val(),
-                        roomId: roomId,
-                        startDate: checkin,
-                        endDate: checkout,
-                        totalAmount: $('#totalPrice').val(),
-                        roomNums: roomNums
-                    }
+                    let userInfoStr = JSON.parse(localStorage.getItem("userInfo"));
+                    // const requestData = {
+                    //     userId: userInfoStr.id,
+                    //     customerName: $('.customerName').val(),
+                    //     customerPhone: $('.customerPhone').val(),
+                    //     roomId: roomId,
+                    //     startDate: checkin,
+                    //     endDate: checkout,
+                    //     totalAmount: $('#totalPrice').val(),
+                    //     roomNums: roomNums
+                    // };
+
+                    const formData = new FormData();
+                    formData.append("userId", userInfoStr.id);
+                    formData.append("customerName", $('.customerName').val());
+                    formData.append("customerPhone", $('.customerPhone').val());
+                    formData.append("roomId", roomId);
+                    formData.append("startDate", checkin);
+                    formData.append("endDate", checkout);
+                    formData.append("totalAmount", $('#totalPrice').val());
+                    formData.append("roomNums", roomNums);
 
                     showLoading();
                     $.ajax({
                         url: '/api/v1/bookings/create-booking',
                         type: 'POST',
-                        contentType: 'application/json',
-                        data: JSON.stringify(formData),
-                        success: function () {
-                            console.log('ok')
-                            toastr.success('Create booking successfully');
-
+                        processData: false,
+                        contentType: false,
+                        data: formData,
+                        success: function (response) {
+                            console.log('ok');
+                            toastr.success('Create booking successfully, we sent you an order via your email. Please check it.');
+                            window.location.href = `/bookings/complete-booking/` + response.id;
                         },
                         error: function (xhr, status, error) {
-                            toastr.error('Booking error, please reload and booking again')
+                            if (xhr.status === 403) {
+                                toastr.error("Account is blocked, you can not do this action")
+                                return;
+                            }
+                            toastr.error('Booking error, please reload and booking again');
                         },
                         complete: function () {
                             hideLoading();
                         }
-                    })
+                    });
 
-                    console.log(formData);
+                    console.log(JSON.stringify(requestData));
                 }
+
             });
         });
     </script>
-
-
-    <script th:src="@{/assets/component/js/jquery-ui.js}"></script>
-    <script th:src="@{/assets/component/js/popper.min.js}"></script>
-    <script th:src="@{/assets/component/js/moment.min.js}"></script>
-    <script th:src="@{/assets/component/js/daterangepicker.js}"></script>
-    <script th:src="@{/assets/component/js/owl.carousel.min.js}"></script>
-    <script th:src="@{/assets/component/js/jquery.fancybox.min.js}"></script>
-    <script th:src="@{/assets/component/js/jquery.countTo.min.js}"></script>
-    <script th:src="@{/assets/component/js/animated-headline.js}"></script>
-    <script th:src="@{/assets/component/js/jquery.ripples-min.js}"></script>
-    <script th:src="@{/assets/component/js/quantity-input.js}"></script>
-    <script th:src="@{/assets/component/js/main.js}"></script>
 </th:block>
 </body>
 

@@ -26,6 +26,8 @@ public class BookingResponse {
 
     Long roomId;
 
+    Long hotelId;
+
     String roomName;
 
     Integer roomNums;

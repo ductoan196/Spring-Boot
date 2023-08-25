@@ -4,17 +4,23 @@ import com.example.travelbooking.entity.Hotel;
 import com.example.travelbooking.entity.Room;
 import com.example.travelbooking.entity.location.District;
 import com.example.travelbooking.entity.location.Ward;
+import com.example.travelbooking.exception.NotFoundException;
 import com.example.travelbooking.model.request.admin.HotelSearchRequest;
+import com.example.travelbooking.model.request.partner.BookingSearchRequestByPartner;
 import com.example.travelbooking.model.request.partner.RoomSearchRequest;
 import com.example.travelbooking.model.request.user.AvailableRoomRequestByUser;
+import com.example.travelbooking.model.request.user.BookingSearchRequestByUser;
 import com.example.travelbooking.model.request.user.RoomSearchRequestByUser;
 import com.example.travelbooking.model.response.admin.HotelSearchResponse;
 import com.example.travelbooking.model.response.partner.CommonResponse;
 import com.example.travelbooking.model.response.partner.RoomResponse;
+import com.example.travelbooking.model.response.user.BookingResponse;
 import com.example.travelbooking.repository.HotelRepository;
+import com.example.travelbooking.security.SecurityUtils;
 import com.example.travelbooking.service.partner.HotelService;
 import com.example.travelbooking.service.partner.RoomService;
 import com.example.travelbooking.service.user.AddressService;
+import com.example.travelbooking.service.user.BookingService;
 import com.example.travelbooking.statics.Gender;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +40,7 @@ public class UserController {
     HotelService hotelService;
     RoomService roomService;
     AddressService addressService;
+    BookingService bookingService;
 
     @GetMapping("/user/dashboard-user")
     public String dashboardUser() {
@@ -66,12 +73,38 @@ public class UserController {
          return "user/hotel-detail";
     }
 
-
+    @GetMapping("/user/change-password")
+    public String changePassword(Model model) {
+        return "management/user/change-password";
+    }
 
     @GetMapping("/bookings/checkout")
     public String checkout() {
         return "/user/checkout";
     }
+
+    @GetMapping("/bookings/complete-booking/{bookingId}")
+    public String complete(@PathVariable Long bookingId, Model model) {
+        BookingResponse bookingResponse = bookingService.findById(bookingId);
+        Hotel hotel = hotelService.findByHotelId(bookingResponse.getHotelId());
+        RoomResponse roomResponse = roomService.getRoomById(bookingResponse.getRoomId());
+        model.addAttribute("booking", bookingResponse);
+        model.addAttribute("hotel", hotel);
+        model.addAttribute("room", roomResponse);
+        return "/user/complete-booking";
+    }
+
+    @GetMapping("/user/bookings")
+    public String searchBookings(BookingSearchRequestByUser request, Model model) {
+        String currentUserEmail = SecurityUtils.getCurrentUserEmail()
+                .orElseThrow(() -> new NotFoundException("Không tìm thấy currentEmail"));
+        CommonResponse<?> commonResponse = bookingService.searchBookingByUser(request, currentUserEmail);
+
+        model.addAttribute("bookingList", commonResponse);
+        model.addAttribute("currentPage", request.getPageIndex());
+        return "management/user/booking-user";
+    }
+
 
     // API để lấy danh sách District tương ứng với Province
     @GetMapping("/get-districts")

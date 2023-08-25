@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/layout :: main-fragment(
+                                                ~{:: title},
+                                                'full-header',
+                                                ~{:: #css-resources},
+                                                ~{:: #js-resources},
+                                                ~{:: #main-content}
+                                               )}">
+
+<head>
+
+    <title>Check out</title>
+
+    <th:block id="css-resources">
+        <link rel="stylesheet" type="text/css" th:href="@{/assets/component/css/bootstrap-select.min.css}">
+        <link rel="stylesheet" type="text/css" th:href="@{/assets/component/css/line-awesome.css}">
+        <link rel="stylesheet" type="text/css" th:href="@{/assets/component/css/owl.carousel.min.css}">
+        <link rel="stylesheet" type="text/css" th:href="@{/assets/component/css/owl.theme.default.min.css}">
+        <link rel="stylesheet" type="text/css" th:href="@{/assets/component/css/jquery.fancybox.min.css}">
+        <link rel="stylesheet" type="text/css" th:href="@{/assets/component/css/daterangepicker.css}">
+        <link rel="stylesheet" type="text/css" th:href="@{/assets/component/css/animate.min.css}">
+        <link rel="stylesheet" type="text/css" th:href="@{/assets/component/css/animated-headline.css}">
+        <link rel="stylesheet" type="text/css" th:href="@{/assets/component/css/jquery-ui.css}">
+        <link rel="stylesheet" type="text/css" th:href="@{/assets/component/css/flag-icon.min.css}">
+        <link rel="stylesheet" type="text/css" th:href="@{/assets/component/css/hotel-list.css}">
+
+        <style>
+            .icon-element {
+                margin-left: 0px;
+                margin-right: 8px;
+            }
+
+            h1, h2, h3, h4, h5, h6 {
+                font-family: "Roboto", sans-serif;
+            }
+
+            .card-img img {
+                width: 100%;
+                height: 218px; !important;
+                object-fit: cover; /* Đảm bảo ảnh không bị bóp méo và lấp đầy khung */
+            }
+        </style>
+        <!--    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">-->
+    </th:block>
+</head>
+
+<body>
+<main id="main-content">
+    <div class="page-content">
+
+        <section class="payment-area section-bg section-padding">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="form-box payment-received-wrap mb-0">
+                            <div class="form-title-wrap">
+                                <div class="step-bar-wrap text-center">
+                                    <ul class="step-bar-list d-flex align-items-center justify-content-around">
+                                        <li class="step-bar flex-grow-1 step-bar-active">
+                                            <span class="icon-element">1</span>
+                                            <p class="pt-2 color-text-2">Choose Your Room</p>
+                                        </li>
+                                        <li class="step-bar flex-grow-1 step-bar-active">
+                                            <span class="icon-element">2</span>
+                                            <p class="pt-2 color-text-2">Your Booking & Payment Details</p>
+                                        </li>
+                                        <li class="step-bar flex-grow-1 step-bar-active">
+                                            <span class="icon-element">3</span>
+                                            <p class="pt-2 color-text-2">Booking Completed!</p>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="form-content">
+                                <div class="payment-received-list">
+                                    <div class="d-flex align-items-center">
+                                        <i class="la la-check icon-element flex-shrink-0 mr-3 ml-0"></i>
+                                        <div>
+                                            <h3 class="title pb-1" th:text="'Thanks ' + ${booking.customerName} ">Thanks Alex!</h3>
+                                            <h3 class="title" th:text="'Your booking in '+ ${hotel.name}+ 'is completed'">Your booking in EnVision Hotel Boston is completed.</h3>
+                                        </div>
+                                    </div>
+                                    <ul class="list-items py-4">
+                                        <li><i class="la la-check text-success mr-2"></i><strong class="text-black">EnVision Hotel Boston</strong> is Expecting you on <strong class="text-black">01 june</strong></li>
+                                        <li><i class="la la-check text-success mr-2"></i>Your <strong class="text-black">payment</strong> will be handled by EnVision Hotel Boston, the <strong class="color-text-2">'Payment'</strong> section below has more details</li>
+                                        <li><i class="la la-check text-success mr-2"></i>Make changes to your booking or ask the properly a question in just a few clicks</li>
+                                    </ul>
+                                    <div class="btn-box pb-4">
+                                        <a href="/user/bookings" class="theme-btn mb-2 mr-2">See all your bookings</a>
+                                        <a href="/" class="theme-btn mb-2 theme-btn-transparent">Back to homepage</a>
+                                    </div>
+                                    <h3 class="title"><a href="#" class="text-black" th:text="${hotel.name}">EnVision Hotel Boston</a></h3>
+                                    <p th:text="${hotel.address}">New York City, NY, USA</p>
+                                    <p class="py-1"><a href="#" class="text-color">Click for directions on Google maps <i class="la la-arrow-right"></i></a></p>
+                                    <p><strong class="text-black mr-1">Hotel Phone:</strong><span th:text="${hotel.phone}"></span></p>
+                                    <ul class="list-items list-items-3 list-items-4 py-4">
+                                        <li><span class="text-black font-weight-bold">Your reservation</span>2 Nights, 1 Room</li>
+                                        <li><span class="text-black font-weight-bold">Check-in</span><span th:text="${booking.startDate}"></span></li>
+                                        <li><span class="text-black font-weight-bold">Check-out</span><span th:text="${booking.endDate}"></span></li>
+                                        <li><span class="text-black font-weight-bold">Payment</span>Pay later in hotel</li>
+                                    </ul>
+                                    <div class="btn-box">
+                                        <a href="#" class="theme-btn border-0 text-white bg-7">Cancel your booking</a>
+                                    </div>
+                                </div><!-- end card-item -->
+                            </div>
+                        </div><!-- end payment-card -->
+                    </div><!-- end col-lg-12 -->
+                </div><!-- end row -->
+            </div><!-- end container -->
+        </section>
+    </div>
+</main>
+
+<!-- Template JS Files -->
+<th:block id="js-resources">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"
+            integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script th:src="@{/assets/component/js/jquery-ui.js}"></script>
+    <script th:src="@{/assets/component/js/daterangepicker.js}"></script>
+    <script th:src="@{/assets/component/js/jquery.fancybox.min.js}"></script>
+    <script th:src="@{/assets/component/js/main.js}"></script>
+    <script>
+        $(document).ready(function () {
+            //Ngăn chặn người dùng nhập chữ cho sđt
+            $('.customerPhone').on('input', function () {
+                $(this).val($(this).val().replace(/[^\d]/g, ''));
+            });
+
+            let userInfo = JSON.parse(localStorage.getItem("userInfo"));
+            $('.customerName').val(userInfo.fullName);
+            $('.customerEmail').val(userInfo.email);
+            $('.customerPhone').val(userInfo.phone);
+            $('.customerAddress').val(userInfo.address)
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const roomId = urlParams.get('roomId');
+            const checkin = urlParams.get('checkin');
+            const checkout = urlParams.get('checkout');
+            const guests = urlParams.get('guests')
+            const roomNums = urlParams.get('roomNums')
+
+            // Tính toán số nights
+            const checkinDate = new Date(convertDateFormat(checkin));
+            const checkoutDate = new Date(convertDateFormat(checkout));
+            const timeDiff = Math.abs(checkoutDate - checkinDate);
+            const numberOfNights = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+            console.log(numberOfNights);
+
+            $('#checkInDate').text(checkin);
+            $('#checkOutDate').text(checkout);
+            $('#guests').text(guests);
+            $('#nights').text(numberOfNights);
+            $('#rooms').text(roomNums);
+
+            getRoomById();
+
+            function getRoomById() {
+                $.ajax({
+                    url: `/api/v1/rooms?roomId=${roomId}`,
+                    type: 'GET',
+                    success: function (response) {
+                        // Xử lý dữ liệu khách sạn nhận được từ response
+                        console.log(response);
+                        $('.room-name').text(response.name);
+                        $('.hotel-name').text(response.hotel.name);
+
+                        const imageUrls =response.imageUrls;
+                        console.log(imageUrls)
+                        if (imageUrls) {
+                            $('#roomImage').attr("src", imageUrls[0]);
+                        } else {
+                            $('#roomImage').attr("src", '/assets/user/images/no-photo.jpg');
+                        }
+
+                        // Xử lý phần price
+                        const price = response.price;
+                        const discountPercent = 0;
+                        const discountAmount = (price * discountPercent) / 100;
+                        const totalPrice = price - discountAmount;
+
+                        const formattedPrice = new Intl.NumberFormat('vi-VN', {
+                            style: 'currency',
+                            currency: 'VND'
+                        }).format(price);
+                        const formattedDiscount = new Intl.NumberFormat('vi-VN', {
+                            style: 'currency',
+                            currency: 'VND'
+                        }).format(discountAmount);
+                        const formattedTotalPrice = new Intl.NumberFormat('vi-VN', {
+                            style: 'currency',
+                            currency: 'VND'
+                        }).format(totalPrice);
+                        $('#subTotalPrice').text(formattedPrice);
+                        $('#discount').text(formattedDiscount);
+                        $('#totalPrice').text(formattedTotalPrice);
+                        $('#totalPrice').val(totalPrice);
+
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+            }
+
+            //Xử lý sự kiện khi click vào payment-option
+            $('input[name="payment-option"]').change(function () {
+                if ($(this).val() === 'pay-now') {
+                    $('#cardInformation').css('display', 'block');
+                } else {
+                    $('#cardInformation').css('display', 'none');
+                }
+            });
+
+            function convertDateFormat(inputDate) {
+                const parts = inputDate.split('/');
+                return `${parts[2]}-${parts[1]}-${parts[0]}`;
+            }
+
+            $("#uploadForm").validate({
+                onfocusout: false,
+                onkeyup: false,
+                onclick: false,
+                rules: {
+                    "name": {
+                        required: true,
+                        maxlength: 100
+                    },
+                    "phone": {
+                        required: true,
+                        minlength: 10,
+                        maxlength: 15,
+                        digits: true
+                    }
+                },
+                messages: {
+                    "name": {
+                        required: "Please enter your full name.",
+                        maxlength: "The hotel name must not exceed 100 characters."
+                    },
+                    "phone": {
+                        required: "Please enter the phone number.",
+                        minlength: "Phone number must be at least 10 digits.",
+                        maxlength: "Phone number must not exceed 15 digits.",
+                        digits: "Please enter a valid phone number with digits only."
+                    },
+                },
+                errorClass: "custom-error-message"
+            });
+
+            $('.confirm-booking').click(function (event) {
+                event.preventDefault();
+
+                let agreeCheckbox = $('#agreeTerm');
+                let errorMessage = $('.error-message');
+                let paymentOptions = $('input[name="payment-option"]');
+                let errorMessagePayment = $('.error-message-payment');
+
+
+                // Check if the checkbox is checked
+                if (!paymentOptions.is(':checked')) {
+                    errorMessagePayment.text('Please choose a payment option.');
+                    return; // Stop further processing
+                } else {
+                    errorMessagePayment.text(''); // Clear any previous error message
+                }
+
+                if (!agreeCheckbox.is(':checked')) {
+                    errorMessage.text('Please agree to the Terms and Conditions.');
+                    return;
+                } else {
+                    errorMessage.text(''); // Clear any previous error message
+                }
+
+
+                if ($("#uploadForm").valid()) {
+                    let userInfoStr = JSON.parse(localStorage.getItem("userInfo"));
+                    // const requestData = {
+                    //     userId: userInfoStr.id,
+                    //     customerName: $('.customerName').val(),
+                    //     customerPhone: $('.customerPhone').val(),
+                    //     roomId: roomId,
+                    //     startDate: checkin,
+                    //     endDate: checkout,
+                    //     totalAmount: $('#totalPrice').val(),
+                    //     roomNums: roomNums
+                    // };
+
+                    const formData = new FormData();
+                    formData.append("userId", userInfoStr.id);
+                    formData.append("customerName", $('.customerName').val());
+                    formData.append("customerPhone", $('.customerPhone').val());
+                    formData.append("roomId", roomId);
+                    formData.append("startDate", checkin);
+                    formData.append("endDate", checkout);
+                    formData.append("totalAmount", $('#totalPrice').val());
+                    formData.append("roomNums", roomNums);
+
+                    showLoading();
+                    $.ajax({
+                        url: '/api/v1/bookings/create-booking',
+                        type: 'POST',
+                        processData: false,
+                        contentType: false,
+                        data: formData,
+                        success: function (response) {
+                            console.log('ok');
+                            toastr.success('Create booking successfully, we sent you an order via your email. Please check it.');
+                            window.location.href = `/bookings/complete-booking/` + response.id;
+                        },
+                        error: function (xhr, status, error) {
+                            toastr.error('Booking error, please reload and booking again');
+                        },
+                        complete: function () {
+                            hideLoading();
+                        }
+                    });
+
+                    console.log(JSON.stringify(requestData));
+                }
+
+
+
+            });
+        });
+    </script>
+</th:block>
+</body>
+
+</html>
+
+
+

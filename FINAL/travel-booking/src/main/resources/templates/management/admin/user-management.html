@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/layout_dashboard_admin :: main-fragment(
+                                                ~{:: title},
+                                                ~{:: #css-resources},
+                                                ~{:: #js-resources},
+                                                ~{:: #main-content}
+                                               )}">
+
+<head>
+
+    <title>Partner Dashboard</title>
+
+    <th:block id="css-resources">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/js/bootstrap.min.js"></script>
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap-grid.min.css"/>
+
+        <style>
+            .disabled {
+                opacity: 0.8;
+                pointer-events: none;
+                cursor: not-allowed;
+            }
+            table .status-box {
+                display: inline-block;
+                padding: 3px 6px; /* Điều chỉnh khoảng cách xung quanh chữ */
+                border-radius: 4px;
+                font-weight: bold;
+                text-align: center; /* Căn chỉnh văn bản trong hộp */
+                position: relative; /* Để làm việc với các phần tử con bên trong */
+            }
+            .activated-box {
+                background-color: green;
+                color: white;
+            }
+
+            .blocked-box {
+                background-color: red;
+                color: white;
+            }
+        </style>
+    </th:block>
+</head>
+
+<body>
+
+<main id="main-content">
+    <div class="page-content">
+        <nav class="page-breadcrumb d-flex align-items-center justify-content-between">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a href="admin/dashboard-admin">Dashboard</a></li>
+                <li class="breadcrumb-item active" aria-current="page">User list</li>
+            </ol>
+            <a href="/admin/add-user" class="btn btn-primary"><i class="link-icon" data-feather="plus"></i> Add
+                user</a>
+        </nav>
+        <div class="search-box p-4 bg-white rounded mb-3 box-shadow">
+            <div class="col-lg-3 pb-4">
+                <h5>User Lists</h5>
+            </div>
+            <form class="forms-sample">
+                <div class="row align-items-center">
+
+                    <div class="col-lg-4 col-md-4">
+                        <input type="text" placeholder="Search by user name" class="form-control" id="searchName">
+                    </div>
+                    <div class="col-lg-4 col-md-4">
+                        <input type="text" placeholder="Search by email" class="form-control" id="searchEmail">
+                    </div>
+                    <div class="col-lg-4 col-md-4">
+                        <input type="text" placeholder="Search by phone" class="form-control" id="searchPhone">
+                    </div>
+                </div>
+            </form>
+            <div class="mt-3">
+                <button type="submit" class="btn btn-primary px-3 py-2" id="search-user-btn"><i class="link-icon"
+                                                                                                data-feather="search"></i>
+                    Search
+                </button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="dataTableExample" class="table">
+                                <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Status</th>
+                                    <th>Verified</th>
+                                    <th class="text-center">Action</th>
+                                </tr>
+                                </thead>
+
+                                <tbody>
+                                <tr th:each="user: ${userList.data}">
+                                    <td th:text="${user.id}"/>
+                                    <td th:text="${user.fullName}"/>
+                                    <td th:text="${user.email}"/>
+                                    <td th:text="${user.phone}"/>
+                                    <td>
+                                        <div th:class="${user.userStatus.name == 'Blocked' ? 'status-box blocked-box' : (user.userStatus.name == 'Activated' ? 'status-box activated-box' : 'status-box pending-box')}">
+                                            <span class="status-text" th:text="${user.userStatus.name}"></span>
+                                        </div>
+                                    </td>
+                                    <td th:text="${user.isVerified}"/>
+
+                                    <td class="text-center">
+                                        <ul class="d-flex list-unstyled mb-0 justify-content-center">
+                                            <li class="me-2" th:if="${user.userStatus.name == 'Blocked'}">
+                                                <a th:href="@{'/user/room-management/' + ${user.id}}" id="unlock-user-btn"
+                                                   target="_blank">
+                                                    <i class="link-icon" data-feather="unlock"></i>
+                                                </a>
+                                            </li>
+
+                                            <li id="lockId" th:unless="${user.userStatus.name == 'Blocked'}">
+                                                <input type="hidden" id="userId" th:value="${user.id}">
+                                                <a href="#" id="lock-user-btn" data-bs-toggle="modal"
+                                                   data-bs-target="#confirmLockUser">
+                                                    <i class="link-icon text-danger" data-feather="lock"></i>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </td>
+                                </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div aria-label="Page navigation" class="d-flex justify-content-center">
+            <ul class="pagination">
+                <!-- Previous button -->
+                <li class="page-item prev-button" th:classappend="${currentPage == 1 ? 'disabled' : ''}">
+                    <a class="page-link"
+                       th:href="@{/admin/user-management?pageIndex={page}(page=${currentPage - 1})}">Previous</a>
+                </li>
+
+                <!-- Page numbers -->
+                <li class="page-item" th:each="page : ${#numbers.sequence(1, userList.getPageNumber)}"
+                    th:classappend="${currentPage == page ? 'active' : ''}">
+                    <a class="page-link" th:href="@{/admin/user-management(pageIndex=${page})}"><span
+                            th:text="${page}"></span></a>
+                </li>
+
+                <!-- Next button -->
+                <li class="page-item" id="nextButton"
+                    th:classappend="${currentPage >= userList.getPageNumber ? 'disabled' : ''}">
+                    <a class="page-link"
+                       th:href="@{/admin/user-management?pageIndex={page}(page=${currentPage + 1})}">Next</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- view MODAL -->
+    <div th:replace="~{fragments/view_room:: view-room-modal}"></div>
+
+    <!-- CONFIRM LOCK MODAL -->
+    <th:block th:replace="~{fragments/confirm-lock-user :: confirm-lock-user-modal}"></th:block>
+</main>
+
+<th:block id="js-resources">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#search-user-btn').on("click", function (event) {
+                event.preventDefault();
+                let url = `/admin/user-management`
+                const fullName = $('#searchName').val();
+                const email = $('#searchEmail').val();
+                const phone = $('#searchPhone').val();
+
+                if (fullName !== '') {
+                    url += `?fullName=${fullName}`;
+                }
+                if (email !== '') {
+                    url += `${fullName ? '&' : '?'}email=${email}`
+                }
+                if (phone !== '') {
+                    url += `${fullName || email ? '&' : '?'}phone=${phone}`
+                }
+
+                window.location.href = url;
+
+            });
+            keepValue();
+
+            function keepValue() {
+                // Giữ lại giá trị tìm kiếm trên thanh search khi trang tải lần đầu
+                const params = new URLSearchParams(window.location.search);
+                const nameParam = params.get('name');
+                const emailParam = params.get('email');
+                const phoneParam = params.get('phone')
+
+                if (nameParam) {
+                    $('#searchName').val(nameParam);
+                }
+
+                if (emailParam) {
+                    $('#searchEmail').val(emailParam);
+                }
+                if (phoneParam) {
+                    $('#searchPhone').val(phoneParam);
+                }
+            }
+
+            $('#lock-user-btn').on('show.bs.modal', function (event) {
+                const button = $(event.relatedTarget); // Nút mở modal
+                const userId = button.closest('#lockId').find('#userId').val(); // Lấy giá trị userId từ ô input ẩn có id là 'userId'
+                $(this).find('#confirmLockUserBtn').attr('data-userId', userId); // Cập nhật giá trị userId vào nút xác nhận
+            });
+
+            $('#confirmLockUserBtn').click(function () {
+                const userId = $(this).attr('data-userId');
+                console.log('userId: ' + userId);
+
+                $.ajax({
+                    url: '/api/v1/users/' + userId,
+                    type: 'PUT',
+                    success: function (response) {
+                        // Xử lý kết quả trả về từ API nếu cần
+                        console.log('ok');
+                        window.location.reload();
+                        toastr.success('Locked user');
+
+                    },
+                    error: function (xhr, status, error) {
+                        // Xử lý lỗi (nếu có)
+                        console.error(error);
+                        toastr.error('Locked user fail');
+                    }
+                });
+            });
+        });
+    </script>
+</th:block>
+</body>
+
+</html>

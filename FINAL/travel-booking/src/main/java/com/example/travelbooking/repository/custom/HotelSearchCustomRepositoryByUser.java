@@ -32,10 +32,6 @@ public class HotelSearchCustomRepositoryByUser extends BaseRepository {
         List<Hotel> hotels = getNamedParameterJdbcTemplate().query(sql, parameter, BeanPropertyRowMapper.newInstance(Hotel.class));
 
         return hotels;
-//        Query query = entityManager.createNativeQuery(sql, Hotel.class);
-//        params.forEach(query::setParameter);
-//
-//        List<Hotel> availableHotels = query.getResultList();
-//        return availableHotels;
+
     }
 }

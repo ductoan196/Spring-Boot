@@ -326,7 +326,7 @@
         const location = params.get('location');
         const checkin = params.get('checkin');
         const checkout = params.get('checkout')
-        const guests = params.get('guests')
+        const guests = params.get('numberOfGuests')
 
 
 
@@ -351,7 +351,7 @@
         const location = params.get('location');
         const checkin = params.get('checkin');
         const checkout = params.get('checkout')
-        const guests = params.get('guests')
+        const guests = params.get('numberOfGuests')
 
         // const roomNums = $('#roomQuantitySelect').val();
 
@@ -391,8 +391,7 @@
         const [checkin, checkout] = dateRange.split(' - ');
         const numberOfGuests = $('#guest-number').val();
 
-
-
+        console.log(`numberofGuests` + numberOfGuests)
         // Chuyển đổi ngày tháng sang đối tượng Date
         const checkinDate = parseDate(checkin, 'DD/MM/YYYY');
         const checkoutDate = parseDate(checkout, 'DD/MM/YYYY');
@@ -418,7 +417,7 @@
           url += `${checkin ? '&' : '?'}checkout=${checkoutDate}`
         }
         if (numberOfGuests !== '' && numberOfGuests != null) {
-          url += `${location || checkin ? '&' : '?'}guests=${numberOfGuests}`
+          url += `${location || checkin ? '&' : '?'}numberOfGuests=${numberOfGuests}`
         }
 
         window.location.href = url;

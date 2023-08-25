@@ -144,8 +144,8 @@ public class RoomCustomRepository extends BaseRepository {
             parameter.put("location", "%" + request.getLocation().toLowerCase() + "%");
         }
         if (request.getNumberOfGuests() != null) {
-            sql += " and lower(r.capacity) = :room_nums";
-            parameter.put("room_nums", request.getNumberOfGuests());
+            sql += " and r.capacity >= :guests";
+            parameter.put("guests", request.getNumberOfGuests());
         }
 
         return getNamedParameterJdbcTemplate().query(sql, parameter, (resultSet) -> {
